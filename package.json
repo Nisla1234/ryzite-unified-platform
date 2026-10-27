@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "Ryzite",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,9 +9,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-types": "wrangler types"
   },
   "dependencies": {
-    "astro": "^7.4.2"
+    "@astrojs/cloudflare": "^14.4.2",
+    "astro": "^7.4.2",
+    "wrangler": "^4.153.0"
   }
 }
