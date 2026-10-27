@@ -1,0 +1,992 @@
+---
+const buildSteps = [
+	{
+		title: 'Shape the message',
+		copy: 'Connect marketing, search, advertising and website work around the customer journey.',
+	},
+	{
+		title: 'Build the system',
+		copy: 'Create a fast Astro foundation that is straightforward to maintain and extend.',
+	},
+	{
+		title: 'Check every release',
+		copy: 'Make tests and repeatable builds part of the delivery path before hosting goes live.',
+	},
+	{
+		title: 'Keep improving',
+		copy: 'Use CI/CD to turn approved changes into smaller, safer and more visible releases.',
+	},
+];
+---
+
+<main id="top">
+	<section class="hero-board" aria-labelledby="page-title">
+		<div class="tile brand-tile reveal" data-reveal style="--delay: 0ms">
+			<span class="brand-crop" aria-hidden="true">RYZITE</span>
+		</div>
+
+		<div class="tile fact-tile reveal" data-reveal style="--delay: 70ms">Astro foundation</div>
+		<div class="tile fact-tile fact-tile-blue reveal" data-reveal style="--delay: 140ms">CI/CD-ready build</div>
+		<div class="tile fact-tile reveal" data-reveal style="--delay: 210ms">Sri Lanka</div>
+		<div class="tile fact-tile fact-tile-signal reveal" data-reveal style="--delay: 280ms">
+			<span class="status-dot" aria-hidden="true"></span>Active build
+		</div>
+
+		<div class="tile crop-tile crop-left reveal" data-reveal style="--delay: 350ms">
+			<img
+				src="/assets/ryzite-build-system.png"
+				width="1672"
+				height="939"
+				alt=""
+				fetchpriority="high"
+			/>
+		</div>
+
+		<div class="hero-centre">
+			<figure class="tile hero-art reveal" data-reveal style="--delay: 420ms">
+				<img
+					src="/assets/ryzite-build-system.png"
+					width="1672"
+					height="939"
+					alt="An illustrated production line moving a website from planning through automated checks to launch"
+					fetchpriority="high"
+				/>
+			</figure>
+			<div class="tile statement-tile reveal" data-reveal style="--delay: 490ms">
+				<h1 id="page-title">Ryzite is rebuilding</h1>
+				<p>A clearer website is moving through the build pipeline.</p>
+			</div>
+		</div>
+
+		<div class="hero-rail">
+			<div class="tile rail-tile rail-dark reveal" data-reveal style="--delay: 560ms">
+				<p>Marketing and website development, connected around business needs.</p>
+			</div>
+			<div class="tile rail-tile rail-mid reveal" data-reveal style="--delay: 630ms">
+				<p>Built for a fast, responsive release.</p>
+			</div>
+			<div class="tile rail-tile rail-blue reveal" data-reveal style="--delay: 700ms">
+				<p>Deployment workflow in progress.</p>
+			</div>
+			<a class="tile rail-tile action-tile reveal" data-reveal style="--delay: 770ms" href="#build-path">
+				<span>See the build path</span>
+				<svg viewBox="0 0 32 32" aria-hidden="true">
+					<path d="M6 16h19M18 9l7 7-7 7"></path>
+				</svg>
+			</a>
+		</div>
+	</section>
+
+	<section class="build-section" id="build-path" aria-labelledby="build-title">
+		<div class="build-copy reveal" data-reveal>
+			<h2 id="build-title">Built to keep improving</h2>
+			<p>
+				The new Ryzite site is being shaped as a working system, not a one-off launch. Each step
+				will make future changes easier to review, test and release.
+			</p>
+		</div>
+
+		<div class="pipeline" data-pipeline data-state="idle">
+			<div class="pipeline-track" aria-hidden="true">
+				<span class="pipeline-pulse"></span>
+			</div>
+			<div class="pipeline-steps">
+				{buildSteps.map((step, index) => (
+					<article class="pipeline-step reveal" data-reveal data-step={index}>
+						<span class="step-node" aria-hidden="true"></span>
+						<h3>{step.title}</h3>
+						<p>{step.copy}</p>
+					</article>
+				))}
+			</div>
+			<div class="pipeline-control reveal" data-reveal>
+				<p class="pipeline-status" role="status" aria-live="polite">
+					Ready to preview the delivery path.
+				</p>
+				<button type="button" class="replay-button" data-replay>
+					Replay the build
+					<svg viewBox="0 0 32 32" aria-hidden="true">
+						<path d="M25 13a10 10 0 1 0 .4 7M25 6v7h-7"></path>
+					</svg>
+				</button>
+			</div>
+		</div>
+	</section>
+
+	<section class="marquee" aria-label="Ryzite services">
+		<div class="marquee-track">
+			<span>Marketing × websites × reliable releases ×</span>
+			<span aria-hidden="true">Marketing × websites × reliable releases ×</span>
+		</div>
+	</section>
+
+	<footer class="footer-board">
+		<div class="tile footer-logo">
+			<img src="/assets/ryzite-logo.png" width="243" height="243" alt="Ryzite" loading="lazy" />
+		</div>
+		<div class="tile footer-message">
+			<h2>Full site coming next</h2>
+			<p>This page will give way to the complete Ryzite website when the build is ready.</p>
+		</div>
+		<div class="tile footer-image footer-image-one">
+			<img
+				src="/assets/ryzite-build-system.png"
+				width="1672"
+				height="939"
+				alt=""
+				loading="lazy"
+			/>
+		</div>
+		<div class="tile footer-image footer-image-two">
+			<img
+				src="/assets/ryzite-build-system.png"
+				width="1672"
+				height="939"
+				alt=""
+				loading="lazy"
+			/>
+		</div>
+		<a class="tile footer-top" href="#top">
+			<span>Back to top</span>
+			<svg viewBox="0 0 32 32" aria-hidden="true">
+				<path d="M16 26V7M9 14l7-7 7 7"></path>
+			</svg>
+		</a>
+		<p class="tile footer-legal">© {new Date().getFullYear()} Ryzite. Site build in progress.</p>
+	</footer>
+</main>
+
+<script>
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const revealItems = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+	if (reduceMotion || !('IntersectionObserver' in window)) {
+		revealItems.forEach((item) => item.classList.add('is-visible'));
+	} else {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						(entry.target as HTMLElement).classList.add('is-visible');
+						observer.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.16 },
+		);
+
+		revealItems.forEach((item) => observer.observe(item));
+	}
+
+	const pipeline = document.querySelector<HTMLElement>('[data-pipeline]');
+	const replay = document.querySelector<HTMLButtonElement>('[data-replay]');
+	const status = document.querySelector<HTMLElement>('.pipeline-status');
+	const steps = Array.from(document.querySelectorAll<HTMLElement>('[data-step]'));
+	const stepLabels = [
+		'Shaping the message.',
+		'Building the system.',
+		'Checking the release.',
+		'Ready to improve again.',
+	];
+	let buildTimer: number | undefined;
+
+	const runPipeline = () => {
+		if (!pipeline || !replay || !status) return;
+		window.clearInterval(buildTimer);
+		steps.forEach((step) => step.classList.remove('is-active', 'is-complete'));
+		pipeline.dataset.state = 'running';
+		replay.disabled = true;
+		let activeIndex = 0;
+
+		const advance = () => {
+			steps.forEach((step, index) => {
+				step.classList.toggle('is-active', index === activeIndex);
+				step.classList.toggle('is-complete', index < activeIndex);
+			});
+			status.textContent = stepLabels[activeIndex];
+
+			if (activeIndex === steps.length - 1) {
+				window.clearInterval(buildTimer);
+				window.setTimeout(() => {
+					steps.forEach((step) => {
+						step.classList.remove('is-active');
+						step.classList.add('is-complete');
+					});
+					pipeline.dataset.state = 'complete';
+					status.textContent = 'Delivery path complete. Ready for the next change.';
+					replay.disabled = false;
+				}, reduceMotion ? 0 : 650);
+				return;
+			}
+
+			activeIndex += 1;
+		};
+
+		advance();
+		buildTimer = window.setInterval(advance, reduceMotion ? 50 : 900);
+	};
+
+	replay?.addEventListener('click', runPipeline);
+</script>
+
+<style>
+	main {
+		width: 100%;
+	}
+
+	.tile {
+		position: relative;
+		min-width: 0;
+		overflow: hidden;
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+
+	.reveal {
+		opacity: 0;
+		transform: translateY(24px);
+		transition:
+			opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+			transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+		transition-delay: var(--delay, 0ms);
+	}
+
+	.reveal.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.hero-board {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		grid-template-rows: minmax(132px, 17vh) 64px minmax(500px, 1fr);
+		gap: var(--gap);
+		min-height: 100svh;
+		padding: var(--page-pad);
+	}
+
+	.brand-tile {
+		grid-column: 1 / -1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--paper);
+		color: var(--paper-ink);
+	}
+
+	.brand-crop {
+		font-size: var(--step-display);
+		font-weight: 600;
+		line-height: 0.82;
+		letter-spacing: -0.05em;
+		white-space: nowrap;
+		transform: scaleX(1.12);
+	}
+
+	.fact-tile {
+		grid-column: span 3;
+		display: flex;
+		align-items: center;
+		padding: 16px 20px;
+		font-size: var(--step-small);
+		font-weight: 500;
+		background: var(--surface-strong);
+	}
+
+	.fact-tile-blue {
+		background: var(--accent-dark);
+	}
+
+	.fact-tile-signal {
+		gap: 10px;
+		color: var(--paper-ink);
+		background: var(--signal);
+	}
+
+	.status-dot {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--paper-ink);
+		animation: breathe 1.8s ease-in-out infinite;
+	}
+
+	.crop-tile {
+		grid-column: span 2;
+		min-height: 0;
+	}
+
+	.crop-tile img,
+	.hero-art img,
+	.footer-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.crop-left img {
+		object-position: 7% 50%;
+	}
+
+	.hero-centre {
+		grid-column: span 8;
+		display: grid;
+		grid-template-rows: minmax(0, 1fr) auto;
+		gap: var(--gap);
+		min-width: 0;
+	}
+
+	.hero-art {
+		margin: 0;
+		min-height: 0;
+		background: var(--surface-strong);
+	}
+
+	.hero-art img {
+		object-position: center 45%;
+		animation: image-drift 14s ease-in-out infinite alternate;
+	}
+
+	.statement-tile {
+		display: grid;
+		grid-template-columns: minmax(0, 1.3fr) minmax(240px, 0.7fr);
+		align-items: end;
+		gap: 32px;
+		padding: clamp(22px, 2.3vw, 38px);
+		background: var(--paper);
+		color: var(--paper-ink);
+	}
+
+	.statement-tile h1,
+	.statement-tile p,
+	.build-copy h2,
+	.build-copy p,
+	.pipeline-step h3,
+	.pipeline-step p,
+	.footer-message h2,
+	.footer-message p {
+		margin: 0;
+	}
+
+	.statement-tile h1 {
+		max-width: 14ch;
+		font-size: clamp(2.4rem, 4.2vw, 4.9rem);
+		font-weight: 600;
+		line-height: 0.95;
+		letter-spacing: -0.04em;
+		text-wrap: balance;
+	}
+
+	.statement-tile p {
+		max-width: 31ch;
+		font-size: var(--step-lead);
+		line-height: 1.25;
+		text-wrap: pretty;
+	}
+
+	.hero-rail {
+		grid-column: span 2;
+		display: grid;
+		grid-template-rows: 1fr 1fr 1fr 1.15fr;
+		gap: var(--gap);
+		min-width: 0;
+	}
+
+	.rail-tile {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: clamp(16px, 1.5vw, 24px);
+		font-size: var(--step-small);
+		line-height: 1.35;
+	}
+
+	.rail-tile p {
+		margin: 0;
+	}
+
+	.rail-dark {
+		background: #0e1219;
+	}
+
+	.rail-mid {
+		background: #1b2c4d;
+	}
+
+	.rail-blue {
+		background: var(--accent-dark);
+	}
+
+	.action-tile {
+		color: var(--accent-ink);
+		text-decoration: none;
+		background: var(--accent);
+		transition: background 180ms ease, transform 180ms ease;
+	}
+
+	.action-tile svg,
+	.replay-button svg,
+	.footer-top svg {
+		width: 32px;
+		height: 32px;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 3;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.action-tile:hover,
+	.action-tile:focus-visible {
+		background: #0a4bd4;
+		transform: translateY(-3px);
+	}
+
+	.build-section {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: clamp(64px, 9vw, 150px) var(--gap);
+		padding: clamp(120px, 16vw, 240px) max(var(--page-pad), 2vw);
+		background: var(--paper);
+		color: var(--paper-ink);
+	}
+
+	.build-copy {
+		grid-column: 1 / -1;
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+
+	.build-copy h2 {
+		grid-column: 1 / span 7;
+		max-width: 14ch;
+		font-size: var(--step-head);
+		font-weight: 600;
+		line-height: 0.95;
+		letter-spacing: -0.04em;
+		text-wrap: balance;
+	}
+
+	.build-copy > p {
+		grid-column: 9 / -1;
+		align-self: end;
+		max-width: 38ch;
+		font-size: var(--step-lead);
+		line-height: 1.35;
+		text-wrap: pretty;
+	}
+
+	.pipeline {
+		position: relative;
+		grid-column: 1 / -1;
+		padding-top: 36px;
+	}
+
+	.pipeline-track {
+		position: absolute;
+		top: 4px;
+		left: 0;
+		width: 100%;
+		height: 16px;
+		overflow: hidden;
+		border-radius: 999px;
+		background: #cdd8eb;
+	}
+
+	.pipeline-pulse {
+		display: block;
+		width: 25%;
+		height: 100%;
+		border-radius: inherit;
+		background: var(--accent);
+		transform: translateX(-110%);
+	}
+
+	.pipeline[data-state='running'] .pipeline-pulse {
+		animation: pipeline-run 3.6s linear forwards;
+	}
+
+	.pipeline[data-state='complete'] .pipeline-pulse {
+		width: 100%;
+		transform: translateX(0);
+	}
+
+	.pipeline-steps {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--gap);
+	}
+
+	.pipeline-step {
+		position: relative;
+		min-height: 260px;
+		padding: 34px 26px 28px;
+		background: #dbe4f3;
+		transition: background 250ms ease, color 250ms ease, transform 250ms ease;
+	}
+
+	.pipeline-step:nth-child(2) {
+		background: #cedbee;
+	}
+
+	.pipeline-step:nth-child(3) {
+		background: #b9cae6;
+	}
+
+	.pipeline-step:nth-child(4) {
+		background: #a7bde1;
+	}
+
+	.pipeline-step.is-active {
+		color: var(--accent-ink);
+		background: var(--accent);
+		transform: translateY(-10px);
+	}
+
+	.pipeline-step.is-complete {
+		background: #bce995;
+	}
+
+	.step-node {
+		display: block;
+		width: 18px;
+		height: 18px;
+		margin-bottom: 56px;
+		border-radius: 50%;
+		background: currentColor;
+	}
+
+	.pipeline-step h3 {
+		max-width: 12ch;
+		font-size: clamp(1.45rem, 2vw, 2.2rem);
+		font-weight: 600;
+		line-height: 1.05;
+		letter-spacing: -0.025em;
+		text-wrap: balance;
+	}
+
+	.pipeline-step p {
+		margin-top: 20px;
+		max-width: 31ch;
+		font-size: var(--step-small);
+		line-height: 1.45;
+		text-wrap: pretty;
+	}
+
+	.pipeline-control {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		margin-top: 28px;
+	}
+
+	.pipeline-status {
+		margin: 0;
+		font-size: var(--step-small);
+		font-weight: 500;
+	}
+
+	.replay-button {
+		display: inline-flex;
+		min-height: 52px;
+		align-items: center;
+		gap: 18px;
+		padding: 12px 18px 12px 22px;
+		border-radius: var(--radius);
+		color: var(--accent-ink);
+		background: var(--paper-ink);
+		cursor: pointer;
+		transition: background 180ms ease, transform 180ms ease;
+	}
+
+	.replay-button:hover,
+	.replay-button:focus-visible {
+		background: var(--accent-dark);
+		transform: translateY(-3px);
+	}
+
+	.replay-button:active {
+		transform: scale(0.98);
+	}
+
+	.replay-button:disabled {
+		cursor: wait;
+		opacity: 0.72;
+	}
+
+	.marquee {
+		overflow: hidden;
+		padding: 30px 0 38px;
+		color: var(--accent-ink);
+		background: var(--accent);
+	}
+
+	.marquee-track {
+		display: flex;
+		width: max-content;
+		font-size: clamp(3rem, 8vw, 8rem);
+		font-weight: 600;
+		line-height: 0.92;
+		letter-spacing: -0.045em;
+		white-space: nowrap;
+		animation: marquee 24s linear infinite;
+	}
+
+	.marquee:hover .marquee-track {
+		animation-play-state: paused;
+	}
+
+	.marquee-track span {
+		padding-right: 0.18em;
+	}
+
+	.footer-board {
+		display: grid;
+		grid-template-columns: repeat(12, minmax(0, 1fr));
+		grid-template-rows: minmax(240px, 30vw) 180px;
+		gap: var(--gap);
+		padding: var(--page-pad);
+		background: var(--bg);
+	}
+
+	.footer-logo {
+		grid-column: span 3;
+		padding: 24px;
+		background: #f5f3f7;
+	}
+
+	.footer-logo img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.footer-message {
+		grid-column: span 5;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: clamp(24px, 3vw, 48px);
+		color: var(--accent-ink);
+		background: var(--accent-dark);
+	}
+
+	.footer-message h2 {
+		max-width: 12ch;
+		font-size: var(--step-head);
+		font-weight: 600;
+		line-height: 0.95;
+		letter-spacing: -0.04em;
+	}
+
+	.footer-message p {
+		max-width: 38ch;
+		font-size: var(--step-body);
+	}
+
+	.footer-image {
+		grid-column: span 2;
+	}
+
+	.footer-image-one img {
+		object-position: 34% 44%;
+	}
+
+	.footer-image-two img {
+		object-position: 92% 42%;
+	}
+
+	.footer-top {
+		grid-column: span 9;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 28px 34px;
+		font-size: var(--step-lead);
+		text-decoration: none;
+		background: var(--surface-strong);
+		transition: background 180ms ease;
+	}
+
+	.footer-top:hover,
+	.footer-top:focus-visible {
+		background: var(--accent-dark);
+	}
+
+	.footer-legal {
+		grid-column: span 3;
+		display: flex;
+		align-items: flex-end;
+		margin: 0;
+		padding: 28px;
+		font-size: var(--step-small);
+		background: var(--surface);
+	}
+
+	@keyframes breathe {
+		0%,
+		100% {
+			transform: scale(0.75);
+			opacity: 0.65;
+		}
+		50% {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	@keyframes image-drift {
+		from {
+			transform: scale(1.02) translateX(-0.4%);
+		}
+		to {
+			transform: scale(1.07) translateX(0.4%);
+		}
+	}
+
+	@keyframes pipeline-run {
+		from {
+			transform: translateX(-110%);
+		}
+		to {
+			transform: translateX(410%);
+		}
+	}
+
+	@keyframes marquee {
+		to {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (max-width: 980px) {
+		.hero-board {
+			grid-template-rows: 132px 58px minmax(560px, 1fr);
+		}
+
+		.statement-tile {
+			grid-template-columns: 1fr;
+			gap: 18px;
+		}
+
+		.statement-tile h1 {
+			font-size: clamp(2.1rem, 5.5vw, 3.5rem);
+		}
+
+		.rail-tile {
+			padding: 15px;
+		}
+
+		.build-copy h2 {
+			grid-column: 1 / span 7;
+		}
+
+		.build-copy > p {
+			grid-column: 8 / -1;
+		}
+
+		.pipeline-steps {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.footer-board {
+			grid-template-rows: minmax(260px, 45vw) 160px;
+		}
+
+		.footer-logo {
+			grid-column: span 4;
+		}
+
+		.footer-message {
+			grid-column: span 8;
+		}
+
+		.footer-image {
+			display: none;
+		}
+	}
+
+	@media (max-width: 680px) {
+		:global(:root) {
+			--page-pad: 6px;
+			--gap: 6px;
+			--radius: 6px;
+		}
+
+		.hero-board {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-rows: 104px repeat(2, 54px) auto auto auto;
+			min-height: auto;
+		}
+
+		.brand-tile {
+			grid-column: 1 / -1;
+		}
+
+		.brand-crop {
+			font-size: 25vw;
+		}
+
+		.fact-tile {
+			grid-column: span 1;
+			min-height: 54px;
+			padding: 12px 14px;
+		}
+
+		.crop-tile {
+			display: none;
+		}
+
+		.hero-centre {
+			display: contents;
+		}
+
+		.statement-tile {
+			grid-column: 1 / -1;
+			grid-row: 4;
+			gap: 18px;
+			padding: 24px 20px 28px;
+		}
+
+		.statement-tile h1 {
+			font-size: clamp(2.7rem, 13vw, 4rem);
+		}
+
+		.statement-tile p {
+			font-size: 1.15rem;
+		}
+
+		.hero-art {
+			grid-column: 1 / -1;
+			grid-row: 5;
+			aspect-ratio: 4 / 3;
+		}
+
+		.hero-art img {
+			object-position: 60% 50%;
+		}
+
+		.hero-rail {
+			grid-column: 1 / -1;
+			grid-row: 6;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-rows: repeat(2, minmax(118px, auto));
+		}
+
+		.rail-tile {
+			min-height: 118px;
+			font-size: var(--step-small);
+		}
+
+		.build-section {
+			display: block;
+			padding: 112px 18px;
+		}
+
+		.build-copy {
+			display: block;
+		}
+
+		.build-copy h2 {
+			font-size: clamp(2.7rem, 12vw, 4rem);
+		}
+
+		.build-copy > p {
+			margin-top: 34px;
+		}
+
+		.pipeline {
+			margin-top: 84px;
+			padding-top: 30px;
+		}
+
+		.pipeline-track {
+			height: 12px;
+		}
+
+		.pipeline-steps {
+			grid-template-columns: 1fr;
+		}
+
+		.pipeline-step {
+			min-height: 220px;
+			padding: 28px 24px;
+		}
+
+		.step-node {
+			margin-bottom: 38px;
+		}
+
+		.pipeline-control {
+			align-items: stretch;
+			flex-direction: column;
+			margin-top: 22px;
+		}
+
+		.replay-button {
+			justify-content: space-between;
+			width: 100%;
+			min-height: 58px;
+		}
+
+		.marquee {
+			padding: 24px 0 30px;
+		}
+
+		.marquee-track {
+			font-size: 16vw;
+		}
+
+		.footer-board {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-rows: 168px minmax(260px, auto) 120px 140px;
+		}
+
+		.footer-logo,
+		.footer-message,
+		.footer-top {
+			grid-column: 1 / -1;
+		}
+
+		.footer-message {
+			padding: 28px 22px;
+		}
+
+		.footer-message h2 {
+			font-size: 2.65rem;
+		}
+
+		.footer-message p {
+			margin-top: 42px;
+		}
+
+		.footer-top {
+			padding: 24px;
+		}
+
+		.footer-legal {
+			grid-column: 1 / -1;
+			padding: 24px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.reveal {
+			opacity: 1;
+			transform: none;
+		}
+
+		.hero-art img,
+		.marquee-track,
+		.status-dot,
+		.pipeline[data-state='running'] .pipeline-pulse {
+			animation: none;
+		}
+
+		.marquee-track {
+			transform: translateX(0);
+		}
+	}
+</style>
