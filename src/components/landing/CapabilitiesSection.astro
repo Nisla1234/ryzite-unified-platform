@@ -1,0 +1,23 @@
+---
+interface Props { content: any; }
+const { content } = Astro.props;
+---
+
+<section class="capabilities section-light" id="capabilities" aria-labelledby="capabilities-title">
+    <div class="capabilities-heading" data-reveal>
+        <h2 id="capabilities-title" data-i18n="capabilities.title">{content.capabilities.title}</h2>
+        <p data-i18n="capabilities.body">{content.capabilities.body}</p>
+    </div>
+    <div class="capability-grid">
+        {content.capabilities.items.map((item: any, index: number) => (
+            <article class="capability-card" data-card>
+                <div class:list={['capability-visual', `capability-visual--${index + 1}`]} aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </div>
+                <h3 data-i18n={`capabilities.items.${index}.title`}>{item.title}</h3>
+                <p data-i18n={`capabilities.items.${index}.body`}>{item.body}</p>
+                <small data-i18n={`capabilities.items.${index}.tag`}>{item.tag}</small>
+            </article>
+        ))}
+    </div>
+</section>

@@ -1,0 +1,40 @@
+---
+import ButtonLink from '../ui/ButtonLink.astro';
+
+interface Props {
+    content: any;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="hero section-dark" id="top" aria-labelledby="hero-title">
+    <div class="hero-copy">
+        <h1 id="hero-title" data-hero-title>
+            <span data-i18n="hero.titleTop">{content.hero.titleTop}</span>
+            <span data-i18n="hero.titleMiddle">{content.hero.titleMiddle}</span>
+            <span class="accent accent-lilac" data-i18n="hero.titleAccent">{content.hero.titleAccent}</span>
+        </h1>
+        <p class="hero-body" data-i18n="hero.body" data-reveal>{content.hero.body}</p>
+        <div class="hero-actions" data-reveal>
+            <ButtonLink href="#growth" label={content.hero.primary} translationKey="hero.primary" variant="lime" />
+            <ButtonLink href="#build" label={content.hero.secondary} translationKey="hero.secondary" variant="outline" />
+        </div>
+        <div class="hero-note" data-reveal>
+            <span class="note-dot" aria-hidden="true"></span>
+            <span data-i18n="hero.note">{content.hero.note}</span>
+        </div>
+    </div>
+    <div class="hero-art" data-parallax>
+        <img
+            src="/assets/ryzite-hero-studio.png"
+            width="1536"
+            height="1024"
+            alt="A hand draws a glowing digital idea above a floating website interface"
+            fetchpriority="high"
+        />
+        <div class="hero-orbit hero-orbit--one" aria-hidden="true"></div>
+        <div class="hero-orbit hero-orbit--two" aria-hidden="true"></div>
+    </div>
+    <p class="scroll-cue" data-i18n="hero.scroll">{content.hero.scroll}</p>
+</section>

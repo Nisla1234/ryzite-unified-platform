@@ -1,0 +1,160 @@
+backend:
+  name: github
+  repo: Ryzite/ryzite-website
+  branch: main
+  auth_scope: repo
+
+app_title: Ryzite Content Studio
+site_url: https://ryzite.com
+display_url: https://ryzite.com
+logo:
+  src: /favicon.svg
+  show_in_header: true
+
+media_folder: public/assets/uploads
+public_folder: /assets/uploads
+publish_mode: simple
+editor:
+  preview: false
+
+collections:
+  - name: site_content
+    label: Localized site content
+    files:
+      - name: english
+        label: English
+        file: src/data/en.json
+        format: json
+        fields: &site_fields
+          - { label: Locale code, name: locale, widget: hidden, default: en }
+          - label: Navigation
+            name: nav
+            widget: object
+            fields:
+              - { label: Services, name: services, widget: string }
+              - { label: Capabilities, name: work, widget: string }
+              - { label: About, name: about, widget: string }
+              - { label: Process, name: process, widget: string }
+              - { label: Contact, name: contact, widget: string }
+              - { label: Primary action, name: cta, widget: string }
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title line 1, name: titleTop, widget: string }
+              - { label: Title line 2, name: titleMiddle, widget: string }
+              - { label: Accent line, name: titleAccent, widget: string }
+              - { label: Introduction, name: body, widget: text }
+              - { label: Growth action, name: primary, widget: string }
+              - { label: Build action, name: secondary, widget: string }
+              - { label: Note, name: note, widget: string }
+              - { label: Scroll cue, name: scroll, widget: string }
+          - label: Pathways
+            name: pathways
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title line 1, name: titleTop, widget: string }
+              - { label: Title line 2, name: titleBottom, widget: string }
+              - { label: Introduction, name: body, widget: text }
+              - { label: Growth title, name: growTitle, widget: string }
+              - { label: Growth copy, name: growBody, widget: text }
+              - { label: Growth action, name: growCta, widget: string }
+              - { label: Build title, name: buildTitle, widget: string }
+              - { label: Build copy, name: buildBody, widget: text }
+              - { label: Build action, name: buildCta, widget: string }
+          - label: Services
+            name: services
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title line 1, name: titleTop, widget: string }
+              - { label: Title line 2, name: titleMiddle, widget: string }
+              - { label: Accent line, name: titleAccent, widget: string }
+              - { label: Introduction, name: body, widget: text }
+              - label: Service cards
+                name: items
+                widget: list
+                fields:
+                  - { label: Number, name: mark, widget: string }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Copy, name: body, widget: text }
+          - label: Process
+            name: process
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title line 1, name: titleTop, widget: string }
+              - { label: Title line 2, name: titleBottom, widget: string }
+              - { label: Introduction, name: body, widget: text }
+              - { label: Action, name: cta, widget: string }
+              - label: Steps
+                name: steps
+                widget: list
+                fields:
+                  - { label: Number, name: mark, widget: string }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Copy, name: body, widget: text }
+          - label: Connected system
+            name: connected
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title line 1, name: titleTop, widget: string }
+              - { label: Title line 2, name: titleMiddle, widget: string }
+              - { label: Accent line, name: titleAccent, widget: string }
+              - { label: Introduction, name: body, widget: text }
+              - { label: Stage 1, name: discover, widget: string }
+              - { label: Stage 2, name: engage, widget: string }
+              - { label: Stage 3, name: operate, widget: string }
+          - label: Capabilities
+            name: capabilities
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Introduction, name: body, widget: text }
+              - label: Capability cards
+                name: items
+                widget: list
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Copy, name: body, widget: text }
+                  - { label: Tag line, name: tag, widget: string }
+          - label: Contact
+            name: contact
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title line 1, name: titleTop, widget: string }
+              - { label: Title line 2, name: titleMiddle, widget: string }
+              - { label: Accent line, name: titleAccent, widget: string }
+              - { label: Introduction, name: body, widget: text }
+              - { label: Name field, name: name, widget: string }
+              - { label: Email field, name: email, widget: string }
+              - { label: Need field, name: need, widget: string }
+              - { label: Project field, name: project, widget: string }
+              - { label: Button, name: button, widget: string }
+              - { label: Privacy note, name: privacy, widget: text }
+              - { label: Project types, name: options, widget: list, field: { label: Option, name: option, widget: string } }
+          - label: Footer
+            name: footer
+            widget: object
+            fields:
+              - { label: Tagline, name: tagline, widget: text }
+              - { label: Services heading, name: services, widget: string }
+              - { label: Company heading, name: company, widget: string }
+              - { label: Contact heading, name: contact, widget: string }
+              - { label: Back to top, name: back, widget: string }
+              - { label: Rights statement, name: rights, widget: string }
+      - name: tamil
+        label: தமிழ்
+        file: src/data/ta.json
+        format: json
+        fields: *site_fields
+      - name: sinhala
+        label: සිංහල
+        file: src/data/si.json
+        format: json
+        fields: *site_fields

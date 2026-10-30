@@ -1,0 +1,43 @@
+---
+import ButtonLink from '../ui/ButtonLink.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+    content: any;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="pathways section-light" aria-labelledby="pathways-title">
+    <div class="section-intro">
+        <SectionHeading
+            eyebrow={content.pathways.eyebrow}
+            eyebrowKey="pathways.eyebrow"
+            theme="light"
+            lines={[
+                { text: content.pathways.titleTop, key: 'pathways.titleTop' },
+                { text: content.pathways.titleBottom, key: 'pathways.titleBottom' },
+            ]}
+        />
+        <p data-i18n="pathways.body" data-reveal>{content.pathways.body}</p>
+    </div>
+    <div class="pathway-grid">
+        <article class="pathway-card pathway-card--lime" id="growth" data-card>
+            <div class="pathway-copy">
+                <h3 data-i18n="pathways.growTitle">{content.pathways.growTitle}</h3>
+                <p data-i18n="pathways.growBody">{content.pathways.growBody}</p>
+                <ButtonLink href="#services" label={content.pathways.growCta} translationKey="pathways.growCta" />
+            </div>
+            <img src="/assets/ryzite-grow-business.png" width="1536" height="1024" alt="" loading="lazy" />
+        </article>
+        <article class="pathway-card pathway-card--lilac" id="build" data-card>
+            <div class="pathway-copy">
+                <h3 data-i18n="pathways.buildTitle">{content.pathways.buildTitle}</h3>
+                <p data-i18n="pathways.buildBody">{content.pathways.buildBody}</p>
+                <ButtonLink href="#services" label={content.pathways.buildCta} translationKey="pathways.buildCta" />
+            </div>
+            <img src="/assets/ryzite-build-idea.png" width="1536" height="1024" alt="" loading="lazy" />
+        </article>
+    </div>
+</section>

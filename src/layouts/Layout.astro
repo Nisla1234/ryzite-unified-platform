@@ -1,7 +1,10 @@
 ---
+import '../styles/global.css';
+import '../styles/landing.css';
+
 interface Props {
-	title: string;
-	description: string;
+    title: string;
+    description: string;
 }
 
 const { title, description } = Astro.props;
@@ -9,115 +12,22 @@ const { title, description } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#080b10" />
-		<meta name="description" content={description} />
-		<link rel="icon" href="/favicon.ico" sizes="any" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&display=swap"
-			rel="stylesheet"
-		/>
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#080c11" />
+        <meta name="description" content={description} />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+    </head>
+    <body data-locale="en">
+        <slot />
+    </body>
 </html>
-
-<style is:global>
-	:root {
-		--bg: #080b10;
-		--surface: #121720;
-		--surface-strong: #1b2230;
-		--ink: #f4f7ff;
-		--muted: #abb5c7;
-		--accent: #1463ff;
-		--accent-dark: #0d3f9e;
-		--accent-ink: #ffffff;
-		--signal: #78e12f;
-		--paper: #edf2ff;
-		--paper-ink: #0a1020;
-		--gap: 8px;
-		--radius: 8px;
-		--page-pad: clamp(8px, 1vw, 14px);
-		--step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-		--step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-		--step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-		--step-head: clamp(2.35rem, 1.5rem + 3.2vw, 4.5rem);
-		--step-display: clamp(4.25rem, 10.8vw, 10.75rem);
-		font-family: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
-		color: var(--ink);
-		background: var(--bg);
-		color-scheme: dark;
-		font-synthesis: none;
-		text-rendering: optimizeLegibility;
-	}
-
-	*,
-	*::before,
-	*::after {
-		box-sizing: border-box;
-	}
-
-	html {
-		scroll-behavior: smooth;
-		background: var(--bg);
-	}
-
-	body {
-		margin: 0;
-		min-width: 320px;
-		background: var(--bg);
-		font-size: var(--step-body);
-		line-height: 1.5;
-		overflow-x: hidden;
-	}
-
-	button,
-	a {
-		font: inherit;
-	}
-
-	a {
-		color: inherit;
-	}
-
-	button {
-		border: 0;
-	}
-
-	img {
-		display: block;
-		max-width: 100%;
-	}
-
-	::selection {
-		color: var(--accent-ink);
-		background: var(--accent);
-	}
-
-	:focus-visible {
-		outline: 3px solid var(--signal);
-		outline-offset: 4px;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		html {
-			scroll-behavior: auto;
-		}
-
-		*,
-		*::before,
-		*::after {
-			scroll-behavior: auto !important;
-			animation-duration: 0.01ms !important;
-			animation-iteration-count: 1 !important;
-			transition-duration: 0.01ms !important;
-		}
-	}
-</style>

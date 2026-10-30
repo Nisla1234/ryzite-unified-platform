@@ -1,0 +1,37 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props { content: any; }
+const { content } = Astro.props;
+---
+
+<section class="connected section-dark" aria-labelledby="connected-title">
+    <div class="connected-copy">
+        <SectionHeading
+            eyebrow={content.connected.eyebrow}
+            eyebrowKey="connected.eyebrow"
+            lines={[
+                { text: content.connected.titleTop, key: 'connected.titleTop' },
+                { text: content.connected.titleMiddle, key: 'connected.titleMiddle' },
+                { text: content.connected.titleAccent, key: 'connected.titleAccent', accent: true },
+            ]}
+        />
+        <p data-i18n="connected.body" data-reveal>{content.connected.body}</p>
+    </div>
+    <div class="signal-path" data-reveal>
+        <article>
+            <span class="signal-icon" aria-hidden="true">⌕</span>
+            <strong data-i18n="connected.discover">{content.connected.discover}</strong>
+        </article>
+        <span class="signal-line" aria-hidden="true"></span>
+        <article>
+            <span class="signal-icon" aria-hidden="true">◇</span>
+            <strong data-i18n="connected.engage">{content.connected.engage}</strong>
+        </article>
+        <span class="signal-line" aria-hidden="true"></span>
+        <article>
+            <span class="signal-icon" aria-hidden="true">↗</span>
+            <strong data-i18n="connected.operate">{content.connected.operate}</strong>
+        </article>
+    </div>
+</section>

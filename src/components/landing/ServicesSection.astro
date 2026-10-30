@@ -1,0 +1,42 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+    content: any;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="services section-dark" id="services" aria-labelledby="services-title">
+    <div class="section-intro">
+        <SectionHeading
+            eyebrow={content.services.eyebrow}
+            eyebrowKey="services.eyebrow"
+            lines={[
+                { text: content.services.titleTop, key: 'services.titleTop' },
+                { text: content.services.titleMiddle, key: 'services.titleMiddle' },
+                { text: content.services.titleAccent, key: 'services.titleAccent', accent: true },
+            ]}
+        />
+        <p data-i18n="services.body" data-reveal>{content.services.body}</p>
+    </div>
+    <div class="service-grid">
+        {content.services.items.map((item: any, index: number) => (
+            <article class="service-card" data-card>
+                <span class="service-mark">{item.mark}</span>
+                <div>
+                    <h3 data-i18n={`services.items.${index}.title`}>{item.title}</h3>
+                    <p data-i18n={`services.items.${index}.body`}>{item.body}</p>
+                </div>
+                <span class="service-arrow" aria-hidden="true">↗</span>
+            </article>
+        ))}
+    </div>
+    <div class="word-ribbon" aria-hidden="true">
+        <div>
+            <span>DESIGN / BUILD / LAUNCH / GROW / IMPROVE /</span>
+            <span>DESIGN / BUILD / LAUNCH / GROW / IMPROVE /</span>
+        </div>
+    </div>
+</section>

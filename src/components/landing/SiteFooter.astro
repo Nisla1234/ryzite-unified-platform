@@ -1,0 +1,40 @@
+---
+interface Props {
+    content: any;
+    email: string;
+    year: number;
+}
+const { content, email, year } = Astro.props;
+---
+
+<footer class="site-footer">
+    <div class="footer-brand">
+        <a class="wordmark" href="/">Ryzite<span>*</span></a>
+        <p data-i18n="footer.tagline">{content.footer.tagline}</p>
+    </div>
+    <div class="footer-links">
+        <div>
+            <strong data-i18n="footer.services">{content.footer.services}</strong>
+            <a href="/services/" data-i18n="nav.services">{content.nav.services}</a>
+            <a href="/services/website-development/">Website development</a>
+            <a href="/services/custom-software-development/">Custom software</a>
+            <a href="/services/ai-automation/">AI &amp; automation</a>
+        </div>
+        <div>
+            <strong data-i18n="footer.company">{content.footer.company}</strong>
+            <a href="/about/" data-i18n="nav.about">{content.nav.about}</a>
+            <a href="/how-we-work/" data-i18n="nav.process">{content.nav.process}</a>
+            <a href="/contact/" data-i18n="nav.contact">{content.nav.contact}</a>
+        </div>
+    </div>
+    <div class="footer-contact">
+        <strong data-i18n="footer.contact">{content.footer.contact}</strong>
+        <a href={`mailto:${email}`}>{email}</a>
+        <span>Sri Lanka</span>
+    </div>
+    <div class="footer-bottom">
+        <p>© {year} Ryzite. <span data-i18n="footer.rights">{content.footer.rights}</span></p>
+        <a href="#top"><span data-i18n="footer.back">{content.footer.back}</span> ↑</a>
+    </div>
+    <span class="footer-ghost" aria-hidden="true">RYZITE</span>
+</footer>

@@ -1,0 +1,39 @@
+---
+import ButtonLink from '../ui/ButtonLink.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props { content: any; }
+const { content } = Astro.props;
+---
+
+<section class="process section-light" id="process" aria-labelledby="process-title">
+    <div class="section-intro">
+        <SectionHeading
+            eyebrow={content.process.eyebrow}
+            eyebrowKey="process.eyebrow"
+            theme="light"
+            lines={[
+                { text: content.process.titleTop, key: 'process.titleTop' },
+                { text: content.process.titleBottom, key: 'process.titleBottom' },
+            ]}
+        />
+        <div class="section-intro__side" data-reveal>
+            <p data-i18n="process.body">{content.process.body}</p>
+            <ButtonLink href="#contact" label={content.process.cta} translationKey="process.cta" />
+        </div>
+    </div>
+    <ol class="process-list">
+        {content.process.steps.map((step: any, index: number) => (
+            <li class="process-step" data-process-step>
+                <span class="process-number">{step.mark}</span>
+                <span class="process-symbol" aria-hidden="true">
+                    {['*', '•••', '↗', '□', '↑', '+'][index]}
+                </span>
+                <div>
+                    <h3 data-i18n={`process.steps.${index}.title`}>{step.title}</h3>
+                    <p data-i18n={`process.steps.${index}.body`}>{step.body}</p>
+                </div>
+            </li>
+        ))}
+    </ol>
+</section>
