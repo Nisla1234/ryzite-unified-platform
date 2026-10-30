@@ -1,0 +1,50 @@
+---
+interface Props {
+    content: any;
+    companyEmail: string;
+}
+
+const { content, companyEmail } = Astro.props;
+---
+
+<section class="contact-section section-dark" id="contact" aria-labelledby="contact-title">
+    <div class="contact-note" aria-hidden="true">
+        <span>IDEAS</span><span>PLANS</span><span>SOLUTIONS</span><span>GROWTH</span>
+    </div>
+    <div class="contact-copy" data-reveal>
+        <h2 id="contact-title">
+            <span data-i18n="contact.titleTop">{content.contact.titleTop}</span>
+            <span><span data-i18n="contact.titleMiddle">{content.contact.titleMiddle}</span> <em data-i18n="contact.titleAccent">{content.contact.titleAccent}</em></span>
+        </h2>
+        <p data-i18n="contact.body">{content.contact.body}</p>
+    </div>
+    <form class="contact-form" data-contact-form data-company-email={companyEmail} data-reveal>
+        <div class="form-row">
+            <label>
+                <span class="sr-only" data-i18n="contact.name">{content.contact.name}</span>
+                <input name="name" required data-i18n-placeholder="contact.name" placeholder={content.contact.name} />
+            </label>
+            <label>
+                <span class="sr-only" data-i18n="contact.email">{content.contact.email}</span>
+                <input name="email" type="email" required data-i18n-placeholder="contact.email" placeholder={content.contact.email} />
+            </label>
+        </div>
+        <label>
+            <span class="sr-only" data-i18n="contact.need">{content.contact.need}</span>
+            <select name="need" aria-label={content.contact.need} data-contact-select>
+                {content.contact.options.map((option: string, index: number) => (
+                    <option value={option} data-i18n={`contact.options.${index}`}>{option}</option>
+                ))}
+            </select>
+        </label>
+        <label>
+            <span class="sr-only" data-i18n="contact.project">{content.contact.project}</span>
+            <textarea name="project" rows="4" required data-i18n-placeholder="contact.project" placeholder={content.contact.project}></textarea>
+        </label>
+        <button type="submit" class="form-submit">
+            <span data-i18n="contact.button">{content.contact.button}</span>
+            <span aria-hidden="true">↗</span>
+        </button>
+        <p class="form-privacy" data-i18n="contact.privacy">{content.contact.privacy}</p>
+    </form>
+</section>

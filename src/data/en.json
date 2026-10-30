@@ -1,0 +1,106 @@
+{
+    "locale": "en",
+    "nav": {
+        "services": "Services",
+        "work": "Capabilities",
+        "about": "About",
+        "process": "Process",
+        "contact": "Contact",
+        "cta": "Start a project"
+    },
+    "hero": {
+        "eyebrow": "Ideas × Design × Technology × Growth",
+        "titleTop": "Have an idea?",
+        "titleMiddle": "Make it",
+        "titleAccent": "happen.",
+        "body": "We bring design, technology and marketing together to turn ambitious ideas into clear, useful digital experiences.",
+        "primary": "Grow my business",
+        "secondary": "Build my idea",
+        "note": "From idea to impact",
+        "scroll": "Scroll to explore"
+    },
+    "pathways": {
+        "eyebrow": "What we help you do",
+        "titleTop": "From getting noticed",
+        "titleBottom": "to building what comes next.",
+        "body": "Whether you want to grow your business or build a new idea, we bring the right people, tools and strategy together.",
+        "growTitle": "Grow what you have.",
+        "growBody": "Websites, search, marketing and advertising that help you reach more people and create demand.",
+        "growCta": "Explore growth services",
+        "buildTitle": "Build what you imagine.",
+        "buildBody": "From concept to launch, we plan, design and build digital products, custom software and useful automation.",
+        "buildCta": "Explore build services"
+    },
+    "services": {
+        "eyebrow": "Our services",
+        "titleTop": "The right people.",
+        "titleMiddle": "The right tools.",
+        "titleAccent": "One shared goal.",
+        "body": "Design, development, marketing and automation working together to move your business forward.",
+        "items": [
+            { "title": "Website development", "body": "Fast, maintainable websites designed around clear business goals.", "mark": "01" },
+            { "title": "Digital marketing", "body": "Connected campaigns and content shaped around the customer journey.", "mark": "02" },
+            { "title": "Search visibility", "body": "Technical and content foundations that help the right people find you.", "mark": "03" },
+            { "title": "Paid advertising", "body": "Focused campaigns with clear audiences, useful landing pages and measurable learning.", "mark": "04" },
+            { "title": "Custom software", "body": "Practical tools and platforms built around the way your business works.", "mark": "05" },
+            { "title": "AI and automation", "body": "Thoughtful automation that reduces repetitive work while keeping people in control.", "mark": "06" }
+        ]
+    },
+    "process": {
+        "eyebrow": "How it works",
+        "titleTop": "From the first conversation",
+        "titleBottom": "to what comes next.",
+        "body": "A clear, collaborative process that turns your goals into practical next steps.",
+        "cta": "Start your project",
+        "steps": [
+            { "title": "Tell us what you need", "body": "Share your goals, constraints and the outcome you want.", "mark": "01" },
+            { "title": "Let’s talk", "body": "We clarify the idea, audience, opportunities and risks.", "mark": "02" },
+            { "title": "Define the plan", "body": "We shape a focused proposal, scope and roadmap.", "mark": "03" },
+            { "title": "Design and build", "body": "We create, review and improve the solution in visible stages.", "mark": "04" },
+            { "title": "Go live", "body": "We launch carefully and make sure the experience works as expected.", "mark": "05" },
+            { "title": "Support and improve", "body": "We learn from real use and keep the work moving forward.", "mark": "06" }
+        ]
+    },
+    "connected": {
+        "eyebrow": "Better together",
+        "titleTop": "What happens when",
+        "titleMiddle": "everything",
+        "titleAccent": "connects?",
+        "body": "Visibility brings the right people. A useful website turns attention into action. Connected systems help you operate, learn and grow.",
+        "discover": "Discover",
+        "engage": "Engage",
+        "operate": "Operate"
+    },
+    "capabilities": {
+        "eyebrow": "What we can build",
+        "title": "Built around real needs.",
+        "body": "Every engagement starts with the problem, not a preset package.",
+        "items": [
+            { "title": "A focused brand website", "body": "Positioning, content, design, development and search foundations.", "tag": "Website × Search × Content" },
+            { "title": "A service platform", "body": "Customer journeys, interfaces, integrations and operational workflows.", "tag": "Product × Development × Automation" },
+            { "title": "A connected growth system", "body": "Campaigns, landing pages, measurement and continuous improvement.", "tag": "Marketing × Advertising × Analytics" }
+        ]
+    },
+    "contact": {
+        "eyebrow": "Ideas × Plans × Solutions × Growth",
+        "titleTop": "Something in mind?",
+        "titleMiddle": "Let’s",
+        "titleAccent": "make it real.",
+        "body": "Tell us about your project. We’ll reply with clear next steps and a practical way forward.",
+        "name": "Your name",
+        "email": "Your email",
+        "need": "I need help with",
+        "project": "Tell us about your project",
+        "button": "Prepare project email",
+        "privacy": "This opens your email app. Nothing is submitted or stored by this page.",
+        "options": ["A business website", "Marketing and growth", "A digital product", "Automation", "Something else"]
+    },
+    "footer": {
+        "tagline": "Design, technology and marketing for what comes next.",
+        "services": "Services",
+        "company": "Company",
+        "contact": "Let’s build what comes next.",
+        "back": "Back to top",
+        "rights": "All rights reserved."
+    }
+}

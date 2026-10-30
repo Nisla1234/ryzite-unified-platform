@@ -1,0 +1,92 @@
+---
+import { company, defaultLocale, siteContent } from '../../Constants';
+import CapabilitiesSection from './CapabilitiesSection.astro';
+import ConnectedSection from './ConnectedSection.astro';
+import ContactSection from './ContactSection.astro';
+import HeroSection from './HeroSection.astro';
+import PathwaysSection from './PathwaysSection.astro';
+import ProcessSection from './ProcessSection.astro';
+import ServicesSection from './ServicesSection.astro';
+import SiteFooter from './SiteFooter.astro';
+import SiteHeader from './SiteHeader.astro';
+
+const content = siteContent[defaultLocale];
+const translations = JSON.stringify(siteContent);
+---
+
+<main class="landing-page">
+    <SiteHeader content={content} />
+    <HeroSection content={content} />
+    <PathwaysSection content={content} />
+    <ServicesSection content={content} />
+    <ProcessSection content={content} />
+    <ConnectedSection content={content} />
+    <CapabilitiesSection content={content} />
+    <ContactSection content={content} companyEmail={company.email} />
+    <SiteFooter content={content} email={company.email} year={new Date().getFullYear()} />
+</main>
+
+<script id="site-translations" type="application/json" set:html={translations}></script>
+
+<script>
+    import '../../scripts/landing-motion';
+
+    type TranslationMap = Record<string, any>;
+    const translationNode = document.querySelector<HTMLScriptElement>('#site-translations');
+    const translations: TranslationMap = JSON.parse(translationNode?.textContent || '{}');
+
+    const getValue = (source: any, path: string) =>
+        path.split('.').reduce((value, key) => value?.[key], source);
+
+    const setLocale = (locale: string) => {
+        const content = translations[locale];
+        if (!content) return;
+
+        document.documentElement.lang = locale;
+        document.body.dataset.locale = locale;
+        window.localStorage.setItem('ryzite-locale', locale);
+
+        document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((element) => {
+            const key = element.dataset.i18n;
+            const value = key ? getValue(content, key) : undefined;
+            if (typeof value === 'string') element.textContent = value;
+        });
+
+        document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-i18n-placeholder]').forEach((element) => {
+            const key = element.dataset.i18nPlaceholder;
+            const value = key ? getValue(content, key) : undefined;
+            if (typeof value === 'string') element.placeholder = value;
+        });
+
+        document.querySelectorAll<HTMLButtonElement>('[data-locale-button]').forEach((button) => {
+            button.setAttribute('aria-pressed', String(button.dataset.localeButton === locale));
+        });
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-locale-button]').forEach((button) => {
+        button.addEventListener('click', () => setLocale(button.dataset.localeButton || 'en'));
+    });
+
+    const storedLocale = window.localStorage.getItem('ryzite-locale');
+    const browserLocale = navigator.language.toLowerCase();
+    const initialLocale =
+        storedLocale ||
+        (browserLocale.startsWith('ta') ? 'ta' : browserLocale.startsWith('si') ? 'si' : 'en');
+    setLocale(initialLocale);
+
+    document.querySelector<HTMLFormElement>('[data-contact-form]')?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const form = event.currentTarget as HTMLFormElement;
+        if (!form.reportValidity()) return;
+        const data = new FormData(form);
+        const subject = `Ryzite project enquiry — ${data.get('need') || 'New project'}`;
+        const body = [
+            `Name: ${data.get('name') || ''}`,
+            `Email: ${data.get('email') || ''}`,
+            `Need: ${data.get('need') || ''}`,
+            '',
+            String(data.get('project') || ''),
+        ].join('\n');
+        window.location.href = `mailto:${form.dataset.companyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+</script>

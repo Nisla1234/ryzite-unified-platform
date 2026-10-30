@@ -1,0 +1,35 @@
+:root {
+    --color-ink: #080c11;
+    --color-ink-soft: #11171f;
+    --color-panel: #171d25;
+    --color-paper: #f6f2e9;
+    --color-paper-soft: #eee8dc;
+    --color-white: #ffffff;
+    --color-muted-dark: #9ca6b2;
+    --color-muted-light: #4e555d;
+    --color-lime: #c9ff57;
+    --color-lime-deep: #9fd72d;
+    --color-lilac: #d3b8ff;
+    --color-lilac-soft: #eadcff;
+    --color-line-dark: #2a323c;
+    --color-line-light: #d5cec2;
+    --font-display: 'Bricolage Grotesque', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
+    --font-body: 'Bricolage Grotesque', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
+    --size-display: clamp(4rem, 7.4vw, 8.7rem);
+    --size-h1: clamp(3.7rem, 6.4vw, 7.4rem);
+    --size-h2: clamp(2.75rem, 4.8vw, 5.8rem);
+    --size-h3: clamp(1.5rem, 2.2vw, 2.4rem);
+    --size-lead: clamp(1.1rem, 1.5vw, 1.45rem);
+    --size-body: clamp(1rem, 1.05vw, 1.12rem);
+    --size-small: 0.78rem;
+    --space-section: clamp(6rem, 11vw, 11rem);
+    --space-frame: clamp(1.25rem, 5vw, 6.5rem);
+    --space-grid: clamp(1rem, 1.8vw, 2rem);
+    --radius-small: 0.75rem;
+    --radius-medium: 1.4rem;
+    --radius-large: 2.2rem;
+    --content-max: 1480px;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --duration-fast: 180ms;
+    --duration-medium: 420ms;
+}

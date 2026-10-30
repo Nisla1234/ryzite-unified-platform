@@ -1,0 +1,32 @@
+---
+import { localeLabels, type Locale } from '../../Constants';
+
+interface Props {
+    content: any;
+}
+
+const { content } = Astro.props;
+---
+
+<header class="site-header" data-header>
+    <a class="wordmark" href="#top" aria-label="Ryzite home">Ryzite<span>*</span></a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#services" data-i18n="nav.services">{content.nav.services}</a>
+        <a href="#capabilities" data-i18n="nav.work">{content.nav.work}</a>
+        <a href="#process" data-i18n="nav.process">{content.nav.process}</a>
+        <a href="#contact" data-i18n="nav.contact">{content.nav.contact}</a>
+    </nav>
+    <div class="header-actions">
+        <div class="language-switcher" aria-label="Language">
+            {(Object.entries(localeLabels) as Array<[Locale, string]>).map(([locale, label]) => (
+                <button type="button" data-locale-button={locale} aria-pressed={locale === 'en'}>
+                    {label}
+                </button>
+            ))}
+        </div>
+        <a class="header-cta" href="#contact">
+            <span data-i18n="nav.cta">{content.nav.cta}</span>
+            <span aria-hidden="true">↗</span>
+        </a>
+    </div>
+</header>
