@@ -28,6 +28,7 @@ skills-lock.json
 .agents
 .claude
 .hermes
+.playwright-cli
 skills
 
 
