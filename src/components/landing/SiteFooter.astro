@@ -9,20 +9,22 @@ const { content, email, year } = Astro.props;
 
 <footer class="site-footer">
     <div class="footer-brand">
-        <a class="wordmark" href="#top">Ryzite<span>*</span></a>
+        <a class="wordmark" href="/">Ryzite<span>*</span></a>
         <p data-i18n="footer.tagline">{content.footer.tagline}</p>
     </div>
     <div class="footer-links">
         <div>
             <strong data-i18n="footer.services">{content.footer.services}</strong>
-            <a href="#services" data-i18n="nav.services">{content.nav.services}</a>
-            <a href="#capabilities" data-i18n="nav.work">{content.nav.work}</a>
-            <a href="#process" data-i18n="nav.process">{content.nav.process}</a>
+            <a href="/services/" data-i18n="nav.services">{content.nav.services}</a>
+            <a href="/services/website-development/">Website development</a>
+            <a href="/services/custom-software-development/">Custom software</a>
+            <a href="/services/ai-automation/">AI &amp; automation</a>
         </div>
         <div>
             <strong data-i18n="footer.company">{content.footer.company}</strong>
-            <a href="#top" data-i18n="nav.about">{content.nav.about}</a>
-            <a href="#contact" data-i18n="nav.contact">{content.nav.contact}</a>
+            <a href="/about/" data-i18n="nav.about">{content.nav.about}</a>
+            <a href="/how-we-work/" data-i18n="nav.process">{content.nav.process}</a>
+            <a href="/contact/" data-i18n="nav.contact">{content.nav.contact}</a>
         </div>
     </div>
     <div class="footer-contact">

@@ -1,0 +1,25 @@
+---
+import Construction from './Construction.astro';
+import Layout from '../layouts/Layout.astro';
+
+interface Props {
+  pageId: string;
+  title: string;
+  description?: string;
+  status?: string;
+  isNotFound?: boolean;
+}
+
+const { pageId, title, description, status, isNotFound = false } = Astro.props;
+const metaDescription = description ?? `${title} is being prepared by Ryzite and will be available soon.`;
+---
+
+<Layout title={`${title} — Ryzite`} description={metaDescription}>
+  <Construction
+    pageId={pageId}
+    title={title}
+    description={description}
+    status={status}
+    isNotFound={isNotFound}
+  />
+</Layout>
