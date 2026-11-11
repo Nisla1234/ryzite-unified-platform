@@ -1,7 +1,0 @@
----
-import ConstructionPage from '../../components/ConstructionPage.astro';
-
-const projectSlug = Astro.params.project;
----
-
-<ConstructionPage pageId="P24" title="Project story" status="Conditional template · Under construction" description={`The project page template is ready for approved content${projectSlug ? ` at “${projectSlug}”` : ''}. No project claims are published yet.`} />

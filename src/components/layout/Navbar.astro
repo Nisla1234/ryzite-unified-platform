@@ -1,0 +1,133 @@
+﻿---
+const links = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Solutions', href: '/solutions' },
+  { label: 'Packages', href: '/packages' },
+  { label: 'About Us', href: '/about-us' },
+  { label: 'How We Work', href: '/how-we-work' },
+  { label: 'Our Work', href: '/our-work' },
+  { label: 'Articles & Guides', href: '/articles' },
+  { label: 'Contact', href: '/contact' },
+];
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href) => href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="wordmark" href="/" aria-label="Ryzite home">
+      <img class="brand-logo" src="/Original%20Logo.png" alt="RYZITE" width="1080" height="1080" loading="eager" />
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {links.map(({ label, href }) => (
+        <a href={href} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+      ))}
+    </nav>
+
+    <a class="project-link desktop-project" href="/contact">
+      Start a Project <span aria-hidden="true">↗</span>
+    </a>
+
+    <details class="mobile-menu">
+      <summary aria-label="Toggle navigation menu">
+        <span class="menu-label">Menu</span>
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+      </summary>
+      <div class="mobile-panel">
+        <nav aria-label="Mobile navigation">
+          {links.map(({ label, href }) => (
+            <a href={href} aria-current={isActive(href) ? 'page' : undefined}>
+              {label}<span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </nav>
+        <a class="project-link" href="/contact">Start a Project <span aria-hidden="true">↗</span></a>
+      </div>
+    </details>
+  </div>
+</header>
+
+<script is:inline>
+  document.querySelectorAll('.mobile-menu').forEach((menu) => {
+    menu.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target)) menu.open = false;
+    });
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => { menu.open = false; });
+    });
+  });
+</script>
+
+<style>
+  .site-header {
+    --header-blue: #064bed;
+    --header-ink: #132447;
+    position: relative;
+    z-index: 30;
+    width: 100%;
+    border-bottom: 1px solid #dce8fa;
+    background: linear-gradient(110deg, #e7f0ff 0%, #f9fbff 48%, #edf4ff 100%);
+    color: var(--header-ink);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .site-header *, .site-header *::before, .site-header *::after { box-sizing: border-box; }
+  .header-inner {
+    max-width: 1600px;
+    min-height: 100px;
+    margin-inline: auto;
+    padding: 16px clamp(20px, 3vw, 54px);
+    display: grid;
+    grid-template-columns: minmax(170px, 1fr) auto minmax(170px, 1fr);
+    align-items: center;
+    gap: 28px;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, summary:focus-visible { outline: 3px solid #3772f5; outline-offset: 6px; border-radius: 5px; }
+  .wordmark { display: block; flex-shrink: 0; justify-self: start; }
+  /* Crop the image's outer whitespace while preserving the complete logo. */
+  .brand-logo { display: block; width: 144px; height: 84px; object-fit: cover; object-position: center; }
+  .desktop-nav { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 1.35vw, 23px); }
+  .desktop-project { justify-self: end; }
+  .desktop-nav a { position: relative; padding-block: 17px; white-space: nowrap; font-size: 13px; font-weight: 600; line-height: 1.5; transition: color 160ms ease; }
+  .desktop-nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; border-radius: 2px; background: var(--header-blue); transform: scaleX(0); transition: transform 160ms ease; }
+  .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { color: var(--header-blue); }
+  .desktop-nav a:hover::after, .desktop-nav a[aria-current='page']::after { transform: scaleX(1); }
+  .project-link { display: inline-flex; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; padding: 14px 21px; border: 1px solid #3777ff; border-radius: 999px; background: linear-gradient(135deg, #0874ff, #053de0); box-shadow: 0 6px 15px #0758df20, inset 0 1px 1px #ffffff45; color: white; font-size: 13px; font-weight: 600; line-height: 1.4; white-space: nowrap; transition: box-shadow 160ms ease, background 160ms ease; }
+  .project-link span { font-size: 19px; line-height: 1; }
+  .project-link:hover { background: #073ac7; box-shadow: 0 7px 20px #0758df35; }
+  .mobile-menu { display: none; }
+  @media (max-width: 1279px) {
+    .header-inner { display: flex; min-height: 88px; justify-content: space-between; }
+    .desktop-nav, .desktop-project { display: none; }
+    .brand-logo { width: 128px; height: 76px; }
+    .mobile-menu { display: block; }
+    summary { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid #c9daf8; border-radius: 999px; background: #ffffffb3; color: var(--header-ink); cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    .menu-label { font-size: 13px; font-weight: 600; }
+    .menu-icon { position: relative; width: 18px; height: 14px; }
+    .menu-icon span { position: absolute; left: 0; width: 18px; height: 2px; border-radius: 2px; background: var(--header-blue); transition: transform 160ms ease, top 160ms ease; }
+    .menu-icon span:first-child { top: 3px; }
+    .menu-icon span:last-child { top: 10px; }
+    details[open] .menu-icon span:first-child { top: 6px; transform: rotate(45deg); }
+    details[open] .menu-icon span:last-child { top: 6px; transform: rotate(-45deg); }
+    .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 3vw, 54px) 24px; border-bottom: 1px solid #dce8fa; background: #f5f9ff; box-shadow: 0 18px 28px #153c7a15; max-height: calc(100dvh - 88px); overflow-y: auto; }
+    .mobile-panel nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 26px; margin-bottom: 20px; }
+    .mobile-panel nav a { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 8px; border-bottom: 1px solid #dfE8f6; font-size: 15px; font-weight: 600; }
+    .mobile-panel nav a span { color: #7290b9; }
+    .mobile-panel nav a:hover, .mobile-panel nav a[aria-current='page'] { color: var(--header-blue); }
+  }
+  @media (max-width: 480px) {
+    .mobile-panel nav { grid-template-columns: 1fr; }
+    .mobile-panel nav a { padding-block: 12px; }
+    .mobile-panel > .project-link { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .site-header * { transition: none; } }
+</style>

@@ -1,0 +1,47 @@
+---
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const isHome = Astro.url.pathname === '/';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{title}</title>
+    <script is:inline define:vars={{ isHome }}>
+      if (isHome) {
+        document.documentElement.classList.add('home-intro');
+        window.ryziteIntroFallback = setTimeout(() => document.documentElement.classList.remove('home-intro'), 20000);
+      }
+    </script>
+  </head>
+  <body>
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  html.home-intro { overflow: hidden; }
+  html.home-intro .site-header, html.home-intro .footer { visibility: hidden; opacity: 0; pointer-events: none; }
+  html.home-intro .connection-hero { position: fixed; inset: 0; z-index: 100; }
+  html.home-intro .connection-stage { height: 100svh; max-width: none; }
+  html.home-transition:not(.home-intro) .connection-hero { position: relative; z-index: 100; }
+</style>
