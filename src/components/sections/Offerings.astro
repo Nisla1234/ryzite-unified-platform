@@ -1,5 +1,5 @@
 ---
-import { divisions } from '../../data/offerings';
+import { divisions, offeringSlug } from '../../data/offerings';
 interface Props { division?: 'services' | 'solutions'; standalone?: boolean; }
 const { division, standalone = false } = Astro.props;
 const selected = division ? divisions.filter((item) => item.id === division) : divisions;
@@ -28,7 +28,7 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
         </>}
         <ol class="roadmap">
           {group.items.map(([title, description, icon], index) => (
-            <li class="roadmap-stop" style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,0,3,29,28,30,56,55,57][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
+            <li id={offeringSlug(title)} class="roadmap-stop" style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,0,3,29,28,30,56,55,57][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
               {group.id === 'services' && <img class="service-robot" src={`/images/hero/${index % 2 === 0 ? 'ry' : 'zite'}-front-plain.png`} alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />}
               <span class="service-icon" aria-hidden="true">{icon}</span>
               <div class="service-copy"><h3>{title}</h3><p>{description}</p></div>
@@ -243,7 +243,7 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
 </script>
 
 <style>
-  .offerings { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; position: relative; isolation: isolate; overflow: hidden; padding: 76px max(28px, calc((100vw - 1240px) / 2)) 56px; background: radial-gradient(ellipse at 50% 10%, #fff, #f0f7ff 75%, #dcecff); color: #101d56; font-family: var(--font-body); }
+  .offerings { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 100px; padding: 76px max(28px, calc((100vw - 1240px) / 2)) 56px; background: radial-gradient(ellipse at 50% 10%, #fff, #f0f7ff 75%, #dcecff); color: #101d56; font-family: var(--font-body); }
   .solutions { --accent: #aa53ff; --dark: #6b28da; --tint: #edddff; background: radial-gradient(ellipse at 50% 10%, #fff, #f8f3ff 75%, #e9ddff); }
   .section-intro { text-align: center; max-width: 700px; margin: 0 auto 22px; }
   .eyebrow { display: block; color: var(--dark); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; }

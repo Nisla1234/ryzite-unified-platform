@@ -1,14 +1,23 @@
 ﻿---
+import { divisions, offeringSlug } from '../../data/offerings';
+
 const links = [
   { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about-us' },
   { label: 'Services', href: '/services' },
   { label: 'Solutions', href: '/solutions' },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Contact', href: '/contact' },
+];
+const services = divisions.find(({ id }) => id === 'services')?.items ?? [];
+const serviceColumns = [services.slice(0, 4), services.slice(4, 8), services.slice(8)];
+const solutions = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
+const solutionColumns = [solutions.slice(0, 3), solutions.slice(3, 6), solutions.slice(6)];
+const resourceItems = [
   { label: 'Packages', href: '/packages' },
-  { label: 'About Us', href: '/about-us' },
   { label: 'How We Work', href: '/how-we-work' },
   { label: 'Our Work', href: '/our-work' },
   { label: 'Articles & Guides', href: '/articles' },
-  { label: 'Contact', href: '/contact' },
 ];
 const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (href) => href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
@@ -21,13 +30,62 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
     </a>
 
     <nav class="desktop-nav" aria-label="Main navigation">
-      {links.map(({ label, href }) => (
+      {links.map(({ label, href }) => label === 'Services' ? (
+        <div class="services-dropdown" data-mega-dropdown>
+          <a href="/services/#services" aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+          <button class="services-trigger services-trigger--icon" type="button" data-mega-trigger aria-label="Open Services menu" aria-expanded="false" aria-controls="services-menu">
+            <span class="services-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="services-menu" id="services-menu" data-mega-menu hidden>
+            <div class="services-menu__inner">
+              {serviceColumns.map((column) => (
+                <ul class="services-menu__column">
+                  {column.map(([title]) => (
+                    <li><a href={`/services/#${offeringSlug(title)}`}>{title}</a></li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : label === 'Solutions' ? (
+        <div class="services-dropdown" data-mega-dropdown>
+          <a href="/solutions/#solutions" aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+          <button class="services-trigger services-trigger--icon" type="button" data-mega-trigger aria-label="Open Solutions menu" aria-expanded="false" aria-controls="solutions-menu">
+            <span class="services-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="solutions-menu" id="solutions-menu" data-mega-menu hidden>
+            <div class="solutions-menu__inner">
+              {solutionColumns.map((column) => (
+                <ul class="solutions-menu__column">
+                  {column.map(([title]) => (
+                    <li><a href={`/solutions/#${offeringSlug(title)}`}>{title}</a></li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : label === 'Resources' ? (
+        <div class="services-dropdown resources-dropdown" data-mega-dropdown>
+          <button class="services-trigger" type="button" data-mega-trigger aria-expanded="false" aria-controls="resources-menu" aria-current={isActive(href) ? 'page' : undefined}>
+            {label}<span class="services-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="resources-menu" id="resources-menu" data-mega-menu hidden>
+            <div class="resources-menu__inner">
+              {resourceItems.map(({ label: itemLabel, href: itemHref }) => (
+                <a class="resources-menu__item" href={itemHref}>{itemLabel}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
         <a href={href} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
       ))}
     </nav>
 
     <a class="project-link desktop-project" href="/contact">
-      Start a Project <span aria-hidden="true">↗</span>
+      Start a Project
     </a>
 
     <details class="mobile-menu">
@@ -37,19 +95,72 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
       </summary>
       <div class="mobile-panel">
         <nav aria-label="Mobile navigation">
-          {links.map(({ label, href }) => (
+          {links.map(({ label, href }) => label === 'Services' ? (
+            <details class="mobile-services">
+              <summary>Services</summary>
+              <ul>
+                {services.map(([title]) => (
+                  <li><a href={`/services/#${offeringSlug(title)}`}>{title}</a></li>
+                ))}
+              </ul>
+            </details>
+          ) : label === 'Solutions' ? (
+            <a href="/solutions/#solutions" aria-current={isActive(href) ? 'page' : undefined}>
+              {label}<span aria-hidden="true">↗</span>
+            </a>
+          ) : label === 'Resources' ? (
+            <details class="mobile-services mobile-resources">
+              <summary>Resources</summary>
+              <ul>
+                {resourceItems.map(({ label: itemLabel, href: itemHref }) => (
+                  <li><a href={itemHref}>{itemLabel}</a></li>
+                ))}
+              </ul>
+            </details>
+          ) : (
             <a href={href} aria-current={isActive(href) ? 'page' : undefined}>
               {label}<span aria-hidden="true">↗</span>
             </a>
           ))}
         </nav>
-        <a class="project-link" href="/contact">Start a Project <span aria-hidden="true">↗</span></a>
+        <a class="project-link" href="/contact">Start a Project</a>
       </div>
     </details>
   </div>
 </header>
 
 <script is:inline>
+  document.querySelectorAll('[data-mega-dropdown]').forEach((dropdown) => {
+    const trigger = dropdown.querySelector('[data-mega-trigger]');
+    const panel = dropdown.querySelector('[data-mega-menu]');
+    if (!trigger || !panel) return;
+
+    const close = (restoreFocus = false) => {
+      trigger.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+      if (restoreFocus) trigger.focus();
+    };
+
+    trigger.addEventListener('click', () => {
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('[data-mega-dropdown]').forEach((otherDropdown) => {
+        if (otherDropdown === dropdown) return;
+        otherDropdown.querySelector('[data-mega-trigger]')?.setAttribute('aria-expanded', 'false');
+        const otherPanel = otherDropdown.querySelector('[data-mega-menu]');
+        if (otherPanel) otherPanel.hidden = true;
+      });
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.hidden = isOpen;
+    });
+    panel.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => close()));
+    document.addEventListener('click', (event) => {
+      if (!dropdown.contains(event.target)) close();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && trigger.getAttribute('aria-expanded') === 'true') close(true);
+    });
+  });
+
   document.querySelectorAll('.mobile-menu').forEach((menu) => {
     menu.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
@@ -70,7 +181,8 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
   .site-header {
     --header-blue: #064bed;
     --header-ink: #132447;
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 30;
     width: 100%;
     border-bottom: 1px solid #dce8fa;
@@ -90,21 +202,38 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
     gap: 28px;
   }
   a { color: inherit; text-decoration: none; }
-  a:focus-visible, summary:focus-visible { outline: 3px solid #3772f5; outline-offset: 6px; border-radius: 5px; }
+  a:focus-visible, summary:focus-visible, .services-trigger:focus-visible { outline: 3px solid #3772f5; outline-offset: 6px; border-radius: 5px; }
   .wordmark { display: block; flex-shrink: 0; justify-self: start; }
   /* Crop the image's outer whitespace while preserving the complete logo. */
   .brand-logo { display: block; width: 144px; height: 84px; object-fit: cover; object-position: center; }
-  .desktop-nav { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 1.35vw, 23px); }
+  .desktop-nav { display: flex; flex: 0 0 auto; flex-wrap: nowrap; align-items: center; justify-content: center; gap: clamp(24px, 2vw, 32px); }
   .desktop-project { justify-self: end; }
-  .desktop-nav a { position: relative; padding-block: 17px; white-space: nowrap; font-size: 13px; font-weight: 600; line-height: 1.5; transition: color 160ms ease; }
-  .desktop-nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; border-radius: 2px; background: var(--header-blue); transform: scaleX(0); transition: transform 160ms ease; }
-  .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { color: var(--header-blue); }
-  .desktop-nav a:hover::after, .desktop-nav a[aria-current='page']::after { transform: scaleX(1); }
-  .project-link { display: inline-flex; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; padding: 14px 21px; border: 1px solid #3777ff; border-radius: 999px; background: linear-gradient(135deg, #0874ff, #053de0); box-shadow: 0 6px 15px #0758df20, inset 0 1px 1px #ffffff45; color: white; font-size: 13px; font-weight: 600; line-height: 1.4; white-space: nowrap; transition: box-shadow 160ms ease, background 160ms ease; }
-  .project-link span { font-size: 19px; line-height: 1; }
+  .desktop-nav > a, .services-dropdown > a, .services-trigger { position: relative; flex-shrink: 0; padding-block: 17px; white-space: nowrap; font-size: 16px; font-weight: 600; line-height: 1.5; transition: color 160ms ease; }
+  .desktop-nav > a::after, .services-dropdown > a::after, .services-trigger::before { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; border-radius: 2px; background: var(--header-blue); transform: scaleX(0); transition: transform 160ms ease; }
+  .desktop-nav > a:hover, .desktop-nav > a[aria-current='page'], .services-dropdown > a:hover, .services-dropdown > a[aria-current='page'], .services-trigger:hover, .services-trigger[aria-expanded='true'] { color: var(--header-blue); }
+  .desktop-nav > a:hover::after, .desktop-nav > a[aria-current='page']::after, .services-dropdown > a:hover::after, .services-dropdown > a[aria-current='page']::after, .services-trigger[aria-expanded='true']::before { transform: scaleX(1); }
+  .services-dropdown { display: flex; flex: 0 0 auto; align-items: center; gap: 0; }
+  .resources-dropdown { position: relative; }
+  .services-trigger { display: inline-flex; align-items: center; justify-content: center; gap: 9px; width: auto; padding-inline: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font-family: inherit; }
+  .services-trigger--icon { width: 24px; gap: 0; }
+  .services-chevron { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform 160ms ease; }
+  .services-trigger[aria-expanded='true'] .services-chevron { transform: rotate(225deg) translate(-1px, -1px); }
+  .services-menu, .solutions-menu, .resources-menu { position: absolute; top: 100%; left: 0; right: 0; z-index: 31; border-bottom: 1px solid #dce8fa; background: #f3f8fe; box-shadow: 0 20px 32px #153c7a1a; }
+  .services-menu[hidden], .solutions-menu[hidden], .resources-menu[hidden] { display: none; }
+  .resources-menu { right: auto; width: min(260px, calc(100vw - 32px)); }
+  .services-menu__inner { max-width: 1600px; margin: 0 auto; padding: 34px clamp(28px, 8vw, 150px) 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2vw, 32px); }
+  .services-menu__column, .solutions-menu__column { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; }
+  .services-menu__column li, .solutions-menu__column li { min-height: 58px; display: flex; align-items: center; border-bottom: 1px solid #cfdbeb; }
+  .services-menu__column a, .solutions-menu__column a { width: 100%; padding: 12px 0; color: #132447; font-size: 16px; line-height: 1.35; transition: color 160ms ease; }
+  .services-menu__column a:hover, .services-menu__column a:focus-visible, .solutions-menu__column a:hover, .solutions-menu__column a:focus-visible { color: var(--header-blue); }
+  .solutions-menu__inner { max-width: 1600px; margin: 0 auto; padding: 34px clamp(28px, 8vw, 150px) 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2vw, 32px); }
+  .resources-menu__inner { width: 100%; padding: 12px 16px 16px; display: grid; grid-template-columns: 1fr; }
+  .resources-menu__item { min-height: 54px; display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #cfdbeb; color: #132447; font-size: 16px; line-height: 1.35; transition: color 160ms ease; }
+  .resources-menu__item:hover, .resources-menu__item:focus-visible { color: var(--header-blue); }
+  .project-link { display: inline-flex; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; padding: 14px 21px; border: 1px solid #3777ff; border-radius: 999px; background: linear-gradient(135deg, #0874ff, #053de0); box-shadow: 0 6px 15px #0758df20, inset 0 1px 1px #ffffff45; color: white; font-size: 16px; font-weight: 600; line-height: 1.4; white-space: nowrap; transition: box-shadow 160ms ease, background 160ms ease; }
   .project-link:hover { background: #073ac7; box-shadow: 0 7px 20px #0758df35; }
   .mobile-menu { display: none; }
-  @media (max-width: 1279px) {
+  @media (max-width: 1379px) {
     .header-inner { display: flex; min-height: 88px; justify-content: space-between; }
     .desktop-nav, .desktop-project { display: none; }
     .brand-logo { width: 128px; height: 76px; }
@@ -120,13 +249,22 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
     details[open] .menu-icon span:last-child { top: 6px; transform: rotate(-45deg); }
     .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 3vw, 54px) 24px; border-bottom: 1px solid #dce8fa; background: #f5f9ff; box-shadow: 0 18px 28px #153c7a15; max-height: calc(100dvh - 88px); overflow-y: auto; }
     .mobile-panel nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 26px; margin-bottom: 20px; }
-    .mobile-panel nav a { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 8px; border-bottom: 1px solid #dfE8f6; font-size: 15px; font-weight: 600; }
+    .mobile-panel nav a { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 8px; border-bottom: 1px solid #dfE8f6; font-size: 16px; font-weight: 600; }
     .mobile-panel nav a span { color: #7290b9; }
     .mobile-panel nav a:hover, .mobile-panel nav a[aria-current='page'] { color: var(--header-blue); }
+    .mobile-services { grid-column: 1 / -1; }
+    .mobile-services > summary { display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 15px 8px; border: 0; border-bottom: 1px solid #dfE8f6; border-radius: 0; background: transparent; color: inherit; font-size: 16px; font-weight: 600; }
+    .mobile-services > summary::after { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; content: ''; transform: rotate(45deg) translateY(-2px); transition: transform 160ms ease; }
+    .mobile-services[open] > summary::after { transform: rotate(225deg) translate(-1px, -1px); }
+    .mobile-services > ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; list-style: none; margin: 0; padding: 0 8px 12px; }
+    .mobile-services > ul a { display: block; height: 100%; padding: 9px 0; border-bottom: 1px solid #dfE8f6; font-size: 13px; font-weight: 500; line-height: 1.4; }
+    .mobile-resources > ul { grid-template-columns: 1fr; }
   }
   @media (max-width: 480px) {
     .mobile-panel nav { grid-template-columns: 1fr; }
     .mobile-panel nav a { padding-block: 12px; }
+    .mobile-services > ul { grid-template-columns: 1fr; }
+    .mobile-services > summary { padding-block: 12px; }
     .mobile-panel > .project-link { width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) { .site-header * { transition: none; } }
