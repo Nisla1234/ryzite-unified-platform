@@ -1,6 +1,6 @@
 export const divisions = [
   {
-    id: 'services', title: 'Marketing Services', label: 'Get seen. Build demand.', symbol: '↗',
+    id: 'services', title: 'Marketing Services',
     description: 'Reach the right people, tell your story, and turn attention into business growth.',
     items: [
       ['Google SEO & Search Visibility', 'Help your business get found in search.', '⌕'],

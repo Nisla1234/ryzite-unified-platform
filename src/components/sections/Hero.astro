@@ -8,7 +8,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     <div class="hero-message">
       <h1 id="connection-title"><span>{' '}</span><strong class="digital-line"><span data-headline-word>One Site.</span></strong><span><span data-headline-word>Solve</span>{' '}<span data-headline-word>Every</span></span><strong><span data-headline-word>Problems.</span></strong></h1>
       <p>{'We turn ideas into digital solutions that help businesses grow and stay ahead.'.split(' ').map((word) => <><span data-description-word>{word}</span>{' '}</>)}</p>
-      <a class="hero-cta" href="/contact">Let’s Talk <span aria-hidden="true">↗</span></a>
+      <a class="hero-cta" href="/contact">Let’s Talk</a>
     </div>
 
     <svg class="landscape" viewBox="0 0 1440 680" preserveAspectRatio="none" fill="none" aria-hidden="true">
@@ -44,10 +44,6 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       <div class="logo-drawing-wrap" set:html={logoDrawing}></div>
       <img class="transition-logo" src="/Original%20Logo.png" alt="" width="1080" height="1080" loading="eager" />
     </div>
-    <div class="hero-controls">
-      <button class="pause-control" type="button" hidden>Pause animation</button>
-      <button class="replay-control" type="button" hidden><span aria-hidden="true">↻</span> Replay</button>
-    </div>
     <noscript><style>.connection-hero .hero-message { opacity: 1; visibility: visible; transform: none; }</style></noscript>
   </div>
 </section>
@@ -73,9 +69,10 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     const flash = stage.querySelector('.meeting-flash');
     const rope = stage.querySelector('.connection-rope');
     const paths = rope.querySelectorAll('path');
-    const replay = stage.querySelector('.replay-control');
-    const pause = stage.querySelector('.pause-control');
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const introSeenKey = 'ryzite-home-intro-seen';
+    let skipIntro = false;
+    try { skipIntro = window.sessionStorage.getItem(introSeenKey) === 'true'; } catch {}
     const bodies = [left.querySelector('.robot-body'), right.querySelector('.robot-body')];
     const frontPoses = [left.querySelector('.robot-front'), right.querySelector('.robot-front')];
     const legs = [left.querySelectorAll('.robot-leg'), right.querySelectorAll('.robot-leg')];
@@ -135,51 +132,43 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       Object.assign(state, { progress: 0, tension: 0, ripple: 0, dissolve: 0 });
       const travel = Math.max(0, stage.clientWidth * .5 - left.offsetWidth * 1.02 - left.offsetLeft);
       timeline = gsap.timeline({
-        delay: .6,
+        delay: .2,
         onUpdate: drawRope,
         onComplete: () => {
           document.documentElement.classList.remove('home-intro', 'home-transition');
-          pause.hidden = true;
-          replay.hidden = false;
         },
       });
-      const steps = 4;
-      const stride = 1.85;
+      const steps = 3;
+      const stride = .6;
       for (let step = 1; step <= steps; step++) {
         const position = (step - 1) * stride;
         // Plant the feet, lean away, then overcome the rope's resistance.
-        timeline.to(bodies[0], { rotation: -7, x: -3, y: 4, duration: .42, ease: 'power2.inOut' }, position)
-          .to(bodies[1], { rotation: 7, x: 3, y: 4, duration: .42, ease: 'power2.inOut' }, position)
-          .to(state, { tension: 1, ripple: step, duration: .48, ease: 'power2.in' }, position);
+        timeline.to(bodies[0], { rotation: -7, x: -3, y: 4, duration: .24, ease: 'power2.inOut' }, position)
+          .to(bodies[1], { rotation: 7, x: 3, y: 4, duration: .24, ease: 'power2.inOut' }, position)
+          .to(state, { tension: 1, ripple: step, duration: .24, ease: 'power2.in' }, position);
+        timeline.to(state, { progress: step / steps, duration: .52, ease: 'none' }, position + .08);
 
         [left, right].forEach((actor, index) => {
           const direction = index === 0 ? 1 : -1;
           const lift = Math.min(actor.offsetHeight * .035, 15);
           const reach = Math.min(actor.offsetWidth * .028, 10);
-          // Every pull includes BOTH footfalls: left swing/plant, then right swing/plant.
-          for (let footfall = 0; footfall < 2; footfall++) {
-            const time = position + .42 + footfall * .58;
-            const swing = legs[index][footfall];
-            const planted = legs[index][1 - footfall];
-            const progress = (step - 1 + (footfall + 1) / 2) / steps;
-            timeline.to(actor, { x: direction * travel * progress, duration: .55, ease: 'sine.inOut' }, time)
-              .to(swing, { rotation: -direction * 8, x: direction * reach, y: -lift, duration: .27, ease: 'sine.out' }, time)
-              .to(planted, { rotation: direction * 3, x: -direction * reach * .5, y: 0, duration: .5, ease: 'sine.inOut' }, time)
-              .to(bodies[index], { rotation: -direction * 3, x: direction * (footfall ? -1 : 1), y: -3, scaleY: 1, duration: .25, ease: 'sine.out' }, time)
-              .to(shadows[index], { scaleX: .94, opacity: .6, duration: .25 }, time)
-              .to(swing, { rotation: 0, x: 0, y: 0, duration: .23, ease: 'power2.in' }, time + .27)
-              .to(bodies[index], { y: 3, scaleY: .99, duration: .12, ease: 'power1.in' }, time + .46)
-              .to(shadows[index], { scaleX: 1.06, opacity: .9, duration: .12 }, time + .46);
-          }
-          timeline.to([...legs[index]], { rotation: 0, x: 0, y: 0, duration: .2, ease: 'sine.out' }, position + 1.6)
-            .to(bodies[index], { rotation: -direction * 1.5, x: 0, y: 0, scaleY: 1, duration: .22 }, position + 1.6)
-            .to(shadows[index], { scaleX: 1, opacity: .65, duration: .22 }, position + 1.6);
+          const footfall = (step - 1) % 2;
+          const time = position + .08;
+          const swing = legs[index][footfall];
+          const planted = legs[index][1 - footfall];
+          timeline.to(actor, { x: direction * travel * step / steps, duration: .52, ease: 'sine.inOut' }, time)
+            .to(swing, { rotation: -direction * 8, x: direction * reach, y: -lift, duration: .24, ease: 'sine.out' }, time)
+            .to(planted, { rotation: direction * 3, x: -direction * reach * .5, y: 0, duration: .45, ease: 'sine.inOut' }, time)
+            .to(bodies[index], { rotation: -direction * 3, x: direction, y: -3, scaleY: 1, duration: .22, ease: 'sine.out' }, time)
+            .to(shadows[index], { scaleX: .94, opacity: .6, duration: .22 }, time)
+            .to(swing, { rotation: 0, x: 0, y: 0, duration: .22, ease: 'power2.in' }, time + .26)
+            .to(bodies[index], { rotation: 0, x: 0, y: 0, scaleY: 1, duration: .2, ease: 'power1.out' }, time + .38)
+            .to(shadows[index], { scaleX: 1, opacity: .65, duration: .2 }, time + .38);
         });
-        timeline.to(state, { progress: step / steps, duration: 1.16, ease: 'none' }, position + .42)
-          .to(state, { tension: .38, duration: .24, ease: 'power2.out' }, position + 1.6);
+        timeline.to(state, { tension: .38, duration: .18, ease: 'power2.out' }, position + .45);
       }
-      const finish = steps * stride;
-      timeline.to(bodies, { rotation: 0, x: 0, y: 0, duration: .4 }, finish - .2)
+      const finish = (steps - 1) * stride + .64;
+      timeline.to(bodies, { rotation: 0, x: 0, y: 0, duration: .4 }, finish)
         .to(state, { tension: .15, duration: .6 }, finish)
         .to(flash, { opacity: .85, scale: 1, duration: .35 }, finish)
         .to(state, { dissolve: 1, duration: .25 }, finish + .1)
@@ -187,17 +176,17 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         .to([left, right], { scaleY: 1.04, y: () => -Math.min(stage.clientHeight * .16, 120), duration: .42, ease: 'power2.out' }, finish + .3)
         .to(shadows, { scaleX: .65, opacity: .25, duration: .35 }, finish + .3)
         .to([left, right], { scaleY: 1, y: 0, duration: .38, ease: 'power2.in' }, finish + .72)
-        .to(curtain, { autoAlpha: 1, duration: .65, ease: 'power2.inOut' }, finish + .75)
-        .to(drawing, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'power3.out' }, finish + 1.15)
-        .to(drawingPaths, { strokeDashoffset: 0, duration: .32, stagger: .21, ease: 'none' }, finish + 1.2)
-        .to(logo, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'power3.out' }, finish + 2.78)
-        .to(drawing, { autoAlpha: 0, duration: .45, ease: 'power2.out' }, finish + 2.8)
-        .set([left, right], { x: 0, autoAlpha: 0, y: 16, scaleY: 1 }, finish + 1.45)
+        .set([left, right], { x: 0, autoAlpha: 0, y: 16, scaleY: 1 }, finish + 1.1)
         .set(pullLayers, { autoAlpha: 0 }, finish + 1.1)
         .set(frontPoses, { autoAlpha: 1, scaleX: 1 }, finish + 1.1)
         .set(state, { dissolve: 1 }, finish + 1.1)
         .set(message, { autoAlpha: 1, y: 0 }, finish + 1.1)
         .set(flash, { opacity: 0 }, finish + 1.1)
+        .to(curtain, { autoAlpha: 1, duration: .65, ease: 'power2.inOut' }, finish + .75)
+        .to(drawing, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'power3.out' }, finish + 1.15)
+        .to(drawingPaths, { strokeDashoffset: 0, duration: .32, stagger: .21, ease: 'none' }, finish + 1.2)
+        .to(logo, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'power3.out' }, finish + 2.78)
+        .to(drawing, { autoAlpha: 0, duration: .45, ease: 'power2.out' }, finish + 2.8)
         .call(() => {
           document.documentElement.classList.remove('home-intro');
         }, [], finish + 2.65)
@@ -208,19 +197,13 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         .to(stage, { '--underline-scale': 1, duration: .6, ease: 'power2.out' }, finish + 4.65)
         .to(descriptionWords, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .45, stagger: .055, ease: 'power2.out' }, finish + 5.3)
         .to(cta, { autoAlpha: 1, y: 0, scale: 1, duration: .65, ease: 'back.out(1.4)' }, finish + 6.25);
-      replay.hidden = true;
-      pause.hidden = false;
-      pause.textContent = 'Pause animation';
-      if (preference.matches) timeline.progress(1).pause();
+      if (preference.matches || skipIntro) {
+        timeline.progress(1).pause();
+        document.documentElement.classList.remove('home-intro', 'home-transition');
+      }
       drawRope();
     };
 
-    pause.addEventListener('click', () => {
-      const paused = !timeline.paused();
-      timeline.paused(paused);
-      pause.textContent = paused ? 'Resume animation' : 'Pause animation';
-    });
-    replay.addEventListener('click', createTimeline);
     preference.addEventListener('change', () => { if (preference.matches) timeline.progress(1).pause(); });
     let resizeTimer;
     let observedWidth = stage.clientWidth;
@@ -240,6 +223,9 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     Promise.all([...bodies, ...frontPoses, logo].map((img) => img.decode().catch(() => {}))).then(() => {
       if (!stage.isConnected) return;
       imagesReady = true;
+      if (!skipIntro) {
+        try { window.sessionStorage.setItem(introSeenKey, 'true'); } catch {}
+      }
       createTimeline();
     });
   };
@@ -289,12 +275,6 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   .rope-body { stroke: url(#rope-color); stroke-width: 11px; }
   .rope-light { stroke: #d1ffff; stroke-width: 3px; filter: drop-shadow(0 0 4px #fff); }
   .meeting-flash { position: absolute; z-index: 1; width: 34%; height: 55%; left: 33%; top: 28%; border-radius: 50%; background: radial-gradient(ellipse, #efffff, #85e9ff70 35%, transparent 70%); opacity: 0; pointer-events: none; }
-  .hero-controls { position: absolute; z-index: 5; bottom: 22px; right: clamp(20px, 4vw, 60px); }
-  button { display: inline-flex; align-items: center; gap: 7px; min-height: 42px; padding: 10px 16px; border: 1px solid #b6cff3; border-radius: 999px; background: #ffffffa8; color: #204683; font: 500 12px/1.3 var(--font-body); cursor: pointer; }
-  button[hidden] { display: none; }
-  button:hover { background: white; border-color: #3978e6; }
-  button:focus-visible { outline: 3px solid #2768ec; outline-offset: 4px; }
-  .replay-control span { font-size: 20px; }
   @media (max-width: 800px) {
     .connection-stage { height: clamp(780px, 100svh, 920px); }
     .hero-message { top: 13%; left: 6%; width: 88%; }
@@ -306,7 +286,6 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     .rope-body { stroke-width: 7px; }
     .rope-light { stroke-width: 2px; }
     .desktop-break { display: none; }
-    .hero-controls { right: 16px; bottom: 10px; }
   }
   @media (max-width: 500px) {
     h1 { font-size: clamp(1.65rem, 8vw, 2.8rem); }
