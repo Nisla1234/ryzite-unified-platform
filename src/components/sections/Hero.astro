@@ -46,6 +46,18 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     </div>
     <noscript><style>.connection-hero .hero-message { opacity: 1; visibility: visible; transform: none; }</style></noscript>
   </div>
+  <div class="hero-marquee" aria-hidden="true">
+    <div class="hero-marquee-track">
+      {Array.from({ length: 4 }, () => (
+        <div class="hero-marquee-set">
+          <span>DESIGN</span><span class="hero-marquee-star">✳</span>
+          <span>DEVELOPMENT</span><span class="hero-marquee-star">✳</span>
+          <span>DIGITAL TRANSFORMATION</span><span class="hero-marquee-star">✳</span>
+          <span>INNOVATION</span><span class="hero-marquee-star">✳</span>
+        </div>
+      ))}
+    </div>
+  </div>
 </section>
 
 <script>
@@ -235,6 +247,11 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
 
 <style>
   .connection-hero { overflow: hidden; background: var(--color-paper); }
+  .hero-marquee { overflow: hidden; padding-block: 14px; color: #fff; background: #242427; }
+  .hero-marquee-track { display: flex; width: max-content; animation: hero-marquee-scroll 28s linear infinite; }
+  .hero-marquee-set { display: flex; flex: 0 0 auto; align-items: center; gap: 14px; padding-right: 30px; white-space: nowrap; font-family: var(--font-display); font-size: 28px; font-weight: 700; line-height: 1.1; }
+  .hero-marquee-star { font-family: var(--font-body); font-weight: 400; }
+  @keyframes hero-marquee-scroll { to { transform: translateX(-50%); } }
   .screen-transition { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: hidden; background: var(--color-paper); opacity: 0; visibility: hidden; pointer-events: none; }
   .screen-transition::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 52%, #56baff20 0%, transparent 52%); }
   .logo-drawing-wrap, .transition-logo { grid-area: 1 / 1; width: min(76vw, 520px, 76svh); aspect-ratio: 1; }
@@ -290,5 +307,8 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   @media (max-width: 500px) {
     h1 { font-size: clamp(1.65rem, 8vw, 2.8rem); }
     .hero-message p { font-size: 13px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-marquee-track { animation: none; }
   }
 </style>
