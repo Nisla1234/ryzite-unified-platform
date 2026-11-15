@@ -185,17 +185,21 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
     top: 0;
     z-index: 30;
     width: 100%;
-    border-bottom: 1px solid #dce8fa;
-    background: linear-gradient(110deg, #e7f0ff 0%, #f9fbff 48%, #edf4ff 100%);
+    height: 86px;
+    padding: 0 max(28px, calc((100vw - 1300px) / 2));
+    border-bottom: 1px solid #ece9e3;
+    background: rgba(250, 248, 244, .94);
+    backdrop-filter: blur(20px);
     color: var(--header-ink);
     font-family: var(--font-body);
   }
   .site-header *, .site-header *::before, .site-header *::after { box-sizing: border-box; }
   .header-inner {
-    max-width: 1600px;
-    min-height: 100px;
+    width: 100%;
+    max-width: 1300px;
+    height: 100%;
     margin-inline: auto;
-    padding: 16px clamp(20px, 3vw, 54px);
+    padding: 0;
     display: grid;
     grid-template-columns: minmax(170px, 1fr) auto minmax(170px, 1fr);
     align-items: center;
@@ -234,7 +238,7 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
   .project-link:hover { background: #073ac7; box-shadow: 0 7px 20px #0758df35; }
   .mobile-menu { display: none; }
   @media (max-width: 1379px) {
-    .header-inner { display: flex; min-height: 88px; justify-content: space-between; }
+    .header-inner { display: flex; justify-content: space-between; }
     .desktop-nav, .desktop-project { display: none; }
     .brand-logo { width: 128px; height: 76px; }
     .mobile-menu { display: block; }
@@ -247,7 +251,7 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
     .menu-icon span:last-child { top: 10px; }
     details[open] .menu-icon span:first-child { top: 6px; transform: rotate(45deg); }
     details[open] .menu-icon span:last-child { top: 6px; transform: rotate(-45deg); }
-    .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 3vw, 54px) 24px; border-bottom: 1px solid #dce8fa; background: #f5f9ff; box-shadow: 0 18px 28px #153c7a15; max-height: calc(100dvh - 88px); overflow-y: auto; }
+    .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 3vw, 54px) 24px; border-bottom: 1px solid #dce8fa; background: #f5f9ff; box-shadow: 0 18px 28px #153c7a15; max-height: calc(100dvh - 86px); overflow-y: auto; }
     .mobile-panel nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 26px; margin-bottom: 20px; }
     .mobile-panel nav a { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 8px; border-bottom: 1px solid #dfE8f6; font-size: 16px; font-weight: 600; }
     .mobile-panel nav a span { color: #7290b9; }
@@ -266,6 +270,11 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
     .mobile-services > ul { grid-template-columns: 1fr; }
     .mobile-services > summary { padding-block: 12px; }
     .mobile-panel > .project-link { width: 100%; }
+  }
+  @media (max-width: 760px) {
+    .site-header { height: 70px; padding: 0 16px; }
+    .brand-logo { width: 100px; height: 60px; }
+    .mobile-panel { max-height: calc(100dvh - 70px); }
   }
   @media (prefers-reduced-motion: reduce) { .site-header * { transition: none; } }
 </style>
