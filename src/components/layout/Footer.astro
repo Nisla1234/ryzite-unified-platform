@@ -5,21 +5,6 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="footer" id="site-footer">
-  <div class="footer-marquee" aria-hidden="true">
-    <div class="footer-marquee-track">
-      <div class="footer-marquee-set">
-        <span>INNOVATION</span><span class="footer-marquee-star">✳</span>
-        <span>DIGITAL EXPERIENCES</span><span class="footer-marquee-star">✳</span>
-        <span>TECHNOLOGY</span><span class="footer-marquee-star">✳</span>
-      </div>
-      <div class="footer-marquee-set">
-        <span>INNOVATION</span><span class="footer-marquee-star">✳</span>
-        <span>DIGITAL EXPERIENCES</span><span class="footer-marquee-star">✳</span>
-        <span>TECHNOLOGY</span><span class="footer-marquee-star">✳</span>
-      </div>
-    </div>
-  </div>
-
   <div class="footer-backdrop">
     <div class="footer-glass">
       <div class="footer-grid">
@@ -70,42 +55,6 @@ const year = new Date().getFullYear();
     overflow: hidden;
     color: var(--color-ink);
     background: var(--color-paper);
-  }
-
-  .footer-marquee {
-    overflow: hidden;
-    padding: 0.85rem 0;
-    color: var(--color-white);
-    background: #202024;
-  }
-
-  .footer-marquee-track {
-    display: flex;
-    width: max-content;
-    animation: footer-marquee 34s linear infinite;
-  }
-
-  .footer-marquee-set {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
-    gap: clamp(0.8rem, 1.8vw, 1.8rem);
-    padding-right: clamp(0.8rem, 1.8vw, 1.8rem);
-    white-space: nowrap;
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3vw, 3.25rem);
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: 0.015em;
-  }
-
-  .footer-marquee-star {
-    font-family: var(--font-body);
-    font-weight: 400;
-  }
-
-  @keyframes footer-marquee {
-    to { transform: translateX(-50%); }
   }
 
   .footer-backdrop {
@@ -307,10 +256,6 @@ const year = new Date().getFullYear();
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .footer-marquee-track {
-      animation: none;
-    }
-
     .footer-email,
     .footer-column a,
     .footer-contact-link {
