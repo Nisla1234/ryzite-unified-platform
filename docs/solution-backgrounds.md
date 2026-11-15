@@ -4,7 +4,7 @@ Generated with the built-in image generation tool. Final assets: `public/images/
 
 Each asset used this prompt, with the corresponding subject substituted:
 
-> Use case: stylized-concept. Asset type: technology solution website card background. Subject: [subject]. Premium detailed 3D product illustration, soft lavender and electric blue palette matching a purple technology tree website. Landscape composition, object cluster in upper half, bottom third a deep violet gradient to hold readable white HTML title overlay. Full bleed background, soft studio glow, polished translucent materials, no text, no letters, no logos, no watermark.
+> Use case: stylized-concept. Asset type: technology solution website card background. Subject: [subject]. Premium detailed 3D product illustration, soft white and professional blue palette matching the Marketing Services section. Landscape composition, object cluster in upper half, bottom third a deep navy-to-blue gradient to hold readable white HTML title overlay. Full bleed background, soft studio glow, polished translucent materials, no text, no letters, no logos, no watermark.
 
 | Asset | Subject |
 | --- | --- |

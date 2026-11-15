@@ -3,6 +3,62 @@ import { divisions, offeringSlug } from '../../data/offerings';
 interface Props { division?: 'services' | 'solutions'; standalone?: boolean; }
 const { division, standalone = false } = Astro.props;
 const selected = division ? divisions.filter((item) => item.id === division) : divisions;
+const solutionCardImages: Record<string, { src: string; alt: string; width: number; height: number }> = {
+  'Business Website Design & Development': {
+    src: '/images/solutions/website-development.svg',
+    alt: 'Web development graphic featuring JavaScript, Python, Ruby, and Java.',
+    width: 626,
+    height: 443,
+  },
+  'Online Store Development': {
+    src: '/images/solutions/online-store-development.jpeg',
+    alt: 'E-commerce platforms and online marketplace storefronts connected through a digital network.',
+    width: 736,
+    height: 414,
+  },
+  'Custom Software for Businesses': {
+    src: '/images/solutions/custom-software.jpeg',
+    alt: 'Developer working on a laptop with digital software and code interface overlays.',
+    width: 735,
+    height: 490,
+  },
+  'Mobile App Development': {
+    src: '/images/solutions/mobile-app-development.jpeg',
+    alt: 'App development illustration with a smartphone, rocket, and digital app icons.',
+    width: 735,
+    height: 490,
+  },
+  'Customer Chatbots & Assistants': {
+    src: '/images/solutions/customer-chatbots.jpeg',
+    alt: 'AI assistant robot next to a customer chat interface on a laptop.',
+    width: 735,
+    height: 440,
+  },
+  'Business Workflow Automation': {
+    src: '/images/solutions/business-workflow-automation.jpeg',
+    alt: 'Digital icons illustrate business workflow automation on a tablet.',
+    width: 735,
+    height: 490,
+  },
+  'UI/UX Design for Websites & Apps': {
+    src: '/images/solutions/ui-ux-design.jpeg',
+    alt: 'Designer working with a digital user interface and experience dashboard.',
+    width: 735,
+    height: 490,
+  },
+  'Software & API Integrations': {
+    src: '/images/solutions/software-api-integrations.jpeg',
+    alt: 'Isometric illustration of API connections between cloud software, servers, and a laptop.',
+    width: 736,
+    height: 736,
+  },
+  'Website Care & Maintenance': {
+    src: '/images/solutions/website-care-maintenance.jpeg',
+    alt: 'Team maintaining a website through a digital dashboard and tools.',
+    width: 735,
+    height: 490,
+  },
+};
 ---
 
 {selected.map((group) => {
@@ -12,13 +68,12 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
   return (
     <section class:list={['offerings', group.id]} id={group.id} aria-labelledby={`${group.id}-title`}>
       <div class="orb orb-blue" aria-hidden="true"></div>
-      <div class="orb orb-purple" aria-hidden="true"></div>
+      <div class="orb orb-accent" aria-hidden="true"></div>
       <header class="section-intro">
-        {group.id !== 'services' && <span class="eyebrow">{group.label}</span>}
         <div class:list={['title-plaque', group.id === 'services' && 'title-plaque--plain']}>
           {group.id === 'solutions' && <span class="division-symbol" aria-hidden="true">{group.symbol}</span>}
           <Heading id={`${group.id}-title`}>
-            {group.id === 'services' ? <span class="services-title">{titleLead}{' '}<strong>{titleEmphasis.join(' ')}</strong></span> : group.title}
+            <span class="services-title">{titleLead}{' '}<strong>{titleEmphasis.join(' ')}</strong></span>
           </Heading>
           {group.id === 'solutions' && <span class="item-count">{String(group.items.length).padStart(2, '0')}</span>}
         </div>
@@ -31,15 +86,19 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
           <div class="tree-ground" aria-hidden="true"></div>
         </>}
         <ol class="roadmap">
-          {group.items.map(([title, description, icon], index) => (
-            <li id={offeringSlug(title)} class="roadmap-stop" style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,0,3,29,28,30,56,55,57][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
+          {group.items.map(([title, description, icon], index) => {
+            const solutionImage = group.id === 'solutions' ? solutionCardImages[title] : undefined;
+            return (
+            <li id={offeringSlug(title)} class:list={['roadmap-stop', solutionImage && 'roadmap-stop--featured']} style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,1,3,35,34,36,68,67,69][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
               {group.id === 'services' && <img class="service-robot" src={`/images/hero/${index % 2 === 0 ? 'ry' : 'zite'}-front-plain.png`} alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />}
-              {group.id === 'solutions' && <span class="service-icon" aria-hidden="true">{icon}</span>}
+              {solutionImage && <img class="solution-card-image" src={solutionImage.src} alt={solutionImage.alt} width={solutionImage.width} height={solutionImage.height} loading="lazy" />}
+              {group.id === 'solutions' && !solutionImage && <span class="service-icon" aria-hidden="true">{icon}</span>}
               <div class="service-copy"><h3>{title}</h3><p>{description}</p></div>
               <span class="service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               {group.id === 'services' && <span class="roadmap-dot" aria-hidden="true"></span>}
             </li>
-          ))}
+            );
+          })}
         </ol>
       </div>
       {!standalone && <a class="division-link" href={`/${group.id}`}>Explore {group.title.toLowerCase()} <span aria-hidden="true">&#8599;</span></a>}
@@ -248,18 +307,20 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
 
 <style>
   .offerings { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 100px; padding: 76px max(28px, calc((100vw - 1240px) / 2)) 56px; background: radial-gradient(ellipse at 50% 10%, #fff, #f0f7ff 75%, #dcecff); color: #101d56; font-family: var(--font-body); }
-  .solutions { --accent: #aa53ff; --dark: #6b28da; --tint: #edddff; background: radial-gradient(ellipse at 50% 10%, #fff, #f8f3ff 75%, #e9ddff); }
+  .solutions { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; }
   .services { padding-inline: max(28px, calc((100vw - 1380px) / 2)); }
+  .solutions .title-plaque { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
   .section-intro { text-align: center; max-width: 700px; margin: 0 auto 22px; }
   .eyebrow { display: block; color: var(--dark); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; }
   .title-plaque { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 20px 30px; border: 2px solid white; border-radius: 26px; background: linear-gradient(125deg, #fff, var(--tint)); box-shadow: 0 7px 0 var(--accent), 0 17px 25px color-mix(in srgb, var(--accent) 20%, transparent); }
   .title-plaque--plain { gap: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
   .title-plaque h1, .title-plaque h2 { font-family: var(--font-body); font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.15; font-weight: 800; letter-spacing: -0.035em; margin: 0; }
-  .services .title-plaque h2 { color: #0a1734; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 900; line-height: 1.04; letter-spacing: -.015em; margin: 22px 0 16px; }
+  .services .title-plaque h2, .solutions .title-plaque h1, .solutions .title-plaque h2 { color: #0a1734; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 900; line-height: 1.04; letter-spacing: -.015em; margin: 22px 0 16px; }
   .services-title { color: #0a1734; }
   .services-title strong { color: #064bed; }
   .section-intro > .section-description { color: #596580; font-size: 15px; line-height: 1.7; margin: 26px auto 0; max-width: 570px; }
   .services .section-intro > .section-description { color: #000; font-size: var(--size-h3); line-height: 1.5; margin: 0 auto; }
+  .solutions .section-intro > .section-description { color: #000; font-size: var(--size-h3); line-height: 1.5; margin: 0 auto; }
   .division-symbol { display: grid; place-items: center; flex-shrink: 0; width: 58px; height: 58px; border-radius: 17px; background: linear-gradient(145deg, var(--accent), var(--dark)); color: white; font-size: 25px; font-weight: 800; box-shadow: inset 0 2px 3px #ffffff80, 0 6px 12px #23387120; }
   .item-count { color: var(--dark); font-size: 12px; font-weight: 700; }
   .snake-roadmap { position: relative; max-width: 1240px; margin: auto; }
@@ -272,7 +333,6 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
   .snake-track :global(.track-edge) { stroke: var(--accent); stroke-width: 12px; }
   .snake-track :global(.track-body) { stroke: var(--dark); stroke-width: 7px; }
   .snake-track :global(.track-shine) { stroke: #b4f4ff; stroke-width: 1.5px; }
-  .solutions .snake-track :global(.track-shine) { stroke: #f3d8ff; }
 
   .roadmap { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 140px; gap: 60px 24px; list-style: none; margin: 0; padding: 30px 0; }
   .roadmap-stop { position: relative; grid-column: var(--col-4); grid-row: var(--row-4); display: flex; align-items: center; gap: 12px; padding: 18px 15px; border: 2px solid #fff; border-radius: 24px; background: linear-gradient(135deg, #fff, color-mix(in srgb, var(--tint) 75%, white)); box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 30%, #eaf4ff), 0 14px 22px #284d9420; }
@@ -294,7 +354,7 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
   .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .55; font-size: 9px; font-weight: 700; }
   .division-link { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 360px; margin: 22px auto 0; padding: 16px 22px; border-radius: 16px; color: white; background: var(--dark); font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .2s; }
   .division-link:hover { transform: translateY(-3px); }.division-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }.division-link span { font-size: 23px; }
-  .orb { position: absolute; z-index: -1; width: 600px; height: 600px; border-radius: 50%; filter: blur(70px); opacity: .25; pointer-events: none; }.orb-blue { left: -430px; top: 150px; background: var(--accent); }.orb-purple { right: -430px; bottom: 50px; background: var(--accent); }
+  .orb { position: absolute; z-index: -1; width: 600px; height: 600px; border-radius: 50%; filter: blur(70px); opacity: .25; pointer-events: none; }.orb-blue { left: -430px; top: 150px; background: var(--accent); }.orb-accent { right: -430px; bottom: 50px; background: var(--accent); }
   @media (min-width: 701px) and (max-width: 1050px) { .roadmap { grid-template-columns: repeat(3, minmax(0, 1fr)); }.roadmap-stop { grid-column: var(--col-3); grid-row: var(--row-3); } }
   @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 21px; }.item-count { display: none; }.section-intro > .section-description { font-size: 13px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 24px; }.service-copy h3 { font-size: 12px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 9px; } }
   /* Three stair flights: 1?4 right, 5?8 left, then 9?11 right. */
@@ -314,41 +374,32 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
     .services .service-copy h3 { font-size: 16px; }
     .services .service-copy p { display: block; font-size: 12px; line-height: 1.3; margin-top: 4px; }
   }
-  .solutions .roadmap { grid-template-columns: repeat(10, minmax(0, 1fr)); grid-auto-rows: 190px; gap: 80px 16px; padding: 35px 0; }
-  .solutions .roadmap-stop { grid-column: var(--solution-col) / span 2; grid-row: var(--solution-row); translate: none; rotate: none; flex-direction: column; justify-content: center; padding: 20px 14px; text-align: center; }
-  .solutions .service-icon { width: 50px; height: 50px; margin-bottom: 5px; }
-  .solutions .roadmap-stop:hover { border-color: var(--accent); box-shadow: 0 8px 0 #d8b9fa, 0 16px 30px #8748db28; }
-  .solutions .service-copy h3 { font-size: 14px; }
-  .solutions .service-number { font-size: 11px; }
-  @media (min-width: 701px) and (max-width: 1000px) {
-    .solutions .roadmap { column-gap: 10px; grid-auto-rows: 210px; }
-    .solutions .roadmap-stop { padding: 16px 8px; }
-    .solutions .service-copy h3 { font-size: 12px; }
-    .solutions .service-copy p { font-size: 10px; }
-  }
-  @media (max-width: 700px) {
-    .solutions .roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 155px; gap: 50px 20px; }
-    .solutions .roadmap-stop { grid-column: auto; grid-row: auto; }
-    .solutions .roadmap-stop:last-child { grid-column: 1 / -1; width: calc(50% - 10px); justify-self: center; }
-    .solutions .service-copy h3 { font-size: 13px; }
-  }
-  .solutions .snake-roadmap { height: 760px; max-width: 1180px; margin-top: 36px; }
+  .solutions .snake-roadmap { height: 970px; max-width: 1180px; margin-top: 36px; }
   .solutions .roadmap { display: block; height: 100%; padding: 0; }
-  .solutions .roadmap-stop { position: absolute; left: calc(var(--fruit-x) * 1%); top: calc(var(--fruit-y) * 1%); width: 25%; height: 150px; margin-left: -12.5%; border-radius: 32px 32px 38px 38px; background: linear-gradient(140deg, #fff 15%, #f4eaff 80%); border-color: #fff; }
-  .solutions .roadmap-stop::after { content: ''; position: absolute; top: -10px; right: 24%; width: 25px; height: 12px; border-radius: 2px 90% 2px 90%; background: #a57bd8; rotate: -20deg; }
+  .solutions .roadmap-stop { position: absolute; left: calc(var(--fruit-x) * 1%); top: calc(var(--fruit-y) * 1%); width: 25%; height: 190px; margin-left: -12.5%; flex-direction: column; justify-content: center; padding: 18px 15px; text-align: center; }
   .solutions .roadmap-stop.is-reached { animation: none; }
+  .solution-card-image { display: block; width: 100%; height: 120px; flex: 0 0 auto; border-radius: var(--radius-small); object-fit: cover; }
+  .solutions .roadmap-stop--featured { height: 280px; }
   .solutions .service-icon { width: 42px; height: 42px; margin-bottom: 0; }
-  .solutions .service-copy h3 { font-size: 14px; }
+  .solutions .service-copy h3 { font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .solutions .service-copy p { color: #63718a; font-size: 15px; }
   .solution-tree { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
   .solution-tree :global(path) { stroke-linecap: round; stroke-linejoin: round; }
-  .solution-tree :global(.tree-trunk) { stroke: #9270bd; stroke-width: 22px; }
-  .solution-tree :global(.tree-branch) { stroke: #b398d2; stroke-width: 9px; }
-  .solution-tree :global(.tree-leaf) { fill: #bca3df; }
-  .tree-ground { position: absolute; bottom: 6px; left: 30%; width: 40%; height: 30px; border-radius: 50%; background: radial-gradient(ellipse, #9f7acb40, transparent 70%); }
+  .solution-tree :global(.tree-trunk) { stroke: var(--dark); stroke-width: 22px; }
+  .solution-tree :global(.tree-branch) { stroke: var(--accent); stroke-width: 9px; }
+  .solution-tree :global(.tree-leaf) { fill: var(--tint); }
+  .tree-ground { position: absolute; bottom: 6px; left: 30%; width: 40%; height: 30px; border-radius: 50%; background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 25%, transparent), transparent 70%); }
+  @media (min-width: 701px) and (max-width: 1000px) {
+    .solutions .service-copy h3 { font-size: 14px; }
+    .solutions .service-copy p { font-size: 11px; }
+  }
   @media (max-width: 700px) {
     .solutions .snake-roadmap { height: 670px; }
-    .solutions .roadmap-stop, .solutions .roadmap-stop:last-child { width: 29%; margin-left: -14.5%; height: 138px; padding: 12px 6px; border-radius: 22px; }
+    .solutions .roadmap-stop, .solutions .roadmap-stop:last-child { width: 29%; margin-left: -14.5%; height: 160px; padding: 12px 6px; border-radius: 22px; }
+    .solution-card-image { height: 58px; }
+    .solutions .roadmap-stop--featured { height: 190px; }
     .solutions .service-copy h3 { font-size: 11px; overflow-wrap: anywhere; }
+    .solutions .service-copy p { font-size: 9px; line-height: 1.25; }
     .solutions .service-icon { width: 30px; height: 30px; font-size: 23px; }
     .solutions .service-number { font-size: 9px; }
     .solution-tree :global(.tree-trunk) { stroke-width: 16px; }
@@ -366,14 +417,8 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
       box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 40%, white), 0 15px 32px color-mix(in srgb, var(--accent) 30%, transparent), 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
     }
   }
-  .solutions .roadmap-stop { isolation: isolate; overflow: hidden; justify-content: center; background: #f0e8ff; color: #241243; }
-  .solutions .roadmap-stop::after { display: none; }
-  .solutions .service-copy h3 { color: #241243; font-family: var(--font-body); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; text-shadow: none; }
-  .solutions .service-copy p { color: #514264; }
-  .solutions .service-number { color: #54258b; opacity: 1; background: #ffffffd9; padding: 3px 5px; border-radius: 6px; }
-  @media (hover: hover) {
-    .solutions .roadmap-stop:hover { background: #f0e8ff; }
-  }
+  .solutions .roadmap-stop { isolation: isolate; overflow: hidden; justify-content: center; }
+  .solutions .service-copy h3 { text-shadow: none; }
   .services .roadmap-stop > .service-robot { left: auto; right: -5px; top: -37px; width: 52px; opacity: 0; visibility: hidden; transform: translateY(18px) scale(.7); transition: opacity .25s, visibility .25s, transform .45s cubic-bezier(.2, 1.5, .4, 1); }
   .services .roadmap-stop.is-reached > .service-robot { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
   @media (max-width: 700px) { .services .roadmap-stop > .service-robot { width: 43px; top: -31px; } }

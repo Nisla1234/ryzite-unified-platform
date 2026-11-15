@@ -17,7 +17,7 @@ export const divisions = [
     ],
   },
   {
-    id: 'solutions', title: 'Technology Solutions', label: 'Build better. Go further.', symbol: '</>',
+    id: 'solutions', title: 'Technology Solutions', symbol: '</>',
     description: 'Create the digital tools, platforms, and experiences that move your business forward.',
     items: [
       ['Business Website Design & Development', 'A professional home for your business online.', '▣'],
