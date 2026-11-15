@@ -10,7 +10,7 @@ const year = new Date().getFullYear();
       <div class="footer-grid">
         <div class="footer-brand">
           <a class="footer-logo-link" href="/" aria-label="Ryzite home">
-            <img class="footer-logo" src="/assets/ryzite-logo.png" alt="Ryzite" width="243" height="243" loading="lazy" />
+            <img class="footer-logo" src="/assets/ryzite-footer-logo.png" alt="Ryzite" width="1061" height="731" loading="lazy" />
           </a>
           <p>One Agency. All Your Business Solutions.</p>
           <a class="footer-email" href={`mailto:${company.email}`}>{company.email}</a>
@@ -92,15 +92,14 @@ const year = new Date().getFullYear();
   .footer-logo-link {
     display: block;
     width: clamp(14rem, 22vw, 19rem);
-    height: clamp(8rem, 12vw, 10rem);
+    max-width: 100%;
     overflow: hidden;
   }
 
   .footer-logo {
+    display: block;
     width: 100%;
     height: auto;
-    transform: translateY(-12%);
-    mix-blend-mode: multiply;
   }
 
   .footer-brand p {

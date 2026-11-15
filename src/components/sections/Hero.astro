@@ -6,15 +6,21 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   <div class="connection-stage" data-connection-hero>
     <div class="hero-halo" aria-hidden="true"></div>
     <div class="hero-message">
-      <h1 id="connection-title"><span>{' '}</span><strong class="digital-line"><span data-headline-word>One Site.</span></strong><span><span data-headline-word>Solve</span>{' '}<span data-headline-word>Every</span></span><strong><span data-headline-word>Problems.</span></strong></h1>
+      <h1 id="connection-title" class="hero-title"><span>{' '}</span><strong class="digital-line"><span data-headline-word>One Site.</span></strong><span><span data-headline-word>Solve</span>{' '}<span data-headline-word>Every</span></span><strong><span data-headline-word>Problems.</span></strong></h1>
       <p>{'We turn ideas into digital solutions that help businesses grow and stay ahead.'.split(' ').map((word) => <><span data-description-word>{word}</span>{' '}</>)}</p>
       <a class="hero-cta" href="/contact">Let’s Talk</a>
     </div>
 
     <svg class="landscape" viewBox="0 0 1440 680" preserveAspectRatio="none" fill="none" aria-hidden="true">
-      <path d="M-100 350C200 650 450 680 760 590S1200 410 1540 550V780H-100Z" fill="#dcecff" />
-      <path d="M-100 480C230 710 550 720 920 620S1300 470 1540 510V780H-100Z" fill="#b9ddff" />
-      <path d="M-100 620C350 760 650 710 1000 660S1300 540 1540 580V780H-100Z" fill="#70b6ff" opacity=".5" />
+      <g class="wave-layer wave-layer--light">
+        <path d="M-100 350C200 650 450 680 760 590S1200 410 1540 550V780H-100Z" fill="#dcecff" />
+      </g>
+      <g class="wave-layer wave-layer--sky">
+        <path d="M-100 480C230 710 550 720 920 620S1300 470 1540 510V780H-100Z" fill="#b9ddff" />
+      </g>
+      <g class="wave-layer wave-layer--blue">
+        <path d="M-100 620C350 760 650 710 1000 660S1300 540 1540 580V780H-100Z" fill="#70b6ff" opacity=".5" />
+      </g>
     </svg>
     <div class="floor-glow" aria-hidden="true"></div>
     <div class="robot robot-ry">
@@ -93,6 +99,47 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     const state = { progress: 0, tension: 0, ripple: 0, dissolve: 0 };
     let timeline;
     let imagesReady = false;
+    const waveLayers = [...stage.querySelectorAll('.wave-layer')];
+    const waveSettings = [
+      { x: 28, y: 9, duration: 68, direction: 1, offset: 0 },
+      { x: 40, y: 12, duration: 56, direction: -1, offset: Math.PI / 2 },
+      { x: 52, y: 15, duration: 44, direction: 1, offset: Math.PI },
+    ];
+    const waveTweens = [];
+    const stopWaveMotion = () => {
+      waveTweens.forEach((tween) => tween.kill());
+      waveTweens.length = 0;
+      waveLayers.forEach((layer) => layer.removeAttribute('transform'));
+    };
+    const startWaveMotion = () => {
+      stopWaveMotion();
+      if (preference.matches) return;
+
+      waveLayers.forEach((layer, index) => {
+        const settings = waveSettings[index];
+        if (!settings) return;
+        const motion = { phase: 0 };
+        const updatePosition = () => {
+          const angle = settings.offset + motion.phase * settings.direction;
+          const x = settings.x * Math.cos(angle);
+          const y = settings.y * Math.sin(angle);
+          layer.setAttribute('transform', `translate(${x.toFixed(3)} ${y.toFixed(3)})`);
+        };
+        updatePosition();
+        waveTweens.push(gsap.to(motion, {
+          phase: Math.PI * 2,
+          duration: settings.duration,
+          ease: 'none',
+          repeat: -1,
+          onUpdate: updatePosition,
+        }));
+      });
+    };
+    startWaveMotion();
+    const handleMotionPreferenceChange = () => {
+      startWaveMotion();
+      if (preference.matches && timeline) timeline.progress(1).pause();
+    };
 
     const drawRope = () => {
       const bounds = stage.getBoundingClientRect();
@@ -216,7 +263,11 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       drawRope();
     };
 
-    preference.addEventListener('change', () => { if (preference.matches) timeline.progress(1).pause(); });
+    preference.addEventListener('change', handleMotionPreferenceChange);
+    document.addEventListener('astro:before-swap', () => {
+      stopWaveMotion();
+      preference.removeEventListener('change', handleMotionPreferenceChange);
+    }, { once: true });
     let resizeTimer;
     let observedWidth = stage.clientWidth;
     new ResizeObserver(() => {
@@ -263,9 +314,10 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   .hero-halo { position: absolute; inset: 15% 10% 4%; background: radial-gradient(ellipse, #d8f9ff60, transparent 68%); }
   .hero-message { position: absolute; z-index: 4; top: 15%; left: 29%; width: 42%; text-align: center; font-family: var(--font-body); opacity: 0; visibility: hidden; }
   h1 { margin: 0; color: #080c12; font-size: clamp(2.2rem, 5.5vw, 5.5rem); font-weight: 900; font-style: normal; line-height: .9; letter-spacing: -.027em; text-transform: uppercase; }
+  .hero-title { font-family: 'Anton', sans-serif; font-size: clamp(2.75rem, 6vw, 6rem); font-weight: 400; line-height: .95; text-transform: uppercase; }
   h1 > span, h1 > strong { display: block; }
   [data-headline-word], [data-description-word] { display: inline-block; }
-  h1 strong { color: #064bed; font-size: 1.2em; line-height: 1; }
+  h1 strong { color: #064bed; font-size: 1.2em; font-weight: 400; line-height: 1; }
   .digital-line { position: relative; margin-bottom: .2em; }
   .digital-line::after { content: ''; position: absolute; left: 22%; right: 14%; bottom: -.07em; height: 5px; background: #064bed; border-radius: 50%; transform: rotate(-2deg) scaleX(var(--underline-scale, 1)); transform-origin: left; }
   .hero-message p { margin: 24px 0; color: #344159; font-size: 15px; line-height: 1.45; }
@@ -273,6 +325,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   .hero-cta:hover { background: #0539b7; }
   .hero-cta:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
   .landscape { position: absolute; width: 100%; height: 100%; inset: 0; z-index: -1; }
+  .wave-layer { transform-box: fill-box; transform-origin: center; will-change: transform; }
   .floor-glow { position: absolute; bottom: 0; width: 100%; height: 26%; background: radial-gradient(ellipse at 50% 10%, #b4f9ffb3, #599cfb40 60%, transparent 80%); }
   .robot { position: absolute; z-index: 2; bottom: 9%; width: 29%; aspect-ratio: 1180 / 1333; transform-origin: 50% 95%; will-change: transform; }
   .ground-shadow { position: absolute; bottom: -1%; left: 12%; width: 76%; height: 5%; background: #174ecb55; filter: blur(10px); border-radius: 50%; z-index: -1; }
@@ -295,7 +348,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   @media (max-width: 800px) {
     .connection-stage { height: clamp(780px, 100svh, 920px); }
     .hero-message { top: 13%; left: 6%; width: 88%; }
-    h1 { font-size: clamp(2rem, 8vw, 3.8rem); }
+    .hero-title { font-size: clamp(2rem, 8vw, 3.8rem); }
     .hero-message p { margin: 22px 0; }
     .robot { width: 39%; bottom: 5%; }
     .robot-ry { left: -2%; }
@@ -318,7 +371,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       width: 90%;
     }
     h1 > span:first-child { display: none; }
-    h1 { font-size: clamp(1.65rem, 8vw, 2.8rem); }
+    .hero-title { font-size: clamp(1.65rem, 8vw, 2.8rem); }
     .hero-message p { margin: clamp(10px, 2svh, 16px) 0; font-size: 13px; }
     .robot {
       width: clamp(7.5rem, 42vw, 11rem);
