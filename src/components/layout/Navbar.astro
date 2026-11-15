@@ -55,7 +55,7 @@ const labels = {
     <nav class="desktop-nav" aria-label="Main navigation" data-aria-label-key="mainNavigation">
       {links.map(({ key, label, href }) => label === 'Services' ? (
         <div class="services-dropdown" data-mega-dropdown>
-          <a href="/services/#services" data-label-key={key} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+          <a href="/services/" data-label-key={key} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
           <button class="services-trigger services-trigger--icon" type="button" data-mega-trigger aria-label="Open Services menu" data-aria-label-key="openServices" aria-expanded="false" aria-controls="services-menu">
             <span class="services-chevron" aria-hidden="true"></span>
           </button>
@@ -73,7 +73,7 @@ const labels = {
         </div>
       ) : label === 'Solutions' ? (
         <div class="services-dropdown" data-mega-dropdown>
-          <a href="/solutions/#solutions" data-label-key={key} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+          <a href="/solutions/" data-label-key={key} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
           <button class="services-trigger services-trigger--icon" type="button" data-mega-trigger aria-label="Open Solutions menu" data-aria-label-key="openSolutions" aria-expanded="false" aria-controls="solutions-menu">
             <span class="services-chevron" aria-hidden="true"></span>
           </button>
@@ -82,7 +82,7 @@ const labels = {
               {solutionColumns.map((column) => (
                 <ul class="solutions-menu__column">
                   {column.map(([title]) => (
-                    <li><a href={`/solutions/#${offeringSlug(title)}`}>{title}</a></li>
+                    <li><a href={`/solutions/${offeringSlug(title)}/`}>{title}</a></li>
                   ))}
                 </ul>
               ))}
@@ -144,7 +144,7 @@ const labels = {
                 </ul>
               </details>
             ) : label === 'Solutions' ? (
-              <a href="/solutions/#solutions" aria-current={isActive(href) ? 'page' : undefined}>
+              <a href="/solutions/" aria-current={isActive(href) ? 'page' : undefined}>
                 <span data-label-key={key}>{label}</span><span aria-hidden="true">↗</span>
               </a>
             ) : label === 'Resources' ? (

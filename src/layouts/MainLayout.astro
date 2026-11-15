@@ -7,9 +7,10 @@ interface Props {
   title: string;
   description: string;
   openGraph?: boolean;
+  canonicalUrl?: string;
 }
 
-const { title, description, openGraph = false } = Astro.props;
+const { title, description, openGraph = false, canonicalUrl } = Astro.props;
 const isHome = Astro.url.pathname === '/';
 ---
 
@@ -20,6 +21,7 @@ const isHome = Astro.url.pathname === '/';
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     {openGraph && <>
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
