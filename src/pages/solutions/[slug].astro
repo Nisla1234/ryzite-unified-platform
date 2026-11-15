@@ -1,0 +1,269 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { technologySolutions, technologySolutionBySlug } from '../../data/technology-solutions';
+import { technologySolutionTranslations } from '../../data/technology-solution-translations';
+
+const solution = technologySolutionBySlug[Astro.params.slug ?? ''];
+if (!solution) return Astro.redirect('/solutions/');
+
+const relatedSolutions = solution.related
+  .map(({ slug }) => technologySolutionBySlug[slug])
+  .filter(Boolean);
+
+const englishItems = Object.fromEntries(technologySolutions.map((item) => [item.slug, {
+  title: item.title,
+  description: item.description,
+  challenges: item.challenges,
+  provides: item.provides,
+  capabilities: item.capabilities,
+  benefits: item.benefits,
+  related: item.related,
+}]));
+const pageTranslations = {
+  ...technologySolutionTranslations,
+  en: { ...technologySolutionTranslations.en, items: englishItems },
+};
+const approachSteps = technologySolutionTranslations.en.deliverySteps;
+const detailFaqs = technologySolutionTranslations.en.detailFaqs;
+---
+
+<MainLayout title={`${solution.title} | RYZITE`} description={solution.description} openGraph={true}>
+  <div class="solution-detail-page" data-solution-slug={solution.slug}>
+    <section class="solution-detail-hero" aria-labelledby="solution-detail-title">
+      <div class="solution-detail-hero__orb solution-detail-hero__orb--one" aria-hidden="true"></div>
+      <div class="solution-detail-hero__inner">
+        <div class="solution-detail-hero__copy">
+          <a class="solution-back-link" href="/solutions/"><span aria-hidden="true">←</span><span data-technology-key="backToSolutions">All Technology Solutions</span></a>
+          <p class="solution-eyebrow" data-technology-key="detailEyebrow">TECHNOLOGY SOLUTION</p>
+          <h1 id="solution-detail-title" data-solution-field="title">{solution.title}</h1>
+          <p class="solution-detail-hero__description" data-solution-field="description">{solution.description}</p>
+          <a class="solution-button solution-button--primary" href="/contact/">
+            <span data-technology-key="contactCta">Start a Project</span><span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="solution-detail-hero__visual" aria-hidden="true">
+          <div class="solution-detail-hero__grid"></div>
+          <div class="solution-detail-hero__symbol">{solution.icon}</div>
+          <span class="solution-detail-hero__orbit solution-detail-hero__orbit--one"></span>
+          <span class="solution-detail-hero__orbit solution-detail-hero__orbit--two"></span>
+          <span class="solution-detail-hero__spark solution-detail-hero__spark--one">✳</span>
+          <span class="solution-detail-hero__spark solution-detail-hero__spark--two">✦</span>
+          <span class="solution-detail-hero__index">{String(technologySolutions.findIndex(({ slug }) => slug === solution.slug) + 1).padStart(2, '0')} / 09</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="solution-detail-section challenge-section" aria-labelledby="challenge-title">
+      <div class="solution-shell challenge-layout">
+        <header class="solution-section-heading" data-solution-reveal>
+          <p class="solution-eyebrow" data-technology-key="challengesEyebrow">THE CHALLENGE</p>
+          <h2 id="challenge-title" data-technology-key="challengesTitle">When the Current Approach No Longer Fits.</h2>
+        </header>
+        <ul class="challenge-list">
+          {solution.challenges.map((challenge, index) => (
+            <li data-solution-reveal><span class="challenge-number">0{index + 1}</span><p data-solution-list="challenges" data-solution-index={index}>{challenge}</p></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="solution-detail-section provides-section" aria-labelledby="provides-title">
+      <div class="solution-shell provides-layout">
+        <div class="provides-mark" aria-hidden="true">{solution.icon}</div>
+        <div data-solution-reveal>
+          <p class="solution-eyebrow" data-technology-key="providesEyebrow">THE SOLUTION</p>
+          <h2 id="provides-title" data-technology-key="providesTitle">What RYZITE Provides.</h2>
+          <p class="provides-copy" data-solution-field="provides">{solution.provides}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="solution-detail-section capabilities-section" aria-labelledby="capabilities-title">
+      <div class="solution-shell capabilities-layout">
+        <header class="solution-section-heading" data-solution-reveal>
+          <p class="solution-eyebrow" data-technology-key="detailEyebrow">TECHNOLOGY SOLUTION</p>
+          <h2 id="capabilities-title" data-technology-key="capabilitiesTitle">Capabilities to Scope Together.</h2>
+        </header>
+        <ul class="capability-list">
+          {solution.capabilities.map((capability, index) => (
+            <li data-solution-reveal><span class="capability-index">0{index + 1}</span><p data-solution-list="capabilities" data-solution-index={index}>{capability}</p><span class="capability-mark" aria-hidden="true">↗</span></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="solution-detail-section benefits-section" aria-labelledby="benefits-title">
+      <div class="solution-shell">
+        <header class="solution-section-heading solution-section-heading--center" data-solution-reveal>
+          <p class="solution-eyebrow" data-technology-key="detailEyebrow">TECHNOLOGY SOLUTION</p>
+          <h2 id="benefits-title" data-technology-key="benefitsTitle">What This Can Help You Work Toward.</h2>
+        </header>
+        <div class="benefit-grid">
+          {solution.benefits.map((benefit, index) => (
+            <article class="benefit-card" data-solution-reveal><span aria-hidden="true">0{index + 1}</span><p data-solution-list="benefits" data-solution-index={index}>{benefit}</p></article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="solution-detail-section delivery-section" aria-labelledby="delivery-title">
+      <div class="solution-shell">
+        <header class="solution-section-heading solution-section-heading--center" data-solution-reveal>
+          <p class="solution-eyebrow" data-technology-key="deliveryEyebrow">HOW WE WORK</p>
+          <h2 id="delivery-title" data-technology-key="approachTitle">A Clear Delivery Approach.</h2>
+          <p class="solution-section-intro" data-technology-key="approachIntro">The exact scope is shaped around your requirements and agreed before implementation.</p>
+        </header>
+        <ol class="solution-process">
+          {approachSteps.map((step, index) => (
+            <li data-solution-reveal data-delivery-step={index}>
+              <span class="solution-process__number">0{index + 1}</span>
+              <div><h3 data-delivery-title>{step.title}</h3><p data-delivery-body>{step.body}</p></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="solution-detail-section related-section" aria-labelledby="related-title">
+      <div class="solution-shell">
+        <header class="solution-section-heading" data-solution-reveal>
+          <p class="solution-eyebrow" data-technology-key="detailEyebrow">TECHNOLOGY SOLUTION</p>
+          <h2 id="related-title" data-technology-key="relatedTitle">Related Technology Solutions.</h2>
+        </header>
+        <div class="related-grid">
+          {relatedSolutions.map((related, index) => (
+            <a class="related-card" href={`/solutions/${related.slug}/`} data-related-slug={related.slug} data-solution-reveal>
+              <span class="related-card__index">0{index + 1}</span>
+              <span class="related-card__icon" aria-hidden="true">{related.icon}</span>
+              <span class="related-card__title">{related.title}</span>
+              <span class="related-card__arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="solution-detail-section detail-faq-section" aria-labelledby="detail-faq-title">
+      <div class="solution-shell faq-layout">
+        <header class="solution-section-heading" data-solution-reveal>
+          <p class="solution-eyebrow" data-technology-key="faqEyebrow">FREQUENTLY ASKED QUESTIONS</p>
+          <h2 id="detail-faq-title" data-technology-key="detailFaqTitle">Questions About This Solution?</h2>
+        </header>
+        <div class="solution-faq-list" data-solution-reveal>
+          {detailFaqs.map((faq, index) => (
+            <details class="solution-faq-item">
+              <summary data-detail-faq-index={index} data-detail-faq-field="question">{faq.question}</summary>
+              <div class="solution-faq-item__answer"><p data-detail-faq-index={index} data-detail-faq-field="answer">{faq.answer}</p></div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="solution-contact-cta" aria-labelledby="solution-contact-title">
+      <div class="solution-contact-cta__orb" aria-hidden="true"></div>
+      <div class="solution-contact-cta__inner" data-solution-reveal>
+        <p class="solution-eyebrow" data-technology-key="contactCtaEyebrow">HAVE A PROJECT IN MIND?</p>
+        <h2 id="solution-contact-title" data-technology-key="contactCtaTitle">Let’s Talk Through What You Need.</h2>
+        <p data-technology-key="contactCtaDescription">Share your goals and questions. We can discuss suitable next steps for your project.</p>
+        <a class="solution-button solution-button--light" href="/contact/"><span data-technology-key="contactCta">Start a Project</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </div>
+</MainLayout>
+
+<script is:inline define:vars={{ pageTranslations, solutionSlug: solution.slug }}>
+  const applySolutionLocale = (locale) => {
+    const content = pageTranslations[locale] || pageTranslations.en;
+    const solution = content.items[solutionSlug] || pageTranslations.en.items[solutionSlug];
+    document.querySelectorAll('[data-technology-key]').forEach((element) => {
+      const value = content[element.dataset.technologyKey];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    document.querySelectorAll('[data-solution-field]').forEach((element) => {
+      const value = solution[element.dataset.solutionField];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    document.querySelectorAll('[data-solution-list]').forEach((element) => {
+      const values = solution[element.dataset.solutionList];
+      const value = values?.[Number(element.dataset.solutionIndex)];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    document.querySelectorAll('[data-delivery-step]').forEach((element) => {
+      const step = content.deliverySteps[Number(element.dataset.deliveryStep)];
+      const title = element.querySelector('[data-delivery-title]');
+      const body = element.querySelector('[data-delivery-body]');
+      if (step && title) title.textContent = step.title;
+      if (step && body) body.textContent = step.body;
+    });
+    document.querySelectorAll('[data-related-slug]').forEach((element) => {
+      const related = content.items[element.dataset.relatedSlug];
+      const title = element.querySelector('.related-card__title');
+      if (related && title) title.textContent = related.title;
+    });
+    document.querySelectorAll('[data-detail-faq-index]').forEach((element) => {
+      const faq = content.detailFaqs[Number(element.dataset.detailFaqIndex)];
+      const value = faq?.[element.dataset.detailFaqField];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    document.title = `${solution.title} | RYZITE`;
+    const description = document.querySelector('meta[name="description"]');
+    if (description) description.setAttribute('content', solution.description);
+    const openGraphTitle = document.querySelector('meta[property="og:title"]');
+    if (openGraphTitle) openGraphTitle.setAttribute('content', `${solution.title} | RYZITE`);
+    const openGraphDescription = document.querySelector('meta[property="og:description"]');
+    if (openGraphDescription) openGraphDescription.setAttribute('content', solution.description);
+  };
+
+  applySolutionLocale(document.body.dataset.locale || 'en');
+  window.addEventListener('ryzite:locale-change', (event) => applySolutionLocale(event.detail?.locale || 'en'));
+</script>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!motionPreference.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        gsap.fromTo(entry.target, { autoAlpha: 0, y: 18 }, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.65,
+          ease: 'power2.out',
+          clearProps: 'all',
+        });
+        currentObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.solution-detail-page [data-solution-reveal]').forEach((element) => observer.observe(element));
+    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+  }
+</script>
+
+<style>
+  .solution-detail-page { --solution-blue: #0655e9; --solution-deep: #073db7; --solution-cyan: #00a6fa; --solution-ink: #101d32; --solution-muted: #5c6674; color: var(--solution-ink); background: var(--color-paper); }
+  .solution-detail-page *, .solution-detail-page *::before, .solution-detail-page *::after { box-sizing: border-box; }
+  .solution-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
+  .solution-detail-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame) clamp(4rem, 7vw, 6.5rem); background: linear-gradient(118deg, #faf8f4, #f3f8ff 64%, #eaf4ff); }
+  .solution-detail-hero__inner { display: grid; width: min(100%, var(--content-max)); min-height: 470px; margin-inline: auto; grid-template-columns: minmax(0, 1fr) minmax(270px, .7fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); }
+  .solution-detail-hero__copy { position: relative; z-index: 1; max-width: 780px; }.solution-back-link { display: inline-flex; align-items: center; gap: .55rem; margin-bottom: 2rem; color: #52647b; font-size: .82rem; font-weight: 700; text-decoration: none; }.solution-back-link:hover { color: var(--solution-blue); }.solution-back-link:focus-visible, .related-card:focus-visible, .solution-button:focus-visible { outline: 3px solid var(--solution-blue); outline-offset: 4px; }
+  .solution-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--solution-blue); font-size: .73rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }.solution-eyebrow::before { width: 1.5rem; height: 2px; border-radius: 2px; background: currentColor; content: ''; }
+  .solution-detail-hero h1 { max-width: 850px; margin: 0; color: #101827; font-family: var(--font-display); font-size: clamp(3.2rem, 6.5vw, 6.3rem); font-weight: 900; letter-spacing: -.025em; line-height: .96; }.solution-detail-hero__description { max-width: 650px; margin: 1.3rem 0 0; color: var(--solution-muted); font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.75; }
+  .solution-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .88rem; font-weight: 800; text-decoration: none; transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease; }.solution-button:hover { transform: translateY(-3px); }.solution-button span:last-child { transition: transform 180ms ease; }.solution-button:hover span:last-child { transform: translate(2px, -2px); }.solution-button--primary { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.5rem #064bed30; }.solution-button--primary:hover { background: linear-gradient(110deg, #087bd2, #043ec9); }
+  .solution-detail-hero__visual { position: relative; width: min(100%, 400px); aspect-ratio: 1; justify-self: center; overflow: hidden; border: 1px solid #d5e5f8; border-radius: 2.2rem; background: radial-gradient(circle at center, #fff 0 22%, #eef6ff 23% 66%, #e1efff 67%); box-shadow: inset 0 0 0 1rem #ffffff50, 0 1.5rem 3.5rem #173b7110; animation: solution-art-in 700ms var(--ease-out) both; }.solution-detail-hero__grid { position: absolute; inset: 12%; border: 1px solid #8cb9ee80; border-radius: 50%; background-image: linear-gradient(#0655e914 1px, transparent 1px), linear-gradient(90deg, #0655e914 1px, transparent 1px); background-size: 16% 16%; mask-image: radial-gradient(circle, #000 0 68%, transparent 69%); }.solution-detail-hero__symbol { position: absolute; top: 50%; left: 50%; display: grid; width: 34%; aspect-ratio: 1; place-items: center; transform: translate(-50%, -50%); border: 1px solid #ffffffa0; border-radius: 1.5rem; color: #fff; background: linear-gradient(145deg, #078be9, #0643cf); box-shadow: 0 1.2rem 2.7rem #0655e93b; font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; }.solution-detail-hero__orbit { position: absolute; inset: 7%; border: 1px solid #0655e92e; border-radius: 50%; }.solution-detail-hero__orbit--two { inset: 22%; border-style: dashed; border-color: #00a6fa55; }.solution-detail-hero__spark { position: absolute; color: var(--solution-blue); }.solution-detail-hero__spark--one { top: 15%; right: 22%; }.solution-detail-hero__spark--two { bottom: 16%; left: 19%; }.solution-detail-hero__index { position: absolute; right: 1.2rem; bottom: 1rem; color: #617794; font-size: .65rem; font-weight: 800; letter-spacing: .13em; }.solution-detail-hero__orb { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #459eff28, transparent 68%); }
+  .solution-detail-section { padding-block: clamp(4.5rem, 8vw, 7rem); }.solution-section-heading h2 { max-width: 760px; margin: 0; color: #111d30; font-family: var(--font-display); font-size: clamp(2.9rem, 5vw, 5rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }.solution-section-heading--center { display: flex; flex-direction: column; align-items: center; text-align: center; }.solution-section-heading--center .solution-eyebrow { justify-content: center; }.solution-section-intro { max-width: 700px; margin: 1rem 0 0; color: var(--solution-muted); line-height: 1.7; }
+  .challenge-section { background: #fff; }.challenge-layout { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 7vw, 7rem); }.challenge-list { display: grid; grid-template-columns: 1fr; list-style: none; margin: 0; padding: 0; border-top: 1px solid #dce5f0; }.challenge-list li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); align-items: start; gap: 1rem; padding: 1.3rem .3rem; border-bottom: 1px solid #dce5f0; }.challenge-number { color: var(--solution-blue); font-size: .68rem; font-weight: 800; letter-spacing: .12em; }.challenge-list p { margin: 0; color: #30435c; line-height: 1.6; }
+  .provides-section { color: #fff; background: #101d32; }.provides-layout { display: grid; grid-template-columns: minmax(180px, .5fr) minmax(0, 1.5fr); align-items: center; gap: clamp(2rem, 7vw, 7rem); }.provides-layout .solution-eyebrow { color: #85c6ff; }.provides-layout h2 { max-width: 800px; margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(2.9rem, 5vw, 5rem); line-height: .98; }.provides-copy { max-width: 850px; margin: 1.2rem 0 0; color: #cad6e4; font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.75; }.provides-mark { display: grid; width: min(100%, 220px); aspect-ratio: 1; place-items: center; justify-self: center; border: 1px solid #8ac8ff60; border-radius: 2rem; color: #9dd7ff; background: linear-gradient(145deg, #178fff26, #178fff08); box-shadow: 0 0 0 1.1rem #ffffff05, 0 0 0 2.2rem #ffffff03; font-family: var(--font-display); font-size: 5rem; font-weight: 800; }
+  .capabilities-section { background: #f0f6fd; }.capabilities-layout { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 7vw, 7rem); }.capability-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid #d3e0ef; }.capability-list li { display: grid; grid-template-columns: 2.3rem minmax(0, 1fr) 2rem; align-items: center; gap: 1rem; padding: 1.15rem .2rem; border-bottom: 1px solid #d3e0ef; }.capability-index { color: var(--solution-blue); font-size: .68rem; font-weight: 800; }.capability-list p { margin: 0; color: #223b5a; line-height: 1.5; }.capability-mark { color: #5f94d7; font-size: 1.1rem; }
+  .benefits-section { background: #fff; }.benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2.8rem; }.benefit-card { min-height: 190px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, #fff, #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; }.benefit-card > span { color: var(--solution-blue); font-size: .68rem; font-weight: 800; letter-spacing: .12em; }.benefit-card p { margin: 2rem 0 0; color: #30435c; font-family: var(--font-display); font-size: 1.45rem; font-weight: 700; line-height: 1.2; }
+  .delivery-section { background: #f7f9fc; }.solution-process { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; list-style: none; margin: 3.2rem 0 0; padding: 0; }.solution-process::before { position: absolute; top: 1.25rem; right: 8%; left: 8%; height: 1px; background: linear-gradient(90deg, #b9d4f4, #4a9cf2, #b9d4f4); content: ''; }.solution-process li { position: relative; display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; min-height: 175px; padding-bottom: 1.5rem; }.solution-process__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--solution-blue); background: #fff; box-shadow: 0 0 0 .35rem #edf5ff; font-size: .68rem; font-weight: 800; }.solution-process h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: 1.45rem; font-weight: 700; }.solution-process p { margin: 0; color: var(--solution-muted); font-size: .88rem; line-height: 1.65; }
+  .related-section { background: #fff; }.related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }.related-card { position: relative; display: flex; min-height: 180px; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: .75rem; padding: 1.4rem; overflow: hidden; border: 1px solid #dce5f0; border-radius: 1.2rem; color: #162942; background: linear-gradient(145deg, #fff, #f1f7ff); text-decoration: none; transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease; }.related-card:hover { transform: translateY(-4px); border-color: #9fc1eb; box-shadow: 0 1rem 2rem #163f7615; }.related-card__index { color: #8292a6; font-size: .65rem; font-weight: 800; letter-spacing: .12em; }.related-card__icon { position: absolute; top: 1.2rem; right: 1.3rem; display: grid; width: 2.6rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--solution-blue); background: #eaf3ff; font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }.related-card__title { max-width: 90%; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; line-height: 1.1; }.related-card__arrow { position: absolute; right: 1.2rem; bottom: 1.2rem; color: var(--solution-blue); font-size: 1.1rem; }
+  .detail-faq-section { background: #f1f6fc; }.faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }.solution-faq-list { border-top: 1px solid #d7e1ee; }.solution-faq-item { border-bottom: 1px solid #d7e1ee; }.solution-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: .95rem; font-weight: 700; line-height: 1.45; list-style: none; }.solution-faq-item summary::-webkit-details-marker { display: none; }.solution-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--solution-blue); border-bottom: 2px solid var(--solution-blue); content: ''; transition: transform 180ms ease; }.solution-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }.solution-faq-item summary:focus-visible { outline: 3px solid var(--solution-blue); outline-offset: 3px; border-radius: 4px; }.solution-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }.solution-faq-item[open] .solution-faq-item__answer { grid-template-rows: 1fr; }.solution-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--solution-muted); font-size: .9rem; line-height: 1.7; }.solution-faq-item[open] .solution-faq-item__answer p { padding-bottom: 1.1rem; }
+  .solution-contact-cta { position: relative; isolation: isolate; display: grid; min-height: 380px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }.solution-contact-cta__inner { position: relative; z-index: 1; width: min(100%, 780px); }.solution-contact-cta .solution-eyebrow { justify-content: center; color: #b9dbff; }.solution-contact-cta h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.8rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }.solution-contact-cta__inner > p:not(.solution-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }.solution-button--light { color: #12305a; background: #fff; box-shadow: 0 .7rem 1.7rem #000f3230; }.solution-button--light:hover { background: #eaf4ff; }.solution-contact-cta__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
+  @keyframes solution-art-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @media (max-width: 900px) { .solution-detail-hero__inner { min-height: 440px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }.challenge-layout, .capabilities-layout, .faq-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }.solution-process { grid-template-columns: repeat(2, minmax(0, 1fr)); }.solution-process::before { display: none; } }
+  @media (max-width: 700px) { .solution-shell { padding-inline: 1rem; }.solution-detail-hero { padding: 3.5rem 1rem 4rem; }.solution-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }.solution-detail-hero h1 { font-size: clamp(2.8rem, 11vw, 4.4rem); }.solution-detail-hero__visual { width: min(75vw, 320px); }.solution-detail-section { padding-block: 4.5rem; }.solution-section-heading h2, .provides-layout h2 { font-size: clamp(2.7rem, 9.5vw, 4rem); }.challenge-layout, .capabilities-layout, .provides-layout, .faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }.provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.5rem; }.benefit-grid, .related-grid { grid-template-columns: 1fr; }.benefit-card { min-height: 145px; }.benefit-card p { margin-top: 1.3rem; }.solution-process { grid-template-columns: 1fr; gap: 0; margin-top: 2.4rem; }.solution-process li { min-height: auto; padding-bottom: 1.4rem; }.solution-process::before { position: absolute; top: 1.2rem; bottom: 2rem; left: 1.2rem; display: block; width: 1px; height: auto; background: linear-gradient(#b9d4f4, #4a9cf2, #b9d4f4); }.related-card { min-height: 140px; }.solution-contact-cta { min-height: 350px; padding-inline: 1rem; }.solution-contact-cta h2 { font-size: clamp(2.8rem, 10vw, 4.3rem); } }
+  @media (prefers-reduced-motion: reduce) { .solution-detail-page *, .solution-detail-page *::before, .solution-detail-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+</style>
