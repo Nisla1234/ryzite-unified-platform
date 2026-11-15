@@ -6,9 +6,10 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description: string;
+  openGraph?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, openGraph = false } = Astro.props;
 const isHome = Astro.url.pathname === '/';
 ---
 
@@ -19,6 +20,11 @@ const isHome = Astro.url.pathname === '/';
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    {openGraph && <>
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+    </>}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

@@ -3,7 +3,7 @@ import { divisions, offeringSlug } from '../../data/offerings';
 
 const links = [
   { key: 'home', label: 'Home', href: '/' },
-  { key: 'about', label: 'About Us', href: '/about-us' },
+  { key: 'about', label: 'About Us', href: '/about' },
   { key: 'services', label: 'Services', href: '/services' },
   { key: 'solutions', label: 'Solutions', href: '/solutions' },
   { key: 'resources', label: 'Resources', href: '/resources' },
@@ -194,6 +194,7 @@ const labels = {
     });
 
     document.querySelectorAll('.language-picker').forEach((picker) => { picker.open = false; });
+    window.dispatchEvent(new CustomEvent('ryzite:locale-change', { detail: { locale } }));
   };
 
   let initialLocale = 'en';
