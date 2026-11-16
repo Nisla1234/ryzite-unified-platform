@@ -395,24 +395,67 @@ const enquiryConfig = {
       return payload;
     };
 
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    // Date inputs give YYYY-MM-DD. Read the parts directly so the day never shifts with the visitor's time zone.
+    const formatStartDate = (value) => {
+      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+      if (!match) return value;
+      const month = monthNames[Number(match[2]) - 1];
+      return month ? `${Number(match[3])} ${month} ${match[1]}` : value;
+    };
+
+    // Adds thousand separators to the amounts the visitor typed. Their wording and currency stay exactly as entered.
+    const formatBudget = (value) => value.replace(/\d+(,\d+)*(\.\d+)?/g, (amount) => {
+      const [whole, decimals] = amount.replace(/,/g, '').split('.');
+      if (whole.length < 4) return amount;
+      const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return decimals ? `${grouped}.${decimals}` : grouped;
+    });
+
+    // Written from the customer's side: they review it in WhatsApp and choose whether to send it.
     const buildWhatsappUrl = (enquiry) => {
-      const line = (label, value) => `${label}: ${value || 'Not provided'}`;
+      const orMissing = (value) => value || 'Not provided';
+      const line = (label, value) => `*${label}:* ${orMissing(value)}`;
       const message = [
-        '*NEW PROJECT ENQUIRY – RYZITE*',
+        '*📩 NEW PROJECT ENQUIRY | RYZITE*',
         '',
-        '*Customer Details*',
+        'Hello RYZITE Team,',
+        '',
+        'I would like to enquire about your services and discuss my project. Please find my details below.',
+        '',
+        '*👤 CONTACT INFORMATION*',
+        '',
         line('Full Name', enquiry.name),
         line('Business / Company', enquiry.business),
         line('Email', enquiry.email),
         line('Phone / WhatsApp', enquiry.phone),
         '',
-        '*Project Details*',
-        line('Service Interested In', enquiry.service),
+        '*💼 PROJECT INFORMATION*',
+        '',
+        line('Service Required', enquiry.service),
+        '',
         line('Preferred Package', enquiry.package),
-        line('Estimated Budget', enquiry.budget),
-        line('Preferred Start Date', enquiry.startDate),
-        line('Project Description', enquiry.project),
-        line('How did you hear about us?', enquiry.hearAbout),
+        '',
+        line('Estimated Budget', formatBudget(enquiry.budget)),
+        '',
+        line('Preferred Start Date', formatStartDate(enquiry.startDate)),
+        '',
+        '*📝 PROJECT DESCRIPTION*',
+        '',
+        orMissing(enquiry.project),
+        '',
+        '*📢 HOW I FOUND RYZITE*',
+        '',
+        orMissing(enquiry.hearAbout),
+        '',
+        '---',
+        '',
+        'I would appreciate your guidance on the most suitable solution for my project.',
+        '',
+        'Thank you! I look forward to hearing from your team.',
+        '',
+        '_Sent via RYZITE Website Enquiry Form_',
       ].join('\n');
       return `https://wa.me/${enquiryConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
     };
@@ -439,6 +482,7 @@ const enquiryConfig = {
 
     // idle -> submitting -> submitted. Anything other than idle ignores further submits, so one enquiry is sent once.
     let submitState = 'idle';
+    let redirectedToThankYou = false;
     const setSubmitting = (active) => {
       if (submitButton) {
         submitButton.disabled = active;
@@ -478,7 +522,6 @@ const enquiryConfig = {
       }
 
       submitState = 'submitted';
-      setSubmitting(false);
       const whatsappUrl = buildWhatsappUrl(enquiry);
       if (whatsappLink) whatsappLink.href = whatsappUrl;
       // Browsers may block a window opened after the network wait; the visible link covers that case.
@@ -489,6 +532,27 @@ const enquiryConfig = {
       } catch {
         // Losing the opener reference is fine; the window either opened or the link is offered.
       }
+
+      // The Thank You page reads this from sessionStorage, so no enquiry details are placed in its URL.
+      let confirmationStored = false;
+      try {
+        window.sessionStorage.setItem('ryzite-enquiry-confirmation', JSON.stringify({
+          confirmed: true,
+          firstName: enquiry.name.split(/\s+/)[0] || '',
+          whatsappUrl,
+          whatsappOpened: Boolean(whatsappWindow),
+        }));
+        confirmationStored = true;
+      } catch {
+        // Storage can be unavailable (private modes); the confirmation is then shown on this page instead.
+      }
+      if (confirmationStored) {
+        redirectedToThankYou = true;
+        window.location.assign('/thank-you/');
+        return;
+      }
+
+      setSubmitting(false);
       setKeyedText(whatsappNote, whatsappWindow ? 'whatsappOpened' : 'whatsappBlocked');
       if (submitButton) submitButton.hidden = true;
       if (guidance) guidance.hidden = true;
@@ -497,6 +561,15 @@ const enquiryConfig = {
         result.focus({ preventScroll: true });
         result.scrollIntoView({ block: 'nearest' });
       }
+    });
+
+    // Coming back from the Thank You page can restore this page as it was left; give the visitor a usable, empty form again.
+    window.addEventListener('pageshow', (event) => {
+      if (!event.persisted || !redirectedToThankYou) return;
+      redirectedToThankYou = false;
+      form.reset();
+      submitState = 'idle';
+      setSubmitting(false);
     });
 
     resetButton?.addEventListener('click', () => {

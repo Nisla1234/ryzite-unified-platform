@@ -36,6 +36,7 @@ const isHome = Astro.url.pathname === '/';
     <link rel="icon" type="image/png" href="/Original%20Logo.png" />
     <link rel="apple-touch-icon" href="/Original%20Logo.png" />
     <title>RYZITE</title>
+    <slot name="head" />
     <script is:inline define:vars={{ isHome }}>
       if (isHome) {
         document.documentElement.classList.add('home-intro');

@@ -6,57 +6,57 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
 const solutionCardImages: Record<string, { src: string; alt: string; width: number; height: number }> = {
   'Business Website Design & Development': {
     src: '/images/solutions/website-development.svg',
-    alt: 'Web development graphic featuring JavaScript, Python, Ruby, and Java.',
-    width: 626,
-    height: 443,
+    alt: 'Illustration of a browser window showing a page layout, with a code tile and a phone view beside it.',
+    width: 440,
+    height: 200,
   },
   'Online Store Development': {
-    src: '/images/solutions/online-store-development.jpeg',
-    alt: 'E-commerce platforms and online marketplace storefronts connected through a digital network.',
-    width: 736,
-    height: 414,
+    src: '/images/solutions/online-store-development.svg',
+    alt: 'Illustration of an online shopfront with an awning, two product cards, and a shopping bag.',
+    width: 440,
+    height: 200,
   },
   'Custom Software for Businesses': {
-    src: '/images/solutions/custom-software.jpeg',
-    alt: 'Developer working on a laptop with digital software and code interface overlays.',
-    width: 735,
-    height: 490,
+    src: '/images/solutions/custom-software.svg',
+    alt: 'Illustration of a software dashboard with a bar chart and two gears.',
+    width: 440,
+    height: 200,
   },
   'Mobile App Development': {
-    src: '/images/solutions/mobile-app-development.jpeg',
-    alt: 'App development illustration with a smartphone, rocket, and digital app icons.',
-    width: 735,
-    height: 490,
+    src: '/images/solutions/mobile-app-development.svg',
+    alt: 'Illustration of a smartphone showing an app grid, surrounded by notification tiles.',
+    width: 440,
+    height: 200,
   },
   'Customer Chatbots & Assistants': {
-    src: '/images/solutions/customer-chatbots.jpeg',
-    alt: 'AI assistant robot next to a customer chat interface on a laptop.',
-    width: 735,
-    height: 440,
+    src: '/images/solutions/customer-chatbots.svg',
+    alt: 'Illustration of a friendly chatbot robot beside two chat bubbles.',
+    width: 440,
+    height: 200,
   },
   'Business Workflow Automation': {
-    src: '/images/solutions/business-workflow-automation.jpeg',
-    alt: 'Digital icons illustrate business workflow automation on a tablet.',
-    width: 735,
-    height: 490,
+    src: '/images/solutions/business-workflow-automation.svg',
+    alt: 'Illustration of a workflow moving from an inbox through a gear to a completed check.',
+    width: 440,
+    height: 200,
   },
   'UI/UX Design for Websites & Apps': {
-    src: '/images/solutions/ui-ux-design.jpeg',
-    alt: 'Designer working with a digital user interface and experience dashboard.',
-    width: 735,
-    height: 490,
+    src: '/images/solutions/ui-ux-design.svg',
+    alt: 'Illustration of a design canvas with a wireframe, colour swatches, and a pen-tool curve.',
+    width: 440,
+    height: 200,
   },
   'Software & API Integrations': {
-    src: '/images/solutions/software-api-integrations.jpeg',
-    alt: 'Isometric illustration of API connections between cloud software, servers, and a laptop.',
-    width: 736,
-    height: 736,
+    src: '/images/solutions/software-api-integrations.svg',
+    alt: 'Illustration of a central API hub connected to cloud, database, app, and plug tiles.',
+    width: 440,
+    height: 200,
   },
   'Website Care & Maintenance': {
-    src: '/images/solutions/website-care-maintenance.jpeg',
-    alt: 'Team maintaining a website through a digital dashboard and tools.',
-    width: 735,
-    height: 490,
+    src: '/images/solutions/website-care-maintenance.svg',
+    alt: 'Illustration of a website health checklist with a security shield and a wrench.',
+    width: 440,
+    height: 200,
   },
 };
 ---
@@ -71,14 +71,14 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
       <div class="orb orb-accent" aria-hidden="true"></div>
       <header class="section-intro">
         <div class:list={['title-plaque', group.id === 'services' && 'title-plaque--plain']}>
-          {group.id === 'solutions' && <span class="division-symbol" aria-hidden="true">{group.symbol}</span>}
+          {standalone && group.id === 'solutions' && <span class="division-symbol" aria-hidden="true">{group.symbol}</span>}
           <Heading id={`${group.id}-title`}>
             <span class="services-title">
               {group.id === 'solutions' ? <span data-solutions-heading="lead" data-home-key="solutionsTitleLead">{titleLead}</span> : <span data-home-key="servicesTitleLead">{titleLead}</span>}{' '}
               {group.id === 'solutions' ? <strong data-solutions-heading="accent" data-home-key="solutionsTitleAccent">{titleEmphasis.join(' ')}</strong> : <strong data-home-key="servicesTitleAccent">{titleEmphasis.join(' ')}</strong>}
             </span>
           </Heading>
-          {group.id === 'solutions' && <span class="item-count">{String(group.items.length).padStart(2, '0')}</span>}
+          {standalone && group.id === 'solutions' && <span class="item-count">{String(group.items.length).padStart(2, '0')}</span>}
         </div>
         <Description class="section-description" data-technology-key={group.id === 'solutions' ? 'solutionsIntro' : undefined} data-home-key={group.id === 'solutions' ? 'solutionsIntro' : 'servicesIntro'}>{group.description}</Description>
       </header>
@@ -86,14 +86,13 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
         {group.id === 'services' && <svg class="snake-track" fill="none" aria-hidden="true"></svg>}
         {group.id === 'solutions' && <>
           <svg class="solution-tree" fill="none" aria-hidden="true"></svg>
-          <div class="tree-ground" aria-hidden="true"></div>
         </>}
         <ol class="roadmap">
           {group.items.map(([title, description, icon], index) => {
             const solutionImage = group.id === 'solutions' ? solutionCardImages[title] : undefined;
             return (
             <li id={offeringSlug(title)} class:list={['roadmap-stop', solutionImage && 'roadmap-stop--featured']} style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,1,3,35,34,36,68,67,69][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
-              {group.id === 'services' && <img class="service-robot" src={`/images/hero/${index % 2 === 0 ? 'ry' : 'zite'}-front-plain.png`} alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />}
+              {group.id === 'services' && <img class="service-robot" src={`/images/hero/${index % 2 === 0 ? 'ry' : 'zite'}-front-plain.webp`} alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />}
               {group.id === 'solutions' ? (
                 <a class="solution-card-link" href={`/solutions/${offeringSlug(title)}/`} aria-label={`Explore ${title}`} data-technology-card-link={offeringSlug(title)} data-home-card-group="solutions" data-home-card-slug={offeringSlug(title)}>
                   {solutionImage && <img class="solution-card-image" src={solutionImage.src} alt={solutionImage.alt} width={solutionImage.width} height={solutionImage.height} loading="lazy" />}
@@ -126,27 +125,62 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
 <script>
   import { gsap } from 'gsap';
 
+  // Digital Branch Network: a static central line with curved side branches that
+  // draw outward to each card as its row scrolls into view.
   const initializeSolutionTree = (roadmap: HTMLElement) => {
     const svg = roadmap.querySelector<SVGSVGElement>('.solution-tree')!;
+    const list = roadmap.querySelector<HTMLElement>('.roadmap')!;
     const cards = [...roadmap.querySelectorAll<HTMLElement>('.roadmap-stop')];
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const ns = 'http://www.w3.org/2000/svg';
-    const trunk = document.createElementNS(ns, 'path');
-    trunk.setAttribute('class', 'tree-trunk');
-    svg.append(trunk);
+    const create = <K extends keyof SVGElementTagNameMap>(tag: K, className?: string, parent: Element = svg) => {
+      const element = document.createElementNS(ns, tag) as SVGElementTagNameMap[K];
+      if (className) element.setAttribute('class', className);
+      parent.append(element);
+      return element;
+    };
+    const defs = create('defs');
+    const gradient = (id: string, stops: [string, string, number?][]) => {
+      const element = create('linearGradient', undefined, defs);
+      element.id = id;
+      element.setAttribute('gradientUnits', 'userSpaceOnUse');
+      stops.forEach(([offset, color, opacity]) => {
+        const stop = create('stop', undefined, element);
+        stop.setAttribute('offset', offset);
+        stop.style.stopColor = color;
+        if (opacity !== undefined) stop.style.stopOpacity = String(opacity);
+      });
+      return element;
+    };
+    // userSpaceOnUse so the gradients also paint perfectly vertical/horizontal strokes.
+    const trunkGradient = gradient('solution-network-trunk', [['0', 'var(--accent)'], ['.2', 'var(--dark)'], ['.8', 'var(--dark)'], ['1', 'var(--accent)']]);
+    const branchGradient = gradient('solution-network-branch', [['0', 'var(--accent)'], ['.5', 'var(--dark)'], ['1', 'var(--accent)']]);
+    const halo = create('radialGradient', undefined, defs);
+    halo.id = 'solution-network-halo';
+    ([['0', .55], ['1', 0]] as const).forEach(([offset, opacity]) => {
+      const stop = create('stop', undefined, halo);
+      stop.setAttribute('offset', offset);
+      stop.style.stopColor = 'var(--accent)';
+      stop.style.stopOpacity = String(opacity);
+    });
+    const trunkGlow = create('path', 'network-trunk-glow');
+    const trunk = create('path', 'network-trunk');
+    trunk.setAttribute('stroke', 'url(#solution-network-trunk)');
+    const origin = create('circle', 'network-origin');
+    const branchGlows = cards.map(() => create('path', 'network-branch-glow'));
     const branches = cards.map(() => {
-      const branch = document.createElementNS(ns, 'path');
-      branch.setAttribute('class', 'tree-branch');
-      svg.append(branch);
+      const branch = create('path', 'network-branch');
+      branch.setAttribute('stroke', 'url(#solution-network-branch)');
       return branch;
     });
-    const leaves = cards.map(() => {
-      const leaf = document.createElementNS(ns, 'ellipse');
-      leaf.setAttribute('class', 'tree-leaf');
-      svg.append(leaf);
-      return leaf;
+    const junctions = cards.map(() => create('circle', 'network-junction'));
+    const halos = cards.map(() => {
+      const circle = create('circle', 'network-node-halo');
+      circle.setAttribute('fill', 'url(#solution-network-halo)');
+      return circle;
     });
-    [trunk, ...branches].forEach((path) => {
+    const nodes = cards.map(() => create('circle', 'network-node'));
+    [...branches, ...branchGlows].forEach((path) => {
       path.setAttribute('pathLength', '1');
       path.style.strokeDasharray = '1';
     });
@@ -161,74 +195,117 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
       }
       return { x, y };
     };
+    const nodeGap = 6;
+    let points: { x: number; top: number }[] = [];
+    let center = 0;
     const draw = () => {
       const width = roadmap.clientWidth;
       const height = roadmap.clientHeight;
-      const center = width / 2;
+      center = width / 2;
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-      trunk.setAttribute('d', `M${center - 28},${height - 22} Q${center + 15},${height * .87} ${center},${height * .7} Q${center - 16},${height * .4} ${center},60`);
-      cards.forEach((card, index) => {
+      // Junctions sit in the gap above each row, so branches stay clear of the cards.
+      const rowGap = parseFloat(getComputedStyle(list).rowGap) || 24;
+      const lift = Math.min(34, Math.max(14, rowGap * .6));
+      points = cards.map((card) => {
         const position = offsetWithin(card, roadmap);
-        const x = position.x + card.offsetWidth / 2;
-        const y = position.y + card.offsetHeight - 3;
-        const fork = Math.min(height - 85, y + height * .22);
-        branches[index].setAttribute('d', `M${center},${fork} C${center + (x - center) * .65},${fork} ${x},${y + 65} ${x},${y}`);
-        const lx = center + (x - center) * .78 + (index % 2 ? -18 : 18);
-        const ly = y + 42;
-        leaves[index].setAttribute('cx', String(lx));
-        leaves[index].setAttribute('cy', String(ly));
-        leaves[index].setAttribute('rx', '18');
-        leaves[index].setAttribute('ry', '8');
-        leaves[index].setAttribute('transform', `rotate(${index % 2 ? -35 : 35} ${lx} ${ly})`);
+        return { x: position.x + card.offsetWidth / 2, top: position.y };
       });
+      let trunkStart = Infinity;
+      let trunkEnd = -Infinity;
+      points.forEach(({ x, top }, index) => {
+        const junction = top - lift;
+        const end = top - nodeGap;
+        const centred = Math.abs(x - center) < 2;
+        const d = centred
+          ? `M${center},${junction} L${center},${end}`
+          : `M${center},${junction} C${center + (x - center) * .5},${junction} ${x},${junction} ${x},${end}`;
+        branches[index].setAttribute('d', d);
+        branchGlows[index].setAttribute('d', d);
+        junctions[index].setAttribute('cx', String(center));
+        junctions[index].setAttribute('cy', String(junction));
+        junctions[index].setAttribute('r', '3.5');
+        [halos[index], nodes[index]].forEach((circle) => {
+          circle.setAttribute('cx', String(x));
+          circle.setAttribute('cy', String(end));
+        });
+        halos[index].setAttribute('r', '13');
+        nodes[index].setAttribute('r', '4.5');
+        trunkStart = Math.min(trunkStart, junction - 16);
+        trunkEnd = Math.max(trunkEnd, centred ? end : junction);
+      });
+      if (!points.length) return;
+      const d = `M${center},${trunkStart} L${center},${trunkEnd}`;
+      trunk.setAttribute('d', d);
+      trunkGlow.setAttribute('d', d);
+      origin.setAttribute('cx', String(center));
+      origin.setAttribute('cy', String(trunkStart));
+      origin.setAttribute('r', '4.5');
+      trunkGradient.setAttribute('x1', String(center));
+      trunkGradient.setAttribute('x2', String(center));
+      trunkGradient.setAttribute('y1', String(trunkStart));
+      trunkGradient.setAttribute('y2', String(trunkEnd));
+      branchGradient.setAttribute('x1', '0');
+      branchGradient.setAttribute('x2', String(width));
+      branchGradient.setAttribute('y1', '0');
+      branchGradient.setAttribute('y2', '0');
     };
     draw();
     const resize = new ResizeObserver(draw);
     resize.observe(roadmap);
-    const order = [6, 7, 8, 3, 4, 5, 0, 1, 2];
-    let animation: gsap.core.Timeline | undefined;
-    let started = false;
+    const timelines: gsap.core.Timeline[] = [];
+    const revealed = new Set<number>();
+    const showAll = () => {
+      timelines.splice(0).forEach((timeline) => timeline.kill());
+      gsap.set([...branches, ...branchGlows], { strokeDashoffset: 0 });
+      gsap.set([...junctions, ...halos, ...nodes], { opacity: 1 });
+      gsap.set(cards, { autoAlpha: 1, scale: 1, y: 0 });
+    };
     const reset = () => {
-      animation?.kill();
-      started = false;
-      gsap.set([trunk, ...branches], { strokeDashoffset: motion.matches ? 0 : 1 });
-      gsap.set(leaves, { opacity: motion.matches ? 1 : 0 });
-      gsap.set(cards, { autoAlpha: motion.matches ? 1 : 0, scale: motion.matches ? 1 : .65, y: motion.matches ? 0 : 25, transformOrigin: '50% 100%' });
+      if (motion.matches) { showAll(); return; }
+      timelines.splice(0).forEach((timeline) => timeline.kill());
+      revealed.clear();
+      gsap.set([...branches, ...branchGlows], { strokeDashoffset: 1 });
+      gsap.set([...junctions, ...halos, ...nodes], { opacity: 0 });
+      gsap.set(cards, { autoAlpha: 0, scale: .65, y: 25, transformOrigin: '50% 100%' });
     };
     reset();
-    const start = () => {
-      if (started) return;
-      started = true;
-      if (motion.matches) return;
-      animation = gsap.timeline();
-      animation.to(trunk, { strokeDashoffset: 0, duration: 1.3, ease: 'power2.out' });
-      order.forEach((index, sequence) => {
-        const time = .65 + sequence * .2;
-        animation!.to(branches[index], { strokeDashoffset: 0, duration: .7, ease: 'power2.out' }, time)
-          .to(leaves[index], { opacity: 1, duration: .4 }, time + .35)
-          .to(cards[index], { autoAlpha: 1, scale: 1, y: 0, duration: .8, ease: 'back.out(1.65)' }, time + .5);
-      });
+    const reveal = (index: number, delay: number) => {
+      revealed.add(index);
+      const timeline = gsap.timeline({ delay });
+      timeline.to(junctions[index], { opacity: 1, duration: .25 }, 0)
+        .to([branches[index], branchGlows[index]], { strokeDashoffset: 0, duration: .8, ease: 'power2.inOut' }, 0)
+        .to([halos[index], nodes[index]], { opacity: 1, duration: .45, ease: 'power1.out' }, .55)
+        .to(cards[index], { autoAlpha: 1, scale: 1, y: 0, duration: .8, ease: 'back.out(1.65)' }, .5);
+      timelines.push(timeline);
     };
     const introActive = () => document.documentElement.classList.contains('home-intro') || document.documentElement.classList.contains('home-transition');
     const observer = new IntersectionObserver((entries) => {
-      if (!introActive() && entries.some((entry) => entry.isIntersecting)) { start(); observer.disconnect(); }
-    }, { rootMargin: '0px 0px -100px 0px' });
+      if (introActive() || motion.matches) return;
+      // Rows reveal top-down as they scroll in; within a row the branch nearest the
+      // central line leads, then left before right.
+      entries
+        .filter((entry) => entry.isIntersecting)
+        .map((entry) => cards.indexOf(entry.target as HTMLElement))
+        .filter((index) => index >= 0 && !revealed.has(index))
+        .sort((a, b) => points[a].top - points[b].top
+          || Math.abs(points[a].x - center) - Math.abs(points[b].x - center)
+          || points[a].x - points[b].x)
+        .forEach((index, sequence) => {
+          observer.unobserve(cards[index]);
+          reveal(index, sequence * .16);
+        });
+    }, { rootMargin: '0px 0px -80px 0px' });
     const sync = () => {
       if (introActive()) { observer.disconnect(); reset(); }
-      else if (!started) observer.observe(roadmap);
+      else if (!motion.matches) cards.forEach((card, index) => { if (!revealed.has(index)) observer.observe(card); });
     };
     const intro = new MutationObserver(sync);
     intro.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     sync();
     motion.addEventListener('change', () => {
-      if (motion.matches) {
-        animation?.kill();
-        gsap.set([trunk, ...branches], { strokeDashoffset: 0 });
-        gsap.set(leaves, { opacity: 1 });
-        gsap.set(cards, { autoAlpha: 1, scale: 1, y: 0 });
-      }
+      if (motion.matches) { observer.disconnect(); showAll(); }
     });
-    document.addEventListener('astro:before-swap', () => { animation?.kill(); observer.disconnect(); intro.disconnect(); resize.disconnect(); }, { once: true });
+    document.addEventListener('astro:before-swap', () => { timelines.forEach((timeline) => timeline.kill()); observer.disconnect(); intro.disconnect(); resize.disconnect(); }, { once: true });
   };
 
   const initializeRoadmaps = () => {
@@ -427,6 +504,10 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
     .solutions .snake-roadmap { height: auto; }
     .solutions .roadmap { display: grid; grid-template-columns: repeat(3, minmax(0, 25%)); grid-auto-rows: auto; justify-content: center; column-gap: 7%; row-gap: 48px; width: 100%; padding: 24px 0 72px; }
     .solutions .roadmap-stop { position: relative; grid-column: auto; grid-row: auto; width: 100%; height: auto; min-height: 190px; margin-left: 0; padding: 0; translate: none; rotate: none; }
+    .solutions .roadmap-stop:nth-child(4) { margin-left: -12%; }
+    .solutions .roadmap-stop:nth-child(6) { margin-left: 12%; }
+    .solutions .roadmap-stop:nth-child(7) { margin-left: 8%; }
+    .solutions .roadmap-stop:nth-child(9) { margin-left: -8%; }
     .solutions .roadmap-stop--featured { min-height: 280px; }
     .solutions .solution-card-link { position: relative; inset: auto; flex: 1; width: 100%; height: 100%; padding: 18px 15px; }
   }
@@ -443,11 +524,13 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .solutions .service-copy p { color: #63718a; font-size: 15px; overflow-wrap: anywhere; }
   .solution-tree { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
   .solution-tree :global(path) { stroke-linecap: round; stroke-linejoin: round; }
-  .solution-tree :global(.tree-trunk) { stroke: var(--dark); stroke-width: 22px; }
-  .solution-tree :global(.tree-branch) { stroke: var(--accent); stroke-width: 9px; }
-  .solution-tree :global(.tree-leaf) { fill: var(--tint); }
-  .tree-ground { position: absolute; bottom: 6px; left: 30%; width: 40%; height: 30px; border-radius: 50%; background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 25%, transparent), transparent 70%); }
-  /* Tablet: two-column in-flow grid; the tree SVG redraws itself to the card positions. */
+  .solution-tree :global(.network-trunk) { stroke-width: 3px; }
+  .solution-tree :global(.network-trunk-glow) { stroke: var(--accent); stroke-width: 11px; opacity: .14; }
+  .solution-tree :global(.network-branch) { stroke-width: 2.5px; }
+  .solution-tree :global(.network-branch-glow) { stroke: var(--accent); stroke-width: 9px; opacity: .16; }
+  .solution-tree :global(.network-origin), .solution-tree :global(.network-junction) { fill: var(--dark); stroke: #fff; stroke-width: 1.5px; }
+  .solution-tree :global(.network-node) { fill: var(--accent); stroke: #fff; stroke-width: 1.5px; }
+  /* Tablet: two-column in-flow grid; the network SVG redraws itself to the card positions. */
   @media (min-width: 768px) and (max-width: 1023px) {
     .solutions .roadmap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 28px 20px; padding: 16px 0 36px; }
     .solutions .roadmap-stop { grid-column: auto; grid-row: auto; width: 100%; height: auto; margin-left: 0; translate: none; rotate: none; }
@@ -464,8 +547,8 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
     .solutions .service-copy p { display: block; font-size: 13px; line-height: 1.5; }
     .solutions .service-icon { width: 34px; height: 34px; font-size: 24px; }
     .solution-card-link__more { margin-top: .4rem; font-size: .74rem; white-space: nowrap; }
-    .solution-tree :global(.tree-trunk) { stroke-width: 14px; }
-    .solution-tree :global(.tree-branch) { stroke-width: 5px; }
+    .solution-tree :global(.network-trunk-glow) { stroke-width: 8px; }
+    .solution-tree :global(.network-branch-glow) { stroke-width: 7px; }
   }
   .services .roadmap-stop, .solutions .roadmap-stop {
     transition: translate .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;

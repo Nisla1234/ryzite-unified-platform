@@ -1,0 +1,214 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { company } from '../Constants';
+import { thankYouTranslations } from '../data/thank-you-translations';
+
+const whatsappBase = `https://wa.me/${company.whatsapp.number}`;
+const fallback = thankYouTranslations.en;
+---
+
+<MainLayout
+  title="Thank You | RYZITE"
+  description="Confirmation page for project enquiries submitted to RYZITE."
+>
+  <meta slot="head" name="robots" content="noindex" />
+  <!-- Server markup is the "missing" state: only a confirmed submission in this session may switch it to "confirmed". -->
+  <section class="thank-you" data-thank-you data-state="missing" aria-labelledby="thank-you-title">
+    <span class="thank-you__ring thank-you__ring--one" aria-hidden="true"></span>
+    <span class="thank-you__ring thank-you__ring--two" aria-hidden="true"></span>
+    <span class="thank-you__dot thank-you__dot--one" aria-hidden="true"></span>
+    <span class="thank-you__dot thank-you__dot--two" aria-hidden="true"></span>
+
+    <div class="thank-you__card">
+      <div class="thank-you__badge" data-ty-badge aria-hidden="true">
+        <svg data-ty-icon="confirmed" viewBox="0 0 96 96" fill="none" hidden>
+          <circle cx="48" cy="48" r="44" data-ty-circle />
+          <path d="M30 49.5 43 62l24-27" pathLength="1" data-ty-check />
+        </svg>
+        <svg data-ty-icon="missing" viewBox="0 0 96 96" fill="none">
+          <circle cx="48" cy="48" r="44" />
+          <path d="M48 44v22M48 30v2" />
+        </svg>
+      </div>
+
+      <p class="thank-you__eyebrow" data-ty-anim data-ty-key="missingEyebrow" data-ty-confirmed-key="eyebrow">{fallback.missingEyebrow}</p>
+      <p class="thank-you__greeting" data-ty-anim data-ty-greeting hidden></p>
+      <h1 id="thank-you-title" data-ty-anim data-ty-key="missingTitle" data-ty-confirmed-key="title">{fallback.missingTitle}</h1>
+      <p class="thank-you__message" data-ty-anim data-ty-key="missingMessage" data-ty-confirmed-key="message">{fallback.missingMessage}</p>
+      <p class="thank-you__supporting" data-ty-anim data-ty-key="missingSupporting" data-ty-confirmed-key="supporting">{fallback.missingSupporting}</p>
+      <p class="thank-you__closing" data-ty-anim data-ty-key="closing" data-ty-only="confirmed" hidden>{fallback.closing}</p>
+
+      <div class="thank-you__actions" data-ty-anim>
+        <a class="thank-you__button thank-you__button--ghost" href="/"><span aria-hidden="true">←</span><span data-ty-key="backHome">{fallback.backHome}</span></a>
+        <a class="thank-you__button thank-you__button--primary" href="/contact/#project-enquiry" data-ty-only="missing"><span data-ty-key="enquiryCta">{fallback.enquiryCta}</span><span aria-hidden="true">→</span></a>
+        <a class="thank-you__button thank-you__button--primary" href={whatsappBase} target="_blank" rel="noopener noreferrer" data-ty-whatsapp data-ty-only="confirmed" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M9.2 9c0 3 2.8 5.8 5.8 5.8"/></svg>
+          <span data-ty-key="whatsappCta">{fallback.whatsappCta}</span>
+        </a>
+      </div>
+      <p class="thank-you__note" data-ty-anim data-ty-note data-ty-only="confirmed" hidden></p>
+    </div>
+  </section>
+
+  <!-- Runs straight after the markup so the right state is in place before first paint. -->
+  <script is:inline define:vars={{ thankYouTranslations, whatsappBase }}>
+    const section = document.querySelector('[data-thank-you]');
+    if (section) {
+      // Written by the contact form only after Web3Forms confirms the submission. Kept in sessionStorage so no enquiry details reach the URL.
+      let confirmation = null;
+      try {
+        const stored = JSON.parse(window.sessionStorage.getItem('ryzite-enquiry-confirmation') || 'null');
+        if (stored && stored.confirmed === true) confirmation = stored;
+      } catch {
+        // Unreadable storage is treated as no confirmed enquiry.
+      }
+
+      const confirmed = Boolean(confirmation);
+      const firstName = confirmed && typeof confirmation.firstName === 'string' ? confirmation.firstName.trim().slice(0, 40) : '';
+      const noteKey = confirmed ? (confirmation.whatsappOpened ? 'whatsappOpened' : 'whatsappReady') : '';
+      section.dataset.state = confirmed ? 'confirmed' : 'missing';
+
+      section.querySelectorAll('[data-ty-only]').forEach((element) => { element.hidden = element.dataset.tyOnly !== section.dataset.state; });
+      section.querySelectorAll('[data-ty-icon]').forEach((icon) => { icon.toggleAttribute('hidden', icon.dataset.tyIcon !== section.dataset.state); });
+      if (confirmed) {
+        section.querySelectorAll('[data-ty-confirmed-key]').forEach((element) => { element.dataset.tyKey = element.dataset.tyConfirmedKey; });
+        const whatsappLink = section.querySelector('[data-ty-whatsapp]');
+        // Only the prepared message for RYZITE's own number is accepted from storage.
+        if (whatsappLink && typeof confirmation.whatsappUrl === 'string' && confirmation.whatsappUrl.startsWith(`${whatsappBase}?text=`)) {
+          whatsappLink.href = confirmation.whatsappUrl;
+        }
+      }
+
+      const greeting = section.querySelector('[data-ty-greeting]');
+      const note = section.querySelector('[data-ty-note]');
+      const applyThankYouLocale = (locale) => {
+        const translations = thankYouTranslations[locale] || thankYouTranslations.en;
+        section.querySelectorAll('[data-ty-key]').forEach((element) => {
+          const value = translations[element.dataset.tyKey];
+          if (typeof value === 'string') element.textContent = value;
+        });
+        if (greeting) {
+          greeting.hidden = !firstName;
+          greeting.textContent = firstName ? translations.greeting.replace('{name}', firstName) : '';
+        }
+        if (note) note.textContent = noteKey ? translations[noteKey] : '';
+      };
+
+      applyThankYouLocale(document.body.dataset.locale || 'en');
+      window.addEventListener('ryzite:locale-change', (event) => applyThankYouLocale(event.detail?.locale || 'en'));
+
+      // Content is hidden for the entrance only when motion is allowed, and is always shown again if the animation script never runs.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        section.dataset.animate = 'pending';
+        window.setTimeout(() => { delete section.dataset.animate; }, 2500);
+      }
+    }
+  </script>
+</MainLayout>
+
+
+<script>
+  import { gsap } from 'gsap';
+
+  const section = document.querySelector<HTMLElement>('[data-thank-you]');
+  if (section && section.dataset.animate === 'pending') {
+    const badge = section.querySelector('[data-ty-badge]');
+    const check = section.querySelector('[data-ty-icon="confirmed"]:not([hidden]) [data-ty-check]');
+    const items = section.querySelectorAll('[data-ty-anim]:not([hidden])');
+    const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    timeline.fromTo(badge, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.6, ease: 'back.out(1.6)' });
+    if (check) {
+      timeline.fromTo(check, { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.55, ease: 'power2.inOut' }, '-=0.15');
+    }
+    timeline.fromTo(items, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.08, clearProps: 'all' }, check ? '-=0.3' : '-=0.2');
+    // GSAP now owns the starting styles, so the CSS hold can be released.
+    delete section.dataset.animate;
+  }
+</script>
+
+<style>
+  .thank-you {
+    --ty-blue: #0655e9;
+    --ty-blue-deep: #073db7;
+    --ty-ink: #101d32;
+    --ty-muted: #5c6674;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    min-height: min(100svh, 860px);
+    place-items: center;
+    padding: clamp(4.5rem, 9vw, 7.5rem) var(--space-frame) clamp(4rem, 8vw, 6.5rem);
+    overflow: hidden;
+    color: var(--ty-ink);
+    background: linear-gradient(180deg, #fff 0%, #f3f8ff 55%, #e8f2ff 100%);
+  }
+
+  .thank-you__ring, .thank-you__dot { position: absolute; z-index: -1; border-radius: 50%; pointer-events: none; }
+  .thank-you__ring { aspect-ratio: 1; border: 1px solid rgb(6 85 233 / 14%); }
+  .thank-you__ring--one { top: -9rem; right: -7rem; width: clamp(16rem, 34vw, 30rem); box-shadow: 0 0 0 2.5rem rgb(6 85 233 / 4%); }
+  .thank-you__ring--two { bottom: -11rem; left: -8rem; width: clamp(18rem, 38vw, 34rem); border-style: dashed; border-color: rgb(6 85 233 / 20%); }
+  .thank-you__dot { width: .7rem; aspect-ratio: 1; background: var(--ty-blue); opacity: .28; }
+  .thank-you__dot--one { top: 22%; left: 12%; }
+  .thank-you__dot--two { right: 14%; bottom: 20%; width: .45rem; opacity: .4; }
+
+  .thank-you__card {
+    display: flex;
+    width: min(100%, 44rem);
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3.25rem);
+    border: 1px solid #dbe5f1;
+    border-radius: var(--radius-large);
+    background: rgb(255 255 255 / 92%);
+    box-shadow: 0 1.5rem 4rem rgb(20 51 91 / 9%);
+    text-align: center;
+  }
+
+  .thank-you__badge { display: grid; width: clamp(5.5rem, 14vw, 7.5rem); aspect-ratio: 1; place-items: center; margin-bottom: 1.5rem; border-radius: 50%; background: #eaf3ff; box-shadow: 0 0 0 .6rem rgb(6 85 233 / 6%); }
+  .thank-you__badge svg { width: 100%; height: 100%; stroke: var(--ty-blue); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+  .thank-you__badge svg[hidden] { display: none; }
+  .thank-you__badge circle { stroke-width: 3; opacity: .35; }
+  .thank-you[data-state='confirmed'] .thank-you__badge circle { fill: var(--ty-blue); stroke: var(--ty-blue); opacity: 1; }
+  .thank-you[data-state='confirmed'] .thank-you__badge path { stroke: #fff; stroke-width: 6; }
+
+  .thank-you__eyebrow { margin: 0 0 .9rem; color: var(--ty-blue); font-size: .74rem; font-weight: 800; letter-spacing: .16em; line-height: 1.5; text-transform: uppercase; }
+  .thank-you__greeting { margin: 0 0 .5rem; color: var(--ty-blue-deep); font-family: var(--font-display); font-size: clamp(1.2rem, 2.4vw, 1.6rem); font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+  .thank-you h1 { margin: 0; color: #101827; font-family: var(--font-display); font-size: clamp(2.2rem, 5.6vw, 3.9rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.08; overflow-wrap: anywhere; text-wrap: balance; }
+  .thank-you__message { max-width: 34rem; margin: 1.25rem 0 0; color: #24364e; font-size: clamp(1.02rem, 1.6vw, 1.18rem); font-weight: 600; line-height: 1.6; }
+  .thank-you__supporting { max-width: 34rem; margin: .7rem 0 0; color: var(--ty-muted); font-size: .98rem; line-height: 1.7; }
+  .thank-you__closing { margin: 1.3rem 0 0; color: var(--ty-blue-deep); font-family: var(--font-display); font-size: clamp(1.05rem, 1.8vw, 1.25rem); font-weight: 700; line-height: 1.45; }
+  .thank-you__note { max-width: 34rem; margin: 1.4rem 0 0; color: #68778a; font-size: .8rem; line-height: 1.6; }
+  .thank-you__note:empty, .thank-you [hidden] { display: none; }
+
+  .thank-you__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 2rem; }
+  .thank-you__button { display: inline-flex; min-height: 3.2rem; align-items: center; justify-content: center; gap: .7rem; padding: .8rem 1.4rem; border: 1px solid transparent; border-radius: 999px; font-size: .92rem; font-weight: 700; line-height: 1.3; text-align: center; text-decoration: none; transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) ease, box-shadow var(--duration-fast) ease, border-color var(--duration-fast) ease; }
+  .thank-you__button:hover { transform: translateY(-3px); }
+  .thank-you__button:focus-visible { outline: 3px solid var(--ty-blue); outline-offset: 4px; }
+  .thank-you__button svg { width: 1.25rem; height: 1.25rem; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .thank-you__button--primary { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.6rem rgb(6 75 237 / 20%); }
+  .thank-you__button--primary:hover { background: linear-gradient(110deg, #087bd2, #043ec9); box-shadow: 0 .95rem 1.8rem rgb(6 75 237 / 26%); }
+  .thank-you__button--ghost { border-color: #b6d1f4; color: var(--ty-blue-deep); background: #fff; }
+  .thank-you__button--ghost:hover { border-color: var(--ty-blue); background: #f1f6fc; }
+
+  /* Entrance hold: released by the animation script, or by the inline fallback timer. */
+  .thank-you[data-animate='pending'] .thank-you__badge,
+  .thank-you[data-animate='pending'] [data-ty-anim] { opacity: 0; }
+
+  :global(body[data-locale='ta']) .thank-you h1,
+  :global(body[data-locale='si']) .thank-you h1 { font-size: clamp(1.2rem, 5.6vw, 3rem); letter-spacing: 0; line-height: 1.3; }
+  :global(body[data-locale='ta']) .thank-you__eyebrow,
+  :global(body[data-locale='si']) .thank-you__eyebrow { letter-spacing: .04em; }
+
+  @media (max-width: 560px) {
+    .thank-you { min-height: 0; padding-inline: 1rem; }
+    .thank-you__actions { width: 100%; flex-direction: column; }
+    .thank-you__button { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .thank-you__button { transition: none; }
+    .thank-you__button:hover { transform: none; }
+  }
+</style>
