@@ -1,0 +1,449 @@
+---
+import { divisions, offeringSlug } from '../../data/offerings';
+interface Props { division?: 'services' | 'solutions'; standalone?: boolean; }
+const { division, standalone = false } = Astro.props;
+const selected = division ? divisions.filter((item) => item.id === division) : divisions;
+const solutionCardImages: Record<string, { src: string; alt: string; width: number; height: number }> = {
+  'Business Website Design & Development': {
+    src: '/images/solutions/website-development.svg',
+    alt: 'Web development graphic featuring JavaScript, Python, Ruby, and Java.',
+    width: 626,
+    height: 443,
+  },
+  'Online Store Development': {
+    src: '/images/solutions/online-store-development.jpeg',
+    alt: 'E-commerce platforms and online marketplace storefronts connected through a digital network.',
+    width: 736,
+    height: 414,
+  },
+  'Custom Software for Businesses': {
+    src: '/images/solutions/custom-software.jpeg',
+    alt: 'Developer working on a laptop with digital software and code interface overlays.',
+    width: 735,
+    height: 490,
+  },
+  'Mobile App Development': {
+    src: '/images/solutions/mobile-app-development.jpeg',
+    alt: 'App development illustration with a smartphone, rocket, and digital app icons.',
+    width: 735,
+    height: 490,
+  },
+  'Customer Chatbots & Assistants': {
+    src: '/images/solutions/customer-chatbots.jpeg',
+    alt: 'AI assistant robot next to a customer chat interface on a laptop.',
+    width: 735,
+    height: 440,
+  },
+  'Business Workflow Automation': {
+    src: '/images/solutions/business-workflow-automation.jpeg',
+    alt: 'Digital icons illustrate business workflow automation on a tablet.',
+    width: 735,
+    height: 490,
+  },
+  'UI/UX Design for Websites & Apps': {
+    src: '/images/solutions/ui-ux-design.jpeg',
+    alt: 'Designer working with a digital user interface and experience dashboard.',
+    width: 735,
+    height: 490,
+  },
+  'Software & API Integrations': {
+    src: '/images/solutions/software-api-integrations.jpeg',
+    alt: 'Isometric illustration of API connections between cloud software, servers, and a laptop.',
+    width: 736,
+    height: 736,
+  },
+  'Website Care & Maintenance': {
+    src: '/images/solutions/website-care-maintenance.jpeg',
+    alt: 'Team maintaining a website through a digital dashboard and tools.',
+    width: 735,
+    height: 490,
+  },
+};
+---
+
+{selected.map((group) => {
+  const Heading = standalone && group.id !== 'services' ? 'h1' : 'h2';
+  const Description = group.id === 'services' ? 'h3' : 'p';
+  const [titleLead, ...titleEmphasis] = group.title.split(' ');
+  return (
+    <section class:list={['offerings', group.id]} id={group.id} aria-labelledby={`${group.id}-title`} data-standalone={standalone}>
+      <div class="orb orb-blue" aria-hidden="true"></div>
+      <div class="orb orb-accent" aria-hidden="true"></div>
+      <header class="section-intro">
+        <div class:list={['title-plaque', group.id === 'services' && 'title-plaque--plain']}>
+          {group.id === 'solutions' && <span class="division-symbol" aria-hidden="true">{group.symbol}</span>}
+          <Heading id={`${group.id}-title`}>
+            <span class="services-title">
+              {group.id === 'solutions' ? <span data-solutions-heading="lead">{titleLead}</span> : titleLead}{' '}
+              {group.id === 'solutions' ? <strong data-solutions-heading="accent">{titleEmphasis.join(' ')}</strong> : <strong>{titleEmphasis.join(' ')}</strong>}
+            </span>
+          </Heading>
+          {group.id === 'solutions' && <span class="item-count">{String(group.items.length).padStart(2, '0')}</span>}
+        </div>
+        <Description class="section-description" data-technology-key={group.id === 'solutions' ? 'solutionsIntro' : undefined}>{group.description}</Description>
+      </header>
+      <div class="snake-roadmap">
+        {group.id === 'services' && <svg class="snake-track" fill="none" aria-hidden="true"></svg>}
+        {group.id === 'solutions' && <>
+          <svg class="solution-tree" fill="none" aria-hidden="true"></svg>
+          <div class="tree-ground" aria-hidden="true"></div>
+        </>}
+        <ol class="roadmap">
+          {group.items.map(([title, description, icon], index) => {
+            const solutionImage = group.id === 'solutions' ? solutionCardImages[title] : undefined;
+            return (
+            <li id={offeringSlug(title)} class:list={['roadmap-stop', solutionImage && 'roadmap-stop--featured']} style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,1,3,35,34,36,68,67,69][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
+              {group.id === 'services' && <img class="service-robot" src={`/images/hero/${index % 2 === 0 ? 'ry' : 'zite'}-front-plain.png`} alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />}
+              {group.id === 'solutions' ? (
+                <a class="solution-card-link" href={`/solutions/${offeringSlug(title)}/`} aria-label={`Explore ${title}`} data-technology-card-link={offeringSlug(title)}>
+                  {solutionImage && <img class="solution-card-image" src={solutionImage.src} alt={solutionImage.alt} width={solutionImage.width} height={solutionImage.height} loading="lazy" />}
+                  {!solutionImage && <span class="service-icon" aria-hidden="true">{icon}</span>}
+                  <div class="service-copy">
+                    <h3 data-technology-slug={offeringSlug(title)} data-technology-field="title">{title}</h3>
+                    <p data-technology-slug={offeringSlug(title)} data-technology-field="description">{description}</p>
+                  </div>
+                  <span class="service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="solution-card-link__more"><span data-technology-key="viewDetails">View details</span> <span aria-hidden="true">↗</span></span>
+                </a>
+              ) : (
+                <>
+                  <div class="service-copy"><h3>{title}</h3><p>{description}</p></div>
+                  <span class="service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                </>
+              )}
+              {group.id === 'services' && <span class="roadmap-dot" aria-hidden="true"></span>}
+            </li>
+            );
+          })}
+        </ol>
+      </div>
+      {!standalone && <a class="division-link" href={`/${group.id}`}>Explore {group.title.toLowerCase()} <span aria-hidden="true">&#8599;</span></a>}
+      {standalone && <a class="division-link" href={group.id === 'services' ? '/solutions' : '/services'}>Explore {group.id === 'services' ? 'technology solutions' : 'marketing services'} <span aria-hidden="true">&#8599;</span></a>}
+    </section>
+  );
+})}
+
+<script>
+  import { gsap } from 'gsap';
+
+  const initializeSolutionTree = (roadmap: HTMLElement) => {
+    const svg = roadmap.querySelector<SVGSVGElement>('.solution-tree')!;
+    const cards = [...roadmap.querySelectorAll<HTMLElement>('.roadmap-stop')];
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const ns = 'http://www.w3.org/2000/svg';
+    const trunk = document.createElementNS(ns, 'path');
+    trunk.setAttribute('class', 'tree-trunk');
+    svg.append(trunk);
+    const branches = cards.map(() => {
+      const branch = document.createElementNS(ns, 'path');
+      branch.setAttribute('class', 'tree-branch');
+      svg.append(branch);
+      return branch;
+    });
+    const leaves = cards.map(() => {
+      const leaf = document.createElementNS(ns, 'ellipse');
+      leaf.setAttribute('class', 'tree-leaf');
+      svg.append(leaf);
+      return leaf;
+    });
+    [trunk, ...branches].forEach((path) => {
+      path.setAttribute('pathLength', '1');
+      path.style.strokeDasharray = '1';
+    });
+    const draw = () => {
+      const width = roadmap.clientWidth;
+      const height = roadmap.clientHeight;
+      const center = width / 2;
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      trunk.setAttribute('d', `M${center - 28},${height - 22} Q${center + 15},${height * .87} ${center},${height * .7} Q${center - 16},${height * .4} ${center},60`);
+      cards.forEach((card, index) => {
+        const x = card.offsetLeft + card.offsetWidth / 2;
+        const y = card.offsetTop + card.offsetHeight - 3;
+        const fork = Math.min(height - 85, y + height * .22);
+        branches[index].setAttribute('d', `M${center},${fork} C${center + (x - center) * .65},${fork} ${x},${y + 65} ${x},${y}`);
+        const lx = center + (x - center) * .78 + (index % 2 ? -18 : 18);
+        const ly = y + 42;
+        leaves[index].setAttribute('cx', String(lx));
+        leaves[index].setAttribute('cy', String(ly));
+        leaves[index].setAttribute('rx', '18');
+        leaves[index].setAttribute('ry', '8');
+        leaves[index].setAttribute('transform', `rotate(${index % 2 ? -35 : 35} ${lx} ${ly})`);
+      });
+    };
+    draw();
+    const resize = new ResizeObserver(draw);
+    resize.observe(roadmap);
+    const order = [6, 7, 8, 3, 4, 5, 0, 1, 2];
+    let animation: gsap.core.Timeline | undefined;
+    let started = false;
+    const reset = () => {
+      animation?.kill();
+      started = false;
+      gsap.set([trunk, ...branches], { strokeDashoffset: motion.matches ? 0 : 1 });
+      gsap.set(leaves, { opacity: motion.matches ? 1 : 0 });
+      gsap.set(cards, { autoAlpha: motion.matches ? 1 : 0, scale: motion.matches ? 1 : .65, y: motion.matches ? 0 : 25, transformOrigin: '50% 100%' });
+    };
+    reset();
+    const start = () => {
+      if (started) return;
+      started = true;
+      if (motion.matches) return;
+      animation = gsap.timeline();
+      animation.to(trunk, { strokeDashoffset: 0, duration: 1.3, ease: 'power2.out' });
+      order.forEach((index, sequence) => {
+        const time = .65 + sequence * .2;
+        animation!.to(branches[index], { strokeDashoffset: 0, duration: .7, ease: 'power2.out' }, time)
+          .to(leaves[index], { opacity: 1, duration: .4 }, time + .35)
+          .to(cards[index], { autoAlpha: 1, scale: 1, y: 0, duration: .8, ease: 'back.out(1.65)' }, time + .5);
+      });
+    };
+    const introActive = () => document.documentElement.classList.contains('home-intro') || document.documentElement.classList.contains('home-transition');
+    const observer = new IntersectionObserver((entries) => {
+      if (!introActive() && entries.some((entry) => entry.isIntersecting)) { start(); observer.disconnect(); }
+    }, { rootMargin: '0px 0px -100px 0px' });
+    const sync = () => {
+      if (introActive()) { observer.disconnect(); reset(); }
+      else if (!started) observer.observe(roadmap);
+    };
+    const intro = new MutationObserver(sync);
+    intro.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    sync();
+    motion.addEventListener('change', () => {
+      if (motion.matches) {
+        animation?.kill();
+        gsap.set([trunk, ...branches], { strokeDashoffset: 0 });
+        gsap.set(leaves, { opacity: 1 });
+        gsap.set(cards, { autoAlpha: 1, scale: 1, y: 0 });
+      }
+    });
+    document.addEventListener('astro:before-swap', () => { animation?.kill(); observer.disconnect(); intro.disconnect(); resize.disconnect(); }, { once: true });
+  };
+
+  const initializeRoadmaps = () => {
+    document.querySelectorAll<HTMLElement>('.snake-roadmap').forEach((roadmap) => {
+      if (roadmap.dataset.initialized) return;
+      roadmap.dataset.initialized = 'true';
+      if (roadmap.closest('.solutions')) { initializeSolutionTree(roadmap); return; }
+      const svg = roadmap.querySelector<SVGSVGElement>('.snake-track');
+      const cards = [...roadmap.querySelectorAll<HTMLElement>('.roadmap-stop')];
+      const staircase = roadmap.closest('.offerings')!.classList.contains('services');
+      const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const state = { step: 0 };
+      let segments: SVGPathElement[][] = [];
+      let started = false;
+      const render = () => {
+        segments.forEach((paths, index) => {
+          const fill = Math.max(0, Math.min(1, state.step - index));
+          paths.forEach((path) => {
+            path.style.strokeDashoffset = String(1 - fill);
+            path.style.opacity = fill > 0 ? '1' : '0';
+          });
+        });
+        cards.forEach((card, index) => card.classList.toggle('is-reached', started && state.step >= index));
+
+      };
+      const draw = () => {
+        if (!svg) { render(); return; }
+        const bounds = roadmap.getBoundingClientRect();
+        svg.setAttribute('viewBox', `0 0 ${bounds.width} ${bounds.height}`);
+        svg.replaceChildren();
+        segments = [];
+        const points = cards.map((card) => {
+          const dot = card.querySelector('.roadmap-dot')!.getBoundingClientRect();
+          return { x: dot.left + dot.width / 2 - bounds.left, y: dot.top + dot.height / 2 - bounds.top };
+        });
+        points.slice(0, -1).forEach((a, index) => {
+          const b = points[index + 1];
+          const nextRow = Math.abs(a.x - b.x) < bounds.width * .2;
+          const direction = a.x > bounds.width / 2 ? 1 : -1;
+          const turn = a.x + direction * Math.min(70, bounds.width * .08);
+          let d = nextRow
+            ? `M${a.x},${a.y} C${turn},${a.y} ${turn},${b.y} ${b.x},${b.y}`
+            : `M${a.x},${a.y} C${a.x + (b.x - a.x) * .4},${a.y + 44} ${b.x - (b.x - a.x) * .4},${b.y + 44} ${b.x},${b.y}`;
+          if (staircase && !nextRow) {
+            const middle = (a.x + b.x) / 2;
+            const direction = Math.sign(b.x - a.x);
+            const radius = Math.min(18, Math.abs(b.y - a.y) / 2, Math.abs(b.x - a.x) / 4);
+            d = `M${a.x},${a.y} H${middle - direction * radius} Q${middle},${a.y} ${middle},${a.y + radius} V${b.y - radius} Q${middle},${b.y} ${middle + direction * radius},${b.y} H${b.x}`;
+          }
+          if (!staircase && b.y - a.y > 100 && b.x < a.x) {
+            const lane = a.y + 40;
+            d = `M${a.x},${a.y} Q${bounds.width + 8},${a.y} ${bounds.width + 8},${lane} H${b.x + 20} Q${b.x},${lane} ${b.x},${lane + 20} V${b.y}`;
+          }
+          const animated: SVGPathElement[] = [];
+          ['track-shadow', 'track-base', 'track-edge', 'track-body', 'track-shine'].forEach((className) => {
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', d);
+            path.setAttribute('class', className);
+            if (!['track-shadow', 'track-base'].includes(className)) {
+              path.setAttribute('pathLength', '1');
+              path.style.strokeDasharray = '1';
+              animated.push(path);
+            }
+            svg.append(path);
+          });
+          segments.push(animated);
+        });
+        render();
+      };
+      const introActive = () => document.documentElement.classList.contains('home-intro') || document.documentElement.classList.contains('home-transition');
+      const updateScroll = () => {
+        const bounds = roadmap.getBoundingClientRect();
+        started = !introActive() && bounds.top < window.innerHeight * .8;
+        const progress = Math.max(0, Math.min(1, (window.innerHeight * .8 - bounds.top) / (bounds.height + window.innerHeight * .1)));
+        state.step = introActive() ? 0 : motion.matches ? cards.length - 1 : progress * (cards.length - 1);
+        render();
+      };
+      let frame = 0;
+      const scheduleScroll = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(() => { frame = 0; updateScroll(); });
+      };
+      const resizeObserver = new ResizeObserver(() => { draw(); updateScroll(); });
+      resizeObserver.observe(roadmap);
+      const introObserver = new MutationObserver(scheduleScroll);
+      introObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+      window.addEventListener('scroll', scheduleScroll, { passive: true });
+      window.addEventListener('resize', scheduleScroll, { passive: true });
+      motion.addEventListener('change', scheduleScroll);
+      draw();
+      updateScroll();
+      document.addEventListener('astro:before-swap', () => {
+        resizeObserver.disconnect(); introObserver.disconnect();
+        window.removeEventListener('scroll', scheduleScroll);
+        window.removeEventListener('resize', scheduleScroll);
+        motion.removeEventListener('change', scheduleScroll);
+        cancelAnimationFrame(frame);
+      }, { once: true });
+    });
+  };
+  initializeRoadmaps();
+  document.addEventListener('astro:page-load', initializeRoadmaps);
+</script>
+
+<style>
+  .offerings { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 100px; padding: 76px max(28px, calc((100vw - 1240px) / 2)) 56px; background: var(--color-paper); color: #101d56; font-family: var(--font-body); }
+  .solutions { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; }
+  .services { padding-inline: max(28px, calc((100vw - 1380px) / 2)); }
+  .solutions .title-plaque { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .section-intro { text-align: center; max-width: 700px; margin: 0 auto 22px; }
+  .eyebrow { display: block; color: var(--dark); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; }
+  .title-plaque { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 20px 30px; border: 2px solid white; border-radius: 26px; background: linear-gradient(125deg, #fff, var(--tint)); box-shadow: 0 7px 0 var(--accent), 0 17px 25px color-mix(in srgb, var(--accent) 20%, transparent); }
+  .title-plaque--plain { gap: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .title-plaque h1, .title-plaque h2 { font-family: var(--font-body); font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.15; font-weight: 800; letter-spacing: -0.035em; margin: 0; }
+  .services .title-plaque h2, .solutions .title-plaque h1, .solutions .title-plaque h2 { color: #0a1734; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 900; line-height: 1.04; letter-spacing: -.015em; margin: 22px 0 16px; }
+  .services-title { color: #0a1734; }
+  .services-title strong { color: #064bed; }
+  .section-intro > .section-description { color: #596580; font-size: 15px; line-height: 1.7; margin: 26px auto 0; max-width: 570px; }
+  .services .section-intro > .section-description { color: #000; font-size: var(--size-h3); line-height: 1.5; margin: 0 auto; }
+  .solutions .section-intro > .section-description { color: #000; font-size: var(--size-h3); line-height: 1.5; margin: 0 auto; }
+  .division-symbol { display: grid; place-items: center; flex-shrink: 0; width: 58px; height: 58px; border-radius: 17px; background: linear-gradient(145deg, var(--accent), var(--dark)); color: white; font-size: 25px; font-weight: 800; box-shadow: inset 0 2px 3px #ffffff80, 0 6px 12px #23387120; }
+  .item-count { color: var(--dark); font-size: 12px; font-weight: 700; }
+  .snake-roadmap { position: relative; max-width: 1240px; margin: auto; }
+  .services .snake-roadmap { max-width: 1380px; }
+  .service-robot { position: absolute; top: 0; left: 0; width: clamp(46px, 5.2vw, 68px); height: auto; z-index: 4; opacity: 0; visibility: hidden; pointer-events: none; transform-origin: 50% 90%; filter: drop-shadow(0 4px 4px #1264c42b); }
+  .snake-track { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .snake-track :global(path) { stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .snake-track :global(.track-shadow) { stroke: var(--dark); stroke-width: 15px; opacity: .12; transform: translateY(3px); filter: blur(3px); }
+  .snake-track :global(.track-base) { stroke: white; stroke-width: 12px; }
+  .snake-track :global(.track-edge) { stroke: var(--accent); stroke-width: 12px; }
+  .snake-track :global(.track-body) { stroke: var(--dark); stroke-width: 7px; }
+  .snake-track :global(.track-shine) { stroke: #b4f4ff; stroke-width: 1.5px; }
+
+  .roadmap { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 140px; gap: 60px 24px; list-style: none; margin: 0; padding: 30px 0; }
+  .roadmap-stop { position: relative; grid-column: var(--col-4); grid-row: var(--row-4); display: flex; align-items: center; gap: 12px; padding: 18px 15px; border: 2px solid #fff; border-radius: 24px; background: linear-gradient(135deg, #fff, color-mix(in srgb, var(--tint) 75%, white)); box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 30%, #eaf4ff), 0 14px 22px #284d9420; }
+  .roadmap-stop { translate: 0 var(--stagger, 0px); rotate: var(--tilt, 0deg); transition: border-color .4s, box-shadow .4s; }
+  .roadmap-stop:nth-child(4n + 1) { --stagger: -12px; --tilt: -2deg; }
+  .roadmap-stop:nth-child(4n + 2) { --stagger: 22px; --tilt: 1.5deg; }
+  .roadmap-stop:nth-child(4n + 3) { --stagger: -4px; --tilt: -1deg; }
+  .roadmap-stop:nth-child(4n) { --stagger: 28px; --tilt: 2deg; }
+  .roadmap-stop.is-reached { border-color: var(--accent); box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 35%, white), 0 12px 28px color-mix(in srgb, var(--accent) 22%, transparent); animation: service-arrival .65s ease-out both; }
+  @keyframes service-arrival { 0% { scale: .96; } 55% { scale: 1.035; } 100% { scale: 1; } }
+  .roadmap-stop.is-reached .roadmap-dot { background: var(--accent); box-shadow: 0 0 14px 4px var(--tint); }
+  .roadmap-dot { position: absolute; bottom: -14px; left: calc(50% - 7px); width: 14px; height: 9px; border-radius: 50%; background: white; box-shadow: 0 0 8px 2px #b9cce4; transition: background .3s, box-shadow .3s; }
+  .service-icon { flex-shrink: 0; display: grid; place-items: center; width: 42px; height: 48px; border-radius: 13px; color: var(--dark); font-size: 29px; background: linear-gradient(145deg, #fff, var(--tint)); box-shadow: inset 0 0 0 1px #fff, 0 5px 9px #355d9b15; }
+  .service-copy h3 { margin: 0 0 7px; font-family: var(--font-display); font-size: 14px; line-height: 1.3; font-weight: 800; letter-spacing: -.025em; }
+  .services .service-copy { min-width: 0; flex: 1; }
+  .services .service-copy h3 { font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .service-copy p { margin: 0; color: #63718a; font-size: 11px; line-height: 1.45; }
+  .services .service-copy p { font-size: 15px; }
+  .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .55; font-size: 9px; font-weight: 700; }
+  .division-link { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 360px; margin: 22px auto 0; padding: 16px 22px; border-radius: 16px; color: white; background: var(--dark); font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .2s; }
+  .division-link:hover { transform: translateY(-3px); }.division-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }.division-link span { font-size: 23px; }
+  .orb { position: absolute; z-index: -1; width: 600px; height: 600px; border-radius: 50%; filter: blur(70px); opacity: .25; pointer-events: none; }.orb-blue { left: -430px; top: 150px; background: var(--accent); }.orb-accent { right: -430px; bottom: 50px; background: var(--accent); }
+  @media (min-width: 701px) and (max-width: 1050px) { .roadmap { grid-template-columns: repeat(3, minmax(0, 1fr)); }.roadmap-stop { grid-column: var(--col-3); grid-row: var(--row-3); } }
+  @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 21px; }.item-count { display: none; }.section-intro > .section-description { font-size: 13px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 24px; }.service-copy h3 { font-size: 12px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 9px; } }
+  /* Three stair flights: 1?4 right, 5?8 left, then 9?11 right. */
+  .services .roadmap { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 44px; row-gap: 0; padding: 30px 0 45px; }
+  .services .roadmap-stop { grid-column: var(--col-4); grid-row: var(--step-row-4) / span 3; translate: none; rotate: none; }
+  .services .service-number { font-size: 11px; opacity: .75; }
+  @media (min-width: 701px) and (max-width: 1050px) {
+    .services .roadmap { column-gap: 16px; }
+    .services .roadmap-stop { padding: 16px 10px; gap: 8px; }
+    .services .service-icon { width: 30px; height: 36px; font-size: 24px; }
+    .services .service-copy h3 { font-size: 18px; }
+    .services .service-copy p { font-size: 14px; }
+  }
+  @media (max-width: 700px) {
+    .services .roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 52px; }
+    .services .roadmap-stop { grid-column: var(--col-2); grid-row: var(--step-row-2) / span 3; }
+    .services .service-copy h3 { font-size: 16px; }
+    .services .service-copy p { display: block; font-size: 12px; line-height: 1.3; margin-top: 4px; }
+  }
+  .solutions .snake-roadmap { height: 970px; max-width: 1180px; margin-top: 36px; }
+  .solutions .roadmap { display: block; height: 100%; padding: 0; }
+  .solutions .roadmap-stop { position: absolute; left: calc(var(--fruit-x) * 1%); top: calc(var(--fruit-y) * 1%); width: 25%; height: 190px; margin-left: -12.5%; flex-direction: column; justify-content: center; padding: 18px 15px; text-align: center; }
+  .solutions .solution-card-link { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; padding: inherit; border-radius: inherit; color: inherit; text-decoration: none; }
+  .solutions .solution-card-link:focus-visible { outline: none; box-shadow: inset 0 0 0 4px var(--dark); }
+  .solutions .roadmap-stop:focus-within { border-color: var(--accent); }
+  .solution-card-link__more { display: inline-flex; align-items: center; gap: .4rem; margin-top: .15rem; color: var(--dark); font-size: .68rem; font-weight: 800; }
+  .solution-card-link__more span { font-size: .9rem; transition: transform .18s ease; }
+  .solution-card-link:hover .solution-card-link__more span { transform: translate(2px, -2px); }
+  .solutions .roadmap-stop.is-reached { animation: none; }
+  .solution-card-image { display: block; width: 100%; height: 120px; flex: 0 0 auto; border-radius: var(--radius-small); object-fit: cover; }
+  .solutions .roadmap-stop--featured { height: 280px; }
+  .solutions .service-icon { width: 42px; height: 42px; margin-bottom: 0; }
+  .solutions .service-copy h3 { font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .solutions .service-copy p { color: #63718a; font-size: 15px; }
+  .solution-tree { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .solution-tree :global(path) { stroke-linecap: round; stroke-linejoin: round; }
+  .solution-tree :global(.tree-trunk) { stroke: var(--dark); stroke-width: 22px; }
+  .solution-tree :global(.tree-branch) { stroke: var(--accent); stroke-width: 9px; }
+  .solution-tree :global(.tree-leaf) { fill: var(--tint); }
+  .tree-ground { position: absolute; bottom: 6px; left: 30%; width: 40%; height: 30px; border-radius: 50%; background: radial-gradient(ellipse, color-mix(in srgb, var(--accent) 25%, transparent), transparent 70%); }
+  @media (min-width: 701px) and (max-width: 1000px) {
+    .solutions .service-copy h3 { font-size: 14px; }
+    .solutions .service-copy p { font-size: 11px; }
+  }
+  @media (max-width: 700px) {
+    .solutions .snake-roadmap { height: 670px; }
+    .solutions .roadmap-stop, .solutions .roadmap-stop:last-child { width: 29%; margin-left: -14.5%; height: 160px; padding: 12px 6px; border-radius: 22px; }
+    .solution-card-image { height: 58px; }
+    .solutions .roadmap-stop--featured { height: 190px; }
+    .solutions .service-copy h3 { font-size: 11px; overflow-wrap: anywhere; }
+    .solutions .service-copy p { font-size: 9px; line-height: 1.25; }
+    .solutions .service-icon { width: 30px; height: 30px; font-size: 23px; }
+    .solutions .service-number { font-size: 9px; }
+    .solution-tree :global(.tree-trunk) { stroke-width: 16px; }
+    .solution-tree :global(.tree-branch) { stroke-width: 6px; }
+  }
+  .services .roadmap-stop, .solutions .roadmap-stop {
+    transition: translate .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+  }
+  @media (hover: hover) {
+    .services .roadmap-stop:hover, .solutions .roadmap-stop:hover {
+      z-index: 2;
+      translate: 0 -6px;
+      border-color: var(--accent);
+      background: linear-gradient(135deg, #fff, var(--tint));
+      box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 40%, white), 0 15px 32px color-mix(in srgb, var(--accent) 30%, transparent), 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+    }
+  }
+  .solutions .roadmap-stop { isolation: isolate; overflow: hidden; justify-content: center; }
+  .solutions .service-copy h3 { text-shadow: none; }
+  .services .roadmap-stop > .service-robot { left: auto; right: -5px; top: -37px; width: 52px; opacity: 0; visibility: hidden; transform: translateY(18px) scale(.7); transition: opacity .25s, visibility .25s, transform .45s cubic-bezier(.2, 1.5, .4, 1); }
+  .services .roadmap-stop.is-reached > .service-robot { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+  @media (max-width: 700px) { .services .roadmap-stop > .service-robot { width: 43px; top: -31px; } }
+  @media (prefers-reduced-motion: reduce) { .services .roadmap-stop > .service-robot { transition: none; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .services .roadmap-stop, .solutions .roadmap-stop, .division-link, .roadmap-stop, .roadmap-dot { transition: none; }.roadmap-stop.is-reached { animation: none; }.services .roadmap-stop:hover, .solutions .roadmap-stop:hover { translate: none; } }
+</style>

@@ -1,0 +1,131 @@
+---
+const challenges = [
+  { title: 'No Strong Online Presence', description: 'Your business is hard to find and feels less trustworthy.', icon: 'M4 4h16v16H4z M4 8h16 M9 12l6 5 M15 12l-6 5' },
+  { title: 'Not Getting Enough Customers', description: 'Low visibility and limited online reach.', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75' },
+  { title: 'Marketing Isn’t Delivering Results', description: 'You spend time and budget but see little growth.', icon: 'M3 17l6-6 4 4 8-10 M15 5h6v6 M5 21v-3 M11 21v-2 M17 21v-7' },
+  { title: 'Outdated or Non-Mobile Website', description: 'Your site doesn’t look modern or work well on all devices.', icon: 'M14 16H2V3h19v6 M5 21h7 M8 16v5 M16 11h6v11h-6z' },
+  { title: 'Too Many Manual Tasks', description: 'Daily business operations take too much time and effort.', icon: 'M9 3h6l1 4 4 1v6l-4 1-1 4H9l-1-4-4-1V8l4-1z M15 11a3 3 0 1 0-6 0 3 3 0 0 0 6 0' },
+  { title: 'Unclear Digital Strategy', description: 'You’re not sure what to do next to grow online.', icon: 'M21 12a9 9 0 1 1-9-9 M17 12a5 5 0 1 1-5-5 M12 12l9-9 M16 3h5v5' },
+];
+---
+
+<section class="business-challenge" aria-labelledby="challenge-title" data-business-challenge>
+  <header class="challenge-heading">
+    <h2 id="challenge-title">Is Your Business Facing<br /><strong>These Challenges?</strong></h2>
+    <h3>Common problems businesses face online — and why they<br class="wide-break" /> need the right digital solution.</h3>
+   <br>
+  </header>
+  <div class="challenge-scene">
+    <div class="challenge-visual" aria-hidden="true"><img src="/images/business-challenge.webp" alt="" width="1536" height="1024" loading="lazy" /></div>
+    <ul class="challenge-list">
+      {challenges.map((challenge, index) => (
+        <li class:list={['challenge-card', index < 3 ? 'from-left' : 'from-right']} style={`--order:${index % 3};--tilt:${[-7, 2, -4, -7, 1, 5][index]}deg`}>
+          <span class="challenge-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={challenge.icon} /></svg></span>
+          <div><h3>{challenge.title}</h3><p>{challenge.description}</p></div>
+        </li>
+      ))}
+    </ul>
+    <img class="challenge-robot robot-left" src="/images/hero/ry-front-plain.png" alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />
+    <img class="challenge-robot robot-right" src="/images/hero/zite-front-plain.png" alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />
+  </div>
+  <a class="challenge-cta" href="#services">Solve These Challenges <span aria-hidden="true">→</span></a>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  const initializeChallenges = () => {
+    const section = document.querySelector<HTMLElement>('[data-business-challenge]');
+    if (!section || section.dataset.initialized) return;
+    section.dataset.initialized = 'true';
+    const cards = [...section.querySelectorAll<HTMLElement>('.challenge-card')];
+    const robots = [...section.querySelectorAll<HTMLElement>('.challenge-robot')];
+    const list = section.querySelector<HTMLElement>('.challenge-list')!;
+    const corner = (side: number, row: number) => {
+      const card = cards[row + side * 3];
+      return {
+        x: list.offsetLeft + card.offsetLeft + (side === 0 ? card.offsetWidth - robots[side].offsetWidth * .65 : -robots[side].offsetWidth * .35),
+        y: list.offsetTop + card.offsetTop - robots[side].offsetHeight * .62,
+      };
+    };
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let animation: gsap.core.Timeline | undefined;
+    let started = false;
+    const introActive = () => document.documentElement.classList.contains('home-intro') || document.documentElement.classList.contains('home-transition');
+    const reset = () => {
+      animation?.kill(); started = false;
+      gsap.set(robots, { autoAlpha: 0, scale: 1, rotation: 0 });
+      if (motion.matches) { gsap.set(cards, { autoAlpha: 1, x: 0 }); return; }
+      cards.forEach((card) => gsap.set(card, { autoAlpha: 0, x: card.classList.contains('from-left') ? -65 : 65 }));
+    };
+    const start = () => {
+      if (started || introActive()) return;
+      started = true;
+      if (motion.matches) return;
+      animation = gsap.timeline();
+      robots.forEach((robot, side) => {
+        const position = corner(side, 0);
+        gsap.set(robot, { x: position.x, y: position.y - 45, scale: .7 });
+        animation!.to(robot, { autoAlpha: 1, y: position.y, scale: 1, duration: .65, ease: 'back.out(1.6)' }, 0);
+      });
+      for (let row = 0; row < 3; row++) {
+        const time = row * 1.65;
+        if (row > 0) {
+          robots.forEach((robot, side) => {
+            const position = corner(side, row);
+            animation!.to(robot, { y: corner(side, row - 1).y - 35, rotation: side === 0 ? -8 : 8, duration: .22, ease: 'power2.out' }, time)
+              .to(robot, { x: position.x, y: position.y, rotation: 0, duration: .55, ease: 'bounce.out' }, time + .22);
+          });
+        }
+        animation!.to([cards[row], cards[row + 3]], { autoAlpha: 1, x: 0, duration: .7, ease: 'power3.out' }, time + .55);
+      }
+    };
+    reset();
+    const observer = new IntersectionObserver((entries) => {
+      if (!introActive() && entries.some((entry) => entry.isIntersecting)) { start(); observer.disconnect(); }
+    }, { rootMargin: '0px 0px -100px 0px' });
+    const sync = () => {
+      if (introActive()) { observer.disconnect(); reset(); }
+      else if (!started) observer.observe(section);
+    };
+    const intro = new MutationObserver(sync);
+    intro.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    sync();
+    const resize = new ResizeObserver(() => {
+      if (animation?.progress() === 1) robots.forEach((robot, side) => gsap.set(robot, corner(side, 2)));
+    });
+    resize.observe(list);
+    motion.addEventListener('change', () => { if (motion.matches) { animation?.kill(); gsap.set(cards, { autoAlpha: 1, x: 0 }); gsap.set(robots, { autoAlpha: 0 }); } });
+    document.addEventListener('astro:before-swap', () => { observer.disconnect(); intro.disconnect(); resize.disconnect(); animation?.kill(); }, { once: true });
+  };
+  initializeChallenges();
+  document.addEventListener('astro:page-load', initializeChallenges);
+</script>
+
+<style>
+  .business-challenge { position: relative; isolation: isolate; overflow: hidden; padding: 70px max(28px, calc((100vw - 1380px) / 2)) 60px; background: var(--color-paper); color: #0a1734; font-family: var(--font-body); }
+  .business-challenge::before, .business-challenge::after { content: ''; position: absolute; z-index: -1; width: 700px; height: 700px; background: linear-gradient(135deg, #93bbff80, #d9eeff50); border-radius: 42%; pointer-events: none; }
+  .business-challenge::before { top: -280px; left: -460px; rotate: -30deg; }.business-challenge::after { right: -440px; top: -220px; rotate: 35deg; }
+  .challenge-heading { position: relative; z-index: 2; text-align: center; }
+  h2 { font-size: var(--size-h2); font-weight: 900; letter-spacing: -.015em; line-height: 1.04; margin: 22px 0 16px; }h2 strong { color: #064bed; }
+  .challenge-heading p { font-size: 16px; line-height: 1.6; color: #465771; margin: 0; }
+  .heading-swoosh { display: block; width: 130px; height: 12px; margin: 18px auto 0; border-top: 5px solid #0665ec; border-radius: 50%; rotate: -5deg; }
+  .challenge-scene { position: relative; max-width: 1380px; margin: -60px auto 0; min-height: 460px; }
+  .challenge-robot { position: absolute; top: 0; left: 0; width: clamp(64px, 6.5vw, 90px); height: auto; z-index: 3; pointer-events: none; opacity: 0; visibility: hidden; filter: drop-shadow(0 5px 5px #1264c42b); transform-origin: 50% 90%; }
+  .challenge-visual { position: absolute; width: 52%; left: 24%; bottom: -15px; pointer-events: none; }.challenge-visual img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+  .challenge-list { position: relative; display: grid; grid-template-columns: 31% 38% 31%; grid-template-rows: repeat(3, 130px); gap: 30px 0; margin: 0; padding: 0; list-style: none; }
+  .challenge-card { position: relative; display: flex; align-items: center; gap: 16px; padding: 20px 22px; border: 2px solid white; border-left: 7px solid #158bfa; border-radius: 26px; background: linear-gradient(135deg, #ffffff, #edf3ff); box-shadow: 0 9px 24px #2b6ad124; rotate: var(--tilt); transform-style: preserve-3d; transition: rotate .25s, translate .25s, box-shadow .25s, border-color .25s; }
+  .from-left { grid-column: 1; grid-row: calc(var(--order) + 1); }.from-right { grid-column: 3; grid-row: calc(var(--order) + 1); border-left: 2px solid white; border-right: 7px solid #158bfa; }
+  .challenge-icon { display: grid; place-items: center; flex-shrink: 0; width: 62px; height: 66px; border-radius: 20px; color: #0784f9; background: linear-gradient(135deg, #fff, #d3e8ff); box-shadow: inset 0 1px 2px white, 0 5px 10px #0d5acc18; }.challenge-icon svg { width: 38px; height: 38px; filter: drop-shadow(1px 3px 1px #076bd529); }
+  h3 { font-size: 17px; font-weight: 800; line-height: 1.2; letter-spacing: -.035em; margin: 0 0 8px; }.challenge-card p { font-size: 13px; line-height: 1.4; color: #465771; margin: 0; }
+  .challenge-cta { position: relative; display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; margin: 24px auto 0; padding: 18px 30px; border-radius: 999px; background: linear-gradient(110deg, #008aff, #063df3); color: white; box-shadow: 0 8px 18px #085be735; text-decoration: none; font-size: 16px; font-weight: 700; transition: translate .2s; }.challenge-cta span { font-size: 23px; }.challenge-cta:hover { translate: 0 -3px; }.challenge-cta:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
+  @media (hover: hover) { .challenge-card:hover { rotate: 0deg; translate: 0 -6px; transform: perspective(800px) rotateX(4deg) rotateY(-4deg); border-color: #77bdff; box-shadow: 0 14px 30px #1970e333, 0 0 0 3px #0686ff12; }.from-right:hover { transform: perspective(800px) rotateX(4deg) rotateY(4deg); } }
+  @media (max-width: 1100px) { .challenge-scene { margin-top: 25px; }.challenge-list { grid-template-columns: 34% 32% 34%; grid-template-rows: repeat(3, 145px); gap: 20px 0; }.challenge-card { padding: 15px 12px; gap: 10px; }.challenge-icon { width: 44px; height: 50px; }.challenge-icon svg { width: 30px; height: 30px; }h3 { font-size: 15px; }.challenge-card p { font-size: 12px; }.challenge-visual { width: 49%; left: 25.5%; bottom: 25px; } }
+  @media (max-width: 700px) { .business-challenge { padding: 50px 22px 45px; }.challenge-heading p { font-size: 14px; }.wide-break { display: none; }.challenge-scene { display: flex; flex-direction: column; min-height: 0; margin-top: 12px; }.challenge-visual { position: relative; width: 100%; left: auto; bottom: auto; max-width: 480px; margin: auto; }.challenge-list { grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 18px 14px; }.challenge-card { grid-row: auto; grid-column: auto; rotate: 0deg; flex-direction: column; text-align: center; min-height: 190px; padding: 18px 12px; border: 2px solid white; border-bottom: 4px solid #158bfa; border-radius: 20px; }.challenge-icon { width: 48px; height: 48px; }.challenge-cta { font-size: 14px; padding: 16px 22px; margin-top: 28px; } }
+  @media (max-width: 700px) {
+    .challenge-list { row-gap: 42px; padding-top: 25px; }
+    .from-left { grid-column: 1; grid-row: calc(var(--order) + 1); }
+    .from-right { grid-column: 2; grid-row: calc(var(--order) + 1); }
+    .challenge-robot { width: 58px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .challenge-card, .challenge-cta { transition: none; }.challenge-card:hover, .challenge-cta:hover { transform: none; translate: none; } }
+</style>

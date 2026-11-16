@@ -1,11 +1,19 @@
----
-import LandingPage from "../components/landing/LandingPage.astro";
-import Layout from "../layouts/Layout.astro";
+﻿---
+import MainLayout from "../layouts/MainLayout.astro";
+import Hero from "../components/sections/Hero.astro";
+import AboutPreview from "../components/sections/AboutPreview.astro";
+import Offerings from "../components/sections/Offerings.astro";
+import BusinessChallenge from "../components/sections/BusinessChallenge.astro";
+import VisitorNeeds from "../components/sections/VisitorNeeds.astro";
 ---
 
-<Layout
-    title="Ryzite — Design, Technology and Growth"
-    description="Ryzite brings design, technology and marketing together to build useful digital experiences and connected growth systems."
+<MainLayout
+  title="RYZITE | Digital Marketing & Technology"
+  description="One Agency. All Your Business Solutions."
 >
-    <LandingPage />
-</Layout>
+  <Hero />
+  <AboutPreview />
+  <BusinessChallenge />
+  <VisitorNeeds />
+  <Offerings />
+</MainLayout>

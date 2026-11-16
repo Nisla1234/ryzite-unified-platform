@@ -1,0 +1,9 @@
+---
+import MarketingServiceDetail from '../../components/sections/MarketingServiceDetail.astro';
+import { marketingServices } from '../../data/marketing-service-content';
+
+const service = marketingServices.find(({ slug }) => slug === Astro.params.slug);
+if (!service) return Astro.redirect('/services/');
+---
+
+<MarketingServiceDetail slug={service.slug} />
