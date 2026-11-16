@@ -13,8 +13,8 @@
     --color-lilac-soft: #eadcff;
     --color-line-dark: #2a323c;
     --color-line-light: #d5cec2;
-    --font-display: 'Barlow Condensed', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
-    --font-body: 'DM Sans', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
+    --font-display: 'Manrope', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
+    --font-body: 'Inter', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
     --size-display: clamp(6rem, 14vw, 14rem);
     --size-h1: clamp(3.3rem, 7vw, 7rem);
     --size-h2: clamp(2.5rem, 5.2vw, 5.4rem);
