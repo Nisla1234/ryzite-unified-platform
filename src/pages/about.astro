@@ -190,7 +190,6 @@ const ctaUrl = '/contact/';
       const value = translations[element.dataset.aboutKey];
       if (typeof value === 'string') element.textContent = value;
     });
-    document.title = translations.pageTitle;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', translations.metaDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');

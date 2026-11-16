@@ -352,7 +352,6 @@ const pageTranslations = Object.fromEntries(
       const value = copy.processSteps[stepIndex]?.activities[activityIndex];
       if (typeof value === 'string') element.textContent = value;
     });
-    document.title = copy.pageTitle;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', copy.metaDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');

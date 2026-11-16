@@ -279,7 +279,6 @@ const detailTranslations = Object.fromEntries(
 
     const pageTitle = `${service.title} | Marketing Services | RYZITE`;
     const pageDescription = `${service.description} Explore possible ${service.focus} approaches with RYZITE.`;
-    document.title = pageTitle;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', pageDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');

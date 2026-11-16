@@ -123,7 +123,6 @@ const pageTranslations = {
       const value = faq?.[element.dataset.overviewFaqField];
       if (typeof value === 'string') element.textContent = value;
     });
-    document.title = content.pageTitle;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', content.metaDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');

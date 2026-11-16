@@ -216,7 +216,6 @@ const pageTranslations = Object.fromEntries(
       if (service) element.setAttribute('aria-label', `${copy.exploreService}: ${service.title}`);
     });
 
-    document.title = copy.pageTitle;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', copy.metaDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');

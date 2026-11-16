@@ -206,7 +206,6 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
       const value = faq?.[element.dataset.detailFaqField];
       if (typeof value === 'string') element.textContent = value;
     });
-    document.title = `${solution.title} | RYZITE`;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', solution.description);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');
