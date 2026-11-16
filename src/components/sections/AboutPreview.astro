@@ -12,13 +12,18 @@
       </a>
     </div>
 
-    <div class="about-preview__visual" aria-hidden="true">
-      <div class="about-preview__orbit about-preview__orbit--outer"></div>
-      <div class="about-preview__orbit about-preview__orbit--inner"></div>
-      <div class="about-preview__core">R<span>×</span>D</div>
-      <span class="about-preview__label about-preview__label--one" data-home-key="aboutLabelMarketing">MARKETING</span>
-      <span class="about-preview__label about-preview__label--two" data-home-key="aboutLabelTechnology">TECHNOLOGY</span>
-      <span class="about-preview__spark">✳</span>
+    <div class="about-preview__visual">
+      <img
+        class="about-preview__image"
+        src="/images/about-marketing-technology.svg"
+        alt="Two linked blue rings showing marketing and technology working together"
+        width="1000"
+        height="1000"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="about-preview__label about-preview__label--one" aria-hidden="true" data-home-key="aboutLabelMarketing">MARKETING</span>
+      <span class="about-preview__label about-preview__label--two" aria-hidden="true" data-home-key="aboutLabelTechnology">TECHNOLOGY</span>
     </div>
   </div>
 </section>
@@ -110,46 +115,17 @@
     width: min(100%, 410px);
     aspect-ratio: 1;
     justify-self: center;
-    border: 1px solid #dce8f7;
-    border-radius: 50%;
-    background: radial-gradient(circle at center, #fff 0 25%, #f3f8ff 26% 66%, #eaf3ff 67% 100%);
-    box-shadow: inset 0 0 0 1.3rem rgb(255 255 255 / 42%);
   }
 
-  .about-preview__orbit {
-    position: absolute;
-    inset: 12%;
-    border: 1px solid #9bc1f0;
-    border-radius: 50%;
+  .about-preview__image {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .about-preview__orbit--inner { inset: 27%; border-style: dashed; border-color: #80aee6; }
-
-  .about-preview__core {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    display: grid;
-    width: 36%;
-    aspect-ratio: 1;
-    place-items: center;
-    transform: translate(-50%, -50%);
-    border: 1px solid #ffffffb0;
-    border-radius: 1.5rem;
-    color: #fff;
-    background: linear-gradient(145deg, #078be9, #0643cf);
-    box-shadow: 0 1rem 2.2rem #0655e93b;
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3.3rem);
-    font-weight: 800;
-    letter-spacing: -.06em;
-  }
-
-  .about-preview__core span { padding-inline: .12em; color: #a9e7ff; font-size: .62em; }
   .about-preview__label { position: absolute; padding: .45rem .7rem; border: 1px solid #d3e3f7; border-radius: 999px; color: #305278; background: #fff; box-shadow: 0 .5rem 1rem #193f7212; font-size: .6rem; font-weight: 800; letter-spacing: .12em; }
-  .about-preview__label--one { top: 21%; left: 8%; }
-  .about-preview__label--two { right: 2%; bottom: 23%; }
-  .about-preview__spark { position: absolute; top: 15%; right: 21%; color: #078be9; font-size: 1.4rem; }
+  .about-preview__label--one { top: 8%; left: 10%; }
+  .about-preview__label--two { right: 3%; bottom: 8%; }
 
   @media (max-width: 720px) {
     .about-preview { padding: 4.5rem 1.25rem; }
