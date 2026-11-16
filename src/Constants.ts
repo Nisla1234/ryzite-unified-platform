@@ -4,7 +4,7 @@ import si from "./data/si.json";
 
 export const company = {
     name: "Ryzite",
-    email: "ryzitetm@gmail.com",
+    email: "info@ryzite.lk",
     location: "Sri Lanka",
     social: {
         linkedin: "",
