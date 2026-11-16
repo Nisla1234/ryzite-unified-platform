@@ -1,0 +1,118 @@
+---
+import { reviewPlatforms } from '../../data/reviews';
+import { reviewsTranslations } from '../../data/reviews-translations';
+---
+
+<section class="reviews-trust" aria-labelledby="reviews-trust-title">
+  <div class="reviews-shell">
+    <header class="reviews-heading" data-reviews-reveal>
+      <p class="reviews-eyebrow" data-reviews-key="eyebrow">CLIENT REVIEWS</p>
+      <h2 id="reviews-trust-title" data-reviews-key="title">Trusted Voices. Real Experiences.</h2>
+      <p class="reviews-intro" data-reviews-key="intro">Explore customer feedback and discover what clients say about their experiences working with RYZITE.</p>
+    </header>
+    <div class="reviews-grid">
+      {reviewPlatforms.map((platform, index) => (
+        <article class:list={['review-card', `review-card--${platform.id}`]} data-reviews-reveal data-reveal-order={index + 1}>
+          <span class="review-card__logo" aria-hidden="true">
+            {platform.id === 'google' && (
+              <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-hidden="true">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+              </svg>
+            )}
+            {platform.id === 'trustpilot' && (
+              <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-hidden="true">
+                <path fill="#00B67A" d="M48 18.34H29.66L24 .9l-5.66 17.44H0l14.84 10.78-5.67 17.44L24 35.78l14.83 10.78-5.67-17.44L48 18.34z" />
+                <path fill="#005128" d="M34.44 33.06 33.16 29.12 24 35.78l10.44-2.72z" />
+              </svg>
+            )}
+            {platform.id === 'clutch' && (
+              <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-hidden="true">
+                <path fill="#17313B" d="M33.3 32.9a12.5 12.5 0 1 1 0-17.8l6.1-6.1a21.1 21.1 0 1 0 0 30l-6.1-6.1z" />
+                <circle fill="#EF4335" cx="24.4" cy="24" r="6.2" />
+              </svg>
+            )}
+          </span>
+          <h3 data-reviews-key={`${platform.id}Title`}>{reviewsTranslations.en[`${platform.id}Title`]}</h3>
+          <p data-reviews-key={`${platform.id}Body`}>{reviewsTranslations.en[`${platform.id}Body`]}</p>
+          {platform.url && (
+            <a class="review-card__cta" href={platform.url} target="_blank" rel="noopener noreferrer">
+              <span data-reviews-key={`${platform.id}Cta`}>{reviewsTranslations.en[`${platform.id}Cta`]}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ reviewsTranslations }}>
+  const applyReviewsLocale = (locale) => {
+    const content = reviewsTranslations[locale] || reviewsTranslations.en;
+    document.querySelectorAll('.reviews-trust [data-reviews-key]').forEach((element) => {
+      const value = content[element.dataset.reviewsKey];
+      if (typeof value === 'string') element.textContent = value;
+    });
+  };
+
+  applyReviewsLocale(document.body.dataset.locale || 'en');
+  window.addEventListener('ryzite:locale-change', (event) => applyReviewsLocale(event.detail?.locale || 'en'));
+</script>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const initializeReviewsReveal = () => {
+    const section = document.querySelector<HTMLElement>('.reviews-trust');
+    if (!section || section.dataset.initialized) return;
+    section.dataset.initialized = 'true';
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (motionPreference.matches || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const order = Number((entry.target as HTMLElement).dataset.revealOrder || 0);
+        gsap.fromTo(entry.target, { autoAlpha: 0, y: 18 }, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.6,
+          delay: order * 0.14,
+          ease: 'power2.out',
+          clearProps: 'all',
+        });
+        currentObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    section.querySelectorAll('[data-reviews-reveal]').forEach((element) => observer.observe(element));
+    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+  };
+  initializeReviewsReveal();
+  document.addEventListener('astro:page-load', initializeReviewsReveal);
+</script>
+
+<style>
+  .reviews-trust { padding: clamp(4.5rem, 8vw, 6.5rem) var(--space-frame); color: #111e32; background: #f2f7fd; }
+  .reviews-trust *, .reviews-trust *::before, .reviews-trust *::after { box-sizing: border-box; }
+  .reviews-shell { width: min(100%, 1100px); margin-inline: auto; }
+  .reviews-heading { max-width: 720px; margin: 0 auto clamp(2.2rem, 4vw, 3rem); text-align: center; }
+  .reviews-eyebrow { display: flex; align-items: center; justify-content: center; gap: .65rem; margin: 0 0 1rem; color: #0756df; font-size: .72rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+  .reviews-eyebrow::before { width: 1.5rem; height: 2px; border-radius: 2px; background: currentColor; content: ''; }
+  .reviews-heading h2 { margin: 0; color: #0a1734; font-family: var(--font-display); font-size: clamp(2.6rem, 4.6vw, 4.2rem); font-weight: 800; letter-spacing: -.02em; line-height: 1; }
+  .reviews-intro { max-width: 600px; margin: 1rem auto 0; color: #5c6878; line-height: 1.7; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; }
+  .review-card { display: flex; flex-direction: column; align-items: center; padding: 2.1rem 1.5rem 2rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(150deg, #fff, #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; text-align: center; transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
+  .review-card:hover { transform: translateY(-5px); border-color: #9fc1eb; box-shadow: 0 1.1rem 2.2rem #163f7618; }
+  .review-card__logo { display: grid; flex-shrink: 0; width: 64px; height: 64px; margin-bottom: .9rem; place-items: center; border: 1px solid #e3ecf7; border-radius: 18px; background: #fff; box-shadow: 0 6px 14px #1f4b8a12; }
+  .review-card__logo svg { display: block; }
+  .review-card h3 { margin: 0 0 .5rem; color: #15263d; font-family: var(--font-body); font-size: 1.15rem; font-weight: 800; letter-spacing: -.01em; }
+  .review-card p { margin: 0; color: #5c6878; font-size: .9rem; line-height: 1.65; }
+  .review-card__cta { display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.1rem; padding: .7rem 1.3rem; border-radius: 999px; color: #fff; background: #0655e9; font-size: .85rem; font-weight: 800; text-decoration: none; transition: transform .18s ease, background .18s ease; }
+  .review-card__cta:hover { transform: translateY(-2px); background: #0539b7; }
+  .review-card__cta:focus-visible { outline: 3px solid #0655e9; outline-offset: 4px; }
+  @media (min-width: 701px) and (max-width: 980px) { .reviews-grid { gap: 1rem; } .review-card { padding: 1.7rem 1.1rem 1.6rem; } .review-card h3 { font-size: 1.02rem; } .review-card p { font-size: .84rem; } }
+  @media (max-width: 700px) { .reviews-trust { padding-inline: 1.25rem; } .reviews-grid { grid-template-columns: minmax(0, 1fr); max-width: 420px; margin-inline: auto; gap: 1.1rem; } }
+  @media (prefers-reduced-motion: reduce) { .review-card, .review-card__cta { transition: none; } .review-card:hover, .review-card__cta:hover { transform: none; } }
+</style>
