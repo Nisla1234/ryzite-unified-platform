@@ -1,17 +1,49 @@
 ﻿---
+import { divisions, offeringSlug } from '../../data/offerings';
+
 const links = [
-  { label: 'Home', href: '/' },
-  { label: 'Services', href: '/services' },
-  { label: 'Solutions', href: '/solutions' },
-  { label: 'Packages', href: '/packages' },
-  { label: 'About Us', href: '/about-us' },
-  { label: 'How We Work', href: '/how-we-work' },
-  { label: 'Our Work', href: '/our-work' },
-  { label: 'Articles & Guides', href: '/articles' },
-  { label: 'Contact', href: '/contact' },
+  { key: 'home', label: 'Home', href: '/' },
+  { key: 'about', label: 'About Us', href: '/about' },
+  { key: 'services', label: 'Services', href: '/services' },
+  { key: 'solutions', label: 'Solutions', href: '/solutions' },
+  { key: 'resources', label: 'Resources', href: '/resources' },
+  { key: 'contact', label: 'Contact', href: '/contact' },
+];
+const services = divisions.find(({ id }) => id === 'services')?.items ?? [];
+const serviceColumns = [services.slice(0, 4), services.slice(4, 8), services.slice(8)];
+const solutions = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
+const solutionColumns = [solutions.slice(0, 3), solutions.slice(3, 6), solutions.slice(6)];
+const resourceItems = [
+  { key: 'packages', label: 'Packages', href: '/packages' },
+  { key: 'process', label: 'How We Work', href: '/how-we-work' },
+  { key: 'work', label: 'Our Work', href: '/our-work' },
+  { key: 'blog', label: 'Blog', href: '/articles' },
 ];
 const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (href) => href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+const labels = {
+  en: {
+    languageName: 'English', selectLanguage: 'Select language', languageOptions: 'Language',
+    home: 'Home', about: 'About Us', services: 'Services', solutions: 'Solutions', resources: 'Resources', contact: 'Contact',
+    packages: 'Packages', process: 'How We Work', work: 'Our Work', blog: 'Blog', startProject: 'Start a Project', menu: 'Menu',
+    mainNavigation: 'Main navigation', mobileNavigation: 'Mobile navigation', toggleMenu: 'Toggle navigation menu',
+    openServices: 'Open Services menu', openSolutions: 'Open Solutions menu',
+  },
+  ta: {
+    languageName: 'தமிழ்', selectLanguage: 'மொழியைத் தேர்ந்தெடுக்கவும்', languageOptions: 'மொழி',
+    home: 'முகப்பு', about: 'எங்களைப் பற்றி', services: 'சேவைகள்', solutions: 'தீர்வுகள்', resources: 'வளங்கள்', contact: 'தொடர்பு',
+    packages: 'தொகுப்புகள்', process: 'நாங்கள் செயல்படும் விதம்', work: 'எங்கள் பணிகள்', blog: 'ப்ளாக்', startProject: 'திட்டத்தைத் தொடங்கு', menu: 'மெனு',
+    mainNavigation: 'முதன்மை வழிசெலுத்தல்', mobileNavigation: 'கைபேசி வழிசெலுத்தல்', toggleMenu: 'வழிசெலுத்தல் மெனுவை மாற்று',
+    openServices: 'சேவைகள் மெனுவைத் திறக்கவும்', openSolutions: 'தீர்வுகள் மெனுவைத் திறக்கவும்',
+  },
+  si: {
+    languageName: 'සිංහල', selectLanguage: 'භාෂාව තෝරන්න', languageOptions: 'භාෂාව',
+    home: 'මුල් පිටුව', about: 'අප ගැන', services: 'සේවා', solutions: 'විසඳුම්', resources: 'සම්පත්', contact: 'සම්බන්ධ වන්න',
+    packages: 'පැකේජ', process: 'අපි වැඩ කරන ආකාරය', work: 'අපගේ වැඩ', blog: 'බ්ලොග්', startProject: 'ව්‍යාපෘතියක් අරඹන්න', menu: 'මෙනුව',
+    mainNavigation: 'ප්‍රධාන මෙනුව', mobileNavigation: 'ජංගම මෙනුව', toggleMenu: 'මෙනුව විවෘත කරන්න හෝ වසන්න',
+    openServices: 'සේවා මෙනුව විවෘත කරන්න', openSolutions: 'විසඳුම් මෙනුව විවෘත කරන්න',
+  },
+};
 ---
 
 <header class="site-header">
@@ -20,36 +52,207 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
       <img class="brand-logo" src="/Original%20Logo.png" alt="RYZITE" width="1080" height="1080" loading="eager" />
     </a>
 
-    <nav class="desktop-nav" aria-label="Main navigation">
-      {links.map(({ label, href }) => (
-        <a href={href} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+    <nav class="desktop-nav" aria-label="Main navigation" data-aria-label-key="mainNavigation">
+      {links.map(({ key, label, href }) => label === 'Services' ? (
+        <div class="services-dropdown" data-mega-dropdown>
+          <a href="/services/" data-label-key={key} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+          <button class="services-trigger services-trigger--icon" type="button" data-mega-trigger aria-label="Open Services menu" data-aria-label-key="openServices" aria-expanded="false" aria-controls="services-menu">
+            <span class="services-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="services-menu" id="services-menu" data-mega-menu hidden>
+            <div class="services-menu__inner">
+              {serviceColumns.map((column) => (
+                <ul class="services-menu__column">
+                  {column.map(([title]) => (
+                    <li><a href={`/services/#${offeringSlug(title)}`}>{title}</a></li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : label === 'Solutions' ? (
+        <div class="services-dropdown" data-mega-dropdown>
+          <a href="/solutions/" data-label-key={key} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
+          <button class="services-trigger services-trigger--icon" type="button" data-mega-trigger aria-label="Open Solutions menu" data-aria-label-key="openSolutions" aria-expanded="false" aria-controls="solutions-menu">
+            <span class="services-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="solutions-menu" id="solutions-menu" data-mega-menu hidden>
+            <div class="solutions-menu__inner">
+              {solutionColumns.map((column) => (
+                <ul class="solutions-menu__column">
+                  {column.map(([title]) => (
+                    <li><a href={`/solutions/${offeringSlug(title)}/`}>{title}</a></li>
+                  ))}
+                </ul>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : label === 'Resources' ? (
+        <div class="services-dropdown resources-dropdown" data-mega-dropdown>
+          <button class="services-trigger" type="button" data-mega-trigger aria-expanded="false" aria-controls="resources-menu" aria-current={isActive(href) ? 'page' : undefined}>
+            <span data-label-key={key}>{label}</span><span class="services-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="resources-menu" id="resources-menu" data-mega-menu hidden>
+            <div class="resources-menu__inner">
+              {resourceItems.map(({ key: itemKey, label: itemLabel, href: itemHref }) => (
+                <a class="resources-menu__item" href={itemHref} data-label-key={itemKey}>{itemLabel}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <a href={href} data-label-key={key} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>
       ))}
     </nav>
 
-    <a class="project-link desktop-project" href="/contact">
-      Start a Project <span aria-hidden="true">↗</span>
-    </a>
+    <div class="header-actions">
+      <details class="language-picker">
+        <summary aria-label="Select language" data-aria-label-key="selectLanguage">
+          <svg class="language-globe" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9.25"></circle>
+            <path d="M2.9 12h18.2M12 2.75c2.4 2.55 3.55 5.65 3.55 9.25S14.4 18.7 12 21.25C9.6 18.7 8.45 15.6 8.45 12S9.6 5.3 12 2.75Z"></path>
+          </svg>
+          <span data-label-key="languageName">English</span>
+          <span class="language-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="language-options" role="group" aria-label="Language" data-aria-label-key="languageOptions">
+          <button type="button" data-locale-button="en" aria-pressed="true">English</button>
+          <button type="button" data-locale-button="ta" aria-pressed="false">தமிழ்</button>
+          <button type="button" data-locale-button="si" aria-pressed="false">සිංහල</button>
+        </div>
+      </details>
+      <a class="project-link desktop-project" href="/contact">
+        <span data-label-key="startProject">Start a Project</span>
+      </a>
 
-    <details class="mobile-menu">
-      <summary aria-label="Toggle navigation menu">
-        <span class="menu-label">Menu</span>
-        <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
-      </summary>
-      <div class="mobile-panel">
-        <nav aria-label="Mobile navigation">
-          {links.map(({ label, href }) => (
-            <a href={href} aria-current={isActive(href) ? 'page' : undefined}>
-              {label}<span aria-hidden="true">↗</span>
-            </a>
-          ))}
-        </nav>
-        <a class="project-link" href="/contact">Start a Project <span aria-hidden="true">↗</span></a>
-      </div>
-    </details>
+      <details class="mobile-menu">
+        <summary aria-label="Toggle navigation menu" data-aria-label-key="toggleMenu">
+          <span class="menu-label" data-label-key="menu">Menu</span>
+          <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </summary>
+        <div class="mobile-panel">
+          <nav aria-label="Mobile navigation" data-aria-label-key="mobileNavigation">
+            {links.map(({ key, label, href }) => label === 'Services' ? (
+              <details class="mobile-services">
+                <summary><span data-label-key={key}>Services</span></summary>
+                <ul>
+                  {services.map(([title]) => (
+                    <li><a href={`/services/#${offeringSlug(title)}`}>{title}</a></li>
+                  ))}
+                </ul>
+              </details>
+            ) : label === 'Solutions' ? (
+              <a href="/solutions/" aria-current={isActive(href) ? 'page' : undefined}>
+                <span data-label-key={key}>{label}</span><span aria-hidden="true">↗</span>
+              </a>
+            ) : label === 'Resources' ? (
+              <details class="mobile-services mobile-resources">
+                <summary><span data-label-key={key}>Resources</span></summary>
+                <ul>
+                  {resourceItems.map(({ key: itemKey, label: itemLabel, href: itemHref }) => (
+                    <li><a href={itemHref} data-label-key={itemKey}>{itemLabel}</a></li>
+                  ))}
+                </ul>
+              </details>
+            ) : (
+              <a href={href} aria-current={isActive(href) ? 'page' : undefined}>
+                <span data-label-key={key}>{label}</span><span aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </nav>
+          <a class="project-link" href="/contact"><span data-label-key="startProject">Start a Project</span></a>
+        </div>
+      </details>
+    </div>
   </div>
 </header>
 
-<script is:inline>
+<script is:inline define:vars={{ labels }}>
+  const setLocale = (locale) => {
+    const translations = labels[locale] || labels.en;
+    document.documentElement.lang = locale;
+    document.body.dataset.locale = locale;
+
+    try {
+      window.localStorage.setItem('ryzite-locale', locale);
+    } catch {}
+
+    document.querySelectorAll('[data-label-key]').forEach((element) => {
+      const value = translations[element.dataset.labelKey];
+      if (typeof value === 'string') element.textContent = value;
+    });
+
+    document.querySelectorAll('[data-aria-label-key]').forEach((element) => {
+      const value = translations[element.dataset.ariaLabelKey];
+      if (typeof value === 'string') element.setAttribute('aria-label', value);
+    });
+
+    document.querySelectorAll('[data-locale-button]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(button.dataset.localeButton === locale));
+    });
+
+    document.querySelectorAll('.language-picker').forEach((picker) => { picker.open = false; });
+    window.dispatchEvent(new CustomEvent('ryzite:locale-change', { detail: { locale } }));
+  };
+
+  let initialLocale = 'en';
+  try {
+    const storedLocale = window.localStorage.getItem('ryzite-locale');
+    if (storedLocale && storedLocale in labels) initialLocale = storedLocale;
+    else if (navigator.language.toLowerCase().startsWith('ta')) initialLocale = 'ta';
+    else if (navigator.language.toLowerCase().startsWith('si')) initialLocale = 'si';
+  } catch {}
+  setLocale(initialLocale);
+
+  document.querySelectorAll('[data-locale-button]').forEach((button) => {
+    button.addEventListener('click', () => setLocale(button.dataset.localeButton || 'en'));
+  });
+
+  document.querySelectorAll('.language-picker').forEach((picker) => {
+    picker.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        picker.open = false;
+        picker.querySelector('summary')?.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (!picker.contains(event.target)) picker.open = false;
+    });
+  });
+
+  document.querySelectorAll('[data-mega-dropdown]').forEach((dropdown) => {
+    const trigger = dropdown.querySelector('[data-mega-trigger]');
+    const panel = dropdown.querySelector('[data-mega-menu]');
+    if (!trigger || !panel) return;
+
+    const close = (restoreFocus = false) => {
+      trigger.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+      if (restoreFocus) trigger.focus();
+    };
+
+    trigger.addEventListener('click', () => {
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('[data-mega-dropdown]').forEach((otherDropdown) => {
+        if (otherDropdown === dropdown) return;
+        otherDropdown.querySelector('[data-mega-trigger]')?.setAttribute('aria-expanded', 'false');
+        const otherPanel = otherDropdown.querySelector('[data-mega-menu]');
+        if (otherPanel) otherPanel.hidden = true;
+      });
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.hidden = isOpen;
+    });
+    panel.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => close()));
+    document.addEventListener('click', (event) => {
+      if (!dropdown.contains(event.target)) close();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && trigger.getAttribute('aria-expanded') === 'true') close(true);
+    });
+  });
+
   document.querySelectorAll('.mobile-menu').forEach((menu) => {
     menu.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
@@ -70,64 +273,115 @@ const isActive = (href) => href === '/' ? pathname === '/' : pathname === href |
   .site-header {
     --header-blue: #064bed;
     --header-ink: #132447;
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 30;
     width: 100%;
-    border-bottom: 1px solid #dce8fa;
-    background: linear-gradient(110deg, #e7f0ff 0%, #f9fbff 48%, #edf4ff 100%);
+    height: 86px;
+    padding: 0 max(28px, calc((100vw - 1300px) / 2));
+    border-bottom: 1px solid #ece9e3;
+    background: rgba(250, 248, 244, .94);
+    backdrop-filter: blur(20px);
     color: var(--header-ink);
     font-family: var(--font-body);
   }
   .site-header *, .site-header *::before, .site-header *::after { box-sizing: border-box; }
   .header-inner {
-    max-width: 1600px;
-    min-height: 100px;
+    width: 100%;
+    max-width: 1300px;
+    height: 100%;
     margin-inline: auto;
-    padding: 16px clamp(20px, 3vw, 54px);
+    padding: 0;
     display: grid;
     grid-template-columns: minmax(170px, 1fr) auto minmax(170px, 1fr);
     align-items: center;
     gap: 28px;
   }
   a { color: inherit; text-decoration: none; }
-  a:focus-visible, summary:focus-visible { outline: 3px solid #3772f5; outline-offset: 6px; border-radius: 5px; }
+  a:focus-visible, summary:focus-visible, .services-trigger:focus-visible { outline: 3px solid #3772f5; outline-offset: 6px; border-radius: 5px; }
   .wordmark { display: block; flex-shrink: 0; justify-self: start; }
-  /* Crop the image's outer whitespace while preserving the complete logo. */
-  .brand-logo { display: block; width: 144px; height: 84px; object-fit: cover; object-position: center; }
-  .desktop-nav { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 1.35vw, 23px); }
+  .brand-logo { display: block; width: 140px; max-height: 80px; height: auto; object-fit: contain; }
+  .desktop-nav { display: flex; flex: 0 0 auto; flex-wrap: nowrap; align-items: center; justify-content: center; gap: clamp(24px, 2vw, 32px); }
+  .header-actions { display: flex; align-items: center; justify-self: end; gap: clamp(12px, 1.6vw, 22px); }
   .desktop-project { justify-self: end; }
-  .desktop-nav a { position: relative; padding-block: 17px; white-space: nowrap; font-size: 13px; font-weight: 600; line-height: 1.5; transition: color 160ms ease; }
-  .desktop-nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; border-radius: 2px; background: var(--header-blue); transform: scaleX(0); transition: transform 160ms ease; }
-  .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { color: var(--header-blue); }
-  .desktop-nav a:hover::after, .desktop-nav a[aria-current='page']::after { transform: scaleX(1); }
-  .project-link { display: inline-flex; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; padding: 14px 21px; border: 1px solid #3777ff; border-radius: 999px; background: linear-gradient(135deg, #0874ff, #053de0); box-shadow: 0 6px 15px #0758df20, inset 0 1px 1px #ffffff45; color: white; font-size: 13px; font-weight: 600; line-height: 1.4; white-space: nowrap; transition: box-shadow 160ms ease, background 160ms ease; }
-  .project-link span { font-size: 19px; line-height: 1; }
+  .language-picker { position: relative; z-index: 32; flex: 0 0 auto; }
+  .language-picker > summary { display: inline-flex; align-items: center; gap: 9px; padding: 8px 4px; border: 0; border-radius: 0; color: var(--header-ink); background: transparent; cursor: pointer; font-size: 16px; font-weight: 500; line-height: 1.4; list-style: none; white-space: nowrap; }
+  .language-picker > summary::-webkit-details-marker { display: none; }
+  .language-globe { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .language-chevron { width: 8px; height: 8px; border-right: 1.8px solid currentColor; border-bottom: 1.8px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform 160ms ease; }
+  .language-picker[open] .language-chevron { transform: rotate(225deg) translate(-1px, -1px); }
+  .language-options { position: absolute; top: calc(100% + 8px); right: 0; z-index: 33; display: grid; min-width: 140px; gap: 3px; padding: 6px; border: 1px solid #dce8fa; border-radius: 14px; background: rgba(250, 248, 244, .98); box-shadow: 0 14px 28px #153c7a20; backdrop-filter: blur(16px); }
+  .language-options button { width: 100%; padding: 9px 12px; border: 0; border-radius: 9px; color: var(--header-ink); background: transparent; cursor: pointer; font-size: 14px; text-align: left; }
+  .language-options button:hover, .language-options button[aria-pressed='true'] { color: #064bed; background: #eaf1ff; }
+  .language-options button:focus-visible { outline: 2px solid #064bed; outline-offset: 2px; }
+  .desktop-nav > a, .services-dropdown > a, .services-trigger { position: relative; flex-shrink: 0; padding-block: 17px; white-space: nowrap; font-size: 16px; font-weight: 300; line-height: 1.5; transition: color 160ms ease; }
+  .desktop-nav > a::after, .services-dropdown > a::after, .services-trigger::before { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 2px; border-radius: 2px; background: var(--header-blue); transform: scaleX(0); transition: transform 160ms ease; }
+  .desktop-nav > a:hover, .desktop-nav > a[aria-current='page'], .services-dropdown > a:hover, .services-dropdown > a[aria-current='page'], .services-trigger:hover, .services-trigger[aria-expanded='true'] { color: var(--header-blue); }
+  .desktop-nav > a:hover::after, .desktop-nav > a[aria-current='page']::after, .services-dropdown > a:hover::after, .services-dropdown > a[aria-current='page']::after, .services-trigger[aria-expanded='true']::before { transform: scaleX(1); }
+  .services-dropdown { display: flex; flex: 0 0 auto; align-items: center; gap: 0; }
+  .resources-dropdown { position: relative; }
+  .services-trigger { display: inline-flex; align-items: center; justify-content: center; gap: 9px; width: auto; padding-inline: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font-family: inherit; }
+  .services-trigger--icon { width: 24px; gap: 0; }
+  .services-chevron { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform 160ms ease; }
+  .services-trigger[aria-expanded='true'] .services-chevron { transform: rotate(225deg) translate(-1px, -1px); }
+  .services-menu, .solutions-menu, .resources-menu { position: absolute; top: 100%; left: 0; right: 0; z-index: 31; border-bottom: 1px solid #dce8fa; background: #f3f8fe; box-shadow: 0 20px 32px #153c7a1a; }
+  .services-menu[hidden], .solutions-menu[hidden], .resources-menu[hidden] { display: none; }
+  .resources-menu { right: auto; width: min(260px, calc(100vw - 32px)); }
+  .services-menu__inner { max-width: 1600px; margin: 0 auto; padding: 34px clamp(28px, 8vw, 150px) 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2vw, 32px); }
+  .services-menu__column, .solutions-menu__column { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; }
+  .services-menu__column li, .solutions-menu__column li { min-height: 58px; display: flex; align-items: center; border-bottom: 1px solid #cfdbeb; }
+  .services-menu__column a, .solutions-menu__column a { width: 100%; padding: 12px 0; color: #132447; font-size: 16px; line-height: 1.35; transition: color 160ms ease; }
+  .services-menu__column a:hover, .services-menu__column a:focus-visible, .solutions-menu__column a:hover, .solutions-menu__column a:focus-visible { color: var(--header-blue); }
+  .solutions-menu__inner { max-width: 1600px; margin: 0 auto; padding: 34px clamp(28px, 8vw, 150px) 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2vw, 32px); }
+  .resources-menu__inner { width: 100%; padding: 12px 16px 16px; display: grid; grid-template-columns: 1fr; }
+  .resources-menu__item { min-height: 54px; display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #cfdbeb; color: #132447; font-size: 16px; line-height: 1.35; transition: color 160ms ease; }
+  .resources-menu__item:hover, .resources-menu__item:focus-visible { color: var(--header-blue); }
+  .project-link { display: inline-flex; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; padding: 14px 21px; border: 1px solid #3777ff; border-radius: 999px; background: linear-gradient(135deg, #0874ff, #053de0); box-shadow: 0 6px 15px #0758df20, inset 0 1px 1px #ffffff45; color: white; font-size: 16px; font-weight: 600; line-height: 1.4; white-space: nowrap; transition: box-shadow 160ms ease, background 160ms ease; }
   .project-link:hover { background: #073ac7; box-shadow: 0 7px 20px #0758df35; }
   .mobile-menu { display: none; }
-  @media (max-width: 1279px) {
-    .header-inner { display: flex; min-height: 88px; justify-content: space-between; }
+  @media (max-width: 1379px) {
+    .header-inner { display: flex; justify-content: space-between; }
     .desktop-nav, .desktop-project { display: none; }
-    .brand-logo { width: 128px; height: 76px; }
     .mobile-menu { display: block; }
     summary { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid #c9daf8; border-radius: 999px; background: #ffffffb3; color: var(--header-ink); cursor: pointer; list-style: none; }
+    .language-picker > summary { gap: 9px; padding: 8px 4px; border: 0; border-radius: 0; background: transparent; }
     summary::-webkit-details-marker { display: none; }
-    .menu-label { font-size: 13px; font-weight: 600; }
-    .menu-icon { position: relative; width: 18px; height: 14px; }
-    .menu-icon span { position: absolute; left: 0; width: 18px; height: 2px; border-radius: 2px; background: var(--header-blue); transition: transform 160ms ease, top 160ms ease; }
-    .menu-icon span:first-child { top: 3px; }
-    .menu-icon span:last-child { top: 10px; }
-    details[open] .menu-icon span:first-child { top: 6px; transform: rotate(45deg); }
-    details[open] .menu-icon span:last-child { top: 6px; transform: rotate(-45deg); }
-    .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 3vw, 54px) 24px; border-bottom: 1px solid #dce8fa; background: #f5f9ff; box-shadow: 0 18px 28px #153c7a15; max-height: calc(100dvh - 88px); overflow-y: auto; }
+    .mobile-menu > summary { display: grid; width: 44px; height: 44px; place-items: center; padding: 8px; border: 0; border-radius: 50%; background: transparent; }
+    .menu-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+    .menu-icon { position: relative; display: block; width: 24px; height: 20px; }
+    .menu-icon span { position: absolute; left: 0; width: 24px; height: 2px; border-radius: 2px; background: var(--header-ink); transition: transform 160ms ease, top 160ms ease, opacity 160ms ease; }
+    .menu-icon span:nth-child(1) { top: 2px; }
+    .menu-icon span:nth-child(2) { top: 9px; }
+    .menu-icon span:nth-child(3) { top: 16px; }
+    .mobile-menu[open] .menu-icon span:nth-child(1) { top: 9px; transform: rotate(45deg); }
+    .mobile-menu[open] .menu-icon span:nth-child(2) { opacity: 0; }
+    .mobile-menu[open] .menu-icon span:nth-child(3) { top: 9px; transform: rotate(-45deg); }
+    .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 3vw, 54px) 24px; border-bottom: 1px solid #e5e1d9; background: #faf8f4; box-shadow: 0 18px 28px #153c7a15; max-height: calc(100dvh - 86px); overflow-y: auto; }
     .mobile-panel nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 26px; margin-bottom: 20px; }
-    .mobile-panel nav a { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 8px; border-bottom: 1px solid #dfE8f6; font-size: 15px; font-weight: 600; }
+    .mobile-panel nav a { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 8px; border-bottom: 1px solid #dfE8f6; font-size: 16px; font-weight: 300; }
     .mobile-panel nav a span { color: #7290b9; }
     .mobile-panel nav a:hover, .mobile-panel nav a[aria-current='page'] { color: var(--header-blue); }
+    .mobile-services { grid-column: 1 / -1; }
+    .mobile-services > summary { display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 15px 8px; border: 0; border-bottom: 1px solid #dfE8f6; border-radius: 0; background: transparent; color: inherit; font-size: 16px; font-weight: 300; }
+    .mobile-services > summary::after { width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; content: ''; transform: rotate(45deg) translateY(-2px); transition: transform 160ms ease; }
+    .mobile-services[open] > summary::after { transform: rotate(225deg) translate(-1px, -1px); }
+    .mobile-services > ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; list-style: none; margin: 0; padding: 0 8px 12px; }
+    .mobile-services > ul a { display: block; height: 100%; padding: 9px 0; border-bottom: 1px solid #dfE8f6; font-size: 13px; font-weight: 500; line-height: 1.4; }
+    .mobile-resources > ul { grid-template-columns: 1fr; }
   }
   @media (max-width: 480px) {
+    .header-inner { gap: 10px; }
+    .brand-logo { width: 100px; }
+    .header-actions { gap: 8px; }
     .mobile-panel nav { grid-template-columns: 1fr; }
     .mobile-panel nav a { padding-block: 12px; }
+    .mobile-services > ul { grid-template-columns: 1fr; }
+    .mobile-services > summary { padding-block: 12px; }
     .mobile-panel > .project-link { width: 100%; }
+  }
+  @media (max-width: 760px) {
+    .site-header { height: 70px; padding: 0 16px; }
+    .mobile-panel { max-height: calc(100dvh - 70px); }
   }
   @media (prefers-reduced-motion: reduce) { .site-header * { transition: none; } }
 </style>

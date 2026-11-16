@@ -1,6 +1,6 @@
 export const divisions = [
   {
-    id: 'services', title: 'Marketing Services', label: 'Get seen. Build demand.', symbol: '↗',
+    id: 'services', title: 'Marketing Services',
     description: 'Reach the right people, tell your story, and turn attention into business growth.',
     items: [
       ['Google SEO & Search Visibility', 'Help your business get found in search.', '⌕'],
@@ -17,7 +17,7 @@ export const divisions = [
     ],
   },
   {
-    id: 'solutions', title: 'Technology Solutions', label: 'Build better. Go further.', symbol: '</>',
+    id: 'solutions', title: 'Technology Solutions', symbol: '</>',
     description: 'Create the digital tools, platforms, and experiences that move your business forward.',
     items: [
       ['Business Website Design & Development', 'A professional home for your business online.', '▣'],
@@ -32,3 +32,9 @@ export const divisions = [
     ],
   },
 ];
+
+export const offeringSlug = (title: string) => title
+  .toLowerCase()
+  .replace(/&/g, 'and')
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-|-$/g, '');

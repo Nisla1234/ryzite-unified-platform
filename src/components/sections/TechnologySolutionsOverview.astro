@@ -1,0 +1,215 @@
+---
+import { technologySolutions } from '../../data/technology-solutions';
+import { technologySolutionTranslations } from '../../data/technology-solution-translations';
+
+const englishItems = Object.fromEntries(technologySolutions.map((solution) => [solution.slug, {
+  title: solution.title,
+  description: solution.description,
+}]));
+const pageTranslations = {
+  ...technologySolutionTranslations,
+  en: { ...technologySolutionTranslations.en, items: englishItems },
+};
+---
+
+<div class="technology-solutions-overview">
+  <section class="overview-section why-section" aria-labelledby="why-solutions-title">
+    <div class="overview-shell why-layout">
+      <header class="overview-heading" data-overview-reveal>
+        <p class="overview-eyebrow" data-technology-key="whyEyebrow">WHY RYZITE</p>
+        <h2 id="why-solutions-title" data-technology-key="whyTitle">Technology Shaped Around Your Business.</h2>
+        <p class="overview-intro" data-technology-key="whyIntro">Start with what your business and its users need, then plan a suitable way to deliver it.</p>
+      </header>
+      <div class="why-grid">
+        {technologySolutionTranslations.en.whyItems.map((item, index) => (
+          <article class="why-card" data-overview-reveal>
+            <span class="why-card__index">0{index + 1}</span>
+            <span class="why-card__mark" aria-hidden="true">{['◎', '↗', '✦', '✓'][index]}</span>
+            <h3 data-why-index={index} data-why-field="title">{item.title}</h3>
+            <p data-why-index={index} data-why-field="body">{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="overview-section delivery-overview-section" aria-labelledby="delivery-overview-title">
+    <div class="overview-shell">
+      <header class="overview-heading overview-heading--center" data-overview-reveal>
+        <p class="overview-eyebrow" data-technology-key="deliveryEyebrow">HOW WE WORK</p>
+        <h2 id="delivery-overview-title" data-technology-key="deliveryTitle">From Requirements to a Ready-to-Review Solution.</h2>
+        <p class="overview-intro" data-technology-key="deliveryIntro">A clear process helps define the work, keep decisions visible, and review the solution before handover.</p>
+      </header>
+      <ol class="delivery-steps">
+        {technologySolutionTranslations.en.deliverySteps.map((step, index) => (
+          <li data-overview-reveal data-overview-step={index}>
+            <span class="delivery-steps__number">0{index + 1}</span>
+            <div><h3 data-overview-step-title>{step.title}</h3><p data-overview-step-body>{step.body}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="overview-section faq-overview-section" aria-labelledby="solutions-faq-title">
+    <div class="overview-shell faq-overview-layout">
+      <header class="overview-heading" data-overview-reveal>
+        <p class="overview-eyebrow" data-technology-key="faqEyebrow">FREQUENTLY ASKED QUESTIONS</p>
+        <h2 id="solutions-faq-title" data-technology-key="faqTitle">Questions About Technology Solutions?</h2>
+      </header>
+      <div class="overview-faq-list" data-overview-reveal>
+        {technologySolutionTranslations.en.faqs.map((faq, index) => (
+          <details class="overview-faq-item">
+            <summary data-overview-faq-index={index} data-overview-faq-field="question">{faq.question}</summary>
+            <div class="overview-faq-item__answer"><p data-overview-faq-index={index} data-overview-faq-field="answer">{faq.answer}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="solutions-closing-cta" aria-labelledby="solutions-closing-title">
+    <div class="solutions-closing-cta__orb" aria-hidden="true"></div>
+    <div class="solutions-closing-cta__inner" data-overview-reveal>
+      <p class="overview-eyebrow" data-technology-key="contactCtaEyebrow">HAVE A PROJECT IN MIND?</p>
+      <h2 id="solutions-closing-title" data-technology-key="contactCtaTitle">Let’s Talk Through What You Need.</h2>
+      <p data-technology-key="contactCtaDescription">Share your goals and questions. We can discuss suitable next steps for your project.</p>
+      <a class="solutions-closing-cta__button" href="/contact/"><span data-technology-key="contactCta">Start a Project</span><span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</div>
+
+<script is:inline define:vars={{ pageTranslations }}>
+  const applyTechnologyOverviewLocale = (locale) => {
+    const content = pageTranslations[locale] || pageTranslations.en;
+    const overview = document.querySelector('.technology-solutions-overview');
+    const listing = document.querySelector('.solutions[data-standalone="true"]');
+    if (!overview || !listing) return;
+
+    overview.querySelectorAll('[data-technology-key]').forEach((element) => {
+      const value = content[element.dataset.technologyKey];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    listing.querySelectorAll('[data-solutions-heading="lead"], [data-solutions-heading="accent"]').forEach((element) => {
+      const key = element.dataset.solutionsHeading === 'lead' ? 'solutionsLead' : 'solutionsAccent';
+      element.textContent = content[key];
+    });
+    listing.querySelectorAll('[data-technology-key="solutionsIntro"]').forEach((element) => {
+      element.textContent = content.solutionsIntro;
+    });
+    listing.querySelectorAll('[data-technology-slug]').forEach((element) => {
+      const solution = content.items[element.dataset.technologySlug] || pageTranslations.en.items[element.dataset.technologySlug];
+      const value = solution?.[element.dataset.technologyField];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    listing.querySelectorAll('[data-technology-card-link]').forEach((element) => {
+      const solution = content.items[element.dataset.technologyCardLink] || pageTranslations.en.items[element.dataset.technologyCardLink];
+      if (solution) element.setAttribute('aria-label', `${content.viewDetails}: ${solution.title}`);
+    });
+    overview.querySelectorAll('[data-why-index]').forEach((element) => {
+      const item = content.whyItems[Number(element.dataset.whyIndex)];
+      const value = item?.[element.dataset.whyField];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    overview.querySelectorAll('[data-overview-step]').forEach((element) => {
+      const step = content.deliverySteps[Number(element.dataset.overviewStep)];
+      const title = element.querySelector('[data-overview-step-title]');
+      const body = element.querySelector('[data-overview-step-body]');
+      if (step && title) title.textContent = step.title;
+      if (step && body) body.textContent = step.body;
+    });
+    overview.querySelectorAll('[data-overview-faq-index]').forEach((element) => {
+      const faq = content.faqs[Number(element.dataset.overviewFaqIndex)];
+      const value = faq?.[element.dataset.overviewFaqField];
+      if (typeof value === 'string') element.textContent = value;
+    });
+    document.title = content.pageTitle;
+    const description = document.querySelector('meta[name="description"]');
+    if (description) description.setAttribute('content', content.metaDescription);
+    const openGraphTitle = document.querySelector('meta[property="og:title"]');
+    if (openGraphTitle) openGraphTitle.setAttribute('content', content.pageTitle);
+    const openGraphDescription = document.querySelector('meta[property="og:description"]');
+    if (openGraphDescription) openGraphDescription.setAttribute('content', content.metaDescription);
+  };
+
+  applyTechnologyOverviewLocale(document.body.dataset.locale || 'en');
+  window.addEventListener('ryzite:locale-change', (event) => applyTechnologyOverviewLocale(event.detail?.locale || 'en'));
+</script>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!motionPreference.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        gsap.fromTo(entry.target, { autoAlpha: 0, y: 18 }, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.65,
+          ease: 'power2.out',
+          clearProps: 'all',
+        });
+        currentObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.14 });
+    document.querySelectorAll('.technology-solutions-overview [data-overview-reveal]').forEach((element) => observer.observe(element));
+    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+  }
+</script>
+
+<style>
+  .technology-solutions-overview { --overview-blue: #0756df; --overview-ink: #111e32; --overview-muted: #5c6878; color: var(--overview-ink); background: var(--color-paper); }
+  .technology-solutions-overview *, .technology-solutions-overview *::before, .technology-solutions-overview *::after { box-sizing: border-box; }
+  .overview-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
+  .overview-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
+  .why-section { background: #fff; }
+  .why-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
+  .overview-heading { max-width: 680px; }
+  .overview-heading h2 { margin: 0; color: var(--overview-ink); font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.8rem); font-weight: 800; letter-spacing: -.025em; line-height: .98; }
+  .overview-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--overview-blue); font-size: .72rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+  .overview-eyebrow::before { width: 1.5rem; height: 2px; border-radius: 2px; background: currentColor; content: ''; }
+  .overview-intro { max-width: 620px; margin: 1rem 0 0; color: var(--overview-muted); line-height: 1.7; }
+  .why-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .why-card { position: relative; min-height: 230px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, #fff, #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+  .why-card:hover { transform: translateY(-4px); border-color: #9fc1eb; box-shadow: 0 1rem 2rem #163f7615; }
+  .why-card__index { color: #8795a8; font-size: .66rem; font-weight: 800; letter-spacing: .13em; }
+  .why-card__mark { position: absolute; top: 1.25rem; right: 1.35rem; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--overview-blue); background: #eaf3ff; font-size: 1.1rem; }
+  .why-card h3 { margin: 2rem 0 .6rem; color: #172940; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; }
+  .why-card p { margin: 0; color: var(--overview-muted); font-size: .9rem; line-height: 1.65; }
+  .delivery-overview-section { background: #f2f7fd; }
+  .overview-heading--center { max-width: 800px; margin-inline: auto; text-align: center; }
+  .overview-heading--center .overview-eyebrow { justify-content: center; }
+  .delivery-steps { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; list-style: none; margin: 3.2rem 0 0; padding: 0; }
+  .delivery-steps::before { position: absolute; top: 1.25rem; right: 8%; left: 8%; height: 1px; background: linear-gradient(90deg, #b9d4f4, #4a9cf2, #b9d4f4); content: ''; }
+  .delivery-steps li { position: relative; display: grid; min-height: 165px; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 1.4rem; }
+  .delivery-steps__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--overview-blue); background: #fff; box-shadow: 0 0 0 .35rem #edf5ff; font-size: .68rem; font-weight: 800; }
+  .delivery-steps h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; }
+  .delivery-steps p { margin: 0; color: var(--overview-muted); font-size: .88rem; line-height: 1.65; }
+  .faq-overview-section { background: #fff; }
+  .faq-overview-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
+  .overview-faq-list { border-top: 1px solid #d7e1ee; }
+  .overview-faq-item { border-bottom: 1px solid #d7e1ee; }
+  .overview-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: .95rem; font-weight: 700; line-height: 1.45; list-style: none; }
+  .overview-faq-item summary::-webkit-details-marker { display: none; }
+  .overview-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--overview-blue); border-bottom: 2px solid var(--overview-blue); content: ''; transition: transform 180ms ease; }
+  .overview-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }
+  .overview-faq-item summary:focus-visible { outline: 3px solid var(--overview-blue); outline-offset: 3px; border-radius: 4px; }
+  .overview-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }
+  .overview-faq-item[open] .overview-faq-item__answer { grid-template-rows: 1fr; }
+  .overview-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--overview-muted); font-size: .9rem; line-height: 1.7; }
+  .overview-faq-item[open] .overview-faq-item__answer p { padding-bottom: 1.1rem; }
+  .solutions-closing-cta { position: relative; isolation: isolate; display: grid; min-height: 380px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }
+  .solutions-closing-cta__inner { position: relative; z-index: 1; width: min(100%, 780px); }
+  .solutions-closing-cta .overview-eyebrow { justify-content: center; color: #b9dbff; }
+  .solutions-closing-cta h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.8rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }
+  .solutions-closing-cta__inner > p:not(.overview-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }
+  .solutions-closing-cta__button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; color: #12305a; background: #fff; box-shadow: 0 .7rem 1.7rem #000f3230; font-size: .88rem; font-weight: 800; text-decoration: none; transition: transform 180ms ease, background 180ms ease; }
+  .solutions-closing-cta__button:hover { transform: translateY(-3px); background: #eaf4ff; }
+  .solutions-closing-cta__button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+  .solutions-closing-cta__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
+  @media (max-width: 900px) { .why-layout, .faq-overview-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }.delivery-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }.delivery-steps::before { display: none; } }
+  @media (max-width: 700px) { .overview-shell { padding-inline: 1rem; }.overview-section { padding-block: 4.5rem; }.why-layout, .faq-overview-layout { grid-template-columns: 1fr; gap: 1.8rem; }.overview-heading h2 { font-size: clamp(2.7rem, 9.5vw, 4rem); }.why-grid { grid-template-columns: 1fr; }.why-card { min-height: 180px; }.why-card h3 { margin-top: 1.5rem; }.delivery-steps { grid-template-columns: 1fr; gap: 0; margin-top: 2.4rem; }.delivery-steps li { min-height: auto; padding-bottom: 1.4rem; }.delivery-steps::before { position: absolute; top: 1.2rem; bottom: 2rem; left: 1.2rem; display: block; width: 1px; height: auto; background: linear-gradient(#b9d4f4, #4a9cf2, #b9d4f4); }.solutions-closing-cta { min-height: 350px; padding-inline: 1rem; }.solutions-closing-cta h2 { font-size: clamp(2.8rem, 10vw, 4.3rem); } }
+  @media (prefers-reduced-motion: reduce) { .technology-solutions-overview *, .technology-solutions-overview *::before, .technology-solutions-overview *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }.why-card:hover, .solutions-closing-cta__button:hover { transform: none; } }
+</style>
