@@ -29,7 +29,6 @@ const needs = [
         </a>
       ))}
     </div>
-    <div class="scene-platform" aria-hidden="true"></div>
   </div>
 </section>
 
@@ -41,8 +40,8 @@ const needs = [
   h2 { margin: 14px 0; color: #0a1734; font-size: var(--size-h2); line-height: 1.04; letter-spacing: -.015em; }
   h2 strong { color: #064bed; }
   header p { margin: 0; color: #63758c; font-size: 16px; }
-  .needs-scene { max-width: 1100px; margin: auto; perspective: 1200px; }
-  .needs-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; padding: 12px 18px 40px; }
+  .needs-scene { max-width: 1100px; margin: auto; }
+  .needs-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; padding: 12px 18px; }
   .need-card { position: relative; display: flex; align-items: center; gap: 22px; min-height: 220px; padding: 28px; color: #18345b; text-decoration: none; border: 1px solid #ffffffdb; border-radius: 36px; background: linear-gradient(145deg, #b4cfead1, #89b3df99 55%, #6e9dcead); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: inset 2px 3px 6px #ffffffcc, inset -2px -3px 8px #a5d8f533, 0 12px 30px #376b9b33; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
   .need-card:nth-child(odd) { transform: rotate(2deg); }
   .need-card:nth-child(even) { transform: rotate(-2deg); }
@@ -62,7 +61,6 @@ const needs = [
   .brand .visual-tile { border-radius: 50% 28% 40% 30%; transform: rotate(-18deg); }
   .custom .visual-tile { transform: rotate(-12deg); box-shadow: 5px 10px 0 #83c7ff, 8px 19px 0 #5454db, 11px 28px 0 #ba9cff, 15px 35px 20px #000c3c70; }
   .visual-shadow { position: absolute; width: 140px; height: 18px; bottom: -5px; border-radius: 50%; background: #00aeff50; filter: blur(10px); }
-  .scene-platform { height: 30px; margin: 0 10px; border: 2px solid #7eeaff; border-radius: 50%; background: linear-gradient(180deg, #ffffff80, #c5eaff66 45%, #b1d9f333 60%); box-shadow: 0 0 20px #8bdfff30, inset 0 3px 8px #ffffffaa; }
-  @media (max-width: 700px) { .visitor-needs { padding: 55px 20px 40px; } header { margin-bottom: 28px; } header p { font-size: 14px; } .needs-grid { grid-template-columns: 1fr; gap: 24px; padding: 8px 4px 30px; } .need-card { min-height: 175px; padding: 22px; gap: 18px; border-radius: 28px; } .need-card:nth-child(n) { transform: none; } .need-card:hover { transform: translateY(-4px); } .need-visual { height: 100px; flex-basis: 28%; } .visual-tile { width: 74px; height: 66px; } .visual-tile svg { width: 44px; height: 44px; } .need-card h3 { font-size: 1.3rem; } }
+  @media (max-width: 700px) { .visitor-needs { padding: 55px 20px 40px; } header { margin-bottom: 28px; } header p { font-size: 14px; } .needs-grid { grid-template-columns: 1fr; gap: 24px; padding: 8px 4px; } .need-card { min-height: 175px; padding: 22px; gap: 18px; border-radius: 28px; } .need-card:nth-child(n) { transform: none; } .need-card:hover { transform: translateY(-4px); } .need-visual { height: 100px; flex-basis: 28%; } .visual-tile { width: 74px; height: 66px; } .visual-tile svg { width: 44px; height: 44px; } .need-card h3 { font-size: 1.3rem; } }
   @media (prefers-reduced-motion: reduce) { .need-card { transition: none; } .need-card:hover { transform: none; } }
 </style>
