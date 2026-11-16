@@ -64,7 +64,7 @@ const labels = {
               {serviceColumns.map((column) => (
                 <ul class="services-menu__column">
                   {column.map(([title]) => (
-                    <li><a href={`/services/#${offeringSlug(title)}`}>{title}</a></li>
+                    <li><a href={`/services/#${offeringSlug(title)}`} data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
                   ))}
                 </ul>
               ))}
@@ -82,7 +82,7 @@ const labels = {
               {solutionColumns.map((column) => (
                 <ul class="solutions-menu__column">
                   {column.map(([title]) => (
-                    <li><a href={`/solutions/${offeringSlug(title)}/`}>{title}</a></li>
+                    <li><a href={`/solutions/${offeringSlug(title)}/`} data-home-offering="solutions" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
                   ))}
                 </ul>
               ))}
@@ -139,7 +139,7 @@ const labels = {
                 <summary><span data-label-key={key}>Services</span></summary>
                 <ul>
                   {services.map(([title]) => (
-                    <li><a href={`/services/#${offeringSlug(title)}`}>{title}</a></li>
+                    <li><a href={`/services/#${offeringSlug(title)}`} data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
                   ))}
                 </ul>
               </details>

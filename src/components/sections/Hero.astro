@@ -7,8 +7,8 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     <div class="hero-halo" aria-hidden="true"></div>
     <div class="hero-message">
       <h1 id="connection-title" class="hero-title"><span>{' '}</span><strong class="digital-line"><span data-headline-word>One Site.</span></strong><span><span data-headline-word>Solve</span>{' '}<span data-headline-word>Every</span></span><strong><span data-headline-word>Problems.</span></strong></h1>
-      <p>{'We turn ideas into digital solutions that help businesses grow and stay ahead.'.split(' ').map((word) => <><span data-description-word>{word}</span>{' '}</>)}</p>
-      <a class="hero-cta" href="/contact">Let’s Talk</a>
+      <p data-hero-description>{'We turn ideas into digital solutions that help businesses grow and stay ahead.'.split(' ').map((word) => <><span data-description-word>{word}</span>{' '}</>)}</p>
+      <a class="hero-cta" href="/contact" data-home-key="heroCta">Let’s Talk</a>
     </div>
 
     <svg class="landscape" viewBox="0 0 1440 680" preserveAspectRatio="none" fill="none" aria-hidden="true">
@@ -60,10 +60,10 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     <div class="hero-marquee-track">
       {Array.from({ length: 4 }, () => (
         <div class="hero-marquee-set">
-          <span>DESIGN</span><span class="hero-marquee-star">✳</span>
-          <span>DEVELOPMENT</span><span class="hero-marquee-star">✳</span>
-          <span>DIGITAL TRANSFORMATION</span><span class="hero-marquee-star">✳</span>
-          <span>INNOVATION</span><span class="hero-marquee-star">✳</span>
+          <span data-home-key="marqueeDesign">DESIGN</span><span class="hero-marquee-star">✳</span>
+          <span data-home-key="marqueeDevelopment">DEVELOPMENT</span><span class="hero-marquee-star">✳</span>
+          <span data-home-key="marqueeDigitalTransformation">DIGITAL TRANSFORMATION</span><span class="hero-marquee-star">✳</span>
+          <span data-home-key="marqueeInnovation">INNOVATION</span><span class="hero-marquee-star">✳</span>
         </div>
       ))}
     </div>

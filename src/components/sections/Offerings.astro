@@ -74,13 +74,13 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
           {group.id === 'solutions' && <span class="division-symbol" aria-hidden="true">{group.symbol}</span>}
           <Heading id={`${group.id}-title`}>
             <span class="services-title">
-              {group.id === 'solutions' ? <span data-solutions-heading="lead">{titleLead}</span> : titleLead}{' '}
-              {group.id === 'solutions' ? <strong data-solutions-heading="accent">{titleEmphasis.join(' ')}</strong> : <strong>{titleEmphasis.join(' ')}</strong>}
+              {group.id === 'solutions' ? <span data-solutions-heading="lead" data-home-key="solutionsTitleLead">{titleLead}</span> : <span data-home-key="servicesTitleLead">{titleLead}</span>}{' '}
+              {group.id === 'solutions' ? <strong data-solutions-heading="accent" data-home-key="solutionsTitleAccent">{titleEmphasis.join(' ')}</strong> : <strong data-home-key="servicesTitleAccent">{titleEmphasis.join(' ')}</strong>}
             </span>
           </Heading>
           {group.id === 'solutions' && <span class="item-count">{String(group.items.length).padStart(2, '0')}</span>}
         </div>
-        <Description class="section-description" data-technology-key={group.id === 'solutions' ? 'solutionsIntro' : undefined}>{group.description}</Description>
+        <Description class="section-description" data-technology-key={group.id === 'solutions' ? 'solutionsIntro' : undefined} data-home-key={group.id === 'solutions' ? 'solutionsIntro' : 'servicesIntro'}>{group.description}</Description>
       </header>
       <div class="snake-roadmap">
         {group.id === 'services' && <svg class="snake-track" fill="none" aria-hidden="true"></svg>}
@@ -95,19 +95,19 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
             <li id={offeringSlug(title)} class:list={['roadmap-stop', solutionImage && 'roadmap-stop--featured']} style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,1,3,35,34,36,68,67,69][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
               {group.id === 'services' && <img class="service-robot" src={`/images/hero/${index % 2 === 0 ? 'ry' : 'zite'}-front-plain.png`} alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />}
               {group.id === 'solutions' ? (
-                <a class="solution-card-link" href={`/solutions/${offeringSlug(title)}/`} aria-label={`Explore ${title}`} data-technology-card-link={offeringSlug(title)}>
+                <a class="solution-card-link" href={`/solutions/${offeringSlug(title)}/`} aria-label={`Explore ${title}`} data-technology-card-link={offeringSlug(title)} data-home-card-group="solutions" data-home-card-slug={offeringSlug(title)}>
                   {solutionImage && <img class="solution-card-image" src={solutionImage.src} alt={solutionImage.alt} width={solutionImage.width} height={solutionImage.height} loading="lazy" />}
                   {!solutionImage && <span class="service-icon" aria-hidden="true">{icon}</span>}
                   <div class="service-copy">
-                    <h3 data-technology-slug={offeringSlug(title)} data-technology-field="title">{title}</h3>
-                    <p data-technology-slug={offeringSlug(title)} data-technology-field="description">{description}</p>
+                    <h3 data-technology-slug={offeringSlug(title)} data-technology-field="title" data-home-offering="solutions" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</h3>
+                    <p data-technology-slug={offeringSlug(title)} data-technology-field="description" data-home-offering="solutions" data-home-slug={offeringSlug(title)} data-home-field="description">{description}</p>
                   </div>
                   <span class="service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <span class="solution-card-link__more"><span data-technology-key="viewDetails">View details</span> <span aria-hidden="true">↗</span></span>
+                  <span class="solution-card-link__more"><span data-technology-key="viewDetails" data-home-key="viewDetails">View details</span> <span aria-hidden="true">↗</span></span>
                 </a>
               ) : (
                 <>
-                  <div class="service-copy"><h3>{title}</h3><p>{description}</p></div>
+                  <div class="service-copy"><h3 data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</h3><p data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="description">{description}</p></div>
                   <span class="service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 </>
               )}
@@ -117,8 +117,8 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
           })}
         </ol>
       </div>
-      {!standalone && <a class="division-link" href={`/${group.id}`}>Explore {group.title.toLowerCase()} <span aria-hidden="true">&#8599;</span></a>}
-      {standalone && <a class="division-link" href={group.id === 'services' ? '/solutions' : '/services'}>Explore {group.id === 'services' ? 'technology solutions' : 'marketing services'} <span aria-hidden="true">&#8599;</span></a>}
+      {!standalone && <a class="division-link" href={`/${group.id}`}><span data-home-key={group.id === 'services' ? 'exploreServices' : 'exploreSolutions'}>Explore {group.title.toLowerCase()}</span> <span aria-hidden="true">&#8599;</span></a>}
+      {standalone && <a class="division-link" href={group.id === 'services' ? '/solutions' : '/services'}><span data-home-key={group.id === 'services' ? 'exploreSolutions' : 'exploreServices'}>Explore {group.id === 'services' ? 'technology solutions' : 'marketing services'}</span> <span aria-hidden="true">&#8599;</span></a>}
     </section>
   );
 })}
@@ -381,7 +381,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   @media (min-width: 701px) and (max-width: 1050px) { .roadmap { grid-template-columns: repeat(3, minmax(0, 1fr)); }.roadmap-stop { grid-column: var(--col-3); grid-row: var(--row-3); } }
   @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 21px; }.item-count { display: none; }.section-intro > .section-description { font-size: 13px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 24px; }.service-copy h3 { font-size: 12px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 9px; } }
   /* Three stair flights: 1?4 right, 5?8 left, then 9?11 right. */
-  .services .roadmap { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 44px; row-gap: 0; padding: 30px 0 45px; }
+  .services .roadmap { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(44px, auto); row-gap: 0; padding: 30px 0 45px; }
   .services .roadmap-stop { grid-column: var(--col-4); grid-row: var(--step-row-4) / span 3; translate: none; rotate: none; }
   .services .service-number { font-size: 11px; opacity: .75; }
   @media (min-width: 768px) and (max-width: 1050px) {

@@ -12,37 +12,37 @@ const year = new Date().getFullYear();
           <a class="footer-logo-link" href="/" aria-label="Ryzite home">
             <img class="footer-logo" src="/assets/ryzite-footer-logo.png" alt="Ryzite" width="1061" height="731" loading="lazy" />
           </a>
-          <p>One Agency. All Your Business Solutions.</p>
+          <p data-home-key="footerTagline">One Agency. All Your Business Solutions.</p>
           <a class="footer-email" href={`mailto:${company.email}`}>{company.email}</a>
         </div>
 
-        <nav class="footer-column" aria-label="Explore">
-          <h2>Explore</h2>
-          <a href="/">Home</a>
-          <a href="/about">About Us</a>
-          <a href="/services/">Services</a>
-          <a href="/solutions/">Solutions</a>
-          <a href="/contact/">Contact</a>
+        <nav class="footer-column" aria-label="Explore" data-home-aria="footerExplore">
+          <h2 data-home-key="footerExplore">Explore</h2>
+          <a href="/" data-home-key="footerLinkHome">Home</a>
+          <a href="/about" data-home-key="footerLinkAbout">About Us</a>
+          <a href="/services/" data-home-key="footerLinkServices">Services</a>
+          <a href="/solutions/" data-home-key="footerLinkSolutions">Solutions</a>
+          <a href="/contact/" data-home-key="footerLinkContact">Contact</a>
         </nav>
 
-        <nav class="footer-column" aria-label="More">
-          <h2>More</h2>
-          <a href="/packages/">Packages</a>
-          <a href="/privacy-policy">Privacy Policy</a>
+        <nav class="footer-column" aria-label="More" data-home-aria="footerMore">
+          <h2 data-home-key="footerMore">More</h2>
+          <a href="/packages/" data-home-key="footerLinkPackages">Packages</a>
+          <a href="/privacy-policy" data-home-key="footerLinkPrivacy">Privacy Policy</a>
         </nav>
 
         <div class="footer-connect">
-          <h2>Let’s connect</h2>
+          <h2 data-home-key="footerConnect">Let’s connect</h2>
           <a class="footer-contact-link" href="/contact/">
-            Start a conversation <span aria-hidden="true">↗</span>
+            <span data-home-key="footerConnectCta">Start a conversation</span> <span aria-hidden="true">↗</span>
           </a>
-          <p>Have a project in mind? Let’s build something that matters.</p>
+          <p data-home-key="footerConnectBody">Have a project in mind? Let’s build something that matters.</p>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>© {year} Ryzite. All rights reserved.</p>
-        <span>Designed to move forward.</span>
+        <p>© {year} Ryzite. <span data-home-key="footerRights">All rights reserved.</span></p>
+        <span data-home-key="footerBottom">Designed to move forward.</span>
       </div>
     </div>
   </div>
