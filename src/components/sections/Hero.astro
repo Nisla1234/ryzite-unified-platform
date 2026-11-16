@@ -456,6 +456,16 @@
   @media (max-width: 500px) and (min-height: 760px) {
     .robot { bottom: clamp(8rem, 25svh, 14rem); }
   }
+  /* Tamil and Sinhala words are much wider and taller than the uppercase Latin headline,
+     so the title is sized to keep the longest word inside the message column. */
+  :global(html[lang="ta"]) .hero-title, :global(html[lang="si"]) .hero-title { font-size: clamp(1.5rem, 3.2vw, 3.4rem); line-height: 1.3; letter-spacing: 0; overflow-wrap: anywhere; }
+  :global(html[lang="ta"]) .hero-title strong, :global(html[lang="si"]) .hero-title strong { font-size: 1.1em; line-height: 1.3; }
+  :global(html[lang="ta"]) .digital-line, :global(html[lang="si"]) .digital-line { margin-bottom: .22em; }
+  :global(html[lang="ta"]) .digital-line::after, :global(html[lang="si"]) .digital-line::after { bottom: -.14em; height: 4px; }
+  :global(html[lang="ta"]) .hero-message p, :global(html[lang="si"]) .hero-message p { line-height: 1.6; }
+  @media (max-width: 800px) {
+    :global(html[lang="ta"]) .hero-title, :global(html[lang="si"]) .hero-title { font-size: clamp(1.25rem, 6.2vw, 3rem); }
+  }
   @media (prefers-reduced-motion: reduce) {
     .hero-marquee-track { animation: none; }
     .robot-float { animation: none !important; }
