@@ -1,11 +1,27 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import { company } from '../Constants';
+import { company, enquiryForm } from '../Constants';
 import { divisions, offeringSlug } from '../data/offerings';
 import { contactTranslations } from '../data/contact-translations';
 
 const marketing = divisions.find(({ id }) => id === 'services')?.items ?? [];
 const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
+const hearOptions = [
+  ['hearGoogle', 'Google Search'],
+  ['hearFacebook', 'Facebook'],
+  ['hearInstagram', 'Instagram'],
+  ['hearLinkedin', 'LinkedIn'],
+  ['hearYoutube', 'YouTube'],
+  ['hearReferral', 'Recommendation from someone'],
+  ['hearOther', 'Other'],
+];
+const enquiryConfig = {
+  endpoint: enquiryForm.endpoint,
+  accessKey: enquiryForm.accessKey,
+  subject: enquiryForm.subject,
+  fromName: enquiryForm.fromName,
+  whatsappNumber: company.whatsapp.number,
+};
 ---
 
 <MainLayout
@@ -72,18 +88,20 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
           <p class="contact-eyebrow" data-contact-key="formEyebrow">PROJECT ENQUIRY</p>
           <h2 id="project-form-title" data-contact-key="formTitle">Tell Us About Your Project.</h2>
           <p data-contact-key="formDescription">Complete the enquiry form below and share a few details about your project. Our team can review your requirements and discuss the next steps.</p>
-          <div class="enquiry-copy__note"><span aria-hidden="true">✳</span><p><span data-contact-key="emailFallback">If your email app does not open, email us at</span> <a href={`mailto:${company.email}`}>{company.email}</a></p></div>
+          <div class="enquiry-copy__note"><span aria-hidden="true">✳</span><p><span data-contact-key="emailFallback">Prefer email? Write to us at</span> <a href={`mailto:${company.email}`}>{company.email}</a></p></div>
         </div>
 
         <form
           class="enquiry-form"
           data-contact-form
           method="post"
-          action={`mailto:${company.email}`}
-          enctype="text/plain"
-          data-company-email={company.email}
+          action={enquiryForm.endpoint}
           data-contact-reveal
         >
+          <input type="hidden" name="access_key" value={enquiryForm.accessKey} />
+          <input type="hidden" name="subject" value={enquiryForm.subject} />
+          <input type="hidden" name="from_name" value={enquiryForm.fromName} />
+          <input class="enquiry-form__trap" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="form-grid">
             <div class="contact-field">
               <label for="contact-name"><span data-contact-key="fullName">Full Name</span><span class="required-mark" aria-hidden="true">*</span></label>
@@ -119,7 +137,7 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
               <label for="contact-package"><span data-contact-key="package">Preferred Package</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
               <select id="contact-package" name="package">
                 <option value="" data-contact-key="packagePlaceholder">No package preference</option>
-                <option value="guidance" data-contact-key="packageGuidance">I’d like help choosing a suitable option</option>
+                <option value="guidance" data-english="I’d like help choosing a suitable option" data-contact-key="packageGuidance">I’d like help choosing a suitable option</option>
               </select>
             </div>
             <div class="contact-field">
@@ -129,6 +147,13 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
             <div class="contact-field">
               <label for="contact-start-date"><span data-contact-key="startDate">Preferred Start Date</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
               <input id="contact-start-date" name="startDate" type="date" />
+            </div>
+            <div class="contact-field contact-field--wide">
+              <label for="contact-hear"><span data-contact-key="hearAbout">How did you hear about us?</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
+              <select id="contact-hear" name="hearAbout">
+                <option value="" data-contact-key="hearPlaceholder">Choose an option (optional)</option>
+                {hearOptions.map(([key, label]) => <option value={label} data-contact-key={key}>{label}</option>)}
+              </select>
             </div>
             <div class="contact-field contact-field--wide">
               <label for="contact-project"><span data-contact-key="projectDescription">Project Description</span><span class="required-mark" aria-hidden="true">*</span></label>
@@ -143,9 +168,18 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
               <span class="field-error" id="contact-consent-error" data-error-for="consent" aria-live="polite"></span>
             </div>
           </div>
-          <button class="contact-button contact-button--submit" type="submit"><span data-contact-key="submit">Prepare Enquiry Email</span><span aria-hidden="true">↗</span></button>
-          <p class="form-privacy" data-contact-key="formHandoff">Your email app should open with a draft. Review it and send it to contact RYZITE. This page has not sent or stored your enquiry.</p>
-          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          <button class="contact-button contact-button--submit" type="submit" data-form-submit><span data-contact-key="submit" data-submit-label>Submit Enquiry & Open WhatsApp</span><span aria-hidden="true">↗</span></button>
+          <p class="form-privacy" data-contact-key="formGuidance" data-form-guidance>When you submit, your enquiry is sent to RYZITE through the Web3Forms form service. Once that is confirmed, WhatsApp opens with your enquiry details ready. The WhatsApp message is only sent if you press Send.</p>
+          <p class="form-status form-status--error" data-form-error role="alert"></p>
+          <div class="form-result" data-form-result role="status" aria-live="polite" tabindex="-1" hidden>
+            <p class="form-result__title"><span aria-hidden="true">✓</span> <span data-contact-key="successTitle">Your enquiry was submitted successfully.</span></p>
+            <p data-contact-key="successBody">Your enquiry has been submitted to RYZITE through Web3Forms. The WhatsApp message is separate and has not been sent automatically.</p>
+            <p data-whatsapp-note></p>
+            <div class="form-result__actions">
+              <a class="contact-button contact-button--whatsapp" data-whatsapp-link href={`https://wa.me/${company.whatsapp.number}`} target="_blank" rel="noopener noreferrer"><span data-contact-key="openWhatsapp">Open WhatsApp</span><span aria-hidden="true">↗</span></a>
+              <button class="form-result__reset" type="button" data-form-reset data-contact-key="sendAnother">Send another enquiry</button>
+            </div>
+          </div>
         </form>
       </div>
     </section>
@@ -206,7 +240,7 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
   </div>
 </MainLayout>
 
-<script is:inline define:vars={{ contactTranslations }}>
+<script is:inline define:vars={{ contactTranslations, enquiryConfig }}>
   let contactLocale = document.body.dataset.locale || 'en';
   const applyContactLocale = (locale) => {
     const translations = contactTranslations[locale] || contactTranslations.en;
@@ -235,8 +269,6 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       error.textContent = translations[messageKey];
       field.setCustomValidity(translations[messageKey]);
     });
-    const feedback = document.querySelector('[data-form-status]');
-    if (feedback?.dataset.statusKey) feedback.textContent = translations[feedback.dataset.statusKey] || '';
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', translations.metaDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');
@@ -250,9 +282,26 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
 
   const form = document.querySelector('[data-contact-form]');
   if (form) {
-    const status = form.querySelector('[data-form-status]');
-    const submitButton = form.querySelector('button[type="submit"]');
-    const submitLabel = submitButton?.querySelector('[data-contact-key="submit"]');
+    const submitButton = form.querySelector('[data-form-submit]');
+    const submitLabel = form.querySelector('[data-submit-label]');
+    const guidance = form.querySelector('[data-form-guidance]');
+    const errorStatus = form.querySelector('[data-form-error]');
+    const result = form.querySelector('[data-form-result]');
+    const whatsappLink = form.querySelector('[data-whatsapp-link]');
+    const whatsappNote = form.querySelector('[data-whatsapp-note]');
+    const resetButton = form.querySelector('[data-form-reset]');
+    const currentTranslations = () => contactTranslations[contactLocale] || contactTranslations.en;
+    // Text set through a key stays in sync when the visitor switches language.
+    const setKeyedText = (element, key) => {
+      if (!element) return;
+      if (key) {
+        element.dataset.contactKey = key;
+        element.textContent = currentTranslations()[key] || '';
+      } else {
+        delete element.dataset.contactKey;
+        element.textContent = '';
+      }
+    };
     form.addEventListener('invalid', (event) => {
       const field = event.target;
       const key = field.name === 'email' && field.validity.typeMismatch ? 'emailError' : 'requiredError';
@@ -299,12 +348,110 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       packageField.value = requestedPackage;
     }
 
-    let preparingEmail = false;
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      if (preparingEmail) return;
+    const hearField = form.querySelector('[name="hearAbout"]');
+    const clean = (value) => String(value || '').trim();
 
-      const translations = contactTranslations[contactLocale] || contactTranslations.en;
+    // Enquiry details are sent in English so the RYZITE team reads the same labels whatever language the visitor used.
+    const collectEnquiry = () => {
+      const data = new FormData(form);
+      const serviceOption = serviceField.selectedOptions[0];
+      const packageOption = packageField.selectedOptions[0];
+      return {
+        name: clean(data.get('name')),
+        business: clean(data.get('business')),
+        email: clean(data.get('email')),
+        phone: clean(data.get('phone')),
+        service: serviceField.value ? clean(serviceOption?.dataset.serviceTitle || serviceOption?.textContent) : '',
+        package: packageField.value ? clean(packageOption?.dataset.english || packageOption?.textContent) : '',
+        budget: clean(data.get('budget')),
+        startDate: clean(data.get('startDate')),
+        project: clean(data.get('project')),
+        hearAbout: clean(hearField?.value),
+      };
+    };
+
+    const buildPayload = (enquiry) => {
+      const payload = {
+        access_key: enquiryConfig.accessKey,
+        subject: enquiryConfig.subject,
+        from_name: enquiryConfig.fromName,
+        name: enquiry.name,
+        email: enquiry.email,
+        message: enquiry.project,
+        'Privacy Consent': 'Agreed',
+        'Site Language': contactLocale,
+      };
+      const optional = [
+        ['Business / Company', enquiry.business],
+        ['Phone / WhatsApp', enquiry.phone],
+        ['Service Interested In', enquiry.service],
+        ['Preferred Package', enquiry.package],
+        ['Estimated Budget', enquiry.budget],
+        ['Preferred Start Date', enquiry.startDate],
+        ['How did you hear about us?', enquiry.hearAbout],
+      ];
+      optional.forEach(([label, value]) => { if (value) payload[label] = value; });
+      if (form.elements.botcheck?.checked) payload.botcheck = true;
+      return payload;
+    };
+
+    const buildWhatsappUrl = (enquiry) => {
+      const line = (label, value) => `${label}: ${value || 'Not provided'}`;
+      const message = [
+        '*NEW PROJECT ENQUIRY – RYZITE*',
+        '',
+        '*Customer Details*',
+        line('Full Name', enquiry.name),
+        line('Business / Company', enquiry.business),
+        line('Email', enquiry.email),
+        line('Phone / WhatsApp', enquiry.phone),
+        '',
+        '*Project Details*',
+        line('Service Interested In', enquiry.service),
+        line('Preferred Package', enquiry.package),
+        line('Estimated Budget', enquiry.budget),
+        line('Preferred Start Date', enquiry.startDate),
+        line('Project Description', enquiry.project),
+        line('How did you hear about us?', enquiry.hearAbout),
+      ].join('\n');
+      return `https://wa.me/${enquiryConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    };
+
+    // Only a 2xx response whose body says success: true counts as a submitted enquiry.
+    const sendEnquiry = async (payload) => {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 20000);
+      try {
+        const response = await fetch(enquiryConfig.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+        const body = await response.json().catch(() => null);
+        return response.ok && body?.success === true;
+      } catch {
+        return false;
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    };
+
+    // idle -> submitting -> submitted. Anything other than idle ignores further submits, so one enquiry is sent once.
+    let submitState = 'idle';
+    const setSubmitting = (active) => {
+      if (submitButton) {
+        submitButton.disabled = active;
+        submitButton.setAttribute('aria-busy', String(active));
+      }
+      setKeyedText(submitLabel, active ? 'submitting' : 'submit');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (submitState !== 'idle') return;
+
+      const translations = currentTranslations();
       const emptyRequiredField = [...form.querySelectorAll('[required]')].find((field) => {
         if (field.type === 'checkbox') return !field.checked;
         return !field.value.trim();
@@ -316,36 +463,53 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       }
       if (!form.reportValidity()) return;
 
-      const data = new FormData(form);
-      const service = serviceField.selectedOptions[0]?.textContent || '';
-      const packageChoice = packageField.selectedOptions[0]?.textContent || '';
-      const values = [
-        [translations.fullName, data.get('name')],
-        [translations.businessName, data.get('business')],
-        [translations.emailAddress, data.get('email')],
-        [translations.phone, data.get('phone')],
-        [translations.service, serviceField.value ? service : ''],
-        [translations.package, packageField.value ? packageChoice : ''],
-        [translations.budget, data.get('budget')],
-        [translations.startDate, data.get('startDate')],
-        [translations.projectDescription, data.get('project')],
-      ].filter(([, value]) => String(value || '').trim());
-      const body = values.map(([label, value]) => `${label}: ${value}`).join('\n\n');
-      const subject = encodeURIComponent('Project enquiry — RYZITE');
-      const message = encodeURIComponent(body);
-      preparingEmail = true;
-      if (submitButton) submitButton.disabled = true;
-      if (submitLabel) submitLabel.textContent = translations.preparing;
-      if (status) {
-        status.textContent = translations.formHandoff;
-        status.dataset.statusKey = 'formHandoff';
+      submitState = 'submitting';
+      setKeyedText(errorStatus, '');
+      setSubmitting(true);
+
+      const enquiry = collectEnquiry();
+      const submitted = await sendEnquiry(buildPayload(enquiry));
+
+      if (!submitted) {
+        submitState = 'idle';
+        setSubmitting(false);
+        setKeyedText(errorStatus, 'submitError');
+        return;
       }
-      window.location.href = `mailto:${form.dataset.companyEmail}?subject=${subject}&body=${message}`;
-      window.setTimeout(() => {
-        preparingEmail = false;
-        if (submitButton) submitButton.disabled = false;
-        if (submitLabel) submitLabel.textContent = (contactTranslations[contactLocale] || contactTranslations.en).submit;
-      }, 1800);
+
+      submitState = 'submitted';
+      setSubmitting(false);
+      const whatsappUrl = buildWhatsappUrl(enquiry);
+      if (whatsappLink) whatsappLink.href = whatsappUrl;
+      // Browsers may block a window opened after the network wait; the visible link covers that case.
+      let whatsappWindow = null;
+      try {
+        whatsappWindow = window.open(whatsappUrl, '_blank');
+        if (whatsappWindow) whatsappWindow.opener = null;
+      } catch {
+        // Losing the opener reference is fine; the window either opened or the link is offered.
+      }
+      setKeyedText(whatsappNote, whatsappWindow ? 'whatsappOpened' : 'whatsappBlocked');
+      if (submitButton) submitButton.hidden = true;
+      if (guidance) guidance.hidden = true;
+      if (result) {
+        result.hidden = false;
+        result.focus({ preventScroll: true });
+        result.scrollIntoView({ block: 'nearest' });
+      }
+    });
+
+    resetButton?.addEventListener('click', () => {
+      form.reset();
+      submitState = 'idle';
+      if (result) result.hidden = true;
+      if (whatsappLink) whatsappLink.href = `https://wa.me/${enquiryConfig.whatsappNumber}`;
+      setKeyedText(whatsappNote, '');
+      setKeyedText(errorStatus, '');
+      if (guidance) guidance.hidden = false;
+      if (submitButton) submitButton.hidden = false;
+      setSubmitting(false);
+      form.querySelector('[name="name"]')?.focus();
     });
   }
 
@@ -431,7 +595,11 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
   .contact-field textarea { min-height: 8rem; resize: vertical; }.contact-field input::placeholder, .contact-field textarea::placeholder { color: #8995a3; opacity: 1; }.contact-field input:focus, .contact-field select:focus, .contact-field textarea:focus { border-color: #4388ec; outline: 0; box-shadow: 0 0 0 3px #0655e91c; }.contact-field [aria-invalid="true"] { border-color: #c13f4b; }
   .field-error { display: block; min-height: 0; color: #a92b38; font-size: .75rem; line-height: 1.4; }.field-error:empty { display: none; }
   .consent-field { gap: .35rem; padding-top: .2rem; }.consent-label { display: flex; align-items: flex-start; gap: .75rem; color: #39495e; font-size: .8rem; line-height: 1.6; }.consent-label input { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; margin: .15rem 0 0; accent-color: var(--contact-blue); }.consent-label input:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; }.consent-label input[aria-invalid="true"] { outline: 2px solid #c13f4b; }
-  .contact-button--submit { margin-top: 1.35rem; cursor: pointer; }.contact-button--submit:disabled { cursor: wait; opacity: .72; }.form-privacy { margin: .9rem 0 0; color: #68778a; font-size: .76rem; line-height: 1.6; }.form-status { margin: .6rem 0 0; color: #164b87; font-size: .8rem; line-height: 1.55; }
+  .contact-button--submit { margin-top: 1.35rem; cursor: pointer; }.contact-button--submit:disabled { cursor: wait; opacity: .72; }.form-privacy { margin: .9rem 0 0; color: #68778a; font-size: .76rem; line-height: 1.6; }.form-status { margin: .6rem 0 0; color: #164b87; font-size: .8rem; line-height: 1.55; }.form-status--error { color: #a92b38; font-weight: 600; }.form-status:empty { display: none; }
+  .enquiry-form__trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); opacity: 0; pointer-events: none; }
+  .form-result { margin-top: 1.35rem; padding: 1.1rem; border: 1px solid #b6d1f4; border-radius: 1rem; color: #24364e; background: #f1f6fc; }.form-result[hidden], .contact-button--submit[hidden] { display: none; }.form-result:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; }.form-result p { margin: .55rem 0 0; font-size: .83rem; line-height: 1.6; }.form-result p:empty { display: none; }.form-result .form-result__title { margin: 0; color: #0b3f9c; font-size: .98rem; font-weight: 800; }
+  .form-result__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; margin-top: 1rem; }.contact-button--whatsapp { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.6rem rgb(6 75 237 / 20%); }.contact-button--whatsapp:hover { background: linear-gradient(110deg, #087bd2, #043ec9); }
+  .form-result__reset { min-height: 2.75rem; padding: .4rem .2rem; border: 0; color: var(--contact-blue); background: none; cursor: pointer; font: inherit; font-size: .83rem; font-weight: 700; text-decoration: underline; text-underline-offset: .2em; }.form-result__reset:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; border-radius: 4px; }
 
   .contact-services { background: #fff; }.contact-section-heading--center { display: flex; flex-direction: column; align-items: center; text-align: center; }.contact-section-heading--center .contact-eyebrow { justify-content: center; }.contact-section-heading--center h2 { max-width: 900px; }.contact-section-heading--center > p:last-child:not(.contact-eyebrow) { margin-top: .9rem; }
   .service-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); margin-top: clamp(2rem, 4vw, 3rem); }
