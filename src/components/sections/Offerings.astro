@@ -252,6 +252,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
           const dot = card.querySelector('.roadmap-dot')!.getBoundingClientRect();
           return { x: dot.left + dot.width / 2 - bounds.left, y: dot.top + dot.height / 2 - bounds.top };
         });
+        const stacked = getComputedStyle(roadmap).getPropertyValue('--track-layout').trim() === 'stack';
         points.slice(0, -1).forEach((a, index) => {
           const b = points[index + 1];
           const nextRow = Math.abs(a.x - b.x) < bounds.width * .2;
@@ -260,7 +261,12 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
           let d = nextRow
             ? `M${a.x},${a.y} C${turn},${a.y} ${turn},${b.y} ${b.x},${b.y}`
             : `M${a.x},${a.y} C${a.x + (b.x - a.x) * .4},${a.y + 44} ${b.x - (b.x - a.x) * .4},${b.y + 44} ${b.x},${b.y}`;
-          if (staircase && !nextRow) {
+          if (stacked) {
+            // Mobile stacked cards: a vertical S-curve from one dot to the next, derived
+            // from the live dot positions so it tracks any card size or gap.
+            const middle = (a.y + b.y) / 2;
+            d = `M${a.x},${a.y} C${a.x},${middle} ${b.x},${middle} ${b.x},${b.y}`;
+          } else if (staircase && !nextRow) {
             const middle = (a.x + b.x) / 2;
             const direction = Math.sign(b.x - a.x);
             const radius = Math.min(18, Math.abs(b.y - a.y) / 2, Math.abs(b.x - a.x) / 4);
@@ -377,18 +383,28 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .services .roadmap { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 44px; row-gap: 0; padding: 30px 0 45px; }
   .services .roadmap-stop { grid-column: var(--col-4); grid-row: var(--step-row-4) / span 3; translate: none; rotate: none; }
   .services .service-number { font-size: 11px; opacity: .75; }
-  @media (min-width: 701px) and (max-width: 1050px) {
-    .services .roadmap { column-gap: 16px; }
+  @media (min-width: 768px) and (max-width: 1050px) {
+    /* Rows grow with the copy so text is never clipped by the fixed 3 x 44px span. */
+    .services .roadmap { column-gap: 16px; grid-auto-rows: minmax(44px, auto); padding-top: 52px; }
     .services .roadmap-stop { padding: 16px 10px; gap: 8px; }
     .services .service-icon { width: 30px; height: 36px; font-size: 24px; }
     .services .service-copy h3 { font-size: 18px; }
     .services .service-copy p { font-size: 14px; }
   }
-  @media (max-width: 700px) {
-    .services .roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 52px; }
-    .services .roadmap-stop { grid-column: var(--col-2); grid-row: var(--step-row-2) / span 3; }
-    .services .service-copy h3 { font-size: 16px; }
-    .services .service-copy p { display: block; font-size: 12px; line-height: 1.3; margin-top: 4px; }
+  /* Mobile: content-sized cards stacked with a fixed gap, alternating left/right.
+     The connector script reads --track-layout and routes each segment through the gap. */
+  @media (max-width: 767px) {
+    .services .snake-roadmap { --track-layout: stack; }
+    .services .roadmap { display: flex; flex-direction: column; align-items: flex-start; gap: 56px; padding: 52px 0 40px; }
+    .services .roadmap-stop { width: min(78%, 380px); min-height: 0; flex-direction: column; justify-content: center; gap: 0; padding: 20px 18px 18px; text-align: center; border-radius: 20px; }
+    .services .roadmap-stop:nth-child(even) { align-self: flex-end; }
+    .services .service-copy { width: 100%; }
+    .services .service-copy h3 { margin: 0; font-size: clamp(15px, 4.4vw, 17px); overflow-wrap: break-word; }
+    .services .service-copy p { display: block; margin-top: 6px; font-size: 13px; line-height: 1.45; }
+  }
+  /* Below the smallest supported phone the stagger no longer fits: single column. */
+  @media (max-width: 319px) {
+    .services .roadmap-stop { width: 100%; }
   }
   .solutions .snake-roadmap { height: 970px; max-width: 1180px; margin-top: 36px; }
   .solutions .roadmap { display: block; height: 100%; padding: 0; }
@@ -443,7 +459,13 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .solutions .service-copy h3 { text-shadow: none; }
   .services .roadmap-stop > .service-robot { left: auto; right: -5px; top: -37px; width: 52px; opacity: 0; visibility: hidden; transform: translateY(18px) scale(.7); transition: opacity .25s, visibility .25s, transform .45s cubic-bezier(.2, 1.5, .4, 1); }
   .services .roadmap-stop.is-reached > .service-robot { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-  @media (max-width: 700px) { .services .roadmap-stop > .service-robot { width: 43px; top: -31px; } }
+  /* Robots stand on the card's top edge (only ~4px overlap) instead of covering the heading. */
+  @media (min-width: 768px) and (max-width: 1050px) { .services .roadmap-stop > .service-robot { width: 44px; top: -46px; } }
+  /* Mobile: robot on the card's outer side, clear of the connector that runs between card centres. */
+  @media (max-width: 767px) {
+    .services .roadmap-stop > .service-robot { width: 40px; top: -42px; right: 16px; }
+    .services .roadmap-stop:nth-child(odd) > .service-robot { right: auto; left: 16px; }
+  }
   @media (prefers-reduced-motion: reduce) { .services .roadmap-stop > .service-robot { transition: none; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .services .roadmap-stop, .solutions .roadmap-stop, .division-link, .roadmap-stop, .roadmap-dot { transition: none; }.roadmap-stop.is-reached { animation: none; }.services .roadmap-stop:hover, .solutions .roadmap-stop:hover { translate: none; } }
 </style>
