@@ -1,7 +1,3 @@
----
-import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
----
-
 <section class="connection-hero" aria-labelledby="connection-title">
   <div class="connection-stage" data-connection-hero>
     <div class="hero-halo" aria-hidden="true"></div>
@@ -50,10 +46,6 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       <path class="rope-light" />
     </svg>
     <div class="meeting-flash" aria-hidden="true"></div>
-    <div class="screen-transition" aria-hidden="true">
-      <div class="logo-drawing-wrap" set:html={logoDrawing}></div>
-      <img class="transition-logo" src="/Original%20Logo.png" alt="" width="1080" height="1080" loading="eager" />
-    </div>
     <noscript><style>.connection-hero .hero-message { opacity: 1; visibility: visible; transform: none; }</style></noscript>
   </div>
   <div class="hero-marquee" aria-hidden="true">
@@ -88,18 +80,14 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     const left = stage.querySelector<HTMLElement>('.robot-ry');
     const right = stage.querySelector<HTMLElement>('.robot-zite');
     const message = stage.querySelector<HTMLElement>('.hero-message');
-    const curtain = stage.querySelector<HTMLElement>('.screen-transition');
     const rope = stage.querySelector<SVGSVGElement>('.connection-rope');
     const landscape = stage.querySelector<SVGSVGElement>('.landscape');
     const flash = stage.querySelector<HTMLElement>('.meeting-flash');
-    if (!left || !right || !message || !curtain || !rope || !landscape || !flash) return;
+    if (!left || !right || !message || !rope || !landscape || !flash) return;
     stage.dataset.initialized = 'true';
     const headlineWords = message.querySelectorAll('[data-headline-word]');
     const descriptionWords = message.querySelectorAll('[data-description-word]');
     const cta = message.querySelector<HTMLElement>('.hero-cta')!;
-    const logo = curtain.querySelector<HTMLImageElement>('.transition-logo')!;
-    const drawing = curtain.querySelector<HTMLElement>('.logo-drawing-wrap')!;
-    const drawingPaths = drawing.querySelectorAll('[data-draw-path]');
     const chrome = document.querySelectorAll('.site-header, .footer');
     const paths = rope.querySelectorAll('path');
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -242,10 +230,6 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       document.documentElement.classList.add('home-intro');
       document.documentElement.classList.add('home-transition');
       gsap.set(chrome, { autoAlpha: 0, y: -12 });
-      gsap.set(curtain, { autoAlpha: 0 });
-      gsap.set(logo, { autoAlpha: 0, y: 20, scale: .86 });
-      gsap.set(drawing, { autoAlpha: 0, y: 20, scale: .86 });
-      gsap.set(drawingPaths, { strokeDasharray: 1, strokeDashoffset: 1 });
       gsap.set([left, right], { x: 0, y: 0, rotation: 0, autoAlpha: 1 });
       gsap.set([...bodies, ...legs[0], ...legs[1]], { x: 0, y: 0, rotation: 0, scaleY: 1 });
       gsap.set(pullLayers, { autoAlpha: 1 });
@@ -302,31 +286,27 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         .to(state, { tension: .15, duration: .6 }, finish)
         .to(flash, { opacity: .85, scale: 1, duration: .35 }, finish)
         .to(state, { dissolve: 1, duration: .25 }, finish + .1)
-        .to([left, right], { scaleY: .9, y: 12, duration: .2, ease: 'power2.in' }, finish + .1)
-        .to([left, right], { scaleY: 1.04, y: () => -Math.min(stage.clientHeight * .16, 120), duration: .42, ease: 'power2.out' }, finish + .3)
-        .to(shadows, { scaleX: .65, opacity: .25, duration: .35 }, finish + .3)
-        .to([left, right], { scaleY: 1, y: 0, duration: .38, ease: 'power2.in' }, finish + .72)
-        .set([left, right], { x: 0, autoAlpha: 0, y: 16, scaleY: 1 }, finish + 1.1)
-        .set(pullLayers, { autoAlpha: 0 }, finish + 1.1)
-        .set(frontPoses, { autoAlpha: 1, scaleX: 1 }, finish + 1.1)
-        .set(state, { dissolve: 1 }, finish + 1.1)
-        .set(message, { autoAlpha: 1, y: 0 }, finish + 1.1)
-        .set(flash, { opacity: 0 }, finish + 1.1)
-        .to(curtain, { autoAlpha: 1, duration: .65, ease: 'power2.inOut' }, finish + .75)
-        .to(drawing, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'power3.out' }, finish + 1.15)
-        .to(drawingPaths, { strokeDashoffset: 0, duration: .32, stagger: .21, ease: 'none' }, finish + 1.2)
-        .to(logo, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'power3.out' }, finish + 2.78)
-        .to(drawing, { autoAlpha: 0, duration: .45, ease: 'power2.out' }, finish + 2.8)
+        // Rope pulled: a small celebratory hop, then the hero comes in straight away.
+        .to([left, right], { scaleY: .93, y: 8, duration: .16, ease: 'power2.in' }, finish + .1)
+        .to([left, right], { scaleY: 1.03, y: () => -Math.min(stage.clientHeight * .07, 48), duration: .3, ease: 'power2.out' }, finish + .26)
+        .to(shadows, { scaleX: .8, opacity: .4, duration: .3 }, finish + .26)
+        .to([left, right], { scaleY: 1, y: 0, duration: .26, ease: 'power2.in' }, finish + .56)
+        .to(shadows, { scaleX: 1, opacity: .65, duration: .26 }, finish + .56)
+        .to(flash, { opacity: 0, duration: .3, ease: 'power2.out' }, finish + .6)
+        .to([left, right], { autoAlpha: 0, duration: .22, ease: 'power2.in' }, finish + .85)
+        .set([left, right], { x: 0, y: 16 }, finish + 1.08)
+        .set(pullLayers, { autoAlpha: 0 }, finish + 1.08)
+        .set(frontPoses, { autoAlpha: 1, scaleX: 1 }, finish + 1.08)
+        .set(message, { autoAlpha: 1, y: 0 }, finish + 1.08)
         .call(() => {
           document.documentElement.classList.remove('home-intro');
-        }, [], finish + 2.65)
-        .to(curtain, { autoAlpha: 0, duration: 1.1, ease: 'power2.inOut' }, finish + 3.35)
-        .to(chrome, { autoAlpha: 1, y: 0, duration: .8, ease: 'power2.out' }, finish + 3.5)
-        .to([left, right], { autoAlpha: 1, y: 0, duration: 1, stagger: .12, ease: 'power2.out' }, finish + 3.65)
-        .to(headlineWords, { autoAlpha: 1, y: 0, rotation: 0, filter: 'blur(0px)', duration: .8, stagger: .19, ease: 'power3.out' }, finish + 3.9)
-        .to(stage, { '--underline-scale': 1, duration: .6, ease: 'power2.out' }, finish + 4.65)
-        .to(descriptionWords, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .45, stagger: .055, ease: 'power2.out' }, finish + 5.3)
-        .to(cta, { autoAlpha: 1, y: 0, scale: 1, duration: .65, ease: 'back.out(1.4)' }, finish + 6.25);
+        }, [], finish + 1.08)
+        .to(chrome, { autoAlpha: 1, y: 0, duration: .6, ease: 'power2.out' }, finish + 1.08)
+        .to([left, right], { autoAlpha: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out' }, finish + 1.12)
+        .to(headlineWords, { autoAlpha: 1, y: 0, rotation: 0, filter: 'blur(0px)', duration: .7, stagger: .14, ease: 'power3.out' }, finish + 1.18)
+        .to(stage, { '--underline-scale': 1, duration: .5, ease: 'power2.out' }, finish + 1.68)
+        .to(descriptionWords, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .4, stagger: .04, ease: 'power2.out' }, finish + 1.93)
+        .to(cta, { autoAlpha: 1, y: 0, scale: 1, duration: .55, ease: 'back.out(1.4)' }, finish + 2.53);
       if (preference.matches || skipIntro) {
         timeline.progress(1).pause();
         document.documentElement.classList.remove('home-intro', 'home-transition');
@@ -359,7 +339,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         drawRope();
       }, 150);
     }).observe(stage);
-    Promise.all([...bodies, ...frontPoses, logo].map((img) => img.decode().catch(() => {}))).then(() => {
+    Promise.all([...bodies, ...frontPoses].map((img) => img.decode().catch(() => {}))).then(() => {
       if (!stage.isConnected) return;
       imagesReady = true;
       if (!skipIntro) {
@@ -380,13 +360,6 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   .hero-marquee-set { display: flex; flex: 0 0 auto; align-items: center; gap: 14px; padding-right: 30px; white-space: nowrap; font-family: var(--font-display); font-size: 28px; font-weight: 700; line-height: 1.1; }
   .hero-marquee-star { font-family: var(--font-body); font-weight: 400; }
   @keyframes hero-marquee-scroll { to { transform: translateX(-50%); } }
-  .screen-transition { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overflow: hidden; background: var(--color-paper); opacity: 0; visibility: hidden; pointer-events: none; }
-  .screen-transition::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 52%, #56baff20 0%, transparent 52%); }
-  .logo-drawing-wrap, .transition-logo { grid-area: 1 / 1; width: min(76vw, 520px, 76svh); aspect-ratio: 1; }
-  .logo-drawing-wrap { position: relative; z-index: 1; filter: drop-shadow(0 9px 16px #0756cc2b); }
-  .logo-drawing-wrap :global(.logo-drawing) { display: block; width: 100%; height: 100%; overflow: visible; }
-  .logo-drawing-wrap :global(.logo-drawing [data-draw-path]) { stroke-dasharray: 1; stroke-dashoffset: 1; }
-  .transition-logo { position: relative; z-index: 2; display: block; height: auto; object-fit: contain; }
   .connection-stage { position: relative; isolation: isolate; height: clamp(680px, 84svh, 840px); max-width: 1800px; margin-inline: auto; overflow: hidden; background: var(--color-paper); }
   .hero-halo { position: absolute; inset: 15% 10% 4%; background: radial-gradient(ellipse, #d8f9ff60, transparent 68%); }
   .hero-message { position: absolute; z-index: 4; top: 15%; left: 29%; width: 42%; text-align: center; font-family: var(--font-body); opacity: 0; visibility: hidden; }

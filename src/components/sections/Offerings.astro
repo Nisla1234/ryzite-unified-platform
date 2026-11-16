@@ -150,6 +150,17 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
       path.setAttribute('pathLength', '1');
       path.style.strokeDasharray = '1';
     });
+    const offsetWithin = (element: HTMLElement, ancestor: HTMLElement) => {
+      let x = 0;
+      let y = 0;
+      let current: HTMLElement | null = element;
+      while (current && current !== ancestor) {
+        x += current.offsetLeft;
+        y += current.offsetTop;
+        current = current.offsetParent as HTMLElement | null;
+      }
+      return { x, y };
+    };
     const draw = () => {
       const width = roadmap.clientWidth;
       const height = roadmap.clientHeight;
@@ -157,8 +168,9 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
       trunk.setAttribute('d', `M${center - 28},${height - 22} Q${center + 15},${height * .87} ${center},${height * .7} Q${center - 16},${height * .4} ${center},60`);
       cards.forEach((card, index) => {
-        const x = card.offsetLeft + card.offsetWidth / 2;
-        const y = card.offsetTop + card.offsetHeight - 3;
+        const position = offsetWithin(card, roadmap);
+        const x = position.x + card.offsetWidth / 2;
+        const y = position.y + card.offsetHeight - 3;
         const fork = Math.min(height - 85, y + height * .22);
         branches[index].setAttribute('d', `M${center},${fork} C${center + (x - center) * .65},${fork} ${x},${y + 65} ${x},${y}`);
         const lx = center + (x - center) * .78 + (index % 2 ? -18 : 18);
@@ -410,13 +422,13 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .solutions .snake-roadmap { max-width: 1180px; margin-top: 36px; }
   .solutions .roadmap-stop { flex-direction: column; justify-content: center; padding: 18px 15px; text-align: center; }
   .solutions .solution-card-link { z-index: 1; display: flex; width: 100%; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border-radius: inherit; color: inherit; text-decoration: none; }
-  /* Desktop keeps the original absolutely-positioned three-column tree exactly as designed. */
+  /* Desktop uses an in-flow three-column grid so translated card heights can grow without overlap. */
   @media (min-width: 1024px) {
-    .solutions .snake-roadmap { height: 970px; }
-    .solutions .roadmap { display: block; height: 100%; padding: 0; }
-    .solutions .roadmap-stop { position: absolute; left: calc(var(--fruit-x) * 1%); top: calc(var(--fruit-y) * 1%); width: 25%; height: 190px; margin-left: -12.5%; }
-    .solutions .roadmap-stop--featured { height: 280px; }
-    .solutions .solution-card-link { position: absolute; inset: 0; padding: inherit; }
+    .solutions .snake-roadmap { height: auto; }
+    .solutions .roadmap { display: grid; grid-template-columns: repeat(3, minmax(0, 25%)); grid-auto-rows: auto; justify-content: center; column-gap: 7%; row-gap: 48px; width: 100%; padding: 24px 0 72px; }
+    .solutions .roadmap-stop { position: relative; grid-column: auto; grid-row: auto; width: 100%; height: auto; min-height: 190px; margin-left: 0; padding: 0; translate: none; rotate: none; }
+    .solutions .roadmap-stop--featured { min-height: 280px; }
+    .solutions .solution-card-link { position: relative; inset: auto; flex: 1; width: 100%; height: 100%; padding: 18px 15px; }
   }
   .solutions .solution-card-link:focus-visible { outline: none; box-shadow: inset 0 0 0 4px var(--dark); }
   .solutions .roadmap-stop:focus-within { border-color: var(--accent); }
@@ -426,8 +438,9 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .solutions .roadmap-stop.is-reached { animation: none; }
   .solution-card-image { display: block; width: 100%; height: 120px; flex: 0 0 auto; border-radius: var(--radius-small); object-fit: cover; }
   .solutions .service-icon { width: 42px; height: 42px; margin-bottom: 0; }
-  .solutions .service-copy h3 { font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
-  .solutions .service-copy p { color: #63718a; font-size: 15px; }
+  .solutions .service-copy { width: 100%; min-width: 0; }
+  .solutions .service-copy h3 { font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  .solutions .service-copy p { color: #63718a; font-size: 15px; overflow-wrap: anywhere; }
   .solution-tree { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
   .solution-tree :global(path) { stroke-linecap: round; stroke-linejoin: round; }
   .solution-tree :global(.tree-trunk) { stroke: var(--dark); stroke-width: 22px; }
