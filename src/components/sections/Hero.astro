@@ -24,18 +24,22 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     </svg>
     <div class="floor-glow" aria-hidden="true"></div>
     <div class="robot robot-ry">
-      <img class="robot-body" src="/images/hero/ry.png" alt="RY, a blue robot wearing a cap marked RY, pulling the glowing rope" width="1180" height="1333" fetchpriority="high" />
-      <div class="robot-leg leg-back" aria-hidden="true"></div>
-      <div class="robot-leg leg-front" aria-hidden="true"></div>
-      <img class="robot-front" src="/images/hero/ry-front-plain.png" alt="" aria-hidden="true" width="1180" height="1333" />
-      <div class="ground-shadow" aria-hidden="true"></div>
+      <div class="robot-float">
+        <img class="robot-body" src="/images/hero/ry.png" alt="RY, a blue robot wearing a cap marked RY, pulling the glowing rope" width="1180" height="1333" fetchpriority="high" />
+        <div class="robot-leg leg-back" aria-hidden="true"></div>
+        <div class="robot-leg leg-front" aria-hidden="true"></div>
+        <img class="robot-front" src="/images/hero/ry-front-plain.png" alt="" aria-hidden="true" width="1180" height="1333" />
+        <div class="ground-shadow" aria-hidden="true"></div>
+      </div>
     </div>
     <div class="robot robot-zite">
-      <img class="robot-body" src="/images/hero/zite.png" alt="ZITE, a robot wearing a cap marked ZITE, pulling the other end of the rope" width="1180" height="1333" fetchpriority="high" />
-      <div class="robot-leg leg-back" aria-hidden="true"></div>
-      <div class="robot-leg leg-front" aria-hidden="true"></div>
-      <img class="robot-front" src="/images/hero/zite-front-plain.png" alt="" aria-hidden="true" width="1180" height="1333" />
-      <div class="ground-shadow" aria-hidden="true"></div>
+      <div class="robot-float">
+        <img class="robot-body" src="/images/hero/zite.png" alt="ZITE, a robot wearing a cap marked ZITE, pulling the other end of the rope" width="1180" height="1333" fetchpriority="high" />
+        <div class="robot-leg leg-back" aria-hidden="true"></div>
+        <div class="robot-leg leg-front" aria-hidden="true"></div>
+        <img class="robot-front" src="/images/hero/zite-front-plain.png" alt="" aria-hidden="true" width="1180" height="1333" />
+        <div class="ground-shadow" aria-hidden="true"></div>
+      </div>
     </div>
     <svg class="connection-rope" aria-hidden="true">
       <defs>
@@ -68,6 +72,9 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
 
 <script>
   import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const initializeConnection = () => {
     const stage = document.querySelector('[data-connection-hero]');
@@ -85,6 +92,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     const drawingPaths = drawing.querySelectorAll('[data-draw-path]');
     const chrome = document.querySelectorAll('.site-header, .footer');
     const flash = stage.querySelector('.meeting-flash');
+    const landscape = stage.querySelector('.landscape');
     const rope = stage.querySelector('.connection-rope');
     const paths = rope.querySelectorAll('path');
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -136,9 +144,63 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       });
     };
     startWaveMotion();
+
+    let introDone = false;
+    const ambientTweens: gsap.core.Tween[] = [];
+    const markLive = () => {
+      introDone = true;
+      stage.classList.add('is-live');
+    };
+    const scrollScrub = { trigger: stage, start: 'top top', end: 'bottom top', scrub: .6 };
+    const setupAmbient = () => {
+      if (preference.matches || ambientTweens.length) return;
+      ambientTweens.push(
+        gsap.to(message, { yPercent: -6, ease: 'none', scrollTrigger: { ...scrollScrub } }),
+        gsap.to([left, right], { yPercent: 4, ease: 'none', scrollTrigger: { ...scrollScrub } }),
+        gsap.to(landscape, { yPercent: 9, ease: 'none', scrollTrigger: { ...scrollScrub } }),
+      );
+    };
+    const teardownAmbient = () => {
+      ambientTweens.forEach((tween) => tween.kill());
+      ambientTweens.length = 0;
+      gsap.set([message, landscape], { yPercent: 0 });
+      gsap.set([left, right], { x: 0, y: 0, yPercent: 0 });
+    };
+
+    const finePointer = window.matchMedia('(pointer: fine)');
+    const parallax = {
+      ryX: gsap.quickTo(left, 'x', { duration: .7, ease: 'power3.out' }),
+      ryY: gsap.quickTo(left, 'y', { duration: .7, ease: 'power3.out' }),
+      ziteX: gsap.quickTo(right, 'x', { duration: .7, ease: 'power3.out' }),
+      ziteY: gsap.quickTo(right, 'y', { duration: .7, ease: 'power3.out' }),
+    };
+    const resetParallax = () => {
+      parallax.ryX(0); parallax.ryY(0); parallax.ziteX(0); parallax.ziteY(0);
+    };
+    const handleHeroPointerMove = (event) => {
+      if (!introDone || preference.matches || event.pointerType === 'touch') return;
+      const rect = stage.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      const dx = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
+      const dy = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
+      parallax.ryX(dx * 8); parallax.ryY(dy * 6);
+      parallax.ziteX(dx * 10); parallax.ziteY(dy * 8);
+    };
+    const handleHeroPointerLeave = () => resetParallax();
+    if (finePointer.matches) {
+      stage.addEventListener('pointermove', handleHeroPointerMove);
+      stage.addEventListener('pointerleave', handleHeroPointerLeave);
+    }
+
     const handleMotionPreferenceChange = () => {
       startWaveMotion();
-      if (preference.matches && timeline) timeline.progress(1).pause();
+      if (preference.matches) {
+        teardownAmbient();
+        resetParallax();
+        if (timeline) timeline.progress(1).pause();
+      } else {
+        setupAmbient();
+      }
     };
 
     const drawRope = () => {
@@ -195,6 +257,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         onUpdate: drawRope,
         onComplete: () => {
           document.documentElement.classList.remove('home-intro', 'home-transition');
+          markLive();
         },
       });
       const steps = 3;
@@ -259,6 +322,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       if (preference.matches || skipIntro) {
         timeline.progress(1).pause();
         document.documentElement.classList.remove('home-intro', 'home-transition');
+        markLive();
       }
       drawRope();
     };
@@ -266,6 +330,9 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     preference.addEventListener('change', handleMotionPreferenceChange);
     document.addEventListener('astro:before-swap', () => {
       stopWaveMotion();
+      teardownAmbient();
+      stage.removeEventListener('pointermove', handleHeroPointerMove);
+      stage.removeEventListener('pointerleave', handleHeroPointerLeave);
       preference.removeEventListener('change', handleMotionPreferenceChange);
     }, { once: true });
     let resizeTimer;
@@ -280,6 +347,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         const paused = timeline?.paused();
         createTimeline();
         timeline.progress(progress).paused(paused || progress === 1);
+        if (progress === 1) markLive();
         drawRope();
       }, 150);
     }).observe(stage);
@@ -290,6 +358,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         try { window.sessionStorage.setItem(introSeenKey, 'true'); } catch {}
       }
       createTimeline();
+      setupAmbient();
     });
   };
   initializeConnection();
@@ -321,13 +390,22 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   .digital-line { position: relative; margin-bottom: .2em; }
   .digital-line::after { content: ''; position: absolute; left: 22%; right: 14%; bottom: -.07em; height: 5px; background: #064bed; border-radius: 50%; transform: rotate(-2deg) scaleX(var(--underline-scale, 1)); transform-origin: left; }
   .hero-message p { margin: 24px 0; color: #344159; font-size: 15px; line-height: 1.45; }
-  .hero-cta { display: inline-flex; align-items: center; gap: 15px; padding: 17px 30px; border-radius: 999px; background: #064bed; box-shadow: 0 9px 20px #064bed25; color: white; font-size: 17px; font-weight: 800; text-decoration: none; text-transform: uppercase; }
-  .hero-cta:hover { background: #0539b7; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 15px; padding: 17px 30px; border-radius: 999px; background: #064bed; box-shadow: 0 9px 20px #064bed25; color: white; font-size: 17px; font-weight: 800; text-decoration: none; text-transform: uppercase; transition: background .25s ease, transform .25s ease, box-shadow .25s ease; }
+  .hero-cta:hover { background: #0539b7; transform: translateY(-2px) scale(1.04); box-shadow: 0 14px 30px #064bed38; }
   .hero-cta:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
   .landscape { position: absolute; width: 100%; height: 100%; inset: 0; z-index: -1; }
   .wave-layer { transform-box: fill-box; transform-origin: center; will-change: transform; }
   .floor-glow { position: absolute; bottom: 0; width: 100%; height: 26%; background: radial-gradient(ellipse at 50% 10%, #b4f9ffb3, #599cfb40 60%, transparent 80%); }
   .robot { position: absolute; z-index: 2; bottom: 9%; width: 29%; aspect-ratio: 1180 / 1333; transform-origin: 50% 95%; will-change: transform; }
+  .robot-float { position: absolute; inset: 0; transform-origin: 50% 95%; }
+  .connection-stage.is-live .robot-ry .robot-float { --float-y: 9px; --float-r: 1deg; animation: robot-float 4.6s ease-in-out infinite; }
+  .connection-stage.is-live .robot-zite .robot-float { --float-y: 11px; --float-r: 1.2deg; animation: robot-float 5.5s ease-in-out -2.4s infinite; }
+  @keyframes robot-float {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    25% { transform: translate3d(0, calc(var(--float-y) * -.75), 0) rotate(calc(var(--float-r) * -.7)); }
+    50% { transform: translate3d(0, calc(var(--float-y) * -1), 0) rotate(calc(var(--float-r) * -1)); }
+    75% { transform: translate3d(0, calc(var(--float-y) * -.35), 0) rotate(calc(var(--float-r) * .6)); }
+  }
   .ground-shadow { position: absolute; bottom: -1%; left: 12%; width: 76%; height: 5%; background: #174ecb55; filter: blur(10px); border-radius: 50%; z-index: -1; }
   .robot-ry { left: 3%; }
   .robot-zite { right: 3%; }
@@ -353,6 +431,8 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     .robot { width: 39%; bottom: 5%; }
     .robot-ry { left: -2%; }
     .robot-zite { right: -2%; }
+    .connection-stage.is-live .robot-ry .robot-float { --float-y: 5px; --float-r: .7deg; }
+    .connection-stage.is-live .robot-zite .robot-float { --float-y: 6px; --float-r: .8deg; }
     .rope-body { stroke-width: 7px; }
     .rope-light { stroke-width: 2px; }
     .desktop-break { display: none; }
@@ -397,5 +477,6 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-marquee-track { animation: none; }
+    .robot-float { animation: none !important; }
   }
 </style>
