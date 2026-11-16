@@ -76,36 +76,43 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
 
   gsap.registerPlugin(ScrollTrigger);
 
+  declare global {
+    interface Window {
+      ryziteIntroFallback?: ReturnType<typeof setTimeout>;
+    }
+  }
+
   const initializeConnection = () => {
-    const stage = document.querySelector('[data-connection-hero]');
+    const stage = document.querySelector<HTMLElement>('[data-connection-hero]');
     if (!stage || stage.dataset.initialized) return;
+    const left = stage.querySelector<HTMLElement>('.robot-ry');
+    const right = stage.querySelector<HTMLElement>('.robot-zite');
+    const message = stage.querySelector<HTMLElement>('.hero-message');
+    const curtain = stage.querySelector<HTMLElement>('.screen-transition');
+    const rope = stage.querySelector<SVGSVGElement>('.connection-rope');
+    const landscape = stage.querySelector<SVGSVGElement>('.landscape');
+    const flash = stage.querySelector<HTMLElement>('.meeting-flash');
+    if (!left || !right || !message || !curtain || !rope || !landscape || !flash) return;
     stage.dataset.initialized = 'true';
-    const left = stage.querySelector('.robot-ry');
-    const right = stage.querySelector('.robot-zite');
-    const message = stage.querySelector('.hero-message');
     const headlineWords = message.querySelectorAll('[data-headline-word]');
     const descriptionWords = message.querySelectorAll('[data-description-word]');
-    const cta = message.querySelector('.hero-cta');
-    const curtain = stage.querySelector('.screen-transition');
-    const logo = curtain.querySelector('.transition-logo');
-    const drawing = curtain.querySelector('.logo-drawing-wrap');
+    const cta = message.querySelector<HTMLElement>('.hero-cta')!;
+    const logo = curtain.querySelector<HTMLImageElement>('.transition-logo')!;
+    const drawing = curtain.querySelector<HTMLElement>('.logo-drawing-wrap')!;
     const drawingPaths = drawing.querySelectorAll('[data-draw-path]');
     const chrome = document.querySelectorAll('.site-header, .footer');
-    const flash = stage.querySelector('.meeting-flash');
-    const landscape = stage.querySelector('.landscape');
-    const rope = stage.querySelector('.connection-rope');
     const paths = rope.querySelectorAll('path');
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const introSeenKey = 'ryzite-home-intro-seen';
     let skipIntro = false;
     try { skipIntro = window.sessionStorage.getItem(introSeenKey) === 'true'; } catch {}
-    const bodies = [left.querySelector('.robot-body'), right.querySelector('.robot-body')];
-    const frontPoses = [left.querySelector('.robot-front'), right.querySelector('.robot-front')];
+    const bodies = [left.querySelector<HTMLImageElement>('.robot-body')!, right.querySelector<HTMLImageElement>('.robot-body')!];
+    const frontPoses = [left.querySelector<HTMLImageElement>('.robot-front')!, right.querySelector<HTMLImageElement>('.robot-front')!];
     const legs = [left.querySelectorAll('.robot-leg'), right.querySelectorAll('.robot-leg')];
-    const shadows = [left.querySelector('.ground-shadow'), right.querySelector('.ground-shadow')];
+    const shadows = [left.querySelector<HTMLElement>('.ground-shadow')!, right.querySelector<HTMLElement>('.ground-shadow')!];
     const pullLayers = [...bodies, ...legs[0], ...legs[1]];
     const state = { progress: 0, tension: 0, ripple: 0, dissolve: 0 };
-    let timeline;
+    let timeline: gsap.core.Timeline | undefined;
     let imagesReady = false;
     const waveLayers = [...stage.querySelectorAll('.wave-layer')];
     const waveSettings = [
@@ -113,7 +120,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       { x: 40, y: 12, duration: 56, direction: -1, offset: Math.PI / 2 },
       { x: 52, y: 15, duration: 44, direction: 1, offset: Math.PI },
     ];
-    const waveTweens = [];
+    const waveTweens: gsap.core.Tween[] = [];
     const stopWaveMotion = () => {
       waveTweens.forEach((tween) => tween.kill());
       waveTweens.length = 0;
@@ -177,7 +184,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
     const resetParallax = () => {
       parallax.ryX(0); parallax.ryY(0); parallax.ziteX(0); parallax.ziteY(0);
     };
-    const handleHeroPointerMove = (event) => {
+    const handleHeroPointerMove = (event: PointerEvent) => {
       if (!introDone || preference.matches || event.pointerType === 'touch') return;
       const rect = stage.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > window.innerHeight) return;
@@ -205,7 +212,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
 
     const drawRope = () => {
       const bounds = stage.getBoundingClientRect();
-      const hand = (actor, body, x, y) => {
+      const hand = (actor: HTMLElement, body: Element, x: number, y: number) => {
         const rect = actor.getBoundingClientRect();
         const style = getComputedStyle(body);
         const origin = style.transformOrigin.split(' ').map(Number.parseFloat);
@@ -270,6 +277,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
           .to(state, { tension: 1, ripple: step, duration: .24, ease: 'power2.in' }, position);
         timeline.to(state, { progress: step / steps, duration: .52, ease: 'none' }, position + .08);
 
+        const activeTimeline = timeline;
         [left, right].forEach((actor, index) => {
           const direction = index === 0 ? 1 : -1;
           const lift = Math.min(actor.offsetHeight * .035, 15);
@@ -278,7 +286,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
           const time = position + .08;
           const swing = legs[index][footfall];
           const planted = legs[index][1 - footfall];
-          timeline.to(actor, { x: direction * travel * step / steps, duration: .52, ease: 'sine.inOut' }, time)
+          activeTimeline.to(actor, { x: direction * travel * step / steps, duration: .52, ease: 'sine.inOut' }, time)
             .to(swing, { rotation: -direction * 8, x: direction * reach, y: -lift, duration: .24, ease: 'sine.out' }, time)
             .to(planted, { rotation: direction * 3, x: -direction * reach * .5, y: 0, duration: .45, ease: 'sine.inOut' }, time)
             .to(bodies[index], { rotation: -direction * 3, x: direction, y: -3, scaleY: 1, duration: .22, ease: 'sine.out' }, time)
@@ -335,7 +343,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
       stage.removeEventListener('pointerleave', handleHeroPointerLeave);
       preference.removeEventListener('change', handleMotionPreferenceChange);
     }, { once: true });
-    let resizeTimer;
+    let resizeTimer: ReturnType<typeof setTimeout> | undefined;
     let observedWidth = stage.clientWidth;
     new ResizeObserver(() => {
       if (!imagesReady) return;
@@ -346,7 +354,7 @@ import logoDrawing from "../../assets/logo-drawing-paths.svg?raw";
         const progress = timeline?.progress() || 0;
         const paused = timeline?.paused();
         createTimeline();
-        timeline.progress(progress).paused(paused || progress === 1);
+        timeline?.progress(progress).paused(paused || progress === 1);
         if (progress === 1) markLive();
         drawRope();
       }, 150);

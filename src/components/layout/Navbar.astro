@@ -20,7 +20,7 @@ const resourceItems = [
   { key: 'blog', label: 'Blog', href: '/articles' },
 ];
 const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const isActive = (href) => href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+const isActive = (href: string) => href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
 const labels = {
   en: {
     languageName: 'English', selectLanguage: 'Select language', languageOptions: 'Language',
@@ -293,7 +293,7 @@ const labels = {
     margin-inline: auto;
     padding: 0;
     display: grid;
-    grid-template-columns: minmax(170px, 1fr) auto minmax(170px, 1fr);
+    grid-template-columns: minmax(320px, 1fr) auto minmax(320px, 1fr);
     align-items: center;
     gap: 28px;
   }
@@ -301,7 +301,7 @@ const labels = {
   a:focus-visible, summary:focus-visible, .services-trigger:focus-visible { outline: 3px solid #3772f5; outline-offset: 6px; border-radius: 5px; }
   .wordmark { display: block; flex-shrink: 0; justify-self: start; }
   .brand-logo { display: block; width: 140px; max-height: 80px; height: auto; object-fit: contain; }
-  .desktop-nav { display: flex; flex: 0 0 auto; flex-wrap: nowrap; align-items: center; justify-content: center; gap: clamp(24px, 2vw, 32px); }
+  .desktop-nav { display: flex; flex: 0 0 auto; flex-wrap: nowrap; align-items: center; justify-content: center; gap: clamp(24px, 2vw, 32px); min-width: 0; }
   .header-actions { display: flex; align-items: center; justify-self: end; gap: clamp(12px, 1.6vw, 22px); }
   .desktop-project { justify-self: end; }
   .language-picker { position: relative; z-index: 32; flex: 0 0 auto; }
@@ -339,6 +339,12 @@ const labels = {
   .project-link { display: inline-flex; align-items: center; justify-content: center; gap: 12px; flex-shrink: 0; padding: 14px 21px; border: 1px solid #3777ff; border-radius: 999px; background: linear-gradient(135deg, #0874ff, #053de0); box-shadow: 0 6px 15px #0758df20, inset 0 1px 1px #ffffff45; color: white; font-size: 16px; font-weight: 600; line-height: 1.4; white-space: nowrap; transition: box-shadow 160ms ease, background 160ms ease; }
   .project-link:hover { background: #073ac7; box-shadow: 0 7px 20px #0758df35; }
   .mobile-menu { display: none; }
+  html[lang='ta'] .desktop-nav, html[lang='si'] .desktop-nav { gap: clamp(14px, 1.4vw, 22px); }
+  html[lang='ta'] .desktop-nav > a, html[lang='ta'] .services-dropdown > a, html[lang='ta'] .services-trigger,
+  html[lang='si'] .desktop-nav > a, html[lang='si'] .services-dropdown > a, html[lang='si'] .services-trigger { font-size: 15px; }
+  html[lang='ta'] .project-link, html[lang='si'] .project-link { padding: 13px 17px; font-size: 15px; }
+  html[lang='ta'] .language-picker > summary, html[lang='si'] .language-picker > summary { font-size: 15px; gap: 7px; }
+  html[lang='ta'] .header-actions, html[lang='si'] .header-actions { gap: clamp(10px, 1.3vw, 18px); }
   @media (max-width: 1379px) {
     .header-inner { display: flex; justify-content: space-between; }
     .desktop-nav, .desktop-project { display: none; }
