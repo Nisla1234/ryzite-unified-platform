@@ -462,9 +462,9 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .service-icon { flex-shrink: 0; display: grid; place-items: center; width: 42px; height: 48px; border-radius: 13px; color: var(--dark); font-size: 29px; background: linear-gradient(145deg, #fff, var(--tint)); box-shadow: inset 0 0 0 1px #fff, 0 5px 9px #355d9b15; }
   .service-copy h3 { margin: 0 0 7px; font-family: var(--font-display); font-size: 14px; line-height: 1.3; font-weight: 800; letter-spacing: -.025em; }
   .services .service-copy { min-width: 0; flex: 1; }
-  .services .service-copy h3 { font-family: var(--font-body); font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+  .services .service-copy h3 { margin-bottom: 10px; font-family: var(--font-body); font-size: 22px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
   .service-copy p { margin: 0; color: #63718a; font-size: 11px; line-height: 1.45; }
-  .services .service-copy p { font-size: 15px; }
+  .services .service-copy p { font-size: 16.5px; line-height: 1.5; }
   .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .55; font-size: 9px; font-weight: 700; }
   /* Same pill as the Business Challenge "Solve These Challenges" button. */
   .division-link { display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 18px 30px; border-radius: 999px; color: white; background: linear-gradient(110deg, #008aff, #063df3); box-shadow: 0 8px 18px #085be735; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; transition: translate .2s; }
@@ -476,26 +476,26 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 21px; }.item-count { display: none; }.section-intro > .section-description { font-size: 13px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 24px; }.service-copy h3 { font-size: 12px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 9px; } }
   /* Three stair flights: 1?4 right, 5?8 left, then 9?11 right. */
   .services .roadmap { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(44px, auto); row-gap: 0; padding: 30px 0 45px; }
-  .services .roadmap-stop { grid-column: var(--col-4); grid-row: var(--step-row-4) / span 3; translate: none; rotate: none; }
-  .services .service-number { font-size: 11px; opacity: .75; }
+  .services .roadmap-stop { grid-column: var(--col-4); grid-row: var(--step-row-4) / span 3; min-height: 168px; padding: 28px 26px 26px; border-radius: 26px; translate: none; rotate: none; }
+  .services .service-number { top: 12px; right: 16px; font-size: 12px; opacity: .75; }
   @media (min-width: 768px) and (max-width: 1050px) {
     /* Rows grow with the copy so text is never clipped by the fixed 3 x 44px span. */
     .services .roadmap { column-gap: 16px; grid-auto-rows: minmax(44px, auto); padding-top: 52px; }
-    .services .roadmap-stop { padding: 16px 10px; gap: 8px; }
+    .services .roadmap-stop { min-height: 150px; padding: 22px 14px 18px; gap: 8px; border-radius: 22px; }
     .services .service-icon { width: 30px; height: 36px; font-size: 24px; }
-    .services .service-copy h3 { font-size: 18px; }
-    .services .service-copy p { font-size: 14px; }
+    .services .service-copy h3 { margin-bottom: 8px; font-size: 19px; overflow-wrap: anywhere; }
+    .services .service-copy p { font-size: 15px; overflow-wrap: anywhere; }
   }
   /* Mobile: content-sized cards stacked with a fixed gap, alternating left/right.
      The connector script reads --track-layout and routes each segment through the gap. */
   @media (max-width: 767px) {
     .services .snake-roadmap { --track-layout: stack; }
     .services .roadmap { display: flex; flex-direction: column; align-items: flex-start; gap: 56px; padding: 52px 0 40px; }
-    .services .roadmap-stop { width: min(78%, 380px); min-height: 0; flex-direction: column; justify-content: center; gap: 0; padding: 20px 18px 18px; text-align: center; border-radius: 20px; }
+    .services .roadmap-stop { width: min(86%, 420px); min-height: 0; flex-direction: column; justify-content: center; gap: 0; padding: 26px 22px 24px; text-align: center; border-radius: 22px; }
     .services .roadmap-stop:nth-child(even) { align-self: flex-end; }
     .services .service-copy { width: 100%; }
-    .services .service-copy h3 { margin: 0; font-size: clamp(15px, 4.4vw, 17px); overflow-wrap: break-word; }
-    .services .service-copy p { display: block; margin-top: 6px; font-size: 13px; line-height: 1.45; }
+    .services .service-copy h3 { margin: 0; font-size: clamp(17px, 4.9vw, 19px); overflow-wrap: break-word; }
+    .services .service-copy p { display: block; margin-top: 8px; font-size: 14.5px; line-height: 1.5; }
   }
   /* Below the smallest supported phone the stagger no longer fits: single column. */
   @media (max-width: 319px) {

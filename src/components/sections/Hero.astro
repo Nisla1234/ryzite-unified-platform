@@ -105,6 +105,8 @@ const marqueeItems = [
   // Motion values for everything after the rope intro, kept together so they are easy to tune.
   const heroMotion = {
     revealEase: CustomEase.create('heroReveal', '.2,.8,.2,1'),
+    // Run-up speed of the two robots pulling the rope (1 = original pace, higher = faster).
+    pull: { speed: 1.6 },
     letters: { rise: .35, rotate: 4, blur: 10, duration: 1.3, stagger: .07 },
     follow: { rise: 34, blur: 8, duration: .9, stagger: .15 },
     // Different periods per robot so the two never move in sync.
@@ -416,15 +418,17 @@ const marqueeItems = [
       });
       const steps = 3;
       const stride = .6;
+      // The walk lives in its own timeline so its pace can change without touching the reveal timing.
+      const pull = gsap.timeline();
       for (let step = 1; step <= steps; step++) {
         const position = (step - 1) * stride;
         // Plant the feet, lean away, then overcome the rope's resistance.
-        timeline.to(bodies[0], { rotation: -7, x: -3, y: 4, duration: .24, ease: 'power2.inOut' }, position)
+        pull.to(bodies[0], { rotation: -7, x: -3, y: 4, duration: .24, ease: 'power2.inOut' }, position)
           .to(bodies[1], { rotation: 7, x: 3, y: 4, duration: .24, ease: 'power2.inOut' }, position)
           .to(state, { tension: 1, ripple: step, duration: .24, ease: 'power2.in' }, position);
-        timeline.to(state, { progress: step / steps, duration: .52, ease: 'none' }, position + .08);
+        pull.to(state, { progress: step / steps, duration: .52, ease: 'none' }, position + .08);
 
-        const activeTimeline = timeline;
+        const activeTimeline = pull;
         [left, right].forEach((actor, index) => {
           const direction = index === 0 ? 1 : -1;
           const lift = Math.min(actor.offsetHeight * .035, 15);
@@ -442,9 +446,11 @@ const marqueeItems = [
             .to(bodies[index], { rotation: 0, x: 0, y: 0, scaleY: 1, duration: .2, ease: 'power1.out' }, time + .38)
             .to(shadows[index], { scaleX: 1, opacity: .65, duration: .2 }, time + .38);
         });
-        timeline.to(state, { tension: .38, duration: .18, ease: 'power2.out' }, position + .45);
+        pull.to(state, { tension: .38, duration: .18, ease: 'power2.out' }, position + .45);
       }
-      const finish = (steps - 1) * stride + .64;
+      pull.timeScale(heroMotion.pull.speed);
+      timeline.add(pull, 0);
+      const finish = ((steps - 1) * stride + .64) / heroMotion.pull.speed;
       timeline.to(bodies, { rotation: 0, x: 0, y: 0, duration: .4 }, finish)
         .to(state, { tension: .15, duration: .6 }, finish)
         .to(flash, { opacity: .85, scale: 1, duration: .35 }, finish)
