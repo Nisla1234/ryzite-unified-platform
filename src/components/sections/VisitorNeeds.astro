@@ -1,66 +1,182 @@
 ---
-const needs = [
-  { lead: 'Need a', title: 'Website?', description: 'Create a powerful online presence with a modern, responsive website designed for your business.', href: '/solutions', icon: 'M4 4h16v12H4z M2 20h20 M8 8h8 M8 11h5', kind: 'website' },
-  { lead: 'Ready for', title: 'E-Commerce?', description: 'Launch your online store, reach more customers, and grow your business with smart e-commerce solutions.', href: '/solutions', icon: 'M2 3h3l3 13h11l3-10H6 M10 21h.01 M18 21h.01 M12 3v7 M9 6h6', kind: 'store' },
-  { lead: 'Want to Grow', title: 'Your Brand?', description: 'Build a stronger brand identity and connect with your audience through creative digital solutions.', href: '/services', icon: 'M3 10v5h5l12 5V4L8 10H3z M8 15l2 6h4l-3-5 M23 9v6', kind: 'brand' },
-  { lead: 'Have an Idea to', title: 'Build?', description: 'Turn your unique ideas into powerful digital solutions tailored to your business needs.', href: '/contact', icon: 'm8 7-5 5 5 5 M16 7l5 5-5 5 M14 4l-4 16', kind: 'custom' },
+// Card layout: header panel (title, summary, icon, two benefit labels), stacked tab layers, then an
+// image. Colours reuse this section's existing palette (glass light-blue + cyan→royal→indigo tile).
+// Benefit labels come only from each card's approved description — no metrics or results claims.
+// [PROPOSAL] layout + benefit labels pending client review; labels are English-only for now.
+type Benefit = { value: string; label: string };
+type Need = {
+  lead: string; title: string; description: string; href: string; kind: string;
+  image: string; icon: string; tone: 'bright' | 'glass'; benefits: [Benefit, Benefit];
+};
+
+const needs: Need[] = [
+  {
+    lead: 'Need a', title: 'Website?', description: 'Create a powerful online presence with a modern, responsive website designed for your business.',
+    href: '/solutions', kind: 'website', image: '/images/solutions/website.webp', tone: 'bright',
+    icon: 'M4 4h16v12H4z M2 20h20 M8 8h8 M8 11h5',
+    benefits: [{ value: 'Modern', label: 'design for your business' }, { value: 'Responsive', label: 'on every screen size' }],
+  },
+  {
+    lead: 'Ready for', title: 'E-Commerce?', description: 'Launch your online store, reach more customers, and grow your business with smart e-commerce solutions.',
+    href: '/solutions', kind: 'store', image: '/images/solutions/store.webp', tone: 'glass',
+    icon: 'M2 3h3l3 13h11l3-10H6 M10 21h.01 M18 21h.01 M12 3v7 M9 6h6',
+    benefits: [{ value: 'Launch', label: 'your own online store' }, { value: 'Reach', label: 'more customers online' }],
+  },
+  {
+    lead: 'Want to Grow', title: 'Your Brand?', description: 'Build a stronger brand identity and connect with your audience through creative digital solutions.',
+    href: '/services', kind: 'brand', image: '/images/solutions/design.webp', tone: 'bright',
+    icon: 'M3 10v5h5l12 5V4L8 10H3z M8 15l2 6h4l-3-5 M23 9v6',
+    benefits: [{ value: 'Stronger', label: 'brand identity' }, { value: 'Connect', label: 'with your audience' }],
+  },
+  {
+    lead: 'Have an Idea to', title: 'Build?', description: 'Turn your unique ideas into powerful digital solutions tailored to your business needs.',
+    href: '/contact', kind: 'custom', image: '/images/solutions/software.webp', tone: 'glass',
+    icon: 'm8 7-5 5 5 5 M16 7l5 5-5 5 M14 4l-4 16',
+    benefits: [{ value: 'Your idea', label: 'turned into a solution' }, { value: 'Tailored', label: 'to your business needs' }],
+  },
 ];
 ---
 
 <section class="visitor-needs" aria-labelledby="visitor-needs-title">
   <header>
-  
     <h2 id="visitor-needs-title"><span data-home-key="needsTitleLead">What does your business</span> <strong data-home-key="needsTitleAccent">need next?</strong></h2>
     <h3 data-home-key="needsSubtitle">Choose your next step. We’ll help you make it happen.</h3>
   </header>
-  <div class="needs-scene">
-    <div class="needs-grid">
-      {needs.map((need, index) => (
-        <a class:list={['need-card', need.kind]} href={need.href}>
-          <div class="need-visual" aria-hidden="true">
-            <div class="visual-tile"><svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d={need.icon} /></svg></div>
-            <span class="visual-shadow"></span>
+
+  <div class="needs-grid" data-hs-reveal="needs-drop">
+    {needs.map((need, index) => (
+      <a class:list={['need-card', need.kind, `tone-${need.tone}`]} href={need.href} data-need-card>
+        <div class="need-panel">
+          <div class="need-head">
+            <h3 class="need-title"><span data-home-key={`visitorNeeds.${index}.lead`}>{need.lead}</span> <strong data-home-key={`visitorNeeds.${index}.title`}>{need.title}</strong></h3>
+            <svg class="need-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={need.icon} /></svg>
           </div>
-          <div class="need-copy">
-            {need.category && <span class="need-category">{need.category}</span>}
-            <h3><span data-home-key={`visitorNeeds.${index}.lead`}>{need.lead}</span> <strong data-home-key={`visitorNeeds.${index}.title`}>{need.title}</strong></h3>
-            <p data-home-key={`visitorNeeds.${index}.description`}>{need.description}</p>
-          </div>
-        </a>
-      ))}
-    </div>
+          <p class="need-summary" data-home-key={`visitorNeeds.${index}.description`}>{need.description}</p>
+
+          <dl class="need-benefits">
+            {need.benefits.map((benefit, b) => (
+              <div class="need-benefit">
+                <dt data-home-key={`visitorNeeds.${index}.benefits.${b}.value`}>{benefit.value}</dt>
+                <dd data-home-key={`visitorNeeds.${index}.benefits.${b}.label`}>{benefit.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div class="need-stack" aria-hidden="true"><span></span><span></span></div>
+
+        <figure class="need-figure">
+          <img src={need.image} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+        </figure>
+      </a>
+    ))}
   </div>
 </section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { onHomeReveal, prefersReducedMotion } from '../../scripts/home-reveal';
+
+  // Cards drop in from above one after another. Each card starts falling before the previous one
+  // has landed (stagger < duration), so the four overlap into one continuous cascade.
+  onHomeReveal('needs-drop', (grid) => {
+    if (prefersReducedMotion()) return;
+    gsap.fromTo(grid.querySelectorAll('[data-need-card]'),
+      { y: -160, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.9, ease: 'back.out(1.3)', stagger: 0.28, clearProps: 'transform,opacity,visibility' });
+  });
+</script>
 
 <style>
   .visitor-needs { position: relative; isolation: isolate; overflow: hidden; padding: 52px 28px 65px; color: #18345b; background: var(--color-paper); }
   .visitor-needs::before { content: ''; position: absolute; z-index: -1; width: 140%; height: 65%; left: -20%; top: 22%; border: 2px solid #59bbef20; border-radius: 50%; rotate: -18deg; box-shadow: 0 -5px 22px #8adfff20; pointer-events: none; }
   header { max-width: 800px; margin: 0 auto 42px; text-align: center; }
-  .eyebrow { color: #1476bd; text-transform: uppercase; letter-spacing: .2em; font-size: 11px; font-weight: 800; }
   h2 { margin: 14px 0; color: #0a1734; font-size: var(--size-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }
   h2 strong { color: #064bed; }
-  header p { margin: 0; color: #63758c; font-size: 16px; }
-  .needs-scene { max-width: 1100px; margin: auto; }
-  .needs-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; padding: 12px 18px; }
-  .need-card { position: relative; display: flex; align-items: center; gap: 22px; min-height: 220px; padding: 28px; color: #18345b; text-decoration: none; border: 1px solid #ffffffdb; border-radius: 36px; background: linear-gradient(145deg, #b4cfead1, #89b3df99 55%, #6e9dcead); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: inset 2px 3px 6px #ffffffcc, inset -2px -3px 8px #a5d8f533, 0 12px 30px #376b9b33; transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
-  .need-card:nth-child(odd) { transform: rotate(2deg); }
-  .need-card:nth-child(even) { transform: rotate(-2deg); }
-  .need-card:hover, .need-card:focus-visible { transform: translateY(-7px); border-color: #8cceee; box-shadow: inset 0 0 8px #ffffffcc, 0 0 20px #87d9ff33, 0 16px 30px #376b9b20; }
+  header h3 { margin: 0; font-family: var(--font-body); font-size: var(--size-lead); line-height: 1.4; }
+
+  .needs-grid { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 1320px; margin: 0 auto; align-items: stretch; }
+
+  /* Two tones from the existing section palette, alternated like a card deck. */
+  .need-card {
+    --panel: linear-gradient(145deg, #51d8ff, #0879fa 55%, #2333c3);
+    --ink: #ffffff;
+    --ink-soft: rgb(255 255 255 / .85);
+    --rule: rgb(255 255 255 / .4);
+    --layer: #8eeaff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid #ffffffdb;
+    border-radius: 28px;
+    background: var(--panel);
+    box-shadow: inset 2px 3px 6px #ffffff66, 0 12px 30px #376b9b33;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .tone-glass {
+    --panel: linear-gradient(145deg, #b4cfead1, #89b3df99 55%, #6e9dcead);
+    --ink: #0a1734;
+    --ink-soft: #365475;
+    --rule: #18345b40;
+    --layer: #ffffff;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: inset 2px 3px 6px #ffffffcc, inset -2px -3px 8px #a5d8f533, 0 12px 30px #376b9b33;
+  }
+
+  .need-panel { padding: 24px 24px 18px; }
+  .need-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+  .need-title { margin: 0; font-family: var(--font-body); font-size: var(--size-h3); line-height: var(--leading-h3); overflow-wrap: anywhere; }
+  .need-title strong { display: block; margin-top: 2px; }
+  .tone-glass .need-title strong { color: #0879ad; }
+  .need-icon { flex: 0 0 auto; width: 40px; height: 40px; }
+  .need-summary { margin: 10px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.45; }
+
+  .need-benefits { display: grid; grid-template-columns: 1fr 1fr; margin: 22px 0 0; }
+  .need-benefit { min-width: 0; padding-right: 14px; }
+  .need-benefit + .need-benefit { padding: 0 0 0 16px; border-left: 1px solid var(--rule); }
+  .need-benefit dt { font-family: var(--font-display); font-size: 22px; font-weight: 700; line-height: 1.15; overflow-wrap: anywhere; }
+  .need-benefit dd { margin: 6px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.4; }
+
+  /* Stacked tabs that step up behind the image. */
+  .need-stack { position: relative; height: 34px; margin-top: auto; padding-top: 4px; }
+  .need-stack span { position: absolute; bottom: 0; height: 34px; border-radius: 14px 14px 0 0; background: var(--layer); }
+  .need-stack span:first-child { left: 14%; right: 14%; bottom: 14px; opacity: .35; }
+  .need-stack span:last-child { left: 7%; right: 7%; height: 20px; opacity: .6; }
+
+  .need-figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 18px 18px 0 0; background: #2333c3; }
+  .need-figure img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+    /* Source art is violet (~260° hue); shift it onto the section's royal blue. */
+    filter: hue-rotate(-40deg) saturate(1.15);
+    transition: transform .7s ease;
+  }
+
+  .need-card:hover, .need-card:focus-visible { transform: translateY(-7px); border-color: #8cceee; box-shadow: inset 0 0 8px #ffffffcc, 0 0 20px #87d9ff33, 0 16px 30px #376b9b33; }
+  .need-card:hover .need-figure img, .need-card:focus-visible .need-figure img { transform: scale(1.05); }
   .need-card:focus-visible { outline: 3px solid #6df6ee; outline-offset: 6px; }
-  h3 { position: relative; z-index: 1; margin: 0; padding-right: 28px; font-family: var(--font-body); font-size: var(--size-lead); line-height: 1.4; }
-  h3 strong { display: block; margin-top: 3px; color: #0879ad; }
-  .need-copy { position: relative; z-index: 1; min-width: 0; flex: 1; }
-  .need-category { display: block; margin-bottom: 8px; color: #1476bd; font-size: 11px; font-weight: 800; line-height: 1.3; }
-  .need-card h3 { padding-right: 0; color: #000; font-size: var(--size-h3); line-height: var(--leading-h3); overflow-wrap: anywhere; }
-  .need-card h3 strong { color: #000; }
-  .need-card p { margin: 10px 0 0; color: #365475; font-size: 14px; line-height: 1.4; }
-  .need-visual { position: relative; flex: 0 0 30%; height: 120px; display: grid; place-items: center; }
-  .visual-tile { position: relative; z-index: 1; display: grid; place-items: center; color: white; width: 92px; height: 82px; border: 2px solid #8eeaff; border-radius: 20px; background: linear-gradient(145deg, #51d8ff, #0879fa 55%, #2333c3); box-shadow: inset 2px 3px 8px #e1ffffaa, 5px 8px 0 #092987, 8px 14px 16px #000c3c70; transform: rotate(-10deg); }
-  .visual-tile svg { width: 56px; height: 56px; filter: drop-shadow(0 4px 2px #1245a5); }
-  .store .visual-tile { transform: rotate(8deg); background: linear-gradient(145deg, #5deeff, #0879fa 65%); }
-  .brand .visual-tile { border-radius: 50% 28% 40% 30%; transform: rotate(-18deg); }
-  .custom .visual-tile { transform: rotate(-12deg); box-shadow: 5px 10px 0 #83c7ff, 8px 19px 0 #5454db, 11px 28px 0 #ba9cff, 15px 35px 20px #000c3c70; }
-  .visual-shadow { position: absolute; width: 140px; height: 18px; bottom: -5px; border-radius: 50%; background: #00aeff50; filter: blur(10px); }
-  @media (max-width: 700px) { .visitor-needs { padding: 36px 20px 40px; } header { margin-bottom: 28px; } header p { font-size: 14px; } .needs-grid { grid-template-columns: 1fr; gap: 24px; padding: 8px 4px; } .need-card { min-height: 175px; padding: 22px; gap: 18px; border-radius: 28px; } .need-card:nth-child(n) { transform: none; } .need-card:hover { transform: translateY(-4px); } .need-visual { height: 100px; flex-basis: 28%; } .visual-tile { width: 74px; height: 66px; } .visual-tile svg { width: 44px; height: 44px; } }
-  @media (prefers-reduced-motion: reduce) { .need-card { transition: none; } .need-card:hover { transform: none; } }
+
+  @media (min-width: 680px) {
+    .needs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  }
+
+  @media (min-width: 1200px) {
+    .needs-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 700px) {
+    .visitor-needs { padding: 36px 20px 40px; }
+    header { margin-bottom: 28px; }
+    .need-card { border-radius: 24px; }
+    .need-panel { padding: 20px 20px 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .need-card, .need-figure img { transition: none; }
+    .need-card:hover, .need-card:focus-visible { transform: none; }
+    .need-card:hover .need-figure img, .need-card:focus-visible .need-figure img { transform: none; }
+  }
 </style>

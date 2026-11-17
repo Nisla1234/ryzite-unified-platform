@@ -55,5 +55,8 @@ const startMarquee = () => {
   };
 };
 
+// Module scripts run after the DOM is parsed, so start right away; astro:page-load restarts it
+// if client-side navigation is ever enabled (startMarquee stops any previous loop first).
+startMarquee();
 document.addEventListener('astro:page-load', startMarquee);
 document.addEventListener('astro:before-swap', () => stop?.());
