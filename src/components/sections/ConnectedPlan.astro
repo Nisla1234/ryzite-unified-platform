@@ -1,0 +1,106 @@
+---
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
+
+const copy = homeSectionsTranslations.en.connected;
+const highlightIcons = [
+  'M3 21h18 M5 21V10l7-6 7 6v11 M9 21v-6h6v6',
+  'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z',
+  'M9 7H6a5 5 0 0 0 0 10h3 M15 7h3a5 5 0 0 1 0 10h-3 M8 12h8',
+  'M13 2 4 14h7l-1 8 9-12h-7z',
+  'M3 17l6-6 4 4 8-8 M15 7h6v6',
+];
+---
+
+<section class="hs-section connected" aria-labelledby="connected-title">
+  <div class="hs-shell">
+    <header class="hs-heading" data-hs-reveal>
+      <p class="hs-eyebrow" data-home-key="sections.connected.eyebrow">{copy.eyebrow}</p>
+      <h2 id="connected-title" data-home-key="sections.connected.title">{copy.title}</h2>
+      <p data-home-key="sections.connected.body">{copy.body}</p>
+    </header>
+
+    <div class="connected-flow" data-hs-reveal="connected">
+      <div class="connected-inputs">
+        <div class="hs-card connected-node">
+          <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v5h4l11 5V4L7 10H3z M7 15l2 5h3" /></svg></span>
+          <p data-home-key="sections.connected.marketing">{copy.marketing}</p>
+        </div>
+        <span class="connected-plus" aria-hidden="true">+</span>
+        <div class="hs-card connected-node">
+          <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5 M16 7l5 5-5 5 M14 4l-4 16" /></svg></span>
+          <p data-home-key="sections.connected.technology">{copy.technology}</p>
+        </div>
+      </div>
+
+      <svg class="connected-lines connected-lines--wide" viewBox="0 0 200 220" fill="none" aria-hidden="true" preserveAspectRatio="none">
+        <path data-connector d="M0 50C90 50 90 110 196 110" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+        <path data-connector d="M0 170C90 170 90 110 196 110" stroke="#078be9" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+        <path class="connected-pulse" d="M0 50C90 50 90 110 196 110M0 170C90 170 90 110 196 110" stroke="#0655e9" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 22" vector-effect="non-scaling-stroke" />
+      </svg>
+      <svg class="connected-lines connected-lines--narrow" viewBox="0 0 220 80" fill="none" aria-hidden="true" preserveAspectRatio="none">
+        <path data-connector d="M55 0C55 40 110 40 110 78" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+        <path data-connector d="M165 0C165 40 110 40 110 78" stroke="#078be9" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+      </svg>
+
+      <div class="connected-result">
+        <span class="connected-result__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8 M15 7h6v6 M3 21h18" /></svg>
+        </span>
+        <p data-home-key="sections.connected.result">{copy.result}</p>
+      </div>
+    </div>
+
+    <ul class="connected-highlights">
+      {copy.highlights.map((highlight, index) => (
+        <li class="hs-card" data-hs-reveal data-hs-delay={index * 0.08}>
+          <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={highlightIcons[index]} /></svg></span>
+          <span data-home-key={`sections.connected.highlights.${index}`}>{highlight}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { onHomeReveal, prefersReducedMotion } from '../../scripts/home-reveal';
+
+  onHomeReveal('connected', (flow) => {
+    if (prefersReducedMotion()) return;
+    // Wipe the connectors in along their direction of travel (left→right wide, top→bottom narrow).
+    gsap.fromTo(flow.querySelector('.connected-lines--wide'), { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: 'power2.inOut', delay: .3, clearProps: 'clipPath' });
+    gsap.fromTo(flow.querySelector('.connected-lines--narrow'), { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: .9, ease: 'power2.inOut', delay: .3, clearProps: 'clipPath' });
+    gsap.from(flow.querySelector('.connected-result'), { scale: .9, autoAlpha: 0, duration: .6, ease: 'back.out(1.6)', delay: 1.1 });
+  });
+</script>
+
+<style>
+  .connected-flow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(80px, 200px) minmax(0, 1fr); align-items: center; max-width: 960px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
+  .connected-inputs { display: grid; gap: 1.1rem; justify-items: stretch; }
+  .connected-node { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; }
+  .connected-node p { color: var(--hs-ink); font-size: var(--size-h4); font-weight: 800; line-height: 1.3; }
+  .connected-plus { display: none; color: var(--hs-blue); font-size: 1.5rem; font-weight: 800; text-align: center; }
+  .connected-lines { width: 100%; height: 100%; min-height: 200px; }
+  .connected-lines--narrow { display: none; }
+  .connected-pulse { animation: connected-pulse 2.8s linear infinite; }
+  @keyframes connected-pulse { to { stroke-dashoffset: -56; } }
+  .connected-result { display: flex; flex-direction: column; align-items: center; gap: .9rem; padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: var(--radius-large); color: #fff; background: radial-gradient(circle at 30% 20%, #078be9, #0655e9 45%, #0643cf); box-shadow: 0 18px 40px #0655e940; text-align: center; }
+  .connected-result p { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 800; line-height: var(--leading-h3); }
+  .connected-result__icon { display: grid; place-items: center; width: 4rem; height: 4rem; border: 2px solid #ffffff55; border-radius: 50%; background: #ffffff1f; }
+  .connected-result__icon svg { width: 2rem; height: 2rem; }
+  .connected-highlights { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
+  .connected-highlights li { display: flex; flex-direction: column; align-items: center; gap: .85rem; padding: 1.25rem 1rem; color: var(--hs-ink); font-size: .9375rem; font-weight: 700; line-height: 1.45; text-align: center; overflow-wrap: anywhere; }
+  @media (max-width: 1100px) { .connected-highlights { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 760px) {
+    .connected-flow { grid-template-columns: 1fr; }
+    .connected-inputs { grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .connected-node { flex-direction: column; text-align: center; padding: 1rem .75rem; }
+    .connected-node p { font-size: .9375rem; }
+    .connected-lines--wide { display: none; }
+    .connected-lines--narrow { display: block; height: 70px; min-height: 0; }
+    .connected-highlights { grid-template-columns: 1fr; gap: .75rem; }
+    .connected-highlights li { flex-direction: row; gap: 1rem; padding: .9rem 1.1rem; text-align: start; overflow-wrap: break-word; }
+    .connected-highlights .hs-icon { width: 2.75rem; height: 2.75rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .connected-pulse { animation: none; } }
+</style>

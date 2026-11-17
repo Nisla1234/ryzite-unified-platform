@@ -1,0 +1,68 @@
+---
+// [PROPOSAL] Package names, descriptions, and features come from resources-translations.ts and
+// are labelled as proposed options there. No prices are shown because none are approved.
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
+import { resourcesTranslations } from '../../data/resources-translations';
+
+const copy = homeSectionsTranslations.en.packages;
+const packages = resourcesTranslations.en.packages;
+const featureCount = 4;
+---
+
+<section class="hs-section hs-section--pale packages-preview" aria-labelledby="packages-preview-title">
+  <div class="hs-shell">
+    <header class="hs-heading" data-hs-reveal>
+      <p class="hs-eyebrow" data-home-key="sections.packages.eyebrow">{copy.eyebrow}</p>
+      <h2 id="packages-preview-title" data-home-key="sections.packages.title">{copy.title}</h2>
+      <p data-home-key="sections.packages.intro">{copy.intro}</p>
+    </header>
+
+    <div class="packages-grid">
+      {packages.packageCards.map((card, index) => (
+        <article class="hs-card hs-card--hover package-card" data-hs-reveal data-hs-delay={index * 0.12}>
+          <p class="package-card__label" data-home-key={`packageData.cards.${index}.label`}>{card.label}</p>
+          <h3 data-home-key={`packageData.cards.${index}.name`}>{card.name}</h3>
+          <p data-home-key={`packageData.cards.${index}.description`}>{card.description}</p>
+
+          <div class="package-card__suitable">
+            <p class="package-card__subhead" data-home-key="sections.packages.suitableLabel">{copy.suitableLabel}</p>
+            <p data-home-key={`sections.packages.suitable.${index}`}>{copy.suitable[index]}</p>
+          </div>
+
+          <p class="package-card__subhead" data-home-key="packageData.featuresLabel">{packages.packageFeaturesLabel}</p>
+          <ul>
+            {card.features.slice(0, featureCount).map((feature, featureIndex) => (
+              <li>
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="#e3eeff" /><path d="m6 10.5 2.5 2.5L14 7.5" stroke="#0655e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                <span data-home-key={`packageData.cards.${index}.features.${featureIndex}`}>{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a class="hs-link package-card__cta" href="/contact/?package=guidance">
+            <span data-home-key="packageData.cta">{packages.packageCta}</span> <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <div class="hs-actions" data-hs-reveal>
+      <a class="hs-button" href="/packages"><span data-home-key="sections.packages.cta">{copy.cta}</span> <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .packages-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-grid); }
+  .package-card { display: flex; flex-direction: column; padding: clamp(1.5rem, 2.5vw, 2rem); border-top: 4px solid var(--hs-blue); }
+  .package-card__label { margin-bottom: .75rem; color: var(--hs-blue); font-size: var(--size-eyebrow); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .package-card h3 { font-size: var(--size-h3); }
+  .package-card__suitable { margin: 1.25rem 0; padding: .9rem 1rem; border-radius: var(--radius-small); background: var(--hs-pale); }
+  .package-card__suitable p:last-child { color: var(--hs-ink); font-weight: 600; }
+  .package-card__subhead { margin-bottom: .35rem; color: var(--hs-ink); font-size: var(--size-small); font-weight: 800; }
+  .package-card ul { display: grid; gap: .6rem; margin: .4rem 0 1.5rem; padding: 0; list-style: none; }
+  .package-card li { display: flex; align-items: flex-start; gap: .6rem; color: var(--hs-muted); font-size: .9375rem; line-height: 1.45; overflow-wrap: anywhere; }
+  .package-card li svg { flex-shrink: 0; width: 1.15rem; height: 1.15rem; margin-top: .12rem; }
+  .package-card__cta { margin-top: auto; }
+  @media (max-width: 1000px) { .packages-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; } }
+</style>

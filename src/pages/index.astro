@@ -1,12 +1,22 @@
 ﻿---
 import MainLayout from "../layouts/MainLayout.astro";
 import Hero from "../components/sections/Hero.astro";
-import AboutPreview from "../components/sections/AboutPreview.astro";
 import Offerings from "../components/sections/Offerings.astro";
 import BusinessChallenge from "../components/sections/BusinessChallenge.astro";
 import VisitorNeeds from "../components/sections/VisitorNeeds.astro";
-import ReviewsTrust from "../components/sections/ReviewsTrust.astro";
+import HomeDivisions from "../components/sections/HomeDivisions.astro";
+import BrandingScene from "../components/sections/BrandingScene.astro";
+import ConnectedPlan from "../components/sections/ConnectedPlan.astro";
+import PackagesPreview from "../components/sections/PackagesPreview.astro";
+import PaymentOptions from "../components/sections/PaymentOptions.astro";
+import ProcessPreview from "../components/sections/ProcessPreview.astro";
+import TrustPrinciples from "../components/sections/TrustPrinciples.astro";
+import HomeFaq from "../components/sections/HomeFaq.astro";
+import ClosingInvitation from "../components/sections/ClosingInvitation.astro";
+import "../styles/home-sections.css";
 import { homeTranslations } from "../data/home-translations";
+import { homeSectionsTranslations } from "../data/home-sections-translations";
+import { resourcesTranslations } from "../data/resources-translations";
 import { marketingServices } from "../data/marketing-service-content";
 import { marketingServiceTranslations } from "../data/marketing-service-translations";
 import { technologySolutions } from "../data/technology-solutions";
@@ -29,24 +39,48 @@ const solutionOfferings = (locale: Locale): Record<string, OfferingCopy> =>
         return [slug, { title: translated?.title ?? title, description: translated?.description ?? description }];
     }));
 
-const homePageTranslations = {
-    en: { ...homeTranslations.en, offerings: { services: serviceOfferings('en'), solutions: solutionOfferings('en') } },
-    ta: { ...homeTranslations.ta, offerings: { services: serviceOfferings('ta'), solutions: solutionOfferings('ta') } },
-    si: { ...homeTranslations.si, offerings: { services: serviceOfferings('si'), solutions: solutionOfferings('si') } },
+// Package cards and process steps are shared with /packages and /how-we-work so the homepage
+// previews never drift from those pages.
+const homeLocale = (locale: Locale) => {
+    const { packages, howWeWork } = resourcesTranslations[locale];
+    return {
+        ...homeTranslations[locale],
+        offerings: { services: serviceOfferings(locale), solutions: solutionOfferings(locale) },
+        sections: homeSectionsTranslations[locale],
+        packageData: { cards: packages.packageCards, featuresLabel: packages.packageFeaturesLabel, cta: packages.packageCta },
+        processData: { intro: howWeWork.processIntro, steps: howWeWork.processSteps },
+    };
 };
+
+const homePageTranslations = { en: homeLocale('en'), ta: homeLocale('ta'), si: homeLocale('si') };
 ---
 
 <MainLayout
   title="RYZITE | Digital Marketing & Technology"
   description="One Agency. All Your Business Solutions."
 >
+  <!-- Homepage order (approved brief): 1 Hero, 2 Business Challenge, 3 Visitor Needs, 4 Two Divisions,
+       5 Marketing Services + 6 Technology Solutions (Offerings), 7 Branding, 8 Connected Plan, 9 Packages,
+       10 Payment Options, 11 How We Work, 12 Trust, 13 FAQs, 14 Closing Invitation.
+       AboutPreview moved off the homepage (replaced by Two Divisions); ReviewsTrust hidden until verified review links exist. -->
   <Hero />
-  <AboutPreview />
   <BusinessChallenge />
   <VisitorNeeds />
+  <HomeDivisions />
   <Offerings />
-  <ReviewsTrust />
+  <BrandingScene />
+  <ConnectedPlan />
+  <PackagesPreview />
+  <PaymentOptions />
+  <ProcessPreview />
+  <TrustPrinciples />
+  <HomeFaq />
+  <ClosingInvitation />
 </MainLayout>
+
+<script>
+  import '../scripts/home-reveal';
+</script>
 
 <script is:inline define:vars={{ homePageTranslations }}>
   const homeTranslations = homePageTranslations;
