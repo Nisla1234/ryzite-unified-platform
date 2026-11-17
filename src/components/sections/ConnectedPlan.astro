@@ -21,12 +21,13 @@ const highlightIcons = [
     <div class="connected-flow" data-hs-reveal="connected">
       <div class="connected-inputs">
         <div class="hs-card connected-node">
-          <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v5h4l11 5V4L7 10H3z M7 15l2 5h3" /></svg></span>
+          <!-- [OPEN] Client-supplied icon images; confirm usage rights before launch. -->
+          <img class="connected-node__image" src="/images/connected/marketing-icon.webp" alt="" width="256" height="256" loading="lazy" decoding="async" />
           <p data-home-key="sections.connected.marketing">{copy.marketing}</p>
         </div>
         <span class="connected-plus" aria-hidden="true">+</span>
         <div class="hs-card connected-node">
-          <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5 M16 7l5 5-5 5 M14 4l-4 16" /></svg></span>
+          <img class="connected-node__image" src="/images/connected/technology-icon.webp" alt="" width="363" height="256" loading="lazy" decoding="async" />
           <p data-home-key="sections.connected.technology">{copy.technology}</p>
         </div>
       </div>
@@ -42,8 +43,8 @@ const highlightIcons = [
       </svg>
 
       <div class="connected-result">
-        <!-- PLACEHOLDER: Adobe Stock preview #1031351251 (watermarked). Replace with the licensed file before launch. -->
-        <img class="connected-result__bg" src="/images/connected-growth.webp" alt="" width="735" height="413" loading="lazy" decoding="async" aria-hidden="true" />
+        <!-- PLACEHOLDER: Adobe Stock preview #1046642754 (watermarked). Replace with the licensed file before launch. -->
+        <img class="connected-result__bg" src="/images/connected-growth.webp" alt="" width="736" height="412" loading="lazy" decoding="async" aria-hidden="true" />
         <span class="connected-result__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8 M15 7h6v6 M3 21h18" /></svg>
         </span>
@@ -80,6 +81,7 @@ const highlightIcons = [
   .connected-inputs { display: grid; gap: 1.1rem; justify-items: stretch; }
   .connected-node { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; }
   .connected-node p { color: var(--hs-ink); font-size: var(--size-h4); font-weight: 800; line-height: 1.3; }
+  .connected-node__image { display: block; flex-shrink: 0; width: 4.5rem; height: 4.5rem; border-radius: 1rem; object-fit: cover; box-shadow: 0 6px 14px #0655e91c; }
   .connected-plus { display: none; color: var(--hs-blue); font-size: 1.5rem; font-weight: 800; text-align: center; }
   .connected-lines { width: 100%; height: 100%; min-height: 200px; }
   .connected-lines--narrow { display: none; }
