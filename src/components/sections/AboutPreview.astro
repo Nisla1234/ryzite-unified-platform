@@ -55,7 +55,7 @@
     gap: .65rem;
     margin: 0 0 1rem;
     color: #0655e9;
-    font-size: .74rem;
+    font-size: var(--size-eyebrow);
     font-weight: 800;
     letter-spacing: .16em;
     text-transform: uppercase;
@@ -70,14 +70,14 @@
   }
 
   .about-preview h2 {
-    max-width: 690px;
+    max-width: var(--measure-h2);
     margin: 0;
     color: #101827;
     font-family: var(--font-display);
-    font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+    font-size: var(--size-h2);
     font-weight: 800;
-    letter-spacing: -.02em;
-    line-height: .98;
+    letter-spacing: var(--tracking-h2);
+    line-height: var(--leading-h2);
   }
 
   .about-preview__copy > p:not(.about-preview__eyebrow) {
@@ -130,7 +130,7 @@
   @media (max-width: 720px) {
     .about-preview { padding: 4.5rem 1.25rem; }
     .about-preview__inner { grid-template-columns: 1fr; gap: 2rem; }
-    .about-preview h2 { font-size: clamp(2.8rem, 11vw, 4rem); }
+    
     .about-preview__visual { width: min(78vw, 340px); }
   }
 

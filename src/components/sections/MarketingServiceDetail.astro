@@ -325,11 +325,11 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail-back { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .55rem; margin-bottom: 1.4rem; color: #52647b; font-size: .82rem; font-weight: 700; text-decoration: none; }
   .marketing-detail-back:hover { color: var(--marketing-blue); }
   .marketing-detail-back:focus-visible, .marketing-related-card:focus-visible { outline: 3px solid var(--marketing-blue); outline-offset: 4px; }
-  .marketing-detail .marketing-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--marketing-blue); font-size: .73rem; font-weight: 800; letter-spacing: .15em; line-height: 1.5; text-transform: uppercase; }
+  .marketing-detail .marketing-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--marketing-blue); font-size: var(--size-eyebrow); font-weight: 800; letter-spacing: .15em; line-height: 1.5; text-transform: uppercase; }
   .marketing-detail .marketing-eyebrow::before { width: 1.5rem; height: 2px; flex: 0 0 auto; border-radius: 2px; background: currentColor; content: ''; }
-  .marketing-detail-hero h1 { max-width: 850px; margin: 0; color: #101827; font-family: var(--font-display); font-size: clamp(3.2rem, 6.5vw, 6.3rem); font-weight: 900; letter-spacing: -.025em; line-height: .96; overflow-wrap: anywhere; }
-  .marketing-detail-hero__subheading { max-width: 700px; margin: 1.1rem 0 0; color: #1c385d; font-family: var(--font-display); font-size: clamp(1.7rem, 3.1vw, 2.65rem); font-weight: 700; line-height: 1.05; }
-  .marketing-detail-hero__description, .marketing-detail-hero__supporting { max-width: 680px; margin: 1rem 0 0; color: var(--marketing-muted); font-size: clamp(1rem, 1.3vw, 1.13rem); line-height: 1.75; }
+  .marketing-detail-hero h1 { max-width: var(--measure-h1); margin: 0; color: #101827; font-family: var(--font-display); font-size: var(--size-h1); font-weight: 900; letter-spacing: var(--tracking-h1); line-height: var(--leading-h1); overflow-wrap: anywhere; }
+  .marketing-detail-hero__subheading { max-width: 700px; margin: 1.1rem 0 0; color: #1c385d; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); }
+  .marketing-detail-hero__description, .marketing-detail-hero__supporting { max-width: 680px; margin: 1rem 0 0; color: var(--marketing-muted); font-size: var(--size-lead); line-height: 1.75; }
   .marketing-detail-hero__supporting { margin-top: .65rem; font-size: .96rem; }
   .marketing-detail .marketing-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .9rem; font-weight: 800; text-align: center; text-decoration: none; transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 180ms ease; }
   .marketing-detail .marketing-button:hover { transform: translateY(-3px); }
@@ -349,7 +349,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
   .marketing-detail-split { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 7vw, 7rem); }
   .marketing-challenge-section { background: #fff; }
-  .marketing-detail-heading h2 { max-width: 780px; margin: 0; color: #111d30; font-family: var(--font-display); font-size: clamp(2.9rem, 5vw, 5rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }
+  .marketing-detail-heading h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 800; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .marketing-detail-heading--center { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .marketing-detail-heading--center .marketing-eyebrow { justify-content: center; }
   .marketing-detail-lead { max-width: 660px; margin: 1rem 0 0; color: var(--marketing-muted); line-height: 1.7; }
@@ -360,8 +360,8 @@ const detailTranslations = Object.fromEntries(
   .marketing-provides-section { color: #fff; background: #101d32; }
   .marketing-provides-layout { display: grid; grid-template-columns: minmax(180px, .5fr) minmax(0, 1.5fr); align-items: center; gap: clamp(2rem, 7vw, 7rem); }
   .marketing-provides-layout .marketing-eyebrow { color: #85c6ff; }
-  .marketing-provides-layout h2 { max-width: 800px; margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(2.9rem, 5vw, 5rem); line-height: .98; }
-  .marketing-provides-copy { max-width: 850px; margin: 1.2rem 0 0; color: #cad6e4; font-size: clamp(1.05rem, 1.6vw, 1.35rem); line-height: 1.75; }
+  .marketing-provides-layout h2 { max-width: var(--measure-h2); margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }
+  .marketing-provides-copy { max-width: 850px; margin: 1.2rem 0 0; color: #cad6e4; font-size: var(--size-lead); line-height: 1.75; }
   .marketing-proposed-note { max-width: 850px; margin: 1.1rem 0 0; padding: 1rem 1.1rem; border: 1px solid #ffffff2b; border-radius: .8rem; color: #d7e5f4; font-size: .9rem; line-height: 1.65; }
   .marketing-provides-mark { display: grid; width: min(100%, 220px); aspect-ratio: 1; place-items: center; justify-self: center; border: 1px solid #8ac8ff60; border-radius: 2rem; color: #9dd7ff; background: linear-gradient(145deg, #178fff26, #178fff08); box-shadow: 0 0 0 1.1rem #ffffff05, 0 0 0 2.2rem #ffffff03; font-family: var(--font-display); font-size: 5rem; font-weight: 800; }
   .marketing-capabilities-section { background: #f0f6fd; }
@@ -369,19 +369,19 @@ const detailTranslations = Object.fromEntries(
   .marketing-capability-card { position: relative; min-height: 215px; padding: 1.4rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, #fff, #f7faff); box-shadow: 0 .8rem 1.8rem #173b7109; }
   .marketing-capability-card__icon { display: grid; width: 2.6rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--marketing-blue); background: #eaf3ff; font-size: 1.1rem; }
   .marketing-capability-card__number { position: absolute; top: 1.5rem; right: 1.4rem; color: #8292a6; font-size: .65rem; font-weight: 800; letter-spacing: .12em; }
-  .marketing-capability-card h3 { margin: 1.3rem 0 .5rem; color: #162942; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; line-height: 1.1; }
+  .marketing-capability-card h3 { margin: 1.3rem 0 .5rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .marketing-capability-card p { margin: 0; color: var(--marketing-muted); font-size: .9rem; line-height: 1.65; }
   .marketing-benefits-section { background: #fff; }
   .marketing-benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2.8rem 0 0; padding: 0; list-style: none; }
   .marketing-benefit-card { min-height: 190px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, #fff, #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; }
   .marketing-benefit-card > span { color: var(--marketing-blue); font-size: .68rem; font-weight: 800; letter-spacing: .12em; }
-  .marketing-benefit-card p { margin: 2rem 0 0; color: #30435c; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+  .marketing-benefit-card p { margin: 2rem 0 0; color: #30435c; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); }
   .marketing-approach-section { background: #f7f9fc; }
   .marketing-detail-process { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin: 3.2rem 0 0; padding: 0; list-style: none; }
   .marketing-detail-process::before { position: absolute; top: 1.25rem; right: 8%; left: 8%; height: 1px; background: linear-gradient(90deg, #b9d4f4, #4a9cf2, #b9d4f4); content: ''; }
   .marketing-detail-process li { position: relative; display: grid; min-height: 175px; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 1.5rem; }
   .marketing-detail-process__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--marketing-blue); background: #fff; box-shadow: 0 0 0 .35rem #edf5ff; font-size: .68rem; font-weight: 800; }
-  .marketing-detail-process h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; line-height: 1.15; }
+  .marketing-detail-process h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .marketing-detail-process p { margin: 0; color: var(--marketing-muted); font-size: .88rem; line-height: 1.65; }
   .marketing-related-section { background: #fff; }
   .marketing-related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
@@ -389,7 +389,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-related-card:hover { transform: translateY(-4px); border-color: #9fc1eb; box-shadow: 0 1rem 2rem #163f7615; }
   .marketing-related-card__number { color: #8292a6; font-size: .65rem; font-weight: 800; letter-spacing: .12em; }
   .marketing-related-card__icon { position: absolute; top: 1.2rem; right: 1.3rem; display: grid; width: 2.6rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--marketing-blue); background: #eaf3ff; font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
-  .marketing-related-card__title { max-width: 90%; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; line-height: 1.1; }
+  .marketing-related-card__title { max-width: 90%; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .marketing-related-card__arrow { position: absolute; right: 1.2rem; bottom: 1.2rem; color: var(--marketing-blue); font-size: 1.1rem; }
   .marketing-detail-faq-section { background: #f1f6fc; }
   .marketing-detail-faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
@@ -407,7 +407,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail-cta { position: relative; isolation: isolate; display: grid; min-height: 380px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }
   .marketing-detail-cta__inner { position: relative; z-index: 1; width: min(100%, 800px); }
   .marketing-detail-cta .marketing-eyebrow { justify-content: center; color: #b9dbff; }
-  .marketing-detail-cta h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.8rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }
+  .marketing-detail-cta h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 800; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .marketing-detail-cta__inner > p:not(.marketing-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }
   .marketing-button--light { color: #12305a; background: #fff; box-shadow: 0 .7rem 1.7rem #000f3230; }
   .marketing-button--light:hover { background: #eaf4ff; }
@@ -422,10 +422,10 @@ const detailTranslations = Object.fromEntries(
     .marketing-shell { padding-inline: 1rem; }
     .marketing-detail-hero { padding: 3.5rem 1rem 4rem; }
     .marketing-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }
-    .marketing-detail-hero h1 { font-size: clamp(2.8rem, 11vw, 4.4rem); }
+    
     .marketing-detail-hero__visual { width: min(75vw, 320px); }
     .marketing-detail-section { padding-block: 4.5rem; }
-    .marketing-detail-heading h2, .marketing-provides-layout h2 { font-size: clamp(2.7rem, 9.5vw, 4rem); }
+    
     .marketing-detail-split, .marketing-provides-layout, .marketing-detail-faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }
     .marketing-provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.5rem; }
     .marketing-capability-grid, .marketing-benefit-grid, .marketing-related-grid { grid-template-columns: 1fr; }
@@ -437,10 +437,6 @@ const detailTranslations = Object.fromEntries(
     .marketing-detail-process::before { position: absolute; top: 1.2rem; bottom: 2rem; left: 1.2rem; display: block; width: 1px; height: auto; background: linear-gradient(#b9d4f4, #4a9cf2, #b9d4f4); }
     .marketing-related-card { min-height: 145px; }
     .marketing-detail-cta { min-height: 350px; padding-inline: 1rem; }
-    .marketing-detail-cta h2 { font-size: clamp(2.8rem, 10vw, 4.3rem); }
-  }
-  @media (max-width: 360px) {
-    .marketing-detail-hero h1 { font-size: 2.65rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .marketing-detail *, .marketing-detail *::before, .marketing-detail *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }

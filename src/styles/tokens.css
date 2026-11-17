@@ -16,12 +16,26 @@
     --font-display: 'Manrope', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
     --font-body: 'Inter', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
     --size-display: clamp(6rem, 14vw, 14rem);
-    --size-h1: clamp(3.3rem, 7vw, 7rem);
-    --size-h2: clamp(2.5rem, 5.2vw, 5.4rem);
-    --size-h3: 1.125rem;
-    --size-lead: clamp(1.1rem, 1.5vw, 1.45rem);
-    --size-body: 1rem;
+    /* Typography scale: one system for every page.
+       h1 34→64px, h2 26→42px, h3 18→24px, h4 16→18px, body 15→17px, labels 12–13px. */
+    --size-h1: clamp(2.125rem, 1.4rem + 3vw, 4rem);
+    --size-h2: clamp(1.625rem, 1.2rem + 1.6vw, 2.625rem);
+    --size-h3: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
+    --size-h4: clamp(1rem, 0.94rem + 0.25vw, 1.125rem);
+    --size-lead: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
+    --size-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
     --size-small: 0.8125rem;
+    --size-eyebrow: 0.75rem;
+    --leading-h1: 1.08;
+    --leading-h2: 1.12;
+    --leading-h3: 1.25;
+    --leading-body: 1.7;
+    --tracking-h1: -0.02em;
+    --tracking-h2: -0.015em;
+    --tracking-h3: -0.01em;
+    --measure-h1: min(100%, 52rem);
+    --measure-h2: min(100%, 44rem);
+    --measure-h2-wide: min(100%, 56rem);
     --space-section: clamp(6rem, 11vw, 11rem);
     --space-frame: clamp(1.25rem, 5vw, 6.5rem);
     --space-grid: clamp(1rem, 1.8vw, 2rem);
