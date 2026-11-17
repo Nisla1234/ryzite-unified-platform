@@ -1,0 +1,75 @@
+---
+// Standalone review page for the "From Idea to Solution" scroll animation. [PROPOSAL]
+// Not linked from navigation, not indexed, and not part of the homepage until the client approves it.
+// The real One Connected Plan section follows the story so the pin release and hand-off can be judged in context.
+import MainLayout from '../../layouts/MainLayout.astro';
+import IdeaStory from '../../components/sections/IdeaStory.astro';
+import ConnectedPlan from '../../components/sections/ConnectedPlan.astro';
+import '../../styles/home-sections.css';
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
+
+const sectionCopy = {
+  en: { sections: homeSectionsTranslations.en },
+  ta: { sections: homeSectionsTranslations.ta },
+  si: { sections: homeSectionsTranslations.si },
+};
+---
+
+<MainLayout title="Preview: From Idea to Solution | RYZITE" description="Internal preview of a proposed homepage animation.">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+
+  <section class="idea-preview-intro" aria-labelledby="idea-preview-title">
+    <p class="idea-preview-intro__tag">Preview · not on the homepage</p>
+    <h1 id="idea-preview-title">From Idea to Solution</h1>
+    <p>Scroll down to play the animation and scroll up to reverse it. The existing One Connected Plan section follows to show the hand-off.</p>
+    <span class="idea-preview-intro__cue" aria-hidden="true">↓</span>
+  </section>
+
+  <IdeaStory />
+  <ConnectedPlan />
+</MainLayout>
+
+<script>
+  import '../../scripts/home-reveal';
+</script>
+
+<script is:inline define:vars={{ sectionCopy }}>
+  const applySectionLocale = (locale) => {
+    const copy = sectionCopy[locale] || sectionCopy.en;
+    document.querySelectorAll('[data-home-key]').forEach((element) => {
+      const value = (element.dataset.homeKey || '').split('.').reduce((current, key) => current?.[key], copy);
+      if (typeof value === 'string') element.textContent = value;
+    });
+  };
+  applySectionLocale(document.body.dataset.locale || 'en');
+  window.addEventListener('ryzite:locale-change', (event) => applySectionLocale(event.detail?.locale || 'en'));
+</script>
+
+<style>
+  .idea-preview-intro {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: .75rem;
+    min-height: 70svh;
+    padding: 3rem var(--space-frame);
+    background: #fff;
+    color: #0a1734;
+    font-family: var(--font-body);
+    text-align: center;
+  }
+  .idea-preview-intro__tag {
+    margin: 0;
+    padding: .35rem .8rem;
+    border: 1px solid #dce7fb;
+    border-radius: 999px;
+    color: #0655e9;
+    font-size: .8125rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .idea-preview-intro h1 { margin: 0; font-family: var(--font-display); font-size: var(--size-h2); }
+  .idea-preview-intro p:not(.idea-preview-intro__tag) { max-width: 36rem; margin: 0; color: #465771; line-height: 1.6; }
+  .idea-preview-intro__cue { color: #0655e9; font-size: 1.5rem; }
+</style>

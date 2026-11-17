@@ -18,6 +18,10 @@ Order is fixed by the homepage brief. Do not add major sections between these wi
 | 13 | FAQs | `HomeFaq.astro` | `home-sections-translations.ts` | [PROPOSAL] answers; timeline and payment answers are non-committal |
 | 14 | Closing Invitation | `ClosingInvitation.astro` | `home-sections-translations.ts` | [PROPOSAL] copy |
 
+## In review (not on the homepage)
+
+- `IdeaStory.astro` + `IdeaStoryScene.astro` + `src/scripts/idea-story.ts`: [PROPOSAL] "From Idea to Solution" scroll-scrubbed GSAP/SVG story (four scenes, pinned). Approved to be placed inside One Connected Plan (section 8), not as a new section. Review page: `/preview/idea-to-solution` (noindex, unlinked). Captions in `idea-story-translations.ts`; English approved as draft copy, Tamil and Sinhala need native-speaker review. Do not add to `index.astro` until the client approves the preview.
+
 ## Hidden from the homepage
 
 - `AboutPreview.astro`: replaced by Two Divisions. Kept for possible reuse.
