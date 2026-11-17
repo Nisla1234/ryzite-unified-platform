@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { localeLabels, type Locale } from '../../Constants';
 
 interface Props {
@@ -38,7 +39,7 @@ const isActive = (href: string) => activePath === href || (href !== '/' && activ
         </div>}
         <a class="header-cta" href="/contact/">
             <span data-i18n="nav.cta">{content.nav.cta}</span>
-            <span aria-hidden="true">↗</span>
+            <span aria-hidden="true"><ArrowUpRight /></span>
         </a>
         <details class="mobile-nav">
             <summary>Menu</summary>
@@ -46,7 +47,7 @@ const isActive = (href: string) => activePath === href || (href !== '/' && activ
                 {navItems.map((item) => (
                     <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
                 ))}
-                <a class="mobile-nav__cta" href="/contact/">{content.nav.cta} <span aria-hidden="true">↗</span></a>
+                <a class="mobile-nav__cta" href="/contact/">{content.nav.cta} <span aria-hidden="true"><ArrowUpRight /></span></a>
             </nav>
         </details>
     </div>

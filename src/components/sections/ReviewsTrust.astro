@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { reviewPlatforms } from '../../data/reviews';
 import { reviewsTranslations } from '../../data/reviews-translations';
 ---
@@ -39,7 +40,7 @@ import { reviewsTranslations } from '../../data/reviews-translations';
           {platform.url && (
             <a class="review-card__cta" href={platform.url} target="_blank" rel="noopener noreferrer">
               <span data-reviews-key={`${platform.id}Cta`}>{reviewsTranslations.en[`${platform.id}Cta`]}</span>
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true"><ArrowUpRight /></span>
             </a>
           )}
         </article>

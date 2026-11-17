@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { resourcesTranslations } from '../../data/resources-translations';
 
@@ -46,13 +47,13 @@ const pageTranslations = Object.fromEntries(
           <p class="resource-hero__body resource-hero__body--secondary" data-resource-key="heroBodyTwo">{copy.heroBodyTwo}</p>
           {ourWork && <p class="resource-hero__body resource-hero__body--secondary" data-resource-key="heroBodyThree">{ourWork.heroBodyThree}</p>}
           <a class="resource-button resource-button--primary" href={heroCtaHref}>
-            <span data-resource-key="heroCta">{copy.heroCta}</span><span aria-hidden="true">{page === 'howWeWork' ? '↗' : '↓'}</span>
+            <span data-resource-key="heroCta">{copy.heroCta}</span><span aria-hidden="true">{page === 'howWeWork' ? <ArrowUpRight /> : '↓'}</span>
           </a>
         </div>
         <div class="resource-hero__visual" aria-hidden="true">
           <div class="resource-hero__orbit resource-hero__orbit--outer"></div>
           <div class="resource-hero__orbit resource-hero__orbit--inner"></div>
-          <div class="resource-hero__symbol">{page === 'packages' ? 'P' : page === 'howWeWork' ? '↗' : page === 'ourWork' ? 'W' : 'I'}</div>
+          <div class="resource-hero__symbol">{page === 'packages' ? 'P' : page === 'howWeWork' ? <ArrowUpRight /> : page === 'ourWork' ? 'W' : 'I'}</div>
           <span class="resource-hero__spark resource-hero__spark--one">✦</span>
           <span class="resource-hero__spark resource-hero__spark--two">✳</span>
           <span class="resource-hero__visual-caption" aria-hidden="true">RYZITE / DIGITAL SOLUTIONS</span>
@@ -89,14 +90,14 @@ const pageTranslations = Object.fromEntries(
                   <ul>
                     {packageOption.features.map((feature, featureIndex) => (
                       <li data-resource-package-feature-index={featureIndex}>
-                        <span aria-hidden="true">↗</span>
+                        <span aria-hidden="true"><ArrowUpRight /></span>
                         <span data-resource-package-feature>{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <a class="resource-text-link" href={packageContactHref}>
-                  <span data-resource-key="packageCta">{packages.packageCta}</span><span aria-hidden="true">↗</span>
+                  <span data-resource-key="packageCta">{packages.packageCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
                 </a>
               </article>
             ))}
@@ -190,7 +191,7 @@ const pageTranslations = Object.fromEntries(
             {howWeWork.principles.map((principle, index) => (
               <article class="resource-principle-card" data-resource-reveal>
                 <span class="resource-principle-card__number">0{index + 1}</span>
-                <span class="resource-principle-card__icon" aria-hidden="true">{['◎', '⌁', '✦', '✓', '↗', '◇'][index]}</span>
+                <span class="resource-principle-card__icon" aria-hidden="true">{['◎', '⌁', '✦', '✓', <ArrowUpRight />, '◇'][index]}</span>
                 <h3 data-resource-array="principles" data-resource-index={index} data-resource-field="title">{principle.title}</h3>
                 <p data-resource-array="principles" data-resource-index={index} data-resource-field="body">{principle.body}</p>
               </article>
@@ -226,7 +227,7 @@ const pageTranslations = Object.fromEntries(
             {ourWork.approachCards.map((card, index) => (
               <article class="resource-approach-card" data-resource-reveal>
                 <span class="resource-approach-card__number">0{index + 1}</span>
-                <span class="resource-approach-card__icon" aria-hidden="true">{['◎', '✦', '↗'][index]}</span>
+                <span class="resource-approach-card__icon" aria-hidden="true">{['◎', '✦', <ArrowUpRight />][index]}</span>
                 <h3 data-resource-array="approachCards" data-resource-index={index} data-resource-field="title">{card.title}</h3>
                 <p data-resource-array="approachCards" data-resource-index={index} data-resource-field="body">{card.body}</p>
               </article>
@@ -295,7 +296,7 @@ const pageTranslations = Object.fromEntries(
         <h2 id="resource-closing-title" data-resource-key="closingTitle">{copy.closingTitle}</h2>
         <p data-resource-key="closingDescription">{copy.closingDescription}</p>
         <a class="resource-button resource-button--light" href={closingCtaHref}>
-          <span data-resource-key="closingCta">{copy.closingCta}</span><span aria-hidden="true">↗</span>
+          <span data-resource-key="closingCta">{copy.closingCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
         </a>
       </div>
     </section>

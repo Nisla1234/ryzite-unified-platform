@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { company } from '../../Constants';
 
 const year = new Date().getFullYear();
@@ -43,7 +44,7 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
           <h2 data-label-key="footerConnect">Let’s Connect</h2>
           <p data-label-key="footerConnectBody">Have a project in mind? Let’s build something meaningful.</p>
           <a class="footer-contact-link" href="/contact">
-            <span data-label-key="footerConnectCta">Start a Conversation</span> <span aria-hidden="true">↗</span>
+            <span data-label-key="footerConnectCta">Start a Conversation</span> <span aria-hidden="true"><ArrowUpRight /></span>
           </a>
         </div>
       </div>

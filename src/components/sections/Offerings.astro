@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { divisions, offeringSlug } from '../../data/offerings';
 interface Props { division?: 'services' | 'solutions'; standalone?: boolean; }
 const { division, standalone = false } = Astro.props;
@@ -102,7 +103,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
                     <p data-technology-slug={offeringSlug(title)} data-technology-field="description" data-home-offering="solutions" data-home-slug={offeringSlug(title)} data-home-field="description">{description}</p>
                   </div>
                   <span class="service-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <span class="solution-card-link__more"><span data-technology-key="viewDetails" data-home-key="viewDetails">View details</span> <span aria-hidden="true">↗</span></span>
+                  <span class="solution-card-link__more"><span data-technology-key="viewDetails" data-home-key="viewDetails">View details</span> <span aria-hidden="true"><ArrowUpRight /></span></span>
                 </a>
               ) : (
                 <>
@@ -116,8 +117,8 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
           })}
         </ol>
       </div>
-      {!standalone && <a class="division-link" href={`/${group.id}`}><span data-home-key={group.id === 'services' ? 'exploreServices' : 'exploreSolutions'}>Explore {group.title.toLowerCase()}</span> <span aria-hidden="true">&#8599;</span></a>}
-      {standalone && <a class="division-link" href={group.id === 'services' ? '/solutions' : '/services'}><span data-home-key={group.id === 'services' ? 'exploreSolutions' : 'exploreServices'}>Explore {group.id === 'services' ? 'technology solutions' : 'marketing services'}</span> <span aria-hidden="true">&#8599;</span></a>}
+      {!standalone && <a class="division-link" href={`/${group.id}`}><span data-home-key={group.id === 'services' ? 'exploreServices' : 'exploreSolutions'}>Explore {group.title.toLowerCase()}</span> <span aria-hidden="true"><ArrowUpRight /></span></a>}
+      {standalone && <a class="division-link" href={group.id === 'services' ? '/solutions' : '/services'}><span data-home-key={group.id === 'services' ? 'exploreSolutions' : 'exploreServices'}>Explore {group.id === 'services' ? 'technology solutions' : 'marketing services'}</span> <span aria-hidden="true"><ArrowUpRight /></span></a>}
     </section>
   );
 })}

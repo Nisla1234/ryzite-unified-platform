@@ -42,6 +42,8 @@ const highlightIcons = [
       </svg>
 
       <div class="connected-result">
+        <!-- PLACEHOLDER: Adobe Stock preview #1031351251 (watermarked). Replace with the licensed file before launch. -->
+        <img class="connected-result__bg" src="/images/connected-growth.webp" alt="" width="735" height="413" loading="lazy" decoding="async" aria-hidden="true" />
         <span class="connected-result__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8 M15 7h6v6 M3 21h18" /></svg>
         </span>
@@ -83,7 +85,10 @@ const highlightIcons = [
   .connected-lines--narrow { display: none; }
   .connected-pulse { animation: connected-pulse 2.8s linear infinite; }
   @keyframes connected-pulse { to { stroke-dashoffset: -56; } }
-  .connected-result { display: flex; flex-direction: column; align-items: center; gap: .9rem; padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: var(--radius-large); color: #fff; background: radial-gradient(circle at 30% 20%, #078be9, #0655e9 45%, #0643cf); box-shadow: 0 18px 40px #0655e940; text-align: center; }
+  .connected-result { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .9rem; min-height: 240px; padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: var(--radius-large); color: #fff; background: #0643cf; box-shadow: 0 18px 40px #0655e940; text-align: center; }
+  /* Growth image behind the card; pink tones rotated onto brand blue, then a blue wash keeps the text legible. */
+  .connected-result__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; filter: hue-rotate(-110deg) saturate(1.1); }
+  .connected-result::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle at 30% 20%, #078be9b3, #0655e9b3 45%, #0643cfd9); }
   .connected-result p { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 800; line-height: var(--leading-h3); }
   .connected-result__icon { display: grid; place-items: center; width: 4rem; height: 4rem; border: 2px solid #ffffff55; border-radius: 50%; background: #ffffff1f; }
   .connected-result__icon svg { width: 2rem; height: 2rem; }

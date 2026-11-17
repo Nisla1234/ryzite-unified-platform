@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
 import { marketingServiceTranslations } from '../../data/marketing-service-translations';
@@ -79,13 +80,13 @@ const detailTranslations = Object.fromEntries(
           <p class="marketing-detail-hero__description" data-marketing-service-field="description">{translatedService.description}</p>
           <p class="marketing-detail-hero__supporting" data-marketing-template-key="detailSupporting">{copy.detailSupporting}</p>
           <a class="marketing-button marketing-button--primary" href={contactUrl}>
-            <span data-marketing-key="contactCta">{copy.contactCta}</span><span aria-hidden="true">↗</span>
+            <span data-marketing-key="contactCta">{copy.contactCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
           </a>
         </div>
         <div class="marketing-detail-hero__visual" aria-hidden="true">
           <div class="marketing-detail-hero__orbit marketing-detail-hero__orbit--one"></div>
           <div class="marketing-detail-hero__orbit marketing-detail-hero__orbit--two"></div>
-          <div class="marketing-detail-hero__symbol">{service.icon}</div>
+          <div class="marketing-detail-hero__symbol">{service.icon === "\u2197" ? <ArrowUpRight /> : service.icon}</div>
           <span class="marketing-detail-hero__spark marketing-detail-hero__spark--one">✳</span>
           <span class="marketing-detail-hero__spark marketing-detail-hero__spark--two">✦</span>
           <span class="marketing-detail-hero__index">{String(marketingServices.findIndex(({ slug: itemSlug }) => itemSlug === service.slug) + 1).padStart(2, '0')} / {String(marketingServices.length).padStart(2, '0')}</span>
@@ -112,7 +113,7 @@ const detailTranslations = Object.fromEntries(
 
     <section class="marketing-detail-section marketing-provides-section" aria-labelledby="marketing-provides-title">
       <div class="marketing-shell marketing-provides-layout">
-        <div class="marketing-provides-mark" aria-hidden="true">{service.icon}</div>
+        <div class="marketing-provides-mark" aria-hidden="true">{service.icon === "\u2197" ? <ArrowUpRight /> : service.icon}</div>
         <div data-marketing-reveal>
           <h2 id="marketing-provides-title" data-marketing-key="providesTitle">{copy.providesTitle}</h2>
           <p class="marketing-provides-copy" data-marketing-template-key="detailSupporting">{copy.detailSupporting}</p>
@@ -129,7 +130,7 @@ const detailTranslations = Object.fromEntries(
         <div class="marketing-capability-grid">
           {translatedService.capabilities.map((capability, index) => (
             <article class="marketing-capability-card" data-marketing-reveal>
-              <span class="marketing-capability-card__icon" aria-hidden="true">{['◎', '↗', '✦', '⌁'][index]}</span>
+              <span class="marketing-capability-card__icon" aria-hidden="true">{['◎', <ArrowUpRight />, '✦', '⌁'][index]}</span>
               <span class="marketing-capability-card__number">0{index + 1}</span>
               <h3 data-marketing-capability-field="title" data-marketing-capability-index={index}>{capability.title}</h3>
               <p data-marketing-capability-field="description" data-marketing-capability-index={index}>{capability.description}</p>
@@ -184,9 +185,9 @@ const detailTranslations = Object.fromEntries(
           {relatedServices.map((related, index) => (
             <a class="marketing-related-card" href={`/services/${related.slug}/`} data-marketing-related-slug={related.slug} data-marketing-reveal>
               <span class="marketing-related-card__number">0{index + 1}</span>
-              <span class="marketing-related-card__icon" aria-hidden="true">{related.icon}</span>
+              <span class="marketing-related-card__icon" aria-hidden="true">{related.icon === "\u2197" ? <ArrowUpRight /> : related.icon}</span>
               <span class="marketing-related-card__title">{copy.services[related.slug].title}</span>
-              <span class="marketing-related-card__arrow" aria-hidden="true">↗</span>
+              <span class="marketing-related-card__arrow" aria-hidden="true"><ArrowUpRight /></span>
             </a>
           ))}
         </div>
@@ -217,7 +218,7 @@ const detailTranslations = Object.fromEntries(
         <h2 id="marketing-contact-cta-title" data-marketing-key="contactCtaTitle">{copy.contactCtaTitle}</h2>
         <p data-marketing-key="contactCtaDescription">{copy.contactCtaDescription}</p>
         <a class="marketing-button marketing-button--light" href={contactUrl}>
-          <span data-marketing-key="contactCta">{copy.contactCta}</span><span aria-hidden="true">↗</span>
+          <span data-marketing-key="contactCta">{copy.contactCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
         </a>
       </div>
     </section>

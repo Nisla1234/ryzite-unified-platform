@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../components/ui/ArrowUpRight.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import { company, enquiryForm } from '../Constants';
 import { divisions, offeringSlug } from '../data/offerings';
@@ -43,7 +44,7 @@ const enquiryConfig = {
         <div class="contact-hero__art" aria-hidden="true">
           <div class="contact-hero__ring contact-hero__ring--outer"></div>
           <div class="contact-hero__ring contact-hero__ring--inner"></div>
-          <div class="contact-hero__message-card"><span class="message-card__dot"></span><span class="message-card__line"></span><span class="message-card__line message-card__line--short"></span><span class="message-card__send">↗</span></div>
+          <div class="contact-hero__message-card"><span class="message-card__dot"></span><span class="message-card__line"></span><span class="message-card__line message-card__line--short"></span><span class="message-card__send"><ArrowUpRight /></span></div>
           <span class="contact-hero__orbit-label contact-hero__orbit-label--one" data-contact-key="artIdeas">IDEAS</span>
           <span class="contact-hero__orbit-label contact-hero__orbit-label--two" data-contact-key="artSolutions">SOLUTIONS</span>
           <span class="contact-hero__spark">✳</span>
@@ -62,19 +63,19 @@ const enquiryConfig = {
             <span class="reach-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="5" y="9" width="38" height="30" rx="4"/><path d="m7 13 17 13 17-13"/></svg></span>
             <h3 data-contact-key="emailTitle">Email Us</h3>
             <p data-contact-key="emailDescription">Send us a message about your project or question.</p>
-            <a class="reach-card__email" href={`mailto:${company.email}`}>{company.email}<span aria-hidden="true">↗</span></a>
+            <a class="reach-card__email" href={`mailto:${company.email}`}>{company.email}<span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
           <article class="reach-card" data-contact-reveal>
             <span class="reach-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M8 39V12a4 4 0 0 1 4-4h24a4 4 0 0 1 4 4v27l-8-5H16l-8 5Z"/><path d="M16 18h16m-16 8h11"/></svg></span>
             <h3 data-contact-key="businessTitle">Business Enquiries</h3>
             <p data-contact-key="businessDescription">Tell us about your business, your goals, and the digital solutions you’re looking for.</p>
-            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true">↗</span></a>
+            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
           <article class="reach-card" data-contact-reveal>
             <span class="reach-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18"/><path d="M24 14v11l8 5M6 24h5m26 0h5M24 6v5m0 26v5"/></svg></span>
             <h3 data-contact-key="consultationTitle">Project Consultation</h3>
             <p data-contact-key="consultationDescription">Not sure which service is right for you? Share your requirements, and let’s explore suitable options together.</p>
-            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="formTitle">Tell Us About Your Project.</span><span aria-hidden="true">↗</span></a>
+            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="formTitle">Tell Us About Your Project.</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
         </div>
       </div>
@@ -174,7 +175,7 @@ const enquiryConfig = {
               <span class="field-error" id="contact-consent-error" data-error-for="consent" aria-live="polite"></span>
             </div>
           </div>
-          <button class="contact-button contact-button--submit" type="submit" data-form-submit><span data-contact-key="submit" data-submit-label>Submit Enquiry & Open WhatsApp</span><span aria-hidden="true">↗</span></button>
+          <button class="contact-button contact-button--submit" type="submit" data-form-submit><span data-contact-key="submit" data-submit-label>Submit Enquiry & Open WhatsApp</span><span aria-hidden="true"><ArrowUpRight /></span></button>
           <p class="form-privacy" data-contact-key="formGuidance" data-form-guidance>When you submit, your enquiry is sent to RYZITE through the Web3Forms form service. Once that is confirmed, WhatsApp opens with your enquiry details ready. The WhatsApp message is only sent if you press Send.</p>
           <p class="form-status form-status--error" data-form-error role="alert"></p>
           <div class="form-result" data-form-result role="status" aria-live="polite" tabindex="-1" hidden>
@@ -182,7 +183,7 @@ const enquiryConfig = {
             <p data-contact-key="successBody">Your enquiry has been submitted to RYZITE through Web3Forms. The WhatsApp message is separate and has not been sent automatically.</p>
             <p data-whatsapp-note></p>
             <div class="form-result__actions">
-              <a class="contact-button contact-button--whatsapp" data-whatsapp-link href={`https://wa.me/${company.whatsapp.number}`} target="_blank" rel="noopener noreferrer"><span data-contact-key="openWhatsapp">Open WhatsApp</span><span aria-hidden="true">↗</span></a>
+              <a class="contact-button contact-button--whatsapp" data-whatsapp-link href={`https://wa.me/${company.whatsapp.number}`} target="_blank" rel="noopener noreferrer"><span data-contact-key="openWhatsapp">Open WhatsApp</span><span aria-hidden="true"><ArrowUpRight /></span></a>
               <button class="form-result__reset" type="button" data-form-reset data-contact-key="sendAnother">Send another enquiry</button>
             </div>
           </div>
@@ -202,14 +203,14 @@ const enquiryConfig = {
             <span class="service-choice-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M7 21h8l20-9v24l-20-9H7v-6Zm8 6 4 12h8l-6-15m14-10 7-5m-7 23 7 5"/></svg></span>
             <h3 data-contact-key="marketingGroup">Marketing Services</h3>
             <p data-contact-key="marketingDescription">Looking to attract more customers, strengthen your brand, or improve online visibility? Explore our marketing services.</p>
-            <a href="/services/#services" class="service-choice-card__link"><span data-contact-key="exploreMarketing">Explore Marketing Services</span><span aria-hidden="true">↗</span></a>
+            <a href="/services/#services" class="service-choice-card__link"><span data-contact-key="exploreMarketing">Explore Marketing Services</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
           <article class="service-choice-card service-choice-card--technology" data-contact-reveal>
             <span class="service-choice-card__mark" aria-hidden="true">02</span>
             <span class="service-choice-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="5" y="8" width="38" height="27" rx="3"/><path d="M17 42h14m-7-7v7M16 18l-5 4 5 4m16-8 5 4-5 4m-5-7-4 6"/></svg></span>
             <h3 data-contact-key="technologyGroup">Technology Solutions</h3>
             <p data-contact-key="technologyDescription">Need a website, e-commerce platform, mobile application, custom software, or automation solution? Explore our technology solutions.</p>
-            <a href="/solutions/#solutions" class="service-choice-card__link"><span data-contact-key="exploreTechnology">Explore Technology Solutions</span><span aria-hidden="true">↗</span></a>
+            <a href="/solutions/#solutions" class="service-choice-card__link"><span data-contact-key="exploreTechnology">Explore Technology Solutions</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
         </div>
       </div>

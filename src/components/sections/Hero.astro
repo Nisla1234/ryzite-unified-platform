@@ -608,6 +608,8 @@ const marqueeItems = [
     }
     .robot-ry { left: 0; }
     .robot-zite { right: 0; }
+    /* Pull the curved band up over the empty strip at the bottom of the hero so no cream gap shows. */
+    .hero-marquee { position: relative; z-index: 5; margin-top: -72px; padding-block: 0; background: transparent; }
   }
   @media (max-width: 500px) and (max-height: 640px) {
     .hero-message { top: clamp(18px, 4svh, 28px); }

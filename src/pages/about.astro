@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../components/ui/ArrowUpRight.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import { aboutTranslations } from '../data/about-translations';
 
@@ -21,10 +22,10 @@ const ctaUrl = '/contact/';
           <p class="about-hero__statement" data-about-key="heroStatement">One Site. Solve Every Problem.</p>
           <div class="about-hero__actions">
             <a class="about-button about-button--primary" href="/services/#services">
-              <span data-about-key="heroExplore">Explore Our Services</span><span aria-hidden="true">↗</span>
+              <span data-about-key="heroExplore">Explore Our Services</span><span aria-hidden="true"><ArrowUpRight /></span>
             </a>
             <a class="about-button about-button--quiet" href={ctaUrl}>
-              <span data-about-key="startProject">Start a Project</span><span aria-hidden="true">↗</span>
+              <span data-about-key="startProject">Start a Project</span><span aria-hidden="true"><ArrowUpRight /></span>
             </a>
           </div>
         </div>
@@ -101,7 +102,7 @@ const ctaUrl = '/contact/';
               <li data-about-key="marketingItemFive">Content marketing</li><li data-about-key="marketingItemSix">Marketing automation and CRM</li>
               <li data-about-key="marketingItemSeven">Website tracking and conversion improvement</li><li data-about-key="marketingItemEight">Practical AI marketing support</li>
             </ul>
-            <a class="division-card__link" href="/services/#services"><span data-about-key="marketingCta">Explore Marketing Services</span><span aria-hidden="true">↗</span></a>
+            <a class="division-card__link" href="/services/#services"><span data-about-key="marketingCta">Explore Marketing Services</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
           <article class="division-card division-card--technology" data-reveal>
             <div class="division-card__top"><span class="division-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="5" y="8" width="38" height="27" rx="3"/><path d="M17 42h14m-7-7v7M16 18l-5 4 5 4m16-8 5 4-5 4m-5-7-4 6"/></svg></span><span class="division-card__index">02</span></div>
@@ -114,7 +115,7 @@ const ctaUrl = '/contact/';
               <li data-about-key="technologyItemFive">UI/UX design</li><li data-about-key="technologyItemSix">Customer chatbots and assistants</li>
               <li data-about-key="technologyItemSeven">Workflow automation and integrations</li><li data-about-key="technologyItemEight">Website care and maintenance</li>
             </ul>
-            <a class="division-card__link" href="/solutions/#solutions"><span data-about-key="technologyCta">Explore Technology Solutions</span><span aria-hidden="true">↗</span></a>
+            <a class="division-card__link" href="/solutions/#solutions"><span data-about-key="technologyCta">Explore Technology Solutions</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
         </div>
       </div>
@@ -130,7 +131,7 @@ const ctaUrl = '/contact/';
           <article class="value-card" data-reveal><span class="value-card__number">01</span><span class="value-card__icon" aria-hidden="true">✳</span><h3 data-about-key="valueOneTitle">Creativity</h3><p data-about-key="valueOneBody">We explore fresh ideas and thoughtful design approaches to create meaningful digital experiences.</p></article>
           <article class="value-card" data-reveal><span class="value-card__number">02</span><span class="value-card__icon" aria-hidden="true">⌁</span><h3 data-about-key="valueTwoTitle">Innovation</h3><p data-about-key="valueTwoBody">We embrace modern technologies and practical solutions to help businesses adapt and grow.</p></article>
           <article class="value-card" data-reveal><span class="value-card__number">03</span><span class="value-card__icon" aria-hidden="true">◉</span><h3 data-about-key="valueThreeTitle">Reliability</h3><p data-about-key="valueThreeBody">We focus on clear communication, consistent quality, and dependable solutions.</p></article>
-          <article class="value-card" data-reveal><span class="value-card__number">04</span><span class="value-card__icon" aria-hidden="true">↗</span><h3 data-about-key="valueFourTitle">Collaboration</h3><p data-about-key="valueFourBody">We believe strong results come from understanding our clients and working together toward shared goals.</p></article>
+          <article class="value-card" data-reveal><span class="value-card__number">04</span><span class="value-card__icon" aria-hidden="true"><ArrowUpRight /></span><h3 data-about-key="valueFourTitle">Collaboration</h3><p data-about-key="valueFourBody">We believe strong results come from understanding our clients and working together toward shared goals.</p></article>
         </div>
       </div>
     </section>
@@ -170,7 +171,7 @@ const ctaUrl = '/contact/';
         <h2 id="closing-title" data-about-key="closingTitle">Let’s Build Something Meaningful.</h2>
         <p data-about-key="closingBodyOne">Have a business idea, a digital challenge, or a project in mind?</p>
         <p data-about-key="closingBodyTwo">Let’s explore how RYZITE can help bring your vision to life.</p>
-        <a class="about-button about-button--light" href={ctaUrl}><span data-about-key="startProject">Start a Project</span><span aria-hidden="true">↗</span></a>
+        <a class="about-button about-button--light" href={ctaUrl}><span data-about-key="startProject">Start a Project</span><span aria-hidden="true"><ArrowUpRight /></span></a>
       </div>
       <span class="about-closing__wordmark" aria-hidden="true">RYZITE</span>
     </section>

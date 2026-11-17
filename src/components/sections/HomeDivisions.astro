@@ -3,8 +3,16 @@ import { homeSectionsTranslations } from '../../data/home-sections-translations'
 
 const copy = homeSectionsTranslations.en.divisions;
 const cards = [
-  { key: 'marketing', href: '/services', ...copy.marketing },
-  { key: 'technology', href: '/solutions', ...copy.technology },
+  {
+    key: 'marketing', href: '/services', ...copy.marketing,
+    image: '/images/divisions/marketing-division.webp', width: 736, height: 411,
+    imageAlt: 'A strategist talking through business questions and growth data with two clients',
+  },
+  {
+    key: 'technology', href: '/solutions', ...copy.technology,
+    image: '/images/divisions/technology-division.webp', width: 735, height: 490,
+    imageAlt: 'Connected devices, buildings and systems linked to a central digital network',
+  },
 ] as const;
 ---
 
@@ -18,33 +26,9 @@ const cards = [
     <div class="divisions-grid">
       {cards.map((card, index) => (
         <article class:list={['hs-card', 'hs-card--hover', 'division-card', `division-card--${card.key}`]} data-hs-reveal data-hs-delay={index * 0.12}>
-          <div class="division-card__art" aria-hidden="true">
-            {card.key === 'marketing' ? (
-              <svg viewBox="0 0 240 140" fill="none">
-                <circle cx="190" cy="40" r="26" stroke="#bcd5ff" stroke-width="2" />
-                <circle cx="190" cy="40" r="15" stroke="#7fb0ff" stroke-width="2" />
-                <circle cx="190" cy="40" r="5" fill="#0655e9" />
-                <rect x="34" y="96" width="18" height="24" rx="4" fill="#bcd5ff" />
-                <rect x="60" y="82" width="18" height="38" rx="4" fill="#7fb0ff" />
-                <rect x="86" y="64" width="18" height="56" rx="4" fill="#078be9" />
-                <rect x="112" y="46" width="18" height="74" rx="4" fill="#0655e9" />
-                <path d="M30 78 70 60l28 10 44-38" stroke="#0643cf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="m130 30 14 1-2 14" stroke="#0643cf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M160 92h46l12-14v44l-12-14h-46z" fill="#fff" stroke="#0655e9" stroke-width="3" stroke-linejoin="round" />
-                <path d="M168 108v12h10v-12" stroke="#0655e9" stroke-width="3" stroke-linejoin="round" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 240 140" fill="none">
-                <rect x="28" y="20" width="150" height="100" rx="12" fill="#fff" stroke="#0655e9" stroke-width="3" />
-                <path d="M28 42h150" stroke="#bcd5ff" stroke-width="3" />
-                <circle cx="42" cy="31" r="3.5" fill="#078be9" /><circle cx="54" cy="31" r="3.5" fill="#7fb0ff" /><circle cx="66" cy="31" r="3.5" fill="#bcd5ff" />
-                <path d="m70 64-14 14 14 14M118 64l14 14-14 14M102 58l-16 40" stroke="#0643cf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                <rect x="150" y="62" width="62" height="62" rx="16" fill="#0655e9" />
-                <circle cx="181" cy="93" r="11" stroke="#fff" stroke-width="3" />
-                <path d="M181 71v8M181 107v8M159 93h8M195 93h8M165.5 77.5l5.7 5.7M190.8 102.8l5.7 5.7M165.5 108.5l5.7-5.7M190.8 83.2l5.7-5.7" stroke="#fff" stroke-width="3" stroke-linecap="round" />
-              </svg>
-            )}
-          </div>
+          <figure class="division-card__art">
+            <img src={card.image} alt={card.imageAlt} width={card.width} height={card.height} loading="lazy" decoding="async" />
+          </figure>
           <div class="division-card__body">
             <p class="division-card__kicker" data-home-key={`sections.divisions.${card.key}.kicker`}>{card.kicker}</p>
             <h3 data-home-key={`sections.divisions.${card.key}.title`}>{card.title}</h3>
@@ -63,9 +47,10 @@ const cards = [
   .divisions::before { content: ''; position: absolute; z-index: -1; inset: auto -20% -40% -20%; height: 70%; background: radial-gradient(ellipse at center, #e6efff 0%, transparent 65%); pointer-events: none; }
   .divisions-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-grid); }
   .division-card { display: flex; flex-direction: column; overflow: hidden; }
-  .division-card__art { display: grid; place-items: center; padding: 1.5rem 1.5rem .5rem; background: linear-gradient(160deg, #f3f7ff, #e3eeff); }
-  .division-card__art svg { width: min(100%, 300px); height: auto; }
-  .division-card--technology .division-card__art { background: linear-gradient(160deg, #eaf3ff, #d9e9ff); }
+  .division-card__art { margin: 0; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(160deg, #f3f7ff, #e3eeff); }
+  .division-card__art img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .division-card:hover .division-card__art img, .division-card:focus-within .division-card__art img { transform: scale(1.04); }
+  @media (prefers-reduced-motion: reduce) { .division-card__art img { transition: none; } .division-card:hover .division-card__art img, .division-card:focus-within .division-card__art img { transform: none; } }
   .division-card__body { display: flex; flex: 1; flex-direction: column; gap: .35rem; padding: clamp(1.4rem, 3vw, 2rem); border-top: 4px solid var(--hs-blue); }
   .division-card--technology .division-card__body { border-top-color: var(--hs-blue-light); }
   .division-card__kicker { margin: 0; color: var(--hs-blue); font-size: var(--size-small); font-weight: 800; letter-spacing: .04em; }

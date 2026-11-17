@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { technologySolutions } from '../../data/technology-solutions';
 import { technologySolutionTranslations } from '../../data/technology-solution-translations';
 
@@ -23,7 +24,7 @@ const pageTranslations = {
         {technologySolutionTranslations.en.whyItems.map((item, index) => (
           <article class="why-card" data-overview-reveal>
             <span class="why-card__index">0{index + 1}</span>
-            <span class="why-card__mark" aria-hidden="true">{['◎', '↗', '✦', '✓'][index]}</span>
+            <span class="why-card__mark" aria-hidden="true">{['◎', <ArrowUpRight />, '✦', '✓'][index]}</span>
             <h3 data-why-index={index} data-why-field="title">{item.title}</h3>
             <p data-why-index={index} data-why-field="body">{item.body}</p>
           </article>
@@ -70,7 +71,7 @@ const pageTranslations = {
     <div class="solutions-closing-cta__inner" data-overview-reveal>
       <h2 id="solutions-closing-title" data-technology-key="contactCtaTitle">Let’s Talk Through What You Need.</h2>
       <p data-technology-key="contactCtaDescription">Share your goals and questions. We can discuss suitable next steps for your project.</p>
-      <a class="solutions-closing-cta__button" href="/contact/"><span data-technology-key="contactCta">Start a Project</span><span aria-hidden="true">↗</span></a>
+      <a class="solutions-closing-cta__button" href="/contact/"><span data-technology-key="contactCta">Start a Project</span><span aria-hidden="true"><ArrowUpRight /></span></a>
     </div>
   </section>
 </div>

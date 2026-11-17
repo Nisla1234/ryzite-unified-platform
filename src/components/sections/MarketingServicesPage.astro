@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
 import { marketingServiceTranslations } from '../../data/marketing-service-translations';
@@ -103,13 +104,13 @@ const pageTranslations = Object.fromEntries(
                   data-marketing-card-link={service.slug}
                 >
                   <span class="marketing-service-card__topline">
-                    <span class="marketing-service-card__icon" aria-hidden="true">{service.icon}</span>
+                    <span class="marketing-service-card__icon" aria-hidden="true">{service.icon === "\u2197" ? <ArrowUpRight /> : service.icon}</span>
                     <span class="marketing-service-card__number">{String(index + 1).padStart(2, '0')}</span>
                   </span>
                   <h3 data-marketing-service-field="title" data-marketing-service-slug={service.slug}>{service.title}</h3>
                   <p data-marketing-service-field="description" data-marketing-service-slug={service.slug}>{service.description}</p>
                   <span class="marketing-service-card__more">
-                    <span data-marketing-key="exploreService">{copy.exploreService}</span><span aria-hidden="true">↗</span>
+                    <span data-marketing-key="exploreService">{copy.exploreService}</span><span aria-hidden="true"><ArrowUpRight /></span>
                   </span>
                 </a>
               </article>
@@ -128,7 +129,7 @@ const pageTranslations = Object.fromEntries(
           {copy.whyItems.map((item, index) => (
             <article class="marketing-why-card" data-marketing-reveal>
               <span class="marketing-why-card__number">0{index + 1}</span>
-              <span class="marketing-why-card__icon" aria-hidden="true">{['◎', '✦', '↗', '⌁', '◇'][index]}</span>
+              <span class="marketing-why-card__icon" aria-hidden="true">{['◎', '✦', <ArrowUpRight />, '⌁', '◇'][index]}</span>
               <h3 data-marketing-array="whyItems" data-marketing-index={index} data-marketing-field="title">{item.title}</h3>
               <p data-marketing-array="whyItems" data-marketing-index={index} data-marketing-field="body">{item.body}</p>
             </article>
@@ -181,7 +182,7 @@ const pageTranslations = Object.fromEntries(
         <h2 id="marketing-closing-title" data-marketing-key="closingTitle">{copy.closingTitle}</h2>
         <p data-marketing-key="closingDescription">{copy.closingDescription}</p>
         <a class="marketing-button marketing-button--light" href="/contact/">
-          <span data-marketing-key="closingCta">{copy.closingCta}</span><span aria-hidden="true">↗</span>
+          <span data-marketing-key="closingCta">{copy.closingCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
         </a>
       </div>
     </section>

@@ -1,0 +1,12 @@
+---
+// Shared "go / open" arrow. Replaces the ↗ text glyph, which renders inconsistently across fonts.
+// Sizes to the surrounding font (1em) and takes the text colour, so existing badge/circle styles still apply.
+interface Props { class?: string }
+const { class: className } = Astro.props;
+---
+
+<svg class:list={['arrow-up-right', className]} viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7" /><path d="M8 7h9v9" /></svg>
+
+<style>
+  .arrow-up-right { display: inline-block; flex-shrink: 0; vertical-align: -0.125em; }
+</style>

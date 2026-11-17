@@ -1,4 +1,5 @@
 ﻿---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { divisions, offeringSlug } from '../../data/offerings';
 
 const links = [
@@ -154,7 +155,7 @@ const labels = {
               </details>
             ) : label === 'Solutions' ? (
               <a href="/solutions/" aria-current={isActive(href) ? 'page' : undefined}>
-                <span data-label-key={key}>{label}</span><span aria-hidden="true">↗</span>
+                <span data-label-key={key}>{label}</span><span aria-hidden="true"><ArrowUpRight /></span>
               </a>
             ) : label === 'Resources' ? (
               <details class="mobile-services mobile-resources">
@@ -167,7 +168,7 @@ const labels = {
               </details>
             ) : (
               <a href={href} aria-current={isActive(href) ? 'page' : undefined}>
-                <span data-label-key={key}>{label}</span><span aria-hidden="true">↗</span>
+                <span data-label-key={key}>{label}</span><span aria-hidden="true"><ArrowUpRight /></span>
               </a>
             ))}
           </nav>
