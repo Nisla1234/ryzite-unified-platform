@@ -2,13 +2,19 @@
 import { buildRibbon, reflectionLength, ribbons } from '../../scripts/hero-ribbon';
 
 const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
+const marqueeItems = [
+  { key: 'marqueeDesign', label: 'DESIGN' },
+  { key: 'marqueeDevelopment', label: 'DEVELOPMENT' },
+  { key: 'marqueeDigitalTransformation', label: 'DIGITAL TRANSFORMATION' },
+  { key: 'marqueeInnovation', label: 'INNOVATION' },
+];
 ---
 
 <section class="connection-hero" aria-labelledby="connection-title">
   <div class="connection-stage" data-connection-hero>
     <div class="hero-halo" aria-hidden="true"></div>
     <div class="hero-message">
-      <h1 id="connection-title" class="hero-title"><span>{' '}</span><strong class="digital-line"><span class="word-mask"><span data-headline-word>One Site.</span></span><svg class="underline-swoosh" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 12C80 7 190 3 297 4" pathLength="1" /></svg></strong><span><span class="word-mask"><span data-headline-word>Solve</span></span>{' '}<span class="word-mask"><span data-headline-word>Every</span></span></span><strong><span class="word-mask"><span data-headline-word>Problems.</span></span></strong></h1>
+      <h1 id="connection-title" class="hero-title"><span>{' '}</span><strong class="digital-line"><span class="word-mask"><span data-headline-word>One Site.</span></span></strong><span><span class="word-mask"><span data-headline-word>Solve</span></span>{' '}<span class="word-mask"><span data-headline-word>Every</span></span></span><strong><span class="word-mask"><span data-headline-word>Problems.</span></span></strong></h1>
       <p data-hero-description>{'We turn ideas into digital solutions that help businesses grow and stay ahead.'.split(' ').map((word) => <><span data-description-word>{word}</span>{' '}</>)}</p>
       <a class="hero-cta" href="/contact" data-home-key="heroCta">Let’s Talk</a>
     </div>
@@ -70,16 +76,16 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
     <noscript><style>.connection-hero .hero-message { opacity: 1; visibility: visible; transform: none; }</style></noscript>
   </div>
   <div class="hero-marquee" aria-hidden="true">
-    <div class="hero-marquee-track">
-      {Array.from({ length: 4 }, () => (
-        <div class="hero-marquee-set">
-          <span data-home-key="marqueeDesign">DESIGN</span><span class="hero-marquee-star">✳</span>
-          <span data-home-key="marqueeDevelopment">DEVELOPMENT</span><span class="hero-marquee-star">✳</span>
-          <span data-home-key="marqueeDigitalTransformation">DIGITAL TRANSFORMATION</span><span class="hero-marquee-star">✳</span>
-          <span data-home-key="marqueeInnovation">INNOVATION</span><span class="hero-marquee-star">✳</span>
-        </div>
-      ))}
-    </div>
+    <svg class="hero-marquee-arc" viewBox="0 0 1600 300" preserveAspectRatio="xMidYMid meet" focusable="false">
+      <path id="hero-marquee-curve" class="hero-marquee-band" d="M -80 268 Q 760 -20 1680 92" />
+      <text class="hero-marquee-text" dominant-baseline="central">
+        <textPath href="#hero-marquee-curve" startOffset="0" data-marquee-path>
+          {Array.from({ length: 6 }, () => marqueeItems.map(({ key, label }) => (
+            <Fragment><tspan data-home-key={key}>{label}</tspan><tspan class="hero-marquee-star">{'\u00a0\u00a0✳\u00a0\u00a0'}</tspan></Fragment>
+          )))}
+        </textPath>
+      </text>
+    </svg>
   </div>
 </section>
 
@@ -100,7 +106,6 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
   const heroMotion = {
     revealEase: CustomEase.create('heroReveal', '.2,.8,.2,1'),
     letters: { rise: .35, rotate: 4, blur: 10, duration: 1.3, stagger: .07 },
-    underline: { duration: .8 },
     follow: { rise: 34, blur: 8, duration: .9, stagger: .15 },
     // Different periods per robot so the two never move in sync.
     idle: [
@@ -160,7 +165,6 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
     const headlineWords = [...message.querySelectorAll<HTMLElement>('[data-headline-word]')];
     const description = message.querySelector<HTMLElement>('[data-hero-description]')!;
     const cta = message.querySelector<HTMLElement>('.hero-cta')!;
-    const swoosh = message.querySelector<SVGPathElement>('.underline-swoosh path')!;
     const floats = [left.querySelector<HTMLElement>('.robot-float')!, right.querySelector<HTMLElement>('.robot-float')!];
     const prepareHeadline = () => {
       const locale = document.body.dataset.locale || document.documentElement.lang || 'en';
@@ -397,7 +401,6 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
         rotation: letterMotion.rotate,
         filter: `blur(${letterMotion.blur}px)`,
       });
-      gsap.set(swoosh, { strokeDashoffset: 1 });
       gsap.set([description, cta], { autoAlpha: 0, y: follow.rise, filter: `blur(${follow.blur}px)` });
       gsap.set(shadows, { scaleX: 1, opacity: .65 });
       gsap.set(flash, { opacity: 0, scale: .6 });
@@ -463,9 +466,8 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
         }, [], finish + 1.08)
         .to(chrome, { autoAlpha: 1, y: 0, duration: .6, ease: 'power2.out' }, finish + 1.08)
         .to([left, right], { autoAlpha: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out' }, finish + 1.12)
-        // Letters rise out of each word's clip mask, the underline draws on, then the copy and CTA follow.
+        // Letters rise out of each word's clip mask, then the copy and CTA follow.
         .to(headlineTargets, { autoAlpha: 1, y: 0, rotation: 0, filter: 'blur(0px)', duration: letterMotion.duration, stagger: letterMotion.stagger, ease: heroMotion.revealEase, clearProps: 'filter' }, finish + 1.18)
-        .to(swoosh, { strokeDashoffset: 0, duration: heroMotion.underline.duration, ease: 'power2.inOut' }, finish + 1.7)
         .to([description, cta], { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: follow.duration, stagger: follow.stagger, ease: heroMotion.revealEase, clearProps: 'transform,filter' }, finish + 2.55);
       if (preference.matches || skipIntro) {
         timeline.progress(1).pause();
@@ -519,13 +521,18 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
   document.addEventListener('astro:page-load', initializeConnection);
 </script>
 
+<script>
+  import '../../scripts/hero-marquee';
+</script>
+
 <style>
   .connection-hero { overflow: hidden; background: var(--color-paper); }
-  .hero-marquee { overflow: hidden; padding-block: 14px; color: #fff; background: #242427; }
-  .hero-marquee-track { display: flex; width: max-content; animation: hero-marquee-scroll 28s linear infinite; }
-  .hero-marquee-set { display: flex; flex: 0 0 auto; align-items: center; gap: 14px; padding-right: 30px; white-space: nowrap; font-family: var(--font-display); font-size: 28px; font-weight: 700; line-height: 1.1; }
+  .hero-marquee { overflow: hidden; padding-block: 8px 0; background: var(--color-paper); }
+  /* Curved band: on narrow screens the SVG stays wider than the viewport so the text keeps a readable size. */
+  .hero-marquee-arc { display: block; width: max(100%, 960px); height: auto; margin-left: 50%; transform: translateX(-50%); overflow: visible; }
+  .hero-marquee-band { fill: none; stroke: #242427; stroke-width: 78px; }
+  .hero-marquee-text { fill: #fff; font-family: var(--font-display); font-size: 38px; font-weight: 700; letter-spacing: .01em; white-space: pre; }
   .hero-marquee-star { font-family: var(--font-body); font-weight: 400; }
-  @keyframes hero-marquee-scroll { to { transform: translateX(-50%); } }
   .connection-stage { position: relative; isolation: isolate; height: clamp(680px, 84svh, 840px); max-width: 1800px; margin-inline: auto; overflow: hidden; background: var(--color-paper); }
   .hero-halo { position: absolute; inset: 15% 10% 4%; background: radial-gradient(ellipse, #d8f9ff60, transparent 68%); }
   .hero-message { position: absolute; z-index: 4; top: 15%; left: 29%; width: 42%; text-align: center; font-family: var(--font-body); opacity: 0; visibility: hidden; }
@@ -537,10 +544,8 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
   [data-headline-word], [data-description-word] { display: inline-block; }
   .hero-message :global(.hero-letter) { display: inline-block; }
   .hero-message :global(.hero-sr-only) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  h1 strong { color: #064bed; font-size: 1.2em; font-weight: 400; line-height: 1; }
+  h1 strong { color: #064bed; font-size: 1.2em; font-weight: 800; line-height: 1; }
   .digital-line { position: relative; margin-bottom: .2em; }
-  .underline-swoosh { position: absolute; left: 22%; bottom: -.16em; width: 64%; height: .2em; overflow: visible; pointer-events: none; }
-  .underline-swoosh path { fill: none; stroke: #064bed; stroke-width: 4.5; stroke-linecap: round; stroke-dasharray: 1 1.2; }
   .hero-message p { margin: 24px 0; color: #344159; font-size: 15px; line-height: 1.45; }
   .hero-cta { display: inline-flex; align-items: center; gap: 15px; padding: 17px 30px; border-radius: 999px; background: #064bed; box-shadow: 0 9px 20px #064bed25; color: white; font-size: 17px; font-weight: 800; text-decoration: none; text-transform: uppercase; transition: background .25s ease, transform .25s ease, box-shadow .25s ease; }
   .hero-cta:hover { background: #0539b7; transform: translateY(-2px) scale(1.04); box-shadow: 0 14px 30px #064bed38; }
@@ -622,14 +627,10 @@ const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
   /* Tamil and Sinhala words are much wider and taller than the uppercase Latin headline,
      so the title is sized to keep the longest word inside the message column. */
   :global(html[lang="ta"]) .hero-title, :global(html[lang="si"]) .hero-title { font-size: clamp(1.5rem, 3.2vw, 3.4rem); line-height: 1.3; letter-spacing: 0; overflow-wrap: anywhere; }
-  :global(html[lang="ta"]) .hero-title strong, :global(html[lang="si"]) .hero-title strong { font-size: 1.1em; line-height: 1.3; }
+  :global(html[lang="ta"]) .hero-title strong, :global(html[lang="si"]) .hero-title strong { font-size: 1.1em; font-weight: 400; line-height: 1.3; }
   :global(html[lang="ta"]) .digital-line, :global(html[lang="si"]) .digital-line { margin-bottom: .22em; }
-  :global(html[lang="ta"]) .underline-swoosh, :global(html[lang="si"]) .underline-swoosh { bottom: -.24em; }
   :global(html[lang="ta"]) .hero-message p, :global(html[lang="si"]) .hero-message p { line-height: 1.6; }
   @media (max-width: 800px) {
     :global(html[lang="ta"]) .hero-title, :global(html[lang="si"]) .hero-title { font-size: clamp(1.25rem, 6.2vw, 3rem); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-marquee-track { animation: none; }
   }
 </style>
