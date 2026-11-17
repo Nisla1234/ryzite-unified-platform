@@ -1,0 +1,35 @@
+---
+// Internal design review for the Client Reviews subsection inside the Trust section. [PROPOSAL]
+// Shows unconfirmed platforms in a labelled "pending" state; the live homepage hides them.
+import MainLayout from '../../layouts/MainLayout.astro';
+import TrustPrinciples from '../../components/sections/TrustPrinciples.astro';
+import '../../styles/home-sections.css';
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
+
+const sectionCopy = {
+  en: { sections: homeSectionsTranslations.en },
+  ta: { sections: homeSectionsTranslations.ta },
+  si: { sections: homeSectionsTranslations.si },
+};
+---
+
+<MainLayout title="Preview: Client Reviews | RYZITE" description="Internal preview of the Client Reviews subsection.">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+  <TrustPrinciples reviewsPreview />
+</MainLayout>
+
+<script>
+  import '../../scripts/home-reveal';
+</script>
+
+<script is:inline define:vars={{ sectionCopy }}>
+  const applySectionLocale = (locale) => {
+    const copy = sectionCopy[locale] || sectionCopy.en;
+    document.querySelectorAll('[data-home-key]').forEach((element) => {
+      const value = (element.dataset.homeKey || '').split('.').reduce((current, key) => current?.[key], copy);
+      if (typeof value === 'string') element.textContent = value;
+    });
+  };
+  applySectionLocale(document.body.dataset.locale || 'en');
+  window.addEventListener('ryzite:locale-change', (event) => applySectionLocale(event.detail?.locale || 'en'));
+</script>

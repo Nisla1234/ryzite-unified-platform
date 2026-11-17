@@ -25,7 +25,7 @@ Order is fixed by the homepage brief. Do not add major sections between these wi
 ## Hidden from the homepage
 
 - `AboutPreview.astro`: replaced by Two Divisions. Kept for possible reuse.
-- `ReviewsTrust.astro`: hidden until verified review profile URLs exist (see `src/data/reviews.ts`).
+- `ReviewsTrust.astro`: Client Reviews subsection rendered inside Trust (12), below the trust points. It renders nothing until an official profile URL is confirmed in `src/data/reviews.ts`; ratings, counts, and quotes show only when verified values are entered there. Design review page: `/preview/client-reviews` (noindex, unlinked).
 
 ## Rules for these sections
 

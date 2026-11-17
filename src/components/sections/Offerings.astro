@@ -117,8 +117,8 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
           })}
         </ol>
       </div>
-      {!standalone && <a class="division-link" href={`/${group.id}`}><span data-home-key={group.id === 'services' ? 'exploreServices' : 'exploreSolutions'}>Explore {group.title.toLowerCase()}</span> <span aria-hidden="true"><ArrowUpRight /></span></a>}
-      {standalone && <a class="division-link" href={group.id === 'services' ? '/solutions' : '/services'}><span data-home-key={group.id === 'services' ? 'exploreSolutions' : 'exploreServices'}>Explore {group.id === 'services' ? 'technology solutions' : 'marketing services'}</span> <span aria-hidden="true"><ArrowUpRight /></span></a>}
+      {!standalone && <a class="division-link" href={`/${group.id}`}><span data-home-key={group.id === 'services' ? 'exploreServices' : 'exploreSolutions'}>{group.id === 'services' ? 'Explore Marketing Services' : 'Explore Technology Solutions'}</span> <span aria-hidden="true">→</span></a>}
+      {standalone && <a class="division-link" href={group.id === 'services' ? '/solutions' : '/services'}><span data-home-key={group.id === 'services' ? 'exploreSolutions' : 'exploreServices'}>{group.id === 'services' ? 'Explore Technology Solutions' : 'Explore Marketing Services'}</span> <span aria-hidden="true">→</span></a>}
     </section>
   );
 })}
@@ -466,9 +466,11 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .service-copy p { margin: 0; color: #63718a; font-size: 11px; line-height: 1.45; }
   .services .service-copy p { font-size: 15px; }
   .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .55; font-size: 9px; font-weight: 700; }
-  .division-link { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 360px; margin: 22px auto 0; padding: 16px 22px; border-radius: 16px; color: white; background: var(--dark); font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .2s; }
-  .division-link:hover { transform: translateY(-3px); }.division-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }.division-link span { font-size: 23px; }
-  @media (max-width: 700px) { .division-link { gap: 14px; padding: 14px 18px; font-size: 13px; } .division-link span { flex-shrink: 0; font-size: 20px; } }
+  /* Same pill as the Business Challenge "Solve These Challenges" button. */
+  .division-link { display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 18px 30px; border-radius: 999px; color: white; background: linear-gradient(110deg, #008aff, #063df3); box-shadow: 0 8px 18px #085be735; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; transition: translate .2s; }
+  .division-link span[aria-hidden="true"] { flex-shrink: 0; font-size: 23px; line-height: 1; }
+  .division-link:hover { translate: 0 -3px; }.division-link:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
+  @media (max-width: 700px) { .division-link { gap: 14px; padding: 16px 22px; font-size: 14px; } .division-link span[aria-hidden="true"] { font-size: 20px; } }
   .orb { position: absolute; z-index: -1; width: 600px; height: 600px; border-radius: 50%; filter: blur(70px); opacity: .25; pointer-events: none; }.orb-blue { left: -430px; top: 150px; background: var(--accent); }.orb-accent { right: -430px; bottom: 50px; background: var(--accent); }
   @media (min-width: 701px) and (max-width: 1050px) { .roadmap { grid-template-columns: repeat(3, minmax(0, 1fr)); }.roadmap-stop { grid-column: var(--col-3); grid-row: var(--row-3); } }
   @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 21px; }.item-count { display: none; }.section-intro > .section-description { font-size: 13px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 24px; }.service-copy h3 { font-size: 12px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 9px; } }
@@ -577,5 +579,5 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
     .services .roadmap-stop:nth-child(odd) > .service-robot { right: auto; left: 16px; }
   }
   @media (prefers-reduced-motion: reduce) { .services .roadmap-stop > .service-robot { transition: none; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .services .roadmap-stop, .solutions .roadmap-stop, .division-link, .roadmap-stop, .roadmap-dot { transition: none; }.roadmap-stop.is-reached { animation: none; }.services .roadmap-stop:hover, .solutions .roadmap-stop:hover { translate: none; } }
+  @media (prefers-reduced-motion: reduce) { .services .roadmap-stop, .solutions .roadmap-stop, .division-link, .roadmap-stop, .roadmap-dot { transition: none; }.roadmap-stop.is-reached { animation: none; }.services .roadmap-stop:hover, .solutions .roadmap-stop:hover, .division-link:hover { translate: none; } }
 </style>

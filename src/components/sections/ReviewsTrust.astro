@@ -1,118 +1,221 @@
 ---
+// Client Reviews subsection, rendered inside TrustPrinciples.astro (homepage section 12).
+//
+// Live site: a card renders only for a platform whose official RYZITE profile URL is confirmed in
+// reviews.ts; rating, review count, and quotes render only when verified values exist. If no
+// platform is confirmed, nothing renders at all.
+// `preview` (used only by /preview/client-reviews) also shows unconfirmed platforms in a clearly
+// labelled internal state so the layout can be reviewed. It never shows ratings or links for them.
+//
+// [UNVERIFIED] Platform marks below are simplified SVG versions. Replace them with each platform's
+// official brand asset (and confirm its usage terms) before launch.
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
-import { reviewPlatforms } from '../../data/reviews';
+import { reviewPlatforms, verifiedReviewPlatforms } from '../../data/reviews';
 import { reviewsTranslations } from '../../data/reviews-translations';
+
+interface Props { preview?: boolean }
+const { preview = false } = Astro.props;
+
+const copy = reviewsTranslations.en;
+const platforms = preview ? reviewPlatforms : verifiedReviewPlatforms;
+const fill = (template: string, key: string, value: string) => template.replace(`{${key}}`, value);
 ---
 
-<section class="reviews-trust" aria-labelledby="reviews-trust-title">
-  <div class="reviews-shell">
-    <header class="reviews-heading" data-reviews-reveal>
-      <h2 id="reviews-trust-title" data-reviews-key="title">Trusted Voices. Real Experiences.</h2>
-      <p class="reviews-intro" data-reviews-key="intro">Explore customer feedback and discover what clients say about their experiences working with RYZITE.</p>
+{platforms.length > 0 && (
+  <section class="reviews" aria-labelledby="reviews-title">
+    <header class="reviews__heading" data-hs-reveal>
+      <p class="hs-eyebrow" data-reviews-key="eyebrow">{copy.eyebrow}</p>
+      <h3 id="reviews-title" data-reviews-key="title">{copy.title}</h3>
+      <p data-reviews-key="intro">{copy.intro}</p>
     </header>
-    <div class="reviews-grid">
-      {reviewPlatforms.map((platform, index) => (
-        <article class:list={['review-card', `review-card--${platform.id}`]} data-reviews-reveal data-reveal-order={index + 1}>
-          <span class="review-card__logo" aria-hidden="true">
-            {platform.id === 'google' && (
-              <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-hidden="true">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
-                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
-                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-              </svg>
+
+    <ul class="reviews__grid" data-count={platforms.length}>
+      {platforms.map((platform, index) => {
+        const verified = platform.url !== null;
+        return (
+          <li class:list={['review-card', { 'review-card--pending': !verified }]} data-hs-reveal data-hs-delay={index * 0.1}>
+            <div class="review-card__top">
+              <span class="review-card__logo" aria-hidden="true">
+                {platform.id === 'google' && (
+                  <svg viewBox="0 0 48 48" width="30" height="30">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                  </svg>
+                )}
+                {platform.id === 'trustpilot' && (
+                  <svg viewBox="0 0 48 48" width="30" height="30">
+                    <path fill="#00B67A" d="M48 18.34H29.66L24 .9l-5.66 17.44H0l14.84 10.78-5.67 17.44L24 35.78l14.83 10.78-5.67-17.44L48 18.34z" />
+                    <path fill="#005128" d="M34.44 33.06 33.16 29.12 24 35.78l10.44-2.72z" />
+                  </svg>
+                )}
+                {platform.id === 'clutch' && (
+                  <svg viewBox="0 0 48 48" width="30" height="30">
+                    <path fill="#17313B" d="M33.3 32.9a12.5 12.5 0 1 1 0-17.8l6.1-6.1a21.1 21.1 0 1 0 0 30l-6.1-6.1z" />
+                    <circle fill="#EF4335" cx="24.4" cy="24" r="6.2" />
+                  </svg>
+                )}
+              </span>
+              <h4 data-reviews-key={`${platform.id}Title`}>{copy[`${platform.id}Title`]}</h4>
+            </div>
+
+            {verified && platform.rating !== null && (
+              <p class="review-card__rating">
+                <svg class="review-card__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" /></svg>
+                <strong data-reviews-template="rating" data-reviews-value={String(platform.rating)}>{fill(copy.rating, 'rating', String(platform.rating))}</strong>
+                {platform.reviewCount !== null && <span aria-hidden="true">·</span>}
+                {platform.reviewCount !== null && (
+                  <span data-reviews-template="count" data-reviews-value={String(platform.reviewCount)}>{fill(copy.count, 'count', String(platform.reviewCount))}</span>
+                )}
+              </p>
             )}
-            {platform.id === 'trustpilot' && (
-              <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-hidden="true">
-                <path fill="#00B67A" d="M48 18.34H29.66L24 .9l-5.66 17.44H0l14.84 10.78-5.67 17.44L24 35.78l14.83 10.78-5.67-17.44L48 18.34z" />
-                <path fill="#005128" d="M34.44 33.06 33.16 29.12 24 35.78l10.44-2.72z" />
-              </svg>
+
+            {verified ? (
+              <p class="review-card__body" data-reviews-key={`${platform.id}Body`}>{copy[`${platform.id}Body`]}</p>
+            ) : (
+              <p class="review-card__pending">Internal preview: profile URL not confirmed. This card is hidden on the live site.</p>
             )}
-            {platform.id === 'clutch' && (
-              <svg viewBox="0 0 48 48" width="34" height="34" role="img" aria-hidden="true">
-                <path fill="#17313B" d="M33.3 32.9a12.5 12.5 0 1 1 0-17.8l6.1-6.1a21.1 21.1 0 1 0 0 30l-6.1-6.1z" />
-                <circle fill="#EF4335" cx="24.4" cy="24" r="6.2" />
-              </svg>
+
+            {verified && platform.reviews.length > 0 && (
+              <ul class="review-card__quotes">
+                {platform.reviews.slice(0, 2).map((review) => (
+                  <li>
+                    <blockquote cite={review.url}><p>“{review.text}”</p></blockquote>
+                    <a href={review.url} target="_blank" rel="noopener noreferrer">— {review.author}</a>
+                  </li>
+                ))}
+              </ul>
             )}
-          </span>
-          <h3 data-reviews-key={`${platform.id}Title`}>{reviewsTranslations.en[`${platform.id}Title`]}</h3>
-          <p data-reviews-key={`${platform.id}Body`}>{reviewsTranslations.en[`${platform.id}Body`]}</p>
-          {platform.url && (
-            <a class="review-card__cta" href={platform.url} target="_blank" rel="noopener noreferrer">
-              <span data-reviews-key={`${platform.id}Cta`}>{reviewsTranslations.en[`${platform.id}Cta`]}</span>
-              <span aria-hidden="true"><ArrowUpRight /></span>
-            </a>
-          )}
-        </article>
-      ))}
-    </div>
-  </div>
-</section>
 
-<script is:inline define:vars={{ reviewsTranslations }}>
-  const applyReviewsLocale = (locale) => {
-    const content = reviewsTranslations[locale] || reviewsTranslations.en;
-    document.querySelectorAll('.reviews-trust [data-reviews-key]').forEach((element) => {
-      const value = content[element.dataset.reviewsKey];
-      if (typeof value === 'string') element.textContent = value;
-    });
-  };
+            {verified && (
+              <a class="review-card__cta" href={platform.url} target="_blank" rel="noopener noreferrer">
+                <span data-reviews-key={`${platform.id}Cta`}>{copy[`${platform.id}Cta`]}</span>
+                <span aria-hidden="true"><ArrowUpRight /></span>
+              </a>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
 
-  applyReviewsLocale(document.body.dataset.locale || 'en');
-  window.addEventListener('ryzite:locale-change', (event) => applyReviewsLocale(event.detail?.locale || 'en'));
-</script>
-
-<script>
-  import { gsap } from 'gsap';
-
-  const initializeReviewsReveal = () => {
-    const section = document.querySelector<HTMLElement>('.reviews-trust');
-    if (!section || section.dataset.initialized) return;
-    section.dataset.initialized = 'true';
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (motionPreference.matches || !('IntersectionObserver' in window)) return;
-    const observer = new IntersectionObserver((entries, currentObserver) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const order = Number((entry.target as HTMLElement).dataset.revealOrder || 0);
-        gsap.fromTo(entry.target, { autoAlpha: 0, y: 18 }, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.6,
-          delay: order * 0.14,
-          ease: 'power2.out',
-          clearProps: 'all',
-        });
-        currentObserver.unobserve(entry.target);
+{platforms.length > 0 && (
+  <script is:inline define:vars={{ reviewsTranslations }}>
+    const applyReviewsLocale = (locale) => {
+      const content = reviewsTranslations[locale] || reviewsTranslations.en;
+      document.querySelectorAll('.reviews [data-reviews-key]').forEach((element) => {
+        const value = content[element.dataset.reviewsKey];
+        if (typeof value === 'string') element.textContent = value;
       });
-    }, { threshold: 0.15 });
-    section.querySelectorAll('[data-reviews-reveal]').forEach((element) => observer.observe(element));
-    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
-  };
-  initializeReviewsReveal();
-  document.addEventListener('astro:page-load', initializeReviewsReveal);
-</script>
+      document.querySelectorAll('.reviews [data-reviews-template]').forEach((element) => {
+        const key = element.dataset.reviewsTemplate;
+        const template = content[key];
+        if (typeof template === 'string') element.textContent = template.replace(`{${key}}`, element.dataset.reviewsValue || '');
+      });
+    };
+    applyReviewsLocale(document.body.dataset.locale || 'en');
+    window.addEventListener('ryzite:locale-change', (event) => applyReviewsLocale(event.detail?.locale || 'en'));
+  </script>
+)}
 
 <style>
-  .reviews-trust { padding: clamp(4.5rem, 8vw, 6.5rem) var(--space-frame); color: #111e32; background: #f2f7fd; }
-  .reviews-trust *, .reviews-trust *::before, .reviews-trust *::after { box-sizing: border-box; }
-  .reviews-shell { width: min(100%, 1100px); margin-inline: auto; }
-  .reviews-heading { max-width: 720px; margin: 0 auto clamp(2.2rem, 4vw, 3rem); text-align: center; }
-  .reviews-eyebrow { display: flex; align-items: center; justify-content: center; gap: .65rem; margin: 0 0 1rem; color: #0756df; font-size: var(--size-eyebrow); font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
-  .reviews-eyebrow::before { width: 1.5rem; height: 2px; border-radius: 2px; background: currentColor; content: ''; }
-  .reviews-heading h2 { margin: 0; color: #0a1734; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 800; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
-  .reviews-intro { max-width: 600px; margin: 1rem auto 0; color: #5c6878; line-height: 1.7; }
-  .reviews-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; }
-  .review-card { display: flex; flex-direction: column; align-items: center; padding: 2.1rem 1.5rem 2rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(150deg, #fff, #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; text-align: center; transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
-  .review-card:hover { transform: translateY(-5px); border-color: #9fc1eb; box-shadow: 0 1.1rem 2.2rem #163f7618; }
-  .review-card__logo { display: grid; flex-shrink: 0; width: 64px; height: 64px; margin-bottom: .9rem; place-items: center; border: 1px solid #e3ecf7; border-radius: 18px; background: #fff; box-shadow: 0 6px 14px #1f4b8a12; }
+  .reviews {
+    position: relative;
+    isolation: isolate;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    padding: clamp(2rem, 4.5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+    border: 1px solid #e3ecfb;
+    border-radius: var(--radius-large);
+    background: linear-gradient(160deg, #f5f9ff 0%, #eaf2ff 100%);
+    overflow: hidden;
+  }
+  /* Soft brand-blue light behind the glass cards. */
+  .reviews::before,
+  .reviews::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  .reviews::before { top: -6rem; left: -4rem; width: 22rem; height: 22rem; background: #078be940; }
+  .reviews::after { right: -5rem; bottom: -8rem; width: 26rem; height: 26rem; background: #0655e933; }
+
+  .reviews__heading { max-width: 40rem; margin: 0 auto clamp(1.75rem, 3.5vw, 2.5rem); text-align: center; }
+  .reviews__heading h3 { margin: 0 0 .75rem; color: var(--hs-ink); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 800; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .reviews__heading p:last-child { margin: 0; color: var(--hs-muted); line-height: 1.6; }
+
+  /* Columns follow the number of verified platforms, so one or two cards never look stranded. */
+  .reviews__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-grid);
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .reviews__grid[data-count="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 48rem; }
+  .reviews__grid[data-count="1"] { grid-template-columns: minmax(0, 1fr); max-width: 24rem; }
+
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+    padding: clamp(1.4rem, 2.4vw, 1.8rem);
+    border: 1px solid #ffffffcc;
+    border-radius: var(--radius-medium);
+    background: #ffffffa6;
+    box-shadow: 0 1px 0 #ffffff inset, 0 0 0 1px #dce7fb80, 0 14px 32px #0643cf14;
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    transition: translate .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .review-card:hover,
+  .review-card:focus-within { translate: 0 -4px; box-shadow: 0 1px 0 #ffffff inset, 0 0 0 1px #a9c8fb, 0 20px 40px #0655e924; }
+
+  .review-card__top { display: flex; align-items: center; gap: .9rem; }
+  .review-card__logo { display: grid; flex-shrink: 0; width: 3.25rem; height: 3.25rem; place-items: center; border: 1px solid #e3ecf7; border-radius: 1rem; background: #fff; box-shadow: 0 6px 14px #1f4b8a12; }
   .review-card__logo svg { display: block; }
-  .review-card h3 { margin: 0 0 .5rem; color: #15263d; font-family: var(--font-body); font-size: var(--size-h4); font-weight: 800; letter-spacing: -.01em; line-height: var(--leading-h3); }
-  .review-card p { margin: 0; color: #5c6878; font-size: .9rem; line-height: 1.65; }
-  .review-card__cta { display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.1rem; padding: .7rem 1.3rem; border-radius: 999px; color: #fff; background: #0655e9; font-size: .85rem; font-weight: 800; text-decoration: none; transition: transform .18s ease, background .18s ease; }
-  .review-card__cta:hover { transform: translateY(-2px); background: #0539b7; }
-  .review-card__cta:focus-visible { outline: 3px solid #0655e9; outline-offset: 4px; }
-  @media (min-width: 701px) and (max-width: 980px) { .reviews-grid { gap: 1rem; } .review-card { padding: 1.7rem 1.1rem 1.6rem; } .review-card p { font-size: .84rem; } }
-  @media (max-width: 700px) { .reviews-trust { padding-inline: 1.25rem; } .reviews-grid { grid-template-columns: minmax(0, 1fr); max-width: 420px; margin-inline: auto; gap: 1.1rem; } }
-  @media (prefers-reduced-motion: reduce) { .review-card, .review-card__cta { transition: none; } .review-card:hover, .review-card__cta:hover { transform: none; } }
+  .review-card h4 { margin: 0; color: var(--hs-ink); font-family: var(--font-body); font-size: var(--size-h4); font-weight: 800; line-height: 1.3; overflow-wrap: anywhere; }
+
+  .review-card__rating { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .6rem; margin: 0; color: var(--hs-muted); font-size: .9375rem; }
+  .review-card__rating strong { color: var(--hs-ink); }
+  .review-card__star { width: 1.15rem; height: 1.15rem; fill: #f5b301; }
+
+  .review-card__body { flex: 1; margin: 0; color: var(--hs-muted); font-size: .9375rem; line-height: 1.6; }
+
+  .review-card__quotes { display: grid; gap: .75rem; margin: 0; padding: 0; list-style: none; }
+  .review-card__quotes li { padding: .9rem 1rem; border-radius: .9rem; background: #ffffffb3; }
+  .review-card__quotes blockquote { margin: 0 0 .4rem; }
+  .review-card__quotes p { margin: 0; color: var(--hs-ink); font-size: .9rem; line-height: 1.55; }
+  .review-card__quotes a { color: var(--hs-blue); font-size: .8125rem; font-weight: 700; text-decoration: none; }
+  .review-card__quotes a:hover { text-decoration: underline; }
+
+  .review-card__cta { display: inline-flex; align-self: flex-start; align-items: center; gap: .5rem; padding: .7rem 1.25rem; border-radius: 999px; color: #fff; background: var(--hs-blue); font-size: .875rem; font-weight: 800; text-decoration: none; transition: background .2s ease, translate .2s ease; }
+  .review-card__cta:hover { translate: 0 -2px; background: var(--hs-blue-deep); }
+  .review-card__cta:focus-visible { outline: 3px solid var(--hs-blue); outline-offset: 4px; }
+
+  .review-card--pending { border-style: dashed; border-color: #9cc3ff; }
+  .review-card__pending { flex: 1; margin: 0; padding: .75rem .9rem; border-radius: .8rem; color: #465771; background: #f3f7ff; font-size: .8125rem; line-height: 1.5; }
+
+  @media (max-width: 980px) {
+    .reviews__grid[data-count="3"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .reviews__grid[data-count="3"] > :last-child { grid-column: 1 / -1; justify-self: center; width: calc(50% - var(--space-grid) / 2); }
+  }
+  @media (max-width: 640px) {
+    .reviews__grid,
+    .reviews__grid[data-count="2"],
+    .reviews__grid[data-count="3"] { grid-template-columns: minmax(0, 1fr); max-width: 28rem; }
+    .reviews__grid[data-count="3"] > :last-child { grid-column: auto; width: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .review-card, .review-card__cta { transition: none; }
+    .review-card:hover, .review-card:focus-within, .review-card__cta:hover { translate: none; }
+  }
 </style>

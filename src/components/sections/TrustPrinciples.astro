@@ -1,7 +1,12 @@
 ---
 // [PROPOSAL] Trust points describe the working approach already stated on /how-we-work.
-// They are not guarantees. Client reviews (ReviewsTrust) stay hidden until verified review links exist.
+// They are not guarantees. The Client Reviews subsection (ReviewsTrust) sits below the trust points
+// and renders nothing until at least one official review profile URL is confirmed in reviews.ts.
+import ReviewsTrust from './ReviewsTrust.astro';
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
+
+interface Props { reviewsPreview?: boolean }
+const { reviewsPreview = false } = Astro.props;
 
 const copy = homeSectionsTranslations.en.trust;
 const icons = [
@@ -28,6 +33,8 @@ const icons = [
         </li>
       ))}
     </ul>
+
+    <ReviewsTrust preview={reviewsPreview} />
   </div>
 </section>
 
