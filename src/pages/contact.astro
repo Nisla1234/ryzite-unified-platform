@@ -34,7 +34,6 @@ const enquiryConfig = {
       <div class="contact-hero__glow contact-hero__glow--one" aria-hidden="true"></div>
       <div class="contact-hero__inner">
         <div class="contact-hero__copy">
-          <p class="contact-eyebrow" data-contact-key="heroEyebrow">CONTACT RYZITE</p>
           <h1 id="contact-hero-title" data-contact-key="heroTitle">Let’s Turn Your Ideas Into Reality.</h1>
           <p class="contact-hero__description" data-contact-key="heroDescription">Have a project in mind, a business challenge to solve, or a question about our services? We’re here to help you explore the right digital solutions for your business.</p>
           <p class="contact-hero__supporting" data-contact-key="heroSupporting">Whether you need a professional website, digital marketing support, a mobile application, or custom software, let’s start a conversation.</p>
@@ -56,7 +55,6 @@ const enquiryConfig = {
     <section class="contact-section contact-reach" aria-labelledby="get-in-touch-title">
       <div class="contact-shell">
         <header class="contact-section-heading" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="heroEyebrow">CONTACT RYZITE</p>
           <h2 id="get-in-touch-title" data-contact-key="getInTouchTitle">Let’s Start a Conversation.</h2>
         </header>
         <div class="contact-reach__grid">
@@ -85,10 +83,18 @@ const enquiryConfig = {
     <section class="contact-section enquiry-section" id="project-enquiry" aria-labelledby="project-form-title">
       <div class="contact-shell enquiry-layout">
         <div class="enquiry-copy" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="formEyebrow">PROJECT ENQUIRY</p>
           <h2 id="project-form-title" data-contact-key="formTitle">Tell Us About Your Project.</h2>
           <p data-contact-key="formDescription">Complete the enquiry form below and share a few details about your project. Our team can review your requirements and discuss the next steps.</p>
-          <div class="enquiry-copy__note"><span aria-hidden="true">✳</span><p><span data-contact-key="emailFallback">Prefer email? Write to us at</span> <a href={`mailto:${company.email}`}>{company.email}</a></p></div>
+          <ul class="enquiry-contacts">
+            <li class="enquiry-copy__note">
+              <span class="enquiry-contact__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="m4 7 8 6 8-6" /></svg></span>
+              <p><span data-contact-key="emailFallback">Prefer email? Write to us at</span> <a href={`mailto:${company.email}`}>{company.email}</a></p>
+            </li>
+            <li class="enquiry-copy__note">
+              <span class="enquiry-contact__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" /></svg></span>
+              <p><span>WhatsApp</span> <a href={`https://wa.me/${company.whatsapp.number}`} target="_blank" rel="noopener noreferrer">{company.whatsapp.display}</a></p>
+            </li>
+          </ul>
         </div>
 
         <form
@@ -187,7 +193,6 @@ const enquiryConfig = {
     <section class="contact-section contact-services" aria-labelledby="contact-services-title">
       <div class="contact-shell">
         <header class="contact-section-heading contact-section-heading--center" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="heroTagline">One Agency. All Your Business Solutions.</p>
           <h2 id="contact-services-title" data-contact-key="servicesTitle">Find the Right Solution for Your Business.</h2>
           <p data-contact-key="servicesIntro">Explore the two areas where RYZITE can support your business.</p>
         </header>
@@ -213,7 +218,6 @@ const enquiryConfig = {
     <section class="contact-section contact-faq" aria-labelledby="contact-faq-title">
       <div class="contact-shell faq-layout">
         <header class="faq-heading" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="faqEyebrow">FREQUENTLY ASKED QUESTIONS</p>
           <h2 id="contact-faq-title" data-contact-key="faqTitle">Questions Before Getting Started?</h2>
         </header>
         <div class="faq-list" data-contact-reveal>
@@ -230,7 +234,6 @@ const enquiryConfig = {
       <div class="contact-closing__orb contact-closing__orb--one" aria-hidden="true"></div>
       <div class="contact-closing__orb contact-closing__orb--two" aria-hidden="true"></div>
       <div class="contact-closing__inner" data-contact-reveal>
-        <p class="contact-eyebrow" data-contact-key="closingEyebrow">LET’S WORK TOGETHER</p>
         <h2 id="contact-closing-title" data-contact-key="closingTitle">Your Next Big Idea Starts Here.</h2>
         <p data-contact-key="closingDescription">Let’s explore how technology, creativity, and digital strategy can help move your business forward.</p>
         <a class="contact-button contact-button--light" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true">↓</span></a>
@@ -658,7 +661,9 @@ const enquiryConfig = {
   .enquiry-section { scroll-margin-top: 90px; background: #f1f6fc; }
   .enquiry-layout { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .enquiry-copy { position: sticky; top: 120px; }.enquiry-copy > p:not(.contact-eyebrow) { margin: 1.1rem 0 0; color: var(--contact-muted); line-height: 1.75; }
-  .enquiry-copy__note { display: flex; gap: .7rem; margin-top: 1.6rem; padding: 1rem; border: 1px solid #d5e3f4; border-radius: 1rem; color: #305278; background: #fff; }.enquiry-copy__note > span { color: var(--contact-blue); }.enquiry-copy__note p { margin: 0; font-size: .83rem; line-height: 1.6; }.enquiry-copy__note a { color: var(--contact-blue); font-weight: 700; overflow-wrap: anywhere; }
+  .enquiry-contacts { display: grid; gap: .7rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+  .enquiry-contact__icon { display: inline-flex; flex: 0 0 auto; width: 1.25rem; height: 1.25rem; }.enquiry-contact__icon svg { width: 100%; height: 100%; }
+  .enquiry-copy__note { display: flex; align-items: center; gap: .7rem; padding: 1rem; border: 1px solid #d5e3f4; border-radius: 1rem; color: #305278; background: #fff; }.enquiry-copy__note > span { color: var(--contact-blue); }.enquiry-copy__note p { margin: 0; font-size: .83rem; line-height: 1.6; }.enquiry-copy__note a { color: var(--contact-blue); font-weight: 700; overflow-wrap: anywhere; }
   .enquiry-form { min-width: 0; padding: clamp(1.25rem, 3vw, 2.2rem); border: 1px solid #dbe5f1; border-radius: var(--radius-medium); background: #fff; box-shadow: 0 1rem 3rem rgb(20 51 91 / 7%); }
   .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.05rem 1rem; }
   .contact-field { display: flex; min-width: 0; flex-direction: column; gap: .45rem; }.contact-field--wide { grid-column: 1 / -1; }

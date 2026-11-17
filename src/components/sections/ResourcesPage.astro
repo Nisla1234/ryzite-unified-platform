@@ -41,7 +41,6 @@ const pageTranslations = Object.fromEntries(
       <div class="resource-hero__glow" aria-hidden="true"></div>
       <div class="resource-shell resource-hero__inner">
         <div class="resource-hero__copy">
-          <p class="resource-eyebrow" data-resource-key="heroLabel">{copy.heroLabel}</p>
           <h1 id="resource-hero-title" data-resource-key="heroTitle">{copy.heroTitle}</h1>
           <p class="resource-hero__body" data-resource-key="heroBodyOne">{copy.heroBodyOne}</p>
           <p class="resource-hero__body resource-hero__body--secondary" data-resource-key="heroBodyTwo">{copy.heroBodyTwo}</p>
@@ -65,7 +64,6 @@ const pageTranslations = Object.fromEntries(
     {packages && <>
       <section class="resource-section resource-intro" aria-labelledby="package-intro-title">
         <div class="resource-shell resource-intro__inner" data-resource-reveal>
-          <p class="resource-eyebrow">{packages.introEyebrow}</p>
           <h2 id="package-intro-title">{packages.introTitle}</h2>
           <p>{packages.introBody}</p>
         </div>
@@ -75,7 +73,6 @@ const pageTranslations = Object.fromEntries(
         <div class="resource-shell">
           <header class="resource-section-heading" data-resource-reveal>
             <div>
-              <p class="resource-eyebrow" data-resource-key="packagesEyebrow">{packages.packagesEyebrow}</p>
               <h2 id="package-options-title" data-resource-key="packagesTitle">{packages.packagesTitle}</h2>
             </div>
             <p class="resource-notice" data-resource-key="packageDisclaimer">{packages.packageDisclaimer}</p>
@@ -110,7 +107,6 @@ const pageTranslations = Object.fromEntries(
       <section class="resource-section resource-comparison-section" aria-labelledby="package-comparison-title">
         <div class="resource-shell">
           <header class="resource-section-heading resource-section-heading--center" data-resource-reveal>
-            <p class="resource-eyebrow" data-resource-key="compareEyebrow">{packages.compareEyebrow}</p>
             <h2 id="package-comparison-title" data-resource-key="compareTitle">{packages.compareTitle}</h2>
             <p data-resource-key="compareDescription">{packages.compareDescription}</p>
           </header>
@@ -142,7 +138,6 @@ const pageTranslations = Object.fromEntries(
       <section class="resource-section resource-faq-section" aria-labelledby="packages-faq-title">
         <div class="resource-shell resource-faq-layout">
           <header class="resource-section-heading resource-section-heading--stacked" data-resource-reveal>
-            <p class="resource-eyebrow" data-resource-key="faqEyebrow">{packages.faqEyebrow}</p>
             <h2 id="packages-faq-title" data-resource-key="faqTitle">{packages.faqTitle}</h2>
           </header>
           <div class="resource-faq-list" data-resource-reveal>
@@ -163,7 +158,6 @@ const pageTranslations = Object.fromEntries(
       <section class="resource-section resource-process-section" id="process-steps" aria-labelledby="process-title">
         <div class="resource-shell">
           <header class="resource-section-heading resource-section-heading--center" data-resource-reveal>
-            <p class="resource-eyebrow" data-resource-key="processEyebrow">{howWeWork.processEyebrow}</p>
             <h2 id="process-title" data-resource-key="processTitle">{howWeWork.processTitle}</h2>
             <p data-resource-key="processIntro">{howWeWork.processIntro}</p>
           </header>
@@ -190,7 +184,6 @@ const pageTranslations = Object.fromEntries(
       <section class="resource-section resource-principles-section" aria-labelledby="principles-title">
         <div class="resource-shell">
           <header class="resource-section-heading resource-section-heading--center" data-resource-reveal>
-            <p class="resource-eyebrow" data-resource-key="principlesEyebrow">{howWeWork.principlesEyebrow}</p>
             <h2 id="principles-title" data-resource-key="principlesTitle">{howWeWork.principlesTitle}</h2>
           </header>
           <div class="resource-principles-grid">
@@ -212,7 +205,6 @@ const pageTranslations = Object.fromEntries(
         <div class="resource-shell">
           <header class="resource-section-heading" data-resource-reveal>
             <div>
-              <p class="resource-eyebrow" data-resource-key="projectsEyebrow">{ourWork.projectsEyebrow}</p>
               <h2 id="projects-title" data-resource-key="projectsTitle">{ourWork.projectsTitle}</h2>
             </div>
           </header>
@@ -227,7 +219,6 @@ const pageTranslations = Object.fromEntries(
       <section class="resource-section resource-approach-section" id="our-approach" aria-labelledby="work-approach-title">
         <div class="resource-shell">
           <header class="resource-section-heading resource-section-heading--center" data-resource-reveal>
-            <p class="resource-eyebrow" data-resource-key="approachEyebrow">{ourWork.approachEyebrow}</p>
             <h2 id="work-approach-title" data-resource-key="approachTitle">{ourWork.approachTitle}</h2>
             <p data-resource-key="approachDescription">{ourWork.approachDescription}</p>
           </header>
@@ -250,7 +241,6 @@ const pageTranslations = Object.fromEntries(
         <div class="resource-shell">
           <header class="resource-section-heading" data-resource-reveal>
             <div>
-              <p class="resource-eyebrow" data-resource-key="topicsEyebrow">{articles.topicsEyebrow}</p>
               <h2 id="topics-title" data-resource-key="topicsTitle">{articles.topicsTitle}</h2>
             </div>
           </header>
@@ -270,7 +260,6 @@ const pageTranslations = Object.fromEntries(
         <div class="resource-shell">
           <header class="resource-section-heading" data-resource-reveal>
             <div>
-              <p class="resource-eyebrow" data-resource-key="articlesEyebrow">{articles.articlesEyebrow}</p>
               <h2 id="articles-title" data-resource-key="articlesTitle">{articles.articlesTitle}</h2>
             </div>
           </header>
@@ -285,7 +274,6 @@ const pageTranslations = Object.fromEntries(
       <section class="resource-section resource-editorial-section" aria-labelledby="editorial-title">
         <div class="resource-shell resource-editorial-layout">
           <header class="resource-section-heading resource-section-heading--stacked" data-resource-reveal>
-            <p class="resource-eyebrow" data-resource-key="editorialEyebrow">{articles.editorialEyebrow}</p>
             <h2 id="editorial-title" data-resource-key="editorialTitle">{articles.editorialTitle}</h2>
             <p class="resource-editorial-note" data-resource-key="editorialNote">{articles.editorialNote}</p>
           </header>
@@ -304,7 +292,6 @@ const pageTranslations = Object.fromEntries(
     <section class="resource-closing" aria-labelledby="resource-closing-title">
       <div class="resource-closing__orb" aria-hidden="true"></div>
       <div class="resource-closing__inner" data-resource-reveal>
-        <p class="resource-eyebrow" data-resource-key="closingEyebrow">{copy.closingEyebrow}</p>
         <h2 id="resource-closing-title" data-resource-key="closingTitle">{copy.closingTitle}</h2>
         <p data-resource-key="closingDescription">{copy.closingDescription}</p>
         <a class="resource-button resource-button--light" href={closingCtaHref}>

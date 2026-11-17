@@ -1,22 +1,43 @@
+---
+import { buildRibbon, reflectionLength, ribbons } from '../../scripts/hero-ribbon';
+
+const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
+---
+
 <section class="connection-hero" aria-labelledby="connection-title">
   <div class="connection-stage" data-connection-hero>
     <div class="hero-halo" aria-hidden="true"></div>
     <div class="hero-message">
-      <h1 id="connection-title" class="hero-title"><span>{' '}</span><strong class="digital-line"><span data-headline-word>One Site.</span></strong><span><span data-headline-word>Solve</span>{' '}<span data-headline-word>Every</span></span><strong><span data-headline-word>Problems.</span></strong></h1>
+      <h1 id="connection-title" class="hero-title"><span>{' '}</span><strong class="digital-line"><span class="word-mask"><span data-headline-word>One Site.</span></span><svg class="underline-swoosh" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 12C80 7 190 3 297 4" pathLength="1" /></svg></strong><span><span class="word-mask"><span data-headline-word>Solve</span></span>{' '}<span class="word-mask"><span data-headline-word>Every</span></span></span><strong><span class="word-mask"><span data-headline-word>Problems.</span></span></strong></h1>
       <p data-hero-description>{'We turn ideas into digital solutions that help businesses grow and stay ahead.'.split(' ').map((word) => <><span data-description-word>{word}</span>{' '}</>)}</p>
       <a class="hero-cta" href="/contact" data-home-key="heroCta">Let’s Talk</a>
     </div>
 
     <svg class="landscape" viewBox="0 0 1440 680" preserveAspectRatio="none" fill="none" aria-hidden="true">
-      <g class="wave-layer wave-layer--light">
-        <path d="M-100 350C200 650 450 680 760 590S1200 410 1540 550V780H-100Z" fill="#dcecff" />
-      </g>
-      <g class="wave-layer wave-layer--sky">
-        <path d="M-100 480C230 710 550 720 920 620S1300 470 1540 510V780H-100Z" fill="#b9ddff" />
-      </g>
-      <g class="wave-layer wave-layer--blue">
-        <path d="M-100 620C350 760 650 710 1000 660S1300 540 1540 580V780H-100Z" fill="#70b6ff" opacity=".5" />
-      </g>
+      <defs>
+        <!-- Repeating reflections that slide along the ribbon as it flows. -->
+        <linearGradient id="ribbon-reflection-0" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={reflectionLength} y2="0" spreadMethod="repeat">
+          <stop offset="0" stop-color="#9ccdff" /><stop offset=".3" stop-color="#eef7ff" /><stop offset=".55" stop-color="#5aa9ff" /><stop offset=".8" stop-color="#cfe6ff" /><stop offset="1" stop-color="#9ccdff" />
+        </linearGradient>
+        <linearGradient id="ribbon-reflection-1" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={reflectionLength} y2="0" spreadMethod="repeat">
+          <stop offset="0" stop-color="#0643cf" /><stop offset=".16" stop-color="#0a6cf0" /><stop offset=".3" stop-color="#e6f3ff" /><stop offset=".38" stop-color="#8cc6ff" /><stop offset=".52" stop-color="#0655e9" /><stop offset=".68" stop-color="#0437b0" /><stop offset=".82" stop-color="#6fb4ff" /><stop offset=".9" stop-color="#d9ecff" /><stop offset="1" stop-color="#0643cf" />
+        </linearGradient>
+        <!-- Glass depth: a bright sheen on top, deeper blue underneath. -->
+        <linearGradient id="ribbon-depth" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".5" /><stop offset=".4" stop-color="#fff" stop-opacity="0" /><stop offset=".75" stop-color="#032b8f" stop-opacity="0" /><stop offset="1" stop-color="#032b8f" stop-opacity=".3" />
+        </linearGradient>
+        <filter id="ribbon-glow" filterUnits="userSpaceOnUse" x="-200" y="0" width="1840" height="780"><feGaussianBlur stdDeviation="16" /></filter>
+        <filter id="ribbon-soft" filterUnits="userSpaceOnUse" x="-200" y="0" width="1840" height="780"><feGaussianBlur stdDeviation="1.6" /></filter>
+      </defs>
+      {initialRibbons.map((shape, index) => (
+        <g class:list={['ribbon', index ? 'ribbon--front' : 'ribbon--back']} data-ribbon={index}>
+          {index === 1 && <path data-ribbon-part="body" d={shape.body} fill="#078be9" opacity=".22" filter="url(#ribbon-glow)" />}
+          <path data-ribbon-part="body" d={shape.body} fill={`url(#ribbon-reflection-${index})`} />
+          <path data-ribbon-part="body" d={shape.body} fill="url(#ribbon-depth)" />
+          <path data-ribbon-part="top" d={shape.topEdge} stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85" filter="url(#ribbon-soft)" />
+          <path data-ribbon-part="bottom" d={shape.bottomEdge} stroke="#cfe6ff" stroke-width="1.5" opacity=".6" />
+        </g>
+      ))}
     </svg>
     <div class="floor-glow" aria-hidden="true"></div>
     <div class="robot robot-ry">
@@ -64,15 +85,66 @@
 
 <script>
   import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { CustomEase } from 'gsap/CustomEase';
+  import { buildRibbon, reflectionShift, ribbons } from '../../scripts/hero-ribbon';
 
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(CustomEase);
 
   declare global {
     interface Window {
       ryziteIntroFallback?: ReturnType<typeof setTimeout>;
     }
   }
+
+  // Motion values for everything after the rope intro, kept together so they are easy to tune.
+  const heroMotion = {
+    revealEase: CustomEase.create('heroReveal', '.2,.8,.2,1'),
+    letters: { rise: .35, rotate: 4, blur: 10, duration: 1.3, stagger: .07 },
+    underline: { duration: .8 },
+    follow: { rise: 34, blur: 8, duration: .9, stagger: .15 },
+    // Different periods per robot so the two never move in sync.
+    idle: [
+      { float: 1, floatPeriod: 4.6, tilt: 1, tiltPeriod: 6.1, turn: 4, turnPeriod: 9.2 },
+      { float: 1.1, floatPeriod: 5.5, tilt: 1.2, tiltPeriod: 7.3, turn: 4, turnPeriod: 10.6 },
+    ],
+    pointerTilt: { turn: 6, pitch: 3, lag: 1.2 },
+    // Scroll parallax distances (yPercent at the bottom of the hero) and the chase rate.
+    scroll: { message: -6, robots: 4, landscape: 9, chase: 9 },
+    // Seconds for one full, seamless cycle of the glass ribbon's flow.
+    ribbon: { loop: 18 },
+    perspective: 1000,
+  };
+
+  // English headlines rise letter by letter. Tamil and Sinhala use combining characters,
+  // so they animate word by word instead of being split.
+  const splitIntoLetters = (slot: HTMLElement) => {
+    const existing = slot.querySelectorAll<HTMLElement>('.hero-letter');
+    if (existing.length) return [...existing];
+    const text = slot.textContent || '';
+    const label = document.createElement('span');
+    label.className = 'hero-sr-only';
+    label.textContent = text;
+    const visual = document.createElement('span');
+    visual.setAttribute('aria-hidden', 'true');
+    for (const character of text) {
+      if (character === ' ') {
+        visual.append(' ');
+        continue;
+      }
+      const letter = document.createElement('span');
+      letter.className = 'hero-letter';
+      letter.textContent = character;
+      visual.append(letter);
+    }
+    slot.replaceChildren(label, visual);
+    return [...visual.querySelectorAll<HTMLElement>('.hero-letter')];
+  };
+
+  // A seamless back-and-forth around zero: out, across, and home again.
+  const sway = (target: HTMLElement, property: string, amount: number, period: number) => gsap.timeline({ repeat: -1 })
+    .to(target, { [property]: amount, duration: period / 4, ease: 'sine.out' })
+    .to(target, { [property]: -amount, duration: period / 2, ease: 'sine.inOut' })
+    .to(target, { [property]: 0, duration: period / 4, ease: 'sine.in' });
 
   const initializeConnection = () => {
     const stage = document.querySelector<HTMLElement>('[data-connection-hero]');
@@ -85,9 +157,15 @@
     const flash = stage.querySelector<HTMLElement>('.meeting-flash');
     if (!left || !right || !message || !rope || !landscape || !flash) return;
     stage.dataset.initialized = 'true';
-    const headlineWords = message.querySelectorAll('[data-headline-word]');
-    const descriptionWords = message.querySelectorAll('[data-description-word]');
+    const headlineWords = [...message.querySelectorAll<HTMLElement>('[data-headline-word]')];
+    const description = message.querySelector<HTMLElement>('[data-hero-description]')!;
     const cta = message.querySelector<HTMLElement>('.hero-cta')!;
+    const swoosh = message.querySelector<SVGPathElement>('.underline-swoosh path')!;
+    const floats = [left.querySelector<HTMLElement>('.robot-float')!, right.querySelector<HTMLElement>('.robot-float')!];
+    const prepareHeadline = () => {
+      const locale = document.body.dataset.locale || document.documentElement.lang || 'en';
+      return locale.startsWith('en') ? headlineWords.flatMap(splitIntoLetters) : headlineWords;
+    };
     const chrome = document.querySelectorAll('.site-header, .footer');
     const paths = rope.querySelectorAll('path');
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -102,64 +180,121 @@
     const state = { progress: 0, tension: 0, ripple: 0, dissolve: 0 };
     let timeline: gsap.core.Timeline | undefined;
     let imagesReady = false;
-    const waveLayers = [...stage.querySelectorAll('.wave-layer')];
-    const waveSettings = [
-      { x: 28, y: 9, duration: 68, direction: 1, offset: 0 },
-      { x: 40, y: 12, duration: 56, direction: -1, offset: Math.PI / 2 },
-      { x: 52, y: 15, duration: 44, direction: 1, offset: Math.PI },
-    ];
+    // The glass ribbons are redrawn each frame: they ripple, twist, and their reflections slide.
+    const ribbonGroups = [...stage.querySelectorAll<SVGGElement>('[data-ribbon]')].map((group) => {
+      const index = Number(group.dataset.ribbon);
+      return {
+        config: ribbons[index],
+        bodies: [...group.querySelectorAll<SVGPathElement>('[data-ribbon-part="body"]')],
+        top: group.querySelector<SVGPathElement>('[data-ribbon-part="top"]'),
+        bottom: group.querySelector<SVGPathElement>('[data-ribbon-part="bottom"]'),
+        reflection: stage.querySelector<SVGLinearGradientElement>(`#ribbon-reflection-${index}`),
+      };
+    });
+    const renderRibbons = (phase: number) => {
+      ribbonGroups.forEach(({ config, bodies, top, bottom, reflection }) => {
+        if (!config) return;
+        const shape = buildRibbon(config, phase);
+        bodies.forEach((path) => path.setAttribute('d', shape.body));
+        top?.setAttribute('d', shape.topEdge);
+        bottom?.setAttribute('d', shape.bottomEdge);
+        reflection?.setAttribute('gradientTransform', `translate(${reflectionShift(config, phase).toFixed(1)} 0)`);
+      });
+    };
     const waveTweens: gsap.core.Tween[] = [];
     const stopWaveMotion = () => {
       waveTweens.forEach((tween) => tween.kill());
       waveTweens.length = 0;
-      waveLayers.forEach((layer) => layer.removeAttribute('transform'));
+      renderRibbons(0);
     };
     const startWaveMotion = () => {
       stopWaveMotion();
       if (preference.matches) return;
-
-      waveLayers.forEach((layer, index) => {
-        const settings = waveSettings[index];
-        if (!settings) return;
-        const motion = { phase: 0 };
-        const updatePosition = () => {
-          const angle = settings.offset + motion.phase * settings.direction;
-          const x = settings.x * Math.cos(angle);
-          const y = settings.y * Math.sin(angle);
-          layer.setAttribute('transform', `translate(${x.toFixed(3)} ${y.toFixed(3)})`);
-        };
-        updatePosition();
-        waveTweens.push(gsap.to(motion, {
-          phase: Math.PI * 2,
-          duration: settings.duration,
-          ease: 'none',
-          repeat: -1,
-          onUpdate: updatePosition,
-        }));
-      });
+      const flow = { phase: 0 };
+      waveTweens.push(gsap.to(flow, {
+        phase: Math.PI * 2,
+        duration: heroMotion.ribbon.loop,
+        ease: 'none',
+        repeat: -1,
+        onUpdate: () => renderRibbons(flow.phase),
+      }));
     };
     startWaveMotion();
 
+    // Idle robots: a slow float, tilt and turn on the inner wrapper, so it never fights
+    // the intro or pointer transforms on the outer .robot element.
+    const idleLoops: gsap.core.Timeline[] = [];
+    const stopIdle = () => {
+      idleLoops.forEach((loop) => loop.kill());
+      idleLoops.length = 0;
+      gsap.set(floats, { yPercent: 0, rotation: 0, rotationY: 0 });
+    };
+    const startIdle = () => {
+      stopIdle();
+      if (preference.matches) return;
+      floats.forEach((float, index) => {
+        const idle = heroMotion.idle[index];
+        const side = index ? -1 : 1;
+        idleLoops.push(
+          sway(float, 'yPercent', -idle.float, idle.floatPeriod),
+          sway(float, 'rotation', idle.tilt * side, idle.tiltPeriod),
+          sway(float, 'rotationY', idle.turn * side, idle.turnPeriod),
+        );
+      });
+      syncLoops();
+    };
+
+    // Scroll parallax that eases toward the scroll position instead of jumping to it.
+    const scrollFollow = { active: false, current: 0, top: 0, height: 1 };
+    const measureStage = () => {
+      scrollFollow.top = stage.getBoundingClientRect().top + window.scrollY;
+      scrollFollow.height = Math.max(1, stage.offsetHeight);
+    };
+    const applyScroll = (progress: number) => {
+      const { scroll } = heroMotion;
+      gsap.set(message, { yPercent: scroll.message * progress });
+      gsap.set([left, right], { yPercent: scroll.robots * progress });
+      gsap.set(landscape, { yPercent: scroll.landscape * progress });
+    };
+    const followScroll = (_time: number, deltaTime: number) => {
+      const target = Math.min(1, Math.max(0, (window.scrollY - scrollFollow.top) / scrollFollow.height));
+      const gap = target - scrollFollow.current;
+      if (Math.abs(gap) < .0005) return;
+      const seconds = Math.min(deltaTime, 100) / 1000;
+      scrollFollow.current += gap * (1 - Math.exp(-seconds * heroMotion.scroll.chase));
+      applyScroll(scrollFollow.current);
+    };
+    const startFollow = () => {
+      if (preference.matches) return;
+      measureStage();
+      scrollFollow.active = true;
+      syncLoops();
+    };
+    const stopFollow = () => {
+      scrollFollow.active = false;
+      gsap.ticker.remove(followScroll);
+      scrollFollow.current = 0;
+      applyScroll(0);
+    };
+
+    // Loops run only while the hero is on screen and the tab is visible.
+    let inView = true;
+    let following = false;
+    function syncLoops() {
+      const run = inView && !document.hidden;
+      [...waveTweens, ...idleLoops].forEach((loop) => loop.paused(!run));
+      const follow = run && scrollFollow.active;
+      if (follow && !following) gsap.ticker.add(followScroll);
+      if (!follow && following) gsap.ticker.remove(followScroll);
+      following = follow;
+    }
+
     let introDone = false;
-    const ambientTweens: gsap.core.Tween[] = [];
     const markLive = () => {
       introDone = true;
       stage.classList.add('is-live');
-    };
-    const scrollScrub = { trigger: stage, start: 'top top', end: 'bottom top', scrub: .6 };
-    const setupAmbient = () => {
-      if (preference.matches || ambientTweens.length) return;
-      ambientTweens.push(
-        gsap.to(message, { yPercent: -6, ease: 'none', scrollTrigger: { ...scrollScrub } }),
-        gsap.to([left, right], { yPercent: 4, ease: 'none', scrollTrigger: { ...scrollScrub } }),
-        gsap.to(landscape, { yPercent: 9, ease: 'none', scrollTrigger: { ...scrollScrub } }),
-      );
-    };
-    const teardownAmbient = () => {
-      ambientTweens.forEach((tween) => tween.kill());
-      ambientTweens.length = 0;
-      gsap.set([message, landscape], { yPercent: 0 });
-      gsap.set([left, right], { x: 0, y: 0, yPercent: 0 });
+      startIdle();
+      startFollow();
     };
 
     const finePointer = window.matchMedia('(pointer: fine)');
@@ -169,8 +304,16 @@
       ziteX: gsap.quickTo(right, 'x', { duration: .7, ease: 'power3.out' }),
       ziteY: gsap.quickTo(right, 'y', { duration: .7, ease: 'power3.out' }),
     };
+    // The pointer tilt trails the cursor on a longer ease than the position parallax.
+    gsap.set([left, right, ...floats], { transformPerspective: heroMotion.perspective });
+    const tiltEase = { duration: heroMotion.pointerTilt.lag, ease: 'power3.out' };
+    const tilt = [left, right].map((robot) => ({
+      turn: gsap.quickTo(robot, 'rotationY', tiltEase),
+      pitch: gsap.quickTo(robot, 'rotationX', tiltEase),
+    }));
     const resetParallax = () => {
       parallax.ryX(0); parallax.ryY(0); parallax.ziteX(0); parallax.ziteY(0);
+      tilt.forEach(({ turn, pitch }) => { turn(0); pitch(0); });
     };
     const handleHeroPointerMove = (event: PointerEvent) => {
       if (!introDone || preference.matches || event.pointerType === 'touch') return;
@@ -180,6 +323,8 @@
       const dy = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
       parallax.ryX(dx * 8); parallax.ryY(dy * 6);
       parallax.ziteX(dx * 10); parallax.ziteY(dy * 8);
+      const { turn, pitch } = heroMotion.pointerTilt;
+      tilt.forEach((robot) => { robot.turn(dx * turn); robot.pitch(-dy * pitch); });
     };
     const handleHeroPointerLeave = () => resetParallax();
     if (finePointer.matches) {
@@ -190,13 +335,22 @@
     const handleMotionPreferenceChange = () => {
       startWaveMotion();
       if (preference.matches) {
-        teardownAmbient();
+        stopIdle();
+        stopFollow();
         resetParallax();
         if (timeline) timeline.progress(1).pause();
-      } else {
-        setupAmbient();
+      } else if (introDone) {
+        startIdle();
+        startFollow();
       }
     };
+    const handleVisibilityChange = () => syncLoops();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    const visibility = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      syncLoops();
+    });
+    visibility.observe(stage);
 
     const drawRope = () => {
       const bounds = stage.getBoundingClientRect();
@@ -235,10 +389,16 @@
       gsap.set(pullLayers, { autoAlpha: 1 });
       gsap.set(frontPoses, { autoAlpha: 0, scaleX: .95, transformOrigin: '50% 95%' });
       gsap.set(message, { autoAlpha: 0, y: 24 });
-      gsap.set(headlineWords, { autoAlpha: 0, y: 35, rotation: 3, filter: 'blur(7px)' });
-      gsap.set(descriptionWords, { autoAlpha: 0, y: 10, filter: 'blur(3px)' });
-      gsap.set(cta, { autoAlpha: 0, y: 18, scale: .94 });
-      gsap.set(stage, { '--underline-scale': 0 });
+      const { letters: letterMotion, follow } = heroMotion;
+      const headlineTargets = prepareHeadline();
+      gsap.set(headlineTargets, {
+        autoAlpha: 0,
+        y: (_index: number, element: HTMLElement) => Number.parseFloat(getComputedStyle(element).fontSize) * letterMotion.rise,
+        rotation: letterMotion.rotate,
+        filter: `blur(${letterMotion.blur}px)`,
+      });
+      gsap.set(swoosh, { strokeDashoffset: 1 });
+      gsap.set([description, cta], { autoAlpha: 0, y: follow.rise, filter: `blur(${follow.blur}px)` });
       gsap.set(shadows, { scaleX: 1, opacity: .65 });
       gsap.set(flash, { opacity: 0, scale: .6 });
       Object.assign(state, { progress: 0, tension: 0, ripple: 0, dissolve: 0 });
@@ -303,10 +463,10 @@
         }, [], finish + 1.08)
         .to(chrome, { autoAlpha: 1, y: 0, duration: .6, ease: 'power2.out' }, finish + 1.08)
         .to([left, right], { autoAlpha: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out' }, finish + 1.12)
-        .to(headlineWords, { autoAlpha: 1, y: 0, rotation: 0, filter: 'blur(0px)', duration: .7, stagger: .14, ease: 'power3.out' }, finish + 1.18)
-        .to(stage, { '--underline-scale': 1, duration: .5, ease: 'power2.out' }, finish + 1.68)
-        .to(descriptionWords, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .4, stagger: .04, ease: 'power2.out' }, finish + 1.93)
-        .to(cta, { autoAlpha: 1, y: 0, scale: 1, duration: .55, ease: 'back.out(1.4)' }, finish + 2.53);
+        // Letters rise out of each word's clip mask, the underline draws on, then the copy and CTA follow.
+        .to(headlineTargets, { autoAlpha: 1, y: 0, rotation: 0, filter: 'blur(0px)', duration: letterMotion.duration, stagger: letterMotion.stagger, ease: heroMotion.revealEase, clearProps: 'filter' }, finish + 1.18)
+        .to(swoosh, { strokeDashoffset: 0, duration: heroMotion.underline.duration, ease: 'power2.inOut' }, finish + 1.7)
+        .to([description, cta], { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: follow.duration, stagger: follow.stagger, ease: heroMotion.revealEase, clearProps: 'transform,filter' }, finish + 2.55);
       if (preference.matches || skipIntro) {
         timeline.progress(1).pause();
         document.documentElement.classList.remove('home-intro', 'home-transition');
@@ -317,15 +477,21 @@
 
     preference.addEventListener('change', handleMotionPreferenceChange);
     document.addEventListener('astro:before-swap', () => {
+      timeline?.kill();
       stopWaveMotion();
-      teardownAmbient();
+      stopIdle();
+      stopFollow();
+      visibility.disconnect();
+      resizeObserver.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       stage.removeEventListener('pointermove', handleHeroPointerMove);
       stage.removeEventListener('pointerleave', handleHeroPointerLeave);
       preference.removeEventListener('change', handleMotionPreferenceChange);
     }, { once: true });
     let resizeTimer: ReturnType<typeof setTimeout> | undefined;
     let observedWidth = stage.clientWidth;
-    new ResizeObserver(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      if (introDone) measureStage();
       if (!imagesReady) return;
       if (stage.clientWidth === observedWidth) return;
       observedWidth = stage.clientWidth;
@@ -338,7 +504,8 @@
         if (progress === 1) markLive();
         drawRope();
       }, 150);
-    }).observe(stage);
+    });
+    resizeObserver.observe(stage);
     Promise.all([...bodies, ...frontPoses].map((img) => img.decode().catch(() => {}))).then(() => {
       if (!stage.isConnected) return;
       imagesReady = true;
@@ -346,7 +513,6 @@
         try { window.sessionStorage.setItem(introSeenKey, 'true'); } catch {}
       }
       createTimeline();
-      setupAmbient();
     });
   };
   initializeConnection();
@@ -366,27 +532,24 @@
   h1 { margin: 0; color: #080c12; font-size: var(--size-h1); font-weight: 900; font-style: normal; line-height: .9; letter-spacing: -.027em; text-transform: uppercase; }
   .hero-title { font-family: var(--font-display); font-size: var(--size-h1); font-weight: 800; line-height: .95; text-transform: uppercase; }
   h1 > span, h1 > strong { display: block; }
+  /* Each headline word sits in a clip mask; padding keeps descenders, tilt and blur inside it. */
+  .word-mask { display: inline-block; overflow: hidden; padding: .08em .06em .14em; margin: -.08em -.06em -.14em; vertical-align: bottom; }
   [data-headline-word], [data-description-word] { display: inline-block; }
+  .hero-message :global(.hero-letter) { display: inline-block; }
+  .hero-message :global(.hero-sr-only) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   h1 strong { color: #064bed; font-size: 1.2em; font-weight: 400; line-height: 1; }
   .digital-line { position: relative; margin-bottom: .2em; }
-  .digital-line::after { content: ''; position: absolute; left: 22%; right: 14%; bottom: -.07em; height: 5px; background: #064bed; border-radius: 50%; transform: rotate(-2deg) scaleX(var(--underline-scale, 1)); transform-origin: left; }
+  .underline-swoosh { position: absolute; left: 22%; bottom: -.16em; width: 64%; height: .2em; overflow: visible; pointer-events: none; }
+  .underline-swoosh path { fill: none; stroke: #064bed; stroke-width: 4.5; stroke-linecap: round; stroke-dasharray: 1 1.2; }
   .hero-message p { margin: 24px 0; color: #344159; font-size: 15px; line-height: 1.45; }
   .hero-cta { display: inline-flex; align-items: center; gap: 15px; padding: 17px 30px; border-radius: 999px; background: #064bed; box-shadow: 0 9px 20px #064bed25; color: white; font-size: 17px; font-weight: 800; text-decoration: none; text-transform: uppercase; transition: background .25s ease, transform .25s ease, box-shadow .25s ease; }
   .hero-cta:hover { background: #0539b7; transform: translateY(-2px) scale(1.04); box-shadow: 0 14px 30px #064bed38; }
   .hero-cta:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
-  .landscape { position: absolute; width: 100%; height: 100%; inset: 0; z-index: -1; }
-  .wave-layer { transform-box: fill-box; transform-origin: center; will-change: transform; }
-  .floor-glow { position: absolute; bottom: 0; width: 100%; height: 26%; background: radial-gradient(ellipse at 50% 10%, #b4f9ffb3, #599cfb40 60%, transparent 80%); }
+  .landscape { position: absolute; width: 100%; max-width: none; height: 100%; inset: 0; z-index: -1; }
+  .ribbon--back { opacity: .6; }
+  .floor-glow { position: absolute; bottom: 0; width: 100%; height: 26%; background: radial-gradient(ellipse 60% 80% at 50% 100%, #b4e4ff66, transparent 72%); pointer-events: none; }
   .robot { position: absolute; z-index: 2; bottom: 9%; width: 29%; aspect-ratio: 1180 / 1333; transform-origin: 50% 95%; will-change: transform; }
-  .robot-float { position: absolute; inset: 0; transform-origin: 50% 95%; }
-  .connection-stage.is-live .robot-ry .robot-float { --float-y: 9px; --float-r: 1deg; animation: robot-float 4.6s ease-in-out infinite; }
-  .connection-stage.is-live .robot-zite .robot-float { --float-y: 11px; --float-r: 1.2deg; animation: robot-float 5.5s ease-in-out -2.4s infinite; }
-  @keyframes robot-float {
-    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-    25% { transform: translate3d(0, calc(var(--float-y) * -.75), 0) rotate(calc(var(--float-r) * -.7)); }
-    50% { transform: translate3d(0, calc(var(--float-y) * -1), 0) rotate(calc(var(--float-r) * -1)); }
-    75% { transform: translate3d(0, calc(var(--float-y) * -.35), 0) rotate(calc(var(--float-r) * .6)); }
-  }
+  .robot-float { position: absolute; inset: 0; transform-origin: 50% 95%; will-change: transform; }
   .ground-shadow { position: absolute; bottom: -1%; left: 12%; width: 76%; height: 5%; background: #174ecb55; filter: blur(10px); border-radius: 50%; z-index: -1; }
   .robot-ry { left: 3%; }
   .robot-zite { right: 3%; }
@@ -406,18 +569,19 @@
   .meeting-flash { position: absolute; z-index: 1; width: 34%; height: 55%; left: 33%; top: 28%; border-radius: 50%; background: radial-gradient(ellipse, #efffff, #85e9ff70 35%, transparent 70%); opacity: 0; pointer-events: none; }
   @media (max-width: 800px) {
     .connection-stage { height: clamp(780px, 100svh, 920px); }
+    /* Show a wider, centred slice of the ribbon so it is not squeezed into narrow screens. */
+    .landscape { width: 220%; left: -60%; }
     .hero-message { top: 13%; left: 6%; width: 88%; }
     .hero-message p { margin: 22px 0; }
     .robot { width: 39%; bottom: 5%; }
     .robot-ry { left: -2%; }
     .robot-zite { right: -2%; }
-    .connection-stage.is-live .robot-ry .robot-float { --float-y: 5px; --float-r: .7deg; }
-    .connection-stage.is-live .robot-zite .robot-float { --float-y: 6px; --float-r: .8deg; }
     .rope-body { stroke-width: 7px; }
     .rope-light { stroke-width: 2px; }
     .desktop-break { display: none; }
   }
   @media (max-width: 500px) {
+    .landscape { width: 300%; left: -100%; }
     .connection-stage {
       height: calc(100vh - 70px);
       min-height: min(460px, calc(100vh - 70px));
@@ -460,13 +624,12 @@
   :global(html[lang="ta"]) .hero-title, :global(html[lang="si"]) .hero-title { font-size: clamp(1.5rem, 3.2vw, 3.4rem); line-height: 1.3; letter-spacing: 0; overflow-wrap: anywhere; }
   :global(html[lang="ta"]) .hero-title strong, :global(html[lang="si"]) .hero-title strong { font-size: 1.1em; line-height: 1.3; }
   :global(html[lang="ta"]) .digital-line, :global(html[lang="si"]) .digital-line { margin-bottom: .22em; }
-  :global(html[lang="ta"]) .digital-line::after, :global(html[lang="si"]) .digital-line::after { bottom: -.14em; height: 4px; }
+  :global(html[lang="ta"]) .underline-swoosh, :global(html[lang="si"]) .underline-swoosh { bottom: -.24em; }
   :global(html[lang="ta"]) .hero-message p, :global(html[lang="si"]) .hero-message p { line-height: 1.6; }
   @media (max-width: 800px) {
     :global(html[lang="ta"]) .hero-title, :global(html[lang="si"]) .hero-title { font-size: clamp(1.25rem, 6.2vw, 3rem); }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-marquee-track { animation: none; }
-    .robot-float { animation: none !important; }
   }
 </style>

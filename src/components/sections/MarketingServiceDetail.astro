@@ -74,7 +74,6 @@ const detailTranslations = Object.fromEntries(
       <div class="marketing-shell marketing-detail-hero__inner">
         <div class="marketing-detail-hero__copy">
           <a class="marketing-detail-back" href="/services/"><span aria-hidden="true">←</span><span data-marketing-key="backToServices">{copy.backToServices}</span></a>
-          <p class="marketing-eyebrow" data-marketing-key="detailLabel">{copy.detailLabel}</p>
           <h1 id="marketing-detail-title" data-marketing-service-field="title">{translatedService.title}</h1>
           <h2 class="marketing-detail-hero__subheading" data-marketing-template-key="detailHeading">{copy.detailHeading.replace('{focus}', translatedService.focus)}</h2>
           <p class="marketing-detail-hero__description" data-marketing-service-field="description">{translatedService.description}</p>
@@ -97,7 +96,6 @@ const detailTranslations = Object.fromEntries(
     <section class="marketing-detail-section marketing-challenge-section" aria-labelledby="marketing-challenges-title">
       <div class="marketing-shell marketing-detail-split">
         <header class="marketing-detail-heading" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="challengesEyebrow">{copy.challengesEyebrow}</p>
           <h2 id="marketing-challenges-title" data-marketing-key="challengesTitle">{copy.challengesTitle}</h2>
           <p class="marketing-detail-lead" data-marketing-template-key="challengesIntro">{copy.challengesIntro.replace('{focus}', translatedService.focus)}</p>
         </header>
@@ -116,7 +114,6 @@ const detailTranslations = Object.fromEntries(
       <div class="marketing-shell marketing-provides-layout">
         <div class="marketing-provides-mark" aria-hidden="true">{service.icon}</div>
         <div data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="providesEyebrow">{copy.providesEyebrow}</p>
           <h2 id="marketing-provides-title" data-marketing-key="providesTitle">{copy.providesTitle}</h2>
           <p class="marketing-provides-copy" data-marketing-template-key="detailSupporting">{copy.detailSupporting}</p>
           <p class="marketing-proposed-note" data-marketing-key="scopeDisclaimer">{copy.scopeDisclaimer}</p>
@@ -127,7 +124,6 @@ const detailTranslations = Object.fromEntries(
     <section class="marketing-detail-section marketing-capabilities-section" aria-labelledby="marketing-capabilities-title">
       <div class="marketing-shell">
         <header class="marketing-detail-heading marketing-detail-heading--center" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="proposedScope">{copy.proposedScope}</p>
           <h2 id="marketing-capabilities-title" data-marketing-key="capabilitiesTitle">{copy.capabilitiesTitle}</h2>
         </header>
         <div class="marketing-capability-grid">
@@ -146,7 +142,6 @@ const detailTranslations = Object.fromEntries(
     <section class="marketing-detail-section marketing-benefits-section" aria-labelledby="marketing-benefits-title">
       <div class="marketing-shell">
         <header class="marketing-detail-heading marketing-detail-heading--center" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="benefitsEyebrow">{copy.benefitsEyebrow}</p>
           <h2 id="marketing-benefits-title" data-marketing-key="benefitsTitle">{copy.benefitsTitle}</h2>
         </header>
         <ul class="marketing-benefit-grid">
@@ -163,7 +158,6 @@ const detailTranslations = Object.fromEntries(
     <section class="marketing-detail-section marketing-approach-section" aria-labelledby="marketing-approach-title">
       <div class="marketing-shell">
         <header class="marketing-detail-heading marketing-detail-heading--center" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="approachEyebrow">{copy.approachEyebrow}</p>
           <h2 id="marketing-approach-title" data-marketing-key="approachTitle">{copy.approachTitle}</h2>
           <p class="marketing-detail-lead" data-marketing-key="approachIntro">{copy.approachIntro}</p>
         </header>
@@ -184,7 +178,6 @@ const detailTranslations = Object.fromEntries(
     <section class="marketing-detail-section marketing-related-section" aria-labelledby="marketing-related-title">
       <div class="marketing-shell">
         <header class="marketing-detail-heading" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="relatedEyebrow">{copy.relatedEyebrow}</p>
           <h2 id="marketing-related-title" data-marketing-key="relatedTitle">{copy.relatedTitle}</h2>
         </header>
         <div class="marketing-related-grid">
@@ -203,7 +196,6 @@ const detailTranslations = Object.fromEntries(
     <section class="marketing-detail-section marketing-detail-faq-section" aria-labelledby="marketing-detail-faq-title">
       <div class="marketing-shell marketing-detail-faq-layout">
         <header class="marketing-detail-heading" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="faqEyebrow">{copy.faqEyebrow}</p>
           <h2 id="marketing-detail-faq-title" data-marketing-key="detailFaqTitle">{copy.detailFaqTitle}</h2>
         </header>
         <div class="marketing-detail-faq-list" data-marketing-reveal>
@@ -222,7 +214,6 @@ const detailTranslations = Object.fromEntries(
     <section class="marketing-detail-cta" aria-labelledby="marketing-contact-cta-title">
       <div class="marketing-detail-cta__orb" aria-hidden="true"></div>
       <div class="marketing-detail-cta__inner" data-marketing-reveal>
-        <p class="marketing-eyebrow" data-marketing-key="contactCtaEyebrow">{copy.contactCtaEyebrow}</p>
         <h2 id="marketing-contact-cta-title" data-marketing-key="contactCtaTitle">{copy.contactCtaTitle}</h2>
         <p data-marketing-key="contactCtaDescription">{copy.contactCtaDescription}</p>
         <a class="marketing-button marketing-button--light" href={contactUrl}>
