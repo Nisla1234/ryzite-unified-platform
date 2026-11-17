@@ -1,11 +1,13 @@
 ---
+// Material Symbols (outlined, 24px), in order: credit_card_off, personal_bag_off, reduce_capacity,
+// call_to_action, event_repeat, flag. Filled paths, coloured via currentColor.
 const challenges = [
-  { title: 'No Strong Online Presence', description: 'Your business is hard to find and feels less trustworthy.', icon: 'M4 4h16v16H4z M4 8h16 M9 12l6 5 M15 12l-6 5' },
-  { title: 'Not Getting Enough Customers', description: 'Low visibility and limited online reach.', icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75' },
-  { title: 'Marketing Isn’t Delivering Results', description: 'You spend time and budget but see little growth.', icon: 'M3 17l6-6 4 4 8-10 M15 5h6v6 M5 21v-3 M11 21v-2 M17 21v-7' },
-  { title: 'Outdated or Non-Mobile Website', description: 'Your site doesn’t look modern or work well on all devices.', icon: 'M14 16H2V3h19v6 M5 21h7 M8 16v5 M16 11h6v11h-6z' },
-  { title: 'Too Many Manual Tasks', description: 'Daily business operations take too much time and effort.', icon: 'M9 3h6l1 4 4 1v6l-4 1-1 4H9l-1-4-4-1V8l4-1z M15 11a3 3 0 1 0-6 0 3 3 0 0 0 6 0' },
-  { title: 'Unclear Digital Strategy', description: 'You’re not sure what to do next to grow online.', icon: 'M21 12a9 9 0 1 1-9-9 M17 12a5 5 0 1 1-5-5 M12 12l9-9 M16 3h5v5' },
+  { title: 'No Strong Online Presence', description: 'Your business is hard to find and feels less trustworthy.', icon: 'M21.78,18.93L20,17.15V12H14.85l-4-4H20V6H8.85l-2-2H20q0.83,0 1.41,0.59Q22,5.18 22,6V18q0,0.25-0.05,0.49t-0.18,0.44ZM9.63,12.45Zm4.8-0.88ZM9.15,12H4v6H15.15l-6-6Zm11.3,11.3L17.15,20H4q-0.82,0-1.41-0.59T2,18V6Q2,5.18 2.59,4.59T4,4L6,6H4V8H5.15L0.65,3.5L2.08,2.07l19.8,19.8L20.45,23.3Z' },
+  { title: 'Not Getting Enough Customers', description: 'Low visibility and limited online reach.', icon: 'M12,2q1.28,0 2.14,0.94T15,5.15V5.7q1.78,0.82 2.89,2.5T19,12v4.15l-2-2V12q0-2.08-1.46-3.54T12,7q-0.5,0-0.94,0.1T10.2,7.35L9,6.15V5Q9,3.75 9.88,2.88T12,2ZM11.29,4.29Q11,4.57 11,5V5.1q0.28-0.05 0.5-0.07T12,5q0.28,0 0.5,0.02T13,5.1V5q0-0.43-0.29-0.71T12,4T11.29,4.29ZM19.8,22.6L11.15,14H8V12H9.15l-1.8-1.8Q7.2,10.63 7.1,11.06T7,12v8H17V17l2,2v1q0,0.82-0.59,1.41T17,22H7q-0.82,0-1.41-0.59T5,20V12q0-0.9 0.21-1.74T5.85,8.7L1.4,4.2L2.8,2.8L21.2,21.2l-1.4,1.4ZM13.6,10.58ZM11.15,14ZM12,15.1Z' },
+  { title: 'Marketing Isn’t Delivering Results', description: 'You spend time and budget but see little growth.', icon: 'M3,22V21.43q0-0.6 0.33-1.1t0.9-0.75q0.65-0.27 1.34-0.43T7,19t1.44,0.15t1.34,0.43q0.58,0.25 0.9,0.75T11,21.43V22H3Zm10,0V21.43q0-0.6 0.33-1.1t0.9-0.75q0.65-0.27 1.34-0.43T17,19t1.44,0.15t1.34,0.43q0.57,0.25 0.9,0.75T21,21.43V22H13ZM7,18q-0.82,0-1.41-0.59T5,16t0.59-1.41T7,14q0.83,0 1.41,0.59T9,16T8.41,17.41Q7.83,18 7,18Zm10,0q-0.82,0-1.41-0.59T15,16t0.59-1.41T17,14t1.41,0.59T19,16t-0.59,1.41T17,18Zm-5-2L9,13l1.05-1.05l1.2,1.18V11h1.5v2.13l1.2-1.18L15,13l-3,3ZM2,10V9.42q0-0.6 0.33-1.1t0.9-0.75Q3.88,7.3 4.56,7.15T6,7Q6.5,7 6.99,7.07t0.94,0.2Q7.5,7.7 7.25,8.25T7,9.42V10H2Zm6,0V9.42q0-0.6 0.33-1.1t0.9-0.75Q9.88,7.3 10.56,7.15T12,7t1.44,0.15t1.34,0.43q0.58,0.25 0.9,0.75T16,9.42V10H8Zm9,0V9.42q0-0.63-0.25-1.17T16.08,7.27q0.45-0.13 0.94-0.2T18,7q0.75,0 1.44,0.15t1.34,0.43q0.57,0.25 0.9,0.75T22,9.42V10H17ZM6,6Q5.18,6 4.59,5.41T4,4Q4,3.17 4.59,2.59T6,2Q6.83,2 7.41,2.59T8,4Q8,4.82 7.41,5.41T6,6Zm6,0q-0.82,0-1.41-0.59T10,4q0-0.83 0.59-1.41T12,2t1.41,0.59T14,4q0,0.82-0.59,1.41T12,6Zm6,0q-0.82,0-1.41-0.59T16,4q0-0.83 0.59-1.41T18,2t1.41,0.59T20,4q0,0.82-0.59,1.41T18,6Z' },
+  { title: 'Outdated or Non-Mobile Website', description: 'Your site doesn’t look modern or work well on all devices.', icon: 'M6,17H18V14H6v3ZM4,20q-0.82,0-1.41-0.59T2,18V6Q2,5.18 2.59,4.59T4,4H20q0.83,0 1.41,0.59Q22,5.18 22,6V18q0,0.82-0.59,1.41T20,20H4Zm0-2H20V6H4V18Zm0,0V6V18Z' },
+  { title: 'Too Many Manual Tasks', description: 'Daily business operations take too much time and effort.', icon: 'M5,22q-0.83,0-1.41-0.59T3,20V6Q3,5.18 3.59,4.59T5,4H6V2H8V4h8V2h2V4h1q0.83,0 1.41,0.59Q21,5.18 21,6v6H19V10H5V20h7v2H5Zm14,2q-1.82,0-3.19-1.14T14.1,20h1.55q0.33,1.1 1.24,1.8T19,22.5q1.45,0 2.48-1.02T22.5,19t-1.02-2.48T19,15.5q-0.72,0-1.35,0.26t-1.1,0.74H18V18H14V14h1.5v1.42q0.68-0.65 1.57-1.04Q17.98,14 19,14q2.08,0 3.54,1.46T24,19t-1.46,3.54T19,24ZM5,8H19V6H5V8ZM5,8V6V8Z' },
+  { title: 'Unclear Digital Strategy', description: 'You’re not sure what to do next to grow online.', icon: 'M5,21V4h9l0.4,2H20V16H13l-0.4-2H7v7H5Zm7.5-11Zm2.15,4H18V8H12.75l-0.4-2H7v6h7.25l0.4,2Z' },
 ];
 ---
 
@@ -20,7 +22,7 @@ const challenges = [
     <ul class="challenge-list">
       {challenges.map((challenge, index) => (
         <li class:list={['challenge-card', index < 3 ? 'from-left' : 'from-right']} style={`--order:${index % 3};--tilt:${[-7, 2, -4, -7, 1, 5][index]}deg`}>
-          <span class="challenge-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={challenge.icon} /></svg></span>
+          <span class="challenge-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d={challenge.icon} /></svg></span>
           <div><h3 data-home-key={`challenges.${index}.title`}>{challenge.title}</h3><p data-home-key={`challenges.${index}.description`}>{challenge.description}</p></div>
         </li>
       ))}

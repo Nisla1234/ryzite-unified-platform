@@ -2,12 +2,13 @@
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 
 const copy = homeSectionsTranslations.en.connected;
+// Material Symbols (outlined, 24px): home, target, link, electric_bolt, trending_up. Filled paths, coloured via currentColor.
 const highlightIcons = [
-  'M3 21h18 M5 21V10l7-6 7 6v11 M9 21v-6h6v6',
-  'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2z',
-  'M9 7H6a5 5 0 0 0 0 10h3 M15 7h3a5 5 0 0 1 0 10h-3 M8 12h8',
-  'M13 2 4 14h7l-1 8 9-12h-7z',
-  'M3 17l6-6 4 4 8-8 M15 7h6v6',
+  'M6,19H9V13h6v6h3V10L12,5.5L6,10v9ZM4,21V9l8-6l8,6V21H13V15H11v6H4Zm8-8.75Z',
+  'M8.1,21.21q-1.82-0.79-3.17-2.14Q3.58,17.73 2.79,15.9T2,12Q2,9.92 2.79,8.1Q3.58,6.27 4.93,4.93Q6.28,3.57 8.1,2.79Q9.93,2 12,2t3.9,0.79t3.17,2.14q1.35,1.35 2.14,3.17Q22,9.92 22,12t-0.79,3.9t-2.14,3.17q-1.35,1.35-3.17,2.14T12,22q-2.07,0-3.9-0.79Zm9.58-3.54Q20,15.35 20,12T17.68,6.32T12,4T6.33,6.32T4,12t2.33,5.68T12,20t5.68-2.32ZM7.75,16.25Q6,14.5 6,12T7.75,7.75T12,6t4.25,1.75T18,12t-1.75,4.25T12,18T7.75,16.25Zm7.08-1.43Q16,13.65 16,12T14.83,9.17T12,8T9.18,9.17T8,12t1.18,2.82T12,16t2.83-1.18Zm-4.24-1.41Q10,12.83 10,12t0.59-1.41T12,10t1.41,0.59Q14,11.18 14,12t-0.59,1.41T12,14t-1.41-0.59Z',
+  'M11,17H7q-2.07,0-3.54-1.46T2,12Q2,9.92 3.46,8.46T7,7h4V9H7Q5.75,9 4.88,9.88T4,12t0.88,2.13T7,15h4v2ZM8,13V11h8v2H8Zm5,4V15h4q1.25,0 2.13-0.88T20,12T19.13,9.88T17,9H13V7h4q2.07,0 3.54,1.46T22,12t-1.46,3.54T17,17H13Z',
+  'M7,22l4-7.5l-8-1L15,2h2L13,9.5l8,1L9,22H7Zm5.55-6.18l4.02-3.85L9.85,11.13L11.43,8.2l-4,3.85l6.7,0.83l-1.57,2.95ZM12,12Z',
+  'M3.4,18L2,16.6L9.4,9.15l4,4L18.6,8H16V6h6v6H20V9.4L13.4,16l-4-4l-6,6Z',
 ];
 ---
 
@@ -55,7 +56,7 @@ const highlightIcons = [
     <ul class="connected-highlights">
       {copy.highlights.map((highlight, index) => (
         <li class="hs-card" data-hs-reveal data-hs-delay={index * 0.08}>
-          <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={highlightIcons[index]} /></svg></span>
+          <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d={highlightIcons[index]} /></svg></span>
           <span data-home-key={`sections.connected.highlights.${index}`}>{highlight}</span>
         </li>
       ))}

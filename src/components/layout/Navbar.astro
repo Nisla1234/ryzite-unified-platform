@@ -74,7 +74,7 @@ const labels = {
               {serviceColumns.map((column) => (
                 <ul class="services-menu__column">
                   {column.map(([title]) => (
-                    <li><a href={`/services/#${offeringSlug(title)}`} data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
+                    <li><a href={`/services/${offeringSlug(title)}/`} data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
                   ))}
                 </ul>
               ))}
@@ -149,7 +149,7 @@ const labels = {
                 <summary><span data-label-key={key}>Services</span></summary>
                 <ul>
                   {services.map(([title]) => (
-                    <li><a href={`/services/#${offeringSlug(title)}`} data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
+                    <li><a href={`/services/${offeringSlug(title)}/`} data-home-offering="services" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
                   ))}
                 </ul>
               </details>
