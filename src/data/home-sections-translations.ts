@@ -31,7 +31,7 @@ export type HomeSectionsCopy = {
     highlights: string[];
   };
   packages: { eyebrow: string; title: string; intro: string; suitableLabel: string; suitable: string[]; cta: string };
-  payments: { eyebrow: string; title: string; intro: string; steps: Copy[]; note: string };
+  payments: { eyebrow: string; title: string; intro: string; steps: Copy[] };
   process: { eyebrow: string; title: string; cta: string };
   trust: { eyebrow: string; title: string; intro: string; items: Copy[] };
   faq: { eyebrow: string; title: string; items: { question: string; answer: string }[] };
@@ -100,7 +100,6 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
         { title: 'Milestone Payments', body: 'Payments linked to agreed project milestones, where your proposal includes them.' },
         { title: 'Final Payment & Handover', body: 'A final payment on completion, followed by the agreed project handover.' },
       ],
-      note: 'Payment amounts, schedules, and milestones will be discussed and confirmed in your individual project proposal.',
     },
     process: {
       eyebrow: 'HOW WE WORK',
@@ -199,7 +198,6 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
         { title: 'கட்டவாரியான கட்டணங்கள்', body: 'உங்கள் முன்மொழிவில் சேர்க்கப்பட்டிருந்தால், ஒப்புக்கொண்ட திட்டக் கட்டங்களுடன் இணைந்த கட்டணங்கள்.' },
         { title: 'இறுதிக் கட்டணம் & ஒப்படைப்பு', body: 'திட்டம் நிறைவடைந்ததும் இறுதிக் கட்டணம், அதைத் தொடர்ந்து ஒப்புக்கொண்ட திட்ட ஒப்படைப்பு.' },
       ],
-      note: 'கட்டணத் தொகைகள், அட்டவணைகள் மற்றும் கட்டங்கள் உங்கள் தனிப்பட்ட திட்ட முன்மொழிவில் விவாதிக்கப்பட்டு உறுதிப்படுத்தப்படும்.',
     },
     process: {
       eyebrow: 'நாங்கள் பணியாற்றும் விதம்',
@@ -298,7 +296,6 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
         { title: 'අදියර ගෙවීම්', body: 'ඔබේ යෝජනාවට ඇතුළත් නම්, එකඟ වූ ව්‍යාපෘති අදියරවලට සම්බන්ධ ගෙවීම්.' },
         { title: 'අවසන් ගෙවීම සහ භාරදීම', body: 'ව්‍යාපෘතිය අවසන් වූ පසු අවසන් ගෙවීමක්, ඉන්පසු එකඟ වූ ව්‍යාපෘති භාරදීම.' },
       ],
-      note: 'ගෙවීම් මුදල්, කාලසටහන් සහ අදියර ඔබේ පුද්ගලික ව්‍යාපෘති යෝජනාවේ සාකච්ඡා කර තහවුරු කෙරේ.',
     },
     process: {
       eyebrow: 'අප වැඩ කරන ආකාරය',

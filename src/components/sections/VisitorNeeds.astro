@@ -1,13 +1,14 @@
 ---
 // Full-bleed image panels: large vertical title, step label, then question + description at the bottom.
-// Images reuse /images/solutions artwork, shifted to the brand blue. [PROPOSAL] layout pending client review.
-type Need = { lead: string; title: string; description: string; href: string; kind: string; image: string };
+// Cover images in /images/needs were supplied by the client (portrait art). [PROPOSAL] layout pending client review.
+// [OPEN] Confirm usage rights for these images; the website and e-commerce covers carry a third-party "REN" mark.
+type Need = { lead: string; title: string; description: string; href: string; kind: string; image: string; width: number; height: number };
 
 const needs: Need[] = [
-  { lead: 'Need a', title: 'Website?', description: 'Create a powerful online presence with a modern, responsive website designed for your business.', href: '/solutions', kind: 'website', image: '/images/solutions/website.webp' },
-  { lead: 'Ready for', title: 'E-Commerce?', description: 'Launch your online store, reach more customers, and grow your business with smart e-commerce solutions.', href: '/solutions', kind: 'store', image: '/images/solutions/store.webp' },
-  { lead: 'Want to Grow', title: 'Your Brand?', description: 'Build a stronger brand identity and connect with your audience through creative digital solutions.', href: '/services', kind: 'brand', image: '/images/solutions/design.webp' },
-  { lead: 'Have an Idea to', title: 'Build?', description: 'Turn your unique ideas into powerful digital solutions tailored to your business needs.', href: '/contact', kind: 'custom', image: '/images/solutions/software.webp' },
+  { lead: 'Need a', title: 'Website?', description: 'Create a powerful online presence with a modern, responsive website designed for your business.', href: '/solutions', kind: 'website', image: '/images/needs/need-website.webp', width: 736, height: 1173 },
+  { lead: 'Ready for', title: 'E-Commerce?', description: 'Launch your online store, reach more customers, and grow your business with smart e-commerce solutions.', href: '/solutions', kind: 'store', image: '/images/needs/need-ecommerce.webp', width: 736, height: 1104 },
+  { lead: 'Want to Grow', title: 'Your Brand?', description: 'Build a stronger brand identity and connect with your audience through creative digital solutions.', href: '/services', kind: 'brand', image: '/images/needs/need-brand.webp', width: 736, height: 1308 },
+  { lead: 'Have an Idea to', title: 'Build?', description: 'Turn your unique ideas into powerful digital solutions tailored to your business needs.', href: '/contact', kind: 'custom', image: '/images/needs/need-build.webp', width: 736, height: 1318 },
 ];
 ---
 
@@ -20,7 +21,7 @@ const needs: Need[] = [
   <div class="needs-grid" data-hs-reveal="needs-drop">
     {needs.map((need, index) => (
       <a class:list={['need-card', need.kind]} href={need.href} data-need-card>
-        <img class="need-media" src={need.image} alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+        <img class="need-media" src={need.image} alt="" width={need.width} height={need.height} loading="lazy" decoding="async" />
         <span class="need-overlay" aria-hidden="true"></span>
 
         <span class="need-vertical" aria-hidden="true" data-home-key={`visitorNeeds.${index}.title`}>{need.title}</span>
@@ -76,8 +77,6 @@ const needs: Need[] = [
   .need-media {
     position: absolute; inset: 0; z-index: -2;
     width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%;
-    /* Source art is violet (~260° hue); rotate it onto the brand royal blue (~221°). */
-    filter: hue-rotate(-40deg) saturate(1.15) brightness(.95);
     transition: transform .7s ease;
   }
   .need-overlay {
