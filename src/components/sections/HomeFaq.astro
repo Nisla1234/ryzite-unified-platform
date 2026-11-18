@@ -1,4 +1,7 @@
 ---
+// [PROPOSAL] Chat-style FAQ (client brief 2026-11-18): big condensed title with the RYZITE robot on
+// the left; questions as pills on the right, the open answer shown as a reply bubble from RYZITE.
+// Uses native <details> so it works with the keyboard and without JavaScript.
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 
 const copy = homeSectionsTranslations.en.faq;
@@ -6,16 +9,22 @@ const copy = homeSectionsTranslations.en.faq;
 
 <section class="hs-section hs-section--pale home-faq" aria-labelledby="home-faq-title">
   <div class="hs-shell home-faq__layout">
-    <header class="hs-heading hs-heading--start" data-hs-reveal>
-      <h2 id="home-faq-title" class="hs-bicolor" data-home-key="sections.faq.title">{copy.title}</h2>
+    <header class="home-faq__intro" data-hs-reveal>
+      <p class="home-faq__eyebrow" data-home-key="sections.faq.eyebrow">{copy.eyebrow}</p>
+      <h2 id="home-faq-title" class="home-faq__title" data-home-key="sections.faq.title">{copy.title}</h2>
+      <img class="home-faq__robot" src="/images/hero/ry-front-plain.webp" alt="" width="1180" height="1333" loading="lazy" decoding="async" />
     </header>
 
     <div class="home-faq__list" data-hs-reveal>
       {copy.items.map((item, index) => (
         <details class="home-faq__item" name="home-faq" open={index === 0}>
           <summary><span data-home-key={`sections.faq.items.${index}.question`}>{item.question}</span></summary>
-          <div class="home-faq__answer">
-            <p data-home-key={`sections.faq.items.${index}.answer`}>{item.answer}</p>
+          <div class="home-faq__reply">
+            <p class="home-faq__bubble" data-home-key={`sections.faq.items.${index}.answer`}>{item.answer}</p>
+            <span class="home-faq__sender" aria-hidden="true">
+              <span class="home-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+              <span class="home-faq__name">RYZITE</span>
+            </span>
           </div>
         </details>
       ))}
@@ -24,19 +33,195 @@ const copy = homeSectionsTranslations.en.faq;
 </section>
 
 <style>
-  .home-faq { interpolate-size: allow-keywords; }
-  .home-faq__layout { display: grid; grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 5rem); }
-  .home-faq__list { display: grid; gap: .75rem; }
-  .home-faq__item { border: 1px solid var(--hs-line); border-radius: var(--radius-small); background: #fff; transition: border-color var(--duration-fast), box-shadow var(--duration-fast); }
-  .home-faq__item[open] { border-color: #a9c8fb; box-shadow: 0 10px 24px #0655e914; }
-  .home-faq__item summary { position: relative; display: flex; align-items: center; min-height: 3.75rem; padding: 1rem 3.25rem 1rem 1.25rem; color: var(--hs-ink); cursor: pointer; font-size: var(--size-body); font-weight: 600; line-height: 1.45; list-style: none; border-radius: inherit; }
+  .home-faq {
+    --faq-blue: #0655e9;
+    --faq-deep: #0643cf;
+    --faq-pill: #e4ecfb;
+    --faq-pill-hover: #d8e4fa;
+  }
+
+  .home-faq__layout {
+    display: grid;
+    grid-template-columns: minmax(240px, .85fr) minmax(0, 1.15fr);
+    align-items: start;
+    gap: clamp(2rem, 6vw, 5.5rem);
+  }
+
+  /* Left: label, big condensed title, robot. Sticks while the questions scroll past. */
+  .home-faq__intro {
+    position: sticky;
+    top: 110px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .home-faq__eyebrow {
+    margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+    color: var(--hs-ink);
+    font-size: var(--size-small);
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+
+  .home-faq__title {
+    margin: 0;
+    color: var(--hs-ink);
+    font-family: 'Fira Sans Extra Condensed', var(--font-heading);
+    font-size: clamp(3rem, 6.2vw, 5.6rem);
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: .92;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  :global(html[lang='ta']) .home-faq__title,
+  :global(html[lang='si']) .home-faq__title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  .home-faq__robot {
+    display: block;
+    width: min(62%, 260px);
+    height: auto;
+    margin-top: clamp(2rem, 5vw, 4rem);
+    filter: drop-shadow(0 18px 24px #0655e926);
+  }
+
+  /* Right: questions as pills. */
+  .home-faq__list {
+    display: grid;
+    gap: .85rem;
+  }
+
+  .home-faq__item summary {
+    display: flex;
+    align-items: center;
+    min-height: 3.6rem;
+    padding: .9rem 1.6rem;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    background: var(--faq-pill);
+    color: var(--hs-ink);
+    cursor: pointer;
+    font-size: var(--size-body);
+    font-weight: 500;
+    line-height: 1.4;
+    list-style: none;
+    transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, width var(--duration-medium) var(--ease-out);
+  }
+
   .home-faq__item summary::-webkit-details-marker { display: none; }
-  .home-faq__item summary::after { content: ''; position: absolute; top: 50%; right: 1.35rem; width: .6rem; height: .6rem; border-right: 2px solid var(--hs-blue); border-bottom: 2px solid var(--hs-blue); transform: translateY(-70%) rotate(45deg); transition: transform var(--duration-fast) var(--ease-out); }
-  .home-faq__item[open] summary::after { transform: translateY(-25%) rotate(225deg); }
-  .home-faq__item summary:focus-visible { outline: 3px solid var(--hs-blue); outline-offset: 3px; }
-  .home-faq__item::details-content { block-size: 0; overflow: hidden; transition: block-size var(--duration-medium) var(--ease-out), content-visibility var(--duration-medium) allow-discrete; }
-  .home-faq__item[open]::details-content { block-size: auto; }
-  .home-faq__answer p { margin: 0; padding: 0 1.25rem 1.2rem; color: var(--hs-muted); font-size: 1.0312rem; line-height: 1.7; }
-  @media (max-width: 860px) { .home-faq__layout { grid-template-columns: 1fr; gap: 1.5rem; } .home-faq .hs-heading { margin-bottom: 0; } }
-  @media (prefers-reduced-motion: reduce) { .home-faq__item, .home-faq__item::details-content, .home-faq__item summary::after { transition: none; } }
+
+  .home-faq__item summary:hover { background: var(--faq-pill-hover); }
+
+  .home-faq__item summary:focus-visible {
+    outline: 3px solid var(--faq-blue);
+    outline-offset: 3px;
+  }
+
+  /* Open question: outlined pill that shrinks to its text, like a sent message. */
+  .home-faq__item[open] summary {
+    width: fit-content;
+    max-width: 100%;
+    border-color: var(--faq-blue);
+    background: #eef3fe;
+    color: var(--faq-deep);
+  }
+
+  /* Answer: reply bubble on the right with the RYZITE avatar. */
+  .home-faq__reply {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: .75rem;
+    margin: .75rem 0 .35rem;
+    padding-left: clamp(1rem, 12%, 6rem);
+  }
+
+  .home-faq__bubble {
+    margin: 0;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid #d3def5;
+    border-radius: 1.6rem 1.6rem .4rem 1.6rem;
+    background: #fff;
+    box-shadow: 0 12px 28px #0655e912;
+    color: var(--hs-muted);
+    font-size: 1.0312rem;
+    line-height: 1.65;
+  }
+
+  /* Sender: robot-head avatar with the RYZITE name, like a chat reply. */
+  .home-faq__sender {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: .3rem;
+  }
+
+  .home-faq__avatar {
+    display: block;
+    width: 4.8rem;
+    height: 4.8rem;
+    overflow: hidden;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 35%, #ffffff 0 30%, #dce8ff 75%);
+    box-shadow: 0 8px 18px #0655e933;
+  }
+
+  .home-faq__avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 15%;
+    transform: scale(1.18) translateY(6%);
+  }
+
+  .home-faq__name {
+    color: var(--faq-blue);
+    font-family: 'Fira Sans Extra Condensed', var(--font-heading);
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+  }
+
+  .home-faq__item[open] .home-faq__bubble { animation: faq-bubble 420ms var(--ease-out) both; }
+  .home-faq__item[open] .home-faq__sender { animation: faq-avatar 420ms var(--ease-out) 120ms both; }
+
+  @keyframes faq-bubble {
+    from { opacity: 0; transform: translateY(10px) scale(.97); transform-origin: 100% 100%; }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes faq-avatar {
+    from { opacity: 0; transform: scale(.6); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 860px) {
+    .home-faq__layout { grid-template-columns: 1fr; gap: 2rem; }
+    .home-faq__intro { position: static; }
+    .home-faq__robot { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .home-faq__item summary { padding: .85rem 1.2rem; border-radius: 1.4rem; font-size: 1rem; }
+    .home-faq__reply { padding-left: 0; }
+    .home-faq__bubble { padding: 1rem 1.15rem; font-size: .975rem; }
+    .home-faq__avatar { width: 3rem; height: 3rem; }
+    .home-faq__name { font-size: .75rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-faq__item summary { transition: none; }
+    .home-faq__item[open] .home-faq__bubble,
+    .home-faq__item[open] .home-faq__sender { animation: none; }
+  }
 </style>

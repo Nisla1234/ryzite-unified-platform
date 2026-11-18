@@ -13,9 +13,9 @@ Order is fixed by the homepage brief. Do not add major sections between these wi
 | 8 | One Connected Plan | `ConnectedPlan.astro` | `home-sections-translations.ts` | [PROPOSAL] copy |
 | 9 | Packages | `PackagesPreview.astro` | `resources-translations.ts` package cards | [PROPOSAL] options, no prices published |
 | 10 | Payment Options | `PaymentOptions.astro` | `home-sections-translations.ts` | [OPEN] general overview only; not a confirmed payment policy |
-| 11 | How We Work | `ProcessPreview.astro` | `resources-translations.ts` process steps (six steps, same as `/how-we-work`) | Existing process |
+| 11 | How We Work | `ProcessPreview.astro` + `src/scripts/process-road.ts` | `resources-translations.ts` process steps (six steps, same as `/how-we-work`) | Existing process; [PROPOSAL] scroll-drawn winding-road layout |
 | 12 | Trust | `TrustPrinciples.astro` | `home-sections-translations.ts` | [PROPOSAL] copy |
-| 13 | FAQs | `HomeFaq.astro` | `home-sections-translations.ts` | [PROPOSAL] answers; timeline and payment answers are non-committal |
+| 13 | FAQs | `HomeFaq.astro` | `home-sections-translations.ts` | [PROPOSAL] answers; timeline and payment answers are non-committal; [PROPOSAL] chat-style layout |
 | 14 | Closing Invitation | `ClosingInvitation.astro` | `home-sections-translations.ts` | [PROPOSAL] copy |
 
 ## In review (not on the homepage)

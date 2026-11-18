@@ -202,4 +202,5 @@ The project currently contains **three different blue sets** and a legacy palett
 | Date | Item | Decision | Approved by |
 | --- | --- | --- | --- |
 | 2026-11-18 | Trust Principles colours `#0655E9`, `#0643CF`, `#078BE9` | Approved for Trust Principles section only | Client |
+| 2026-11-18 | How We Work "winding road" layout in `#0655E9`, `#0643CF`, `#078BE9` | Client instructed to build (section scope only; layout `[PROPOSAL]`) | Client |
 | — | This playbook (draft) | Pending | — |
