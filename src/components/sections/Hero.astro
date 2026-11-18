@@ -47,7 +47,20 @@ const sceneLayout = [
           aria-hidden={isFirst ? 'false' : 'true'}
           inert={!isFirst}
         >
-          <p class="video-hero__eyebrow" data-home-key={`heroStory.${index}.eyebrow`}>{scene.eyebrow}</p>
+          {isFirst ? (
+            <p class="video-hero__eyebrow video-hero__eyebrow--logo">
+              <img
+                class="video-hero__wordmark"
+                src="/images/hero/ryzite-wordmark.png"
+                alt="RYZITE"
+                width="640"
+                height="386"
+                fetchpriority="high"
+              />
+            </p>
+          ) : (
+            <p class="video-hero__eyebrow" data-home-key={`heroStory.${index}.eyebrow`}>{scene.eyebrow}</p>
+          )}
           <Heading class="video-hero__title" id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
             {scene.title}
           </Heading>
@@ -95,13 +108,15 @@ const sceneLayout = [
 
 <style>
   .video-hero {
-    --hero-ink: #13285c;
-    --hero-body: #3f4d66;
-    --hero-accent: #0a4cf0;
-    --hero-accent-hover: #073bc0;
+    /* Same palette as the homepage sections (home-sections.css, BusinessChallenge). */
+    --hero-ink: #0a1734;
+    --hero-body: #465771;
+    --hero-accent: #064bed;
+    --hero-cta: linear-gradient(110deg, #008aff, #063df3);
+    --hero-cta-shadow: 0 8px 18px #085be735;
     --hero-bg: #dfe9f1;
-    --hero-gutter: clamp(20px, 6vw, 96px);
-    --hero-ease: cubic-bezier(.22, 1, .36, 1);
+    --hero-gutter: max(28px, calc((100vw - 1300px) / 2)); /* aligns with the header logo */
+    --hero-ease: var(--ease-out);
     /* Footage has the robot centred; slide it sideways so it sits opposite the copy. */
     --pan-distance: 24%;
 
@@ -169,7 +184,10 @@ const sceneLayout = [
   .video-hero__overlay {
     z-index: 1;
     pointer-events: none;
-    background: linear-gradient(180deg, rgb(223 233 241 / 35%), transparent 18%);
+    background:
+      linear-gradient(180deg, rgb(223 233 241 / 35%), transparent 18%),
+      /* Soft hand-off into the paper background of the next section. */
+      linear-gradient(0deg, var(--color-paper) 0%, rgb(250 248 244 / 0%) 9%);
   }
 
   /* Scenes: text sits straight on the footage, no card. */
@@ -208,20 +226,33 @@ const sceneLayout = [
   .video-hero__eyebrow {
     margin: 0 0 18px;
     color: var(--hero-accent);
-    font-size: clamp(.78rem, .85vw, .9rem);
-    font-weight: 500;
-    letter-spacing: .02em;
+    font-size: var(--size-eyebrow);
+    font-weight: var(--weight-strong);
+    letter-spacing: .16em;
     line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* Slide 1 shows the RYZITE wordmark itself, so it matches the logo lettering exactly. */
+  .video-hero__eyebrow--logo {
+    margin-bottom: clamp(10px, 1.2vw, 18px);
+    line-height: 0;
+  }
+
+  .video-hero__wordmark {
+    display: block;
+    width: auto;
+    height: clamp(48px, 5.4vw, 92px);
   }
 
   .video-hero__title {
     margin: 0;
     color: var(--hero-ink);
     font-family: var(--font-heading);
-    font-size: clamp(2.75rem, 5.6vw, 6rem);
-    font-weight: 500;
-    letter-spacing: -.045em;
-    line-height: 1;
+    font-size: var(--size-hero);
+    font-weight: var(--weight-heading);
+    letter-spacing: var(--tracking-hero);
+    line-height: var(--leading-hero);
     overflow-wrap: break-word;
     text-wrap: balance;
   }
@@ -229,41 +260,42 @@ const sceneLayout = [
   /* Tamil and Sinhala words run long; scale the headline down so it fits on every width. */
   :global(html[lang='ta']) .video-hero__title,
   :global(html[lang='si']) .video-hero__title {
-    font-size: clamp(2rem, 3.6vw, 4rem);
-    letter-spacing: -.02em;
-    line-height: 1.15;
+    font-size: var(--size-h1);
+    letter-spacing: 0;
+    line-height: 1.2;
   }
 
   .video-hero__body {
     max-width: 30rem;
     margin: clamp(18px, 2vw, 28px) 0 clamp(24px, 2.6vw, 36px);
     color: var(--hero-body);
-    font-size: clamp(1rem, 1.05vw, 1.125rem);
-    line-height: 1.5;
+    font-size: var(--size-lead);
+    line-height: 1.6;
     text-wrap: pretty;
   }
 
   .video-hero__button {
     display: inline-flex;
-    min-height: 44px;
+    min-height: 48px;
     align-items: center;
-    gap: 10px;
-    padding: 10px 22px;
-    border: 1px solid var(--hero-accent);
+    gap: 14px;
+    padding: 15px 28px;
+    border: 0;
     border-radius: 999px;
-    background: var(--hero-accent);
+    background: var(--hero-cta);
+    box-shadow: var(--hero-cta-shadow);
     color: #fff;
-    font-size: .95rem;
-    font-weight: 600;
+    font-size: 17.5px;
+    font-weight: var(--weight-strong);
     line-height: 1.2;
     text-decoration: none;
-    transition: background-color 200ms ease, transform 200ms var(--hero-ease), box-shadow 200ms ease;
+    white-space: nowrap;
+    transition: transform var(--duration-fast) var(--hero-ease), box-shadow var(--duration-fast) var(--hero-ease);
   }
 
   .video-hero__button:hover {
-    background: var(--hero-accent-hover);
-    box-shadow: 0 10px 24px rgb(10 76 240 / 28%);
-    transform: translateY(-2px);
+    box-shadow: 0 12px 24px #085be74d;
+    transform: translateY(-3px);
   }
 
   .video-hero__button:focus-visible {
@@ -281,12 +313,10 @@ const sceneLayout = [
   }
 
   .video-hero__button--ghost {
-    background: rgb(255 255 255 / 70%);
+    border: 2px solid #fff;
+    background: linear-gradient(135deg, #ffffff, #edf3ff);
+    box-shadow: 0 9px 24px #2b6ad124;
     color: var(--hero-accent);
-  }
-
-  .video-hero__button--ghost:hover {
-    background: #fff;
   }
 
   .video-hero__fallback-pathways {
@@ -364,9 +394,13 @@ const sceneLayout = [
       margin-bottom: 10px;
     }
 
-    .video-hero__title {
-      font-size: clamp(2.25rem, 11vw, 3.25rem);
-      letter-spacing: -.04em;
+    .video-hero__wordmark {
+      height: clamp(40px, 11vw, 56px);
+    }
+
+    .video-hero__button {
+      padding: 14px 22px;
+      font-size: 15.5px;
     }
 
     :global(html[lang='ta']) .video-hero__title,
