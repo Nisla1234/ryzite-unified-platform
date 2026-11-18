@@ -1,4 +1,22 @@
-# Hero robot assets
+# Homepage hero media
+
+## Video hero
+
+The homepage uses the supplied robot footage at `public/images/hero/Novu_London_fashion_landing_page_b5275c3a.mp4`.
+Its scroll story scrubs the video with scroll (eased toward the scroll position) and fades three
+text scenes over the footage, opposite the robot: left, right, left. There is no pan; the footage
+itself moves the robot. On phones the copy stacks at the top and `object-position` follows the robot.
+`ryzite-robot-poster.jpg` provides the static image for reduced-motion preferences and
+video-loading failures.
+
+Scene copy lives in `homeTranslations.en.heroStory` and is `[PROPOSAL]`, English only until
+Tamil and Sinhala copy is reviewed. For smooth scrubbing, re-encode the video with frequent
+keyframes (e.g. `ffmpeg -i in.mp4 -g 1 -an -crf 24 out.mp4`).
+
+## Legacy robot assets
+
+The layered cutouts below belong to the previous illustration-based hero and are not used by the
+homepage video hero.
 
 ## Front-facing end poses
 
@@ -14,7 +32,7 @@ Use case: identity-preserve. Edit target: attached ZITE robot cutout. Make a mat
 
 Generated with the built-in image generation tool, using the supplied robot image as the character reference. Transparent PNGs are stored in `public/images/hero/ry.png` and `public/images/hero/zite.png`.
 
-The hero uses JavaScript and GSAP to move the separate cutouts. The glowing rope is an SVG path updated during movement. This is a layered 2D animation; the robots are not rigged 3D models.
+The previous hero used JavaScript and GSAP to move the separate cutouts. The glowing rope is an SVG path updated during movement. This was a layered 2D animation; the robots are not rigged 3D models.
 
 ## RY prompt
 

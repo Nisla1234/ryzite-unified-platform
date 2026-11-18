@@ -1,4 +1,8 @@
+type HeroScene = { eyebrow: string; title: string; body: string; cta: string };
+
 type HomeCopy = {
+  // [PROPOSAL] Scroll-scrubbed hero scenes, English only until Tamil and Sinhala copy is reviewed.
+  heroStory?: HeroScene[];
   heroTitleWords: string[];
   heroDescription: string;
   heroCta: string;
@@ -50,9 +54,29 @@ type HomeCopy = {
 
 export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
   en: {
-    heroTitleWords: ['One Site.', 'Solve', 'Every', 'Problems.'],
-    heroDescription: 'We turn ideas into digital solutions that help businesses grow and stay ahead.',
-    heroCta: 'Let’s Talk',
+    heroStory: [
+      {
+        eyebrow: 'RYZITE',
+        title: 'Rise with digital.',
+        body: 'We turn ideas into digital solutions that help businesses grow and stay ahead.',
+        cta: 'Explore solutions',
+      },
+      {
+        eyebrow: 'Digital marketing & technology',
+        title: 'Build what’s next.',
+        body: 'Bring together digital marketing, web development, and automation to help your business grow.',
+        cta: 'View services',
+      },
+      {
+        eyebrow: 'Start a project',
+        title: 'Let’s build together.',
+        body: 'Tell us where your business is today and what you want to achieve next.',
+        cta: 'Let’s talk',
+      },
+    ],
+    heroTitleWords: ['Have an idea?', 'Make it', 'happen.'],
+    heroDescription: 'We bring design, technology and marketing together to turn ambitious ideas into clear, useful digital experiences.',
+    heroCta: 'Get a Quote',
     marqueeDesign: 'DESIGN',
     marqueeDevelopment: 'DEVELOPMENT',
     marqueeDigitalTransformation: 'DIGITAL TRANSFORMATION',
@@ -111,9 +135,9 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     footerBottom: 'Designed to move forward.',
   },
   ta: {
-    heroTitleWords: ['ஒரே தளம்.', 'அனைத்து', 'பிரச்சினைகளுக்கும்', 'தீர்வு.'],
-    heroDescription: 'கருத்துக்களை டிஜிட்டல் தீர்வுகளாக மாற்றி, வணிகங்கள் வளரவும் முன்னேறவும் உதவுகிறோம்.',
-    heroCta: 'பேசுவோம்',
+    heroTitleWords: ['ஒரு யோசனை உள்ளதா?', 'அதை நனவாக்க', 'வாருங்கள்.'],
+    heroDescription: 'துணிச்சலான யோசனைகளை தெளிவான, பயனுள்ள டிஜிட்டல் அனுபவங்களாக மாற்ற வடிவமைப்பு, தொழில்நுட்பம் மற்றும் சந்தைப்படுத்தலை ஒன்றிணைக்கிறோம்.',
+    heroCta: 'விலை மதிப்பீடு பெறுங்கள்',
     marqueeDesign: 'வடிவமைப்பு',
     marqueeDevelopment: 'மேம்பாடு',
     marqueeDigitalTransformation: 'டிஜிட்டல் மாற்றம்',
@@ -172,9 +196,9 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     footerBottom: 'முன்னேற வடிவமைக்கப்பட்டது.',
   },
   si: {
-    heroTitleWords: ['එක් අඩවියක්.', 'සියලු', 'ගැටලු', 'සඳහා විසඳුම.'],
-    heroDescription: 'අදහස් ඩිජිටල් විසඳුම් බවට හරවා, ව්‍යාපාර වර්ධනයට සහ ඉදිරියට යාමට අපි උපකාරී වෙමු.',
-    heroCta: 'කතා කරමු',
+    heroTitleWords: ['අදහසක් තිබේද?', 'එය සැබෑ කරමු', 'දැන්ම.'],
+    heroDescription: 'අභිලාෂවත් අදහස් පැහැදිලි සහ ප්‍රයෝජනවත් ඩිජිටල් අත්දැකීම් බවට පත් කිරීමට අපි නිර්මාණය, තාක්ෂණය සහ අලෙවිකරණය එක් කරමු.',
+    heroCta: 'මිල ගණන් ලබා ගන්න',
     marqueeDesign: 'නිර්මාණය',
     marqueeDevelopment: 'සංවර්ධනය',
     marqueeDigitalTransformation: 'ඩිජිටල් පරිවර්තනය',

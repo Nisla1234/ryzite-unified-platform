@@ -1,8 +1,7 @@
 import { gsap } from 'gsap';
 
-// Shared scroll reveal for the homepage sections that follow Offerings.
-// Content is visible by default; it is only hidden once JavaScript runs and motion is allowed,
-// so the page reads fully without animation. Reveals wait until the hero intro has finished.
+// Shared scroll reveal for homepage sections. Content stays visible by default and motion is
+// skipped when reduced motion is requested.
 
 type RevealHandler = (element: HTMLElement) => void;
 const handlers = new Map<string, RevealHandler>();

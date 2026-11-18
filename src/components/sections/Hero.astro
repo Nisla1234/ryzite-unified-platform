@@ -1,641 +1,359 @@
 ---
-import { buildRibbon, reflectionLength, ribbons } from '../../scripts/hero-ribbon';
+import { homeTranslations } from '../../data/home-translations';
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
 
-const initialRibbons = ribbons.map((ribbon) => buildRibbon(ribbon, 0));
-const marqueeItems = [
-  { key: 'marqueeDesign', label: 'DESIGN' },
-  { key: 'marqueeDevelopment', label: 'DEVELOPMENT' },
-  { key: 'marqueeDigitalTransformation', label: 'DIGITAL TRANSFORMATION' },
-  { key: 'marqueeInnovation', label: 'INNOVATION' },
+const scenes = homeTranslations.en.heroStory ?? [];
+const { marketing, technology } = homeSectionsTranslations.en.divisions;
+
+// Each scene sits opposite the robot in the footage: robot right → text left, and so on.
+const sceneLayout = [
+  { side: 'left', href: '/solutions/' },
+  { side: 'right', href: '/services/' },
+  { side: 'left', href: '/contact/' },
 ];
 ---
 
-<section class="connection-hero" aria-labelledby="connection-title">
-  <div class="connection-stage" data-connection-hero>
-    <div class="hero-halo" aria-hidden="true"></div>
-    <div class="hero-message">
-      <h1 id="connection-title" class="hero-title"><span>{' '}</span><strong class="digital-line"><span data-headline-word>One Site.</span></strong><span><span data-headline-word>Solve</span>{' '}<span data-headline-word>Every</span></span><strong><span data-headline-word>Problems.</span></strong></h1>
-      <p data-hero-description>{'We turn ideas into digital solutions that help businesses grow and stay ahead.'.split(' ').map((word) => <><span data-description-word>{word}</span>{' '}</>)}</p>
-      <a class="hero-cta" href="/contact" data-home-key="heroCta">Let’s Talk</a>
+<section class="video-hero" data-video-hero aria-labelledby="hero-title">
+  <div class="video-hero__stage" data-video-stage>
+    <div class="video-hero__media" aria-hidden="true">
+      <img
+        class="video-hero__poster"
+        src="/images/hero/ryzite-robot-poster.jpg"
+        alt=""
+        width="1000"
+        height="562"
+        fetchpriority="high"
+      />
+      <video
+        class="video-hero__video"
+        src="/images/hero/Novu_London_fashion_landing_page_b5275c3a.mp4"
+        poster="/images/hero/ryzite-robot-poster.jpg"
+        muted
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+      ></video>
     </div>
+    <div class="video-hero__overlay" aria-hidden="true"></div>
 
-    <svg class="landscape" viewBox="0 0 1440 680" preserveAspectRatio="none" fill="none" aria-hidden="true">
-      <defs>
-        <!-- Repeating reflections that slide along the ribbon as it flows. -->
-        <linearGradient id="ribbon-reflection-0" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={reflectionLength} y2="0" spreadMethod="repeat">
-          <stop offset="0" stop-color="#9ccdff" /><stop offset=".3" stop-color="#eef7ff" /><stop offset=".55" stop-color="#5aa9ff" /><stop offset=".8" stop-color="#cfe6ff" /><stop offset="1" stop-color="#9ccdff" />
-        </linearGradient>
-        <linearGradient id="ribbon-reflection-1" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={reflectionLength} y2="0" spreadMethod="repeat">
-          <stop offset="0" stop-color="#0643cf" /><stop offset=".16" stop-color="#0a6cf0" /><stop offset=".3" stop-color="#e6f3ff" /><stop offset=".38" stop-color="#8cc6ff" /><stop offset=".52" stop-color="#0655e9" /><stop offset=".68" stop-color="#0437b0" /><stop offset=".82" stop-color="#6fb4ff" /><stop offset=".9" stop-color="#d9ecff" /><stop offset="1" stop-color="#0643cf" />
-        </linearGradient>
-        <!-- Glass depth: a bright sheen on top, deeper blue underneath. -->
-        <linearGradient id="ribbon-depth" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#fff" stop-opacity=".5" /><stop offset=".4" stop-color="#fff" stop-opacity="0" /><stop offset=".75" stop-color="#032b8f" stop-opacity="0" /><stop offset="1" stop-color="#032b8f" stop-opacity=".3" />
-        </linearGradient>
-        <filter id="ribbon-glow" filterUnits="userSpaceOnUse" x="-200" y="0" width="1840" height="780"><feGaussianBlur stdDeviation="16" /></filter>
-        <filter id="ribbon-soft" filterUnits="userSpaceOnUse" x="-200" y="0" width="1840" height="780"><feGaussianBlur stdDeviation="1.6" /></filter>
-      </defs>
-      {initialRibbons.map((shape, index) => (
-        <g class:list={['ribbon', index ? 'ribbon--front' : 'ribbon--back']} data-ribbon={index}>
-          {index === 1 && <path data-ribbon-part="body" d={shape.body} fill="#078be9" opacity=".22" filter="url(#ribbon-glow)" />}
-          <path data-ribbon-part="body" d={shape.body} fill={`url(#ribbon-reflection-${index})`} />
-          <path data-ribbon-part="body" d={shape.body} fill="url(#ribbon-depth)" />
-          <path data-ribbon-part="top" d={shape.topEdge} stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85" filter="url(#ribbon-soft)" />
-          <path data-ribbon-part="bottom" d={shape.bottomEdge} stroke="#cfe6ff" stroke-width="1.5" opacity=".6" />
-        </g>
-      ))}
-    </svg>
-    <div class="floor-glow" aria-hidden="true"></div>
-    <div class="robot robot-ry">
-      <div class="robot-float">
-        <img class="robot-body" src="/images/hero/ry.webp" alt="RY, a blue robot wearing a cap marked RY, pulling the glowing rope" width="1180" height="1333" fetchpriority="high" />
-        <div class="robot-leg leg-back" aria-hidden="true"></div>
-        <div class="robot-leg leg-front" aria-hidden="true"></div>
-        <img class="robot-front" src="/images/hero/ry-front-plain.webp" alt="" aria-hidden="true" width="1180" height="1333" />
-        <div class="ground-shadow" aria-hidden="true"></div>
-      </div>
+    {scenes.map((scene, index) => {
+      const layout = sceneLayout[index] ?? sceneLayout[0];
+      const isFirst = index === 0;
+      const Heading = isFirst ? 'h1' : 'h2';
+      return (
+        <article
+          class:list={['video-hero__panel', `video-hero__panel--${layout.side}`, { 'is-visible': isFirst }]}
+          data-video-panel={index}
+          aria-hidden={isFirst ? 'false' : 'true'}
+          inert={!isFirst}
+        >
+          <p class="video-hero__eyebrow" data-home-key={`heroStory.${index}.eyebrow`}>{scene.eyebrow}</p>
+          <Heading class="video-hero__title" id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
+            {scene.title}
+          </Heading>
+          <p class="video-hero__body" data-home-key={`heroStory.${index}.body`}>{scene.body}</p>
+          <a class="video-hero__button" href={layout.href}>
+            <span data-home-key={`heroStory.${index}.cta`}>{scene.cta}</span>
+            <span class="video-hero__arrow" aria-hidden="true">↗</span>
+          </a>
+          {isFirst && (
+            <nav class="video-hero__fallback-pathways" aria-label="Explore RYZITE">
+              <a class="video-hero__button video-hero__button--ghost" href="/services/" data-home-key="sections.divisions.marketing.kicker">{marketing.kicker}</a>
+              <a class="video-hero__button video-hero__button--ghost" href="/solutions/" data-home-key="sections.divisions.technology.kicker">{technology.kicker}</a>
+            </nav>
+          )}
+        </article>
+      );
+    })}
+
+    <div class="video-hero__progress" aria-hidden="true">
+      {scenes.map(() => <span data-video-dot></span>)}
     </div>
-    <div class="robot robot-zite">
-      <div class="robot-float">
-        <img class="robot-body" src="/images/hero/zite.webp" alt="ZITE, a robot wearing a cap marked ZITE, pulling the other end of the rope" width="1180" height="1333" fetchpriority="high" />
-        <div class="robot-leg leg-back" aria-hidden="true"></div>
-        <div class="robot-leg leg-front" aria-hidden="true"></div>
-        <img class="robot-front" src="/images/hero/zite-front-plain.webp" alt="" aria-hidden="true" width="1180" height="1333" />
-        <div class="ground-shadow" aria-hidden="true"></div>
-      </div>
-    </div>
-    <svg class="connection-rope" aria-hidden="true">
-      <defs>
-        <linearGradient id="rope-color" x1="0%" y1="0%" x2="100%" y2="0%"><stop stop-color="#087aff" /><stop offset=".5" stop-color="#2fe9ff" /><stop offset="1" stop-color="#087aff" /></linearGradient>
-      </defs>
-      <path class="rope-aura" />
-      <path class="rope-body" />
-      <path class="rope-light" />
-    </svg>
-    <div class="meeting-flash" aria-hidden="true"></div>
-    <noscript><style>.connection-hero .hero-message { opacity: 1; visibility: visible; transform: none; }</style></noscript>
-  </div>
-  <div class="hero-marquee" aria-hidden="true">
-    <svg class="hero-marquee-arc" viewBox="0 0 1600 300" preserveAspectRatio="xMidYMid meet" focusable="false">
-      <path id="hero-marquee-curve" class="hero-marquee-band" d="M -80 268 Q 760 -20 1680 92" />
-      <text class="hero-marquee-text" dominant-baseline="central">
-        <textPath href="#hero-marquee-curve" startOffset="0" data-marquee-path>
-          {Array.from({ length: 6 }, () => marqueeItems.map(({ key, label }) => (
-            <Fragment><tspan data-home-key={key}>{label}</tspan><tspan class="hero-marquee-star">{'\u00a0\u00a0✳\u00a0\u00a0'}</tspan></Fragment>
-          )))}
-        </textPath>
-      </text>
-    </svg>
   </div>
 </section>
 
 <script>
-  import { gsap } from 'gsap';
-  import { CustomEase } from 'gsap/CustomEase';
-  import { buildRibbon, reflectionShift, ribbons } from '../../scripts/hero-ribbon';
+  import '../../scripts/hero-video-story';
+</script>
 
-  gsap.registerPlugin(CustomEase);
-
-  declare global {
-    interface Window {
-      ryziteIntroFallback?: ReturnType<typeof setTimeout>;
-    }
+<style is:global>
+  /* Header hides during the scroll-scrubbed hero (class set by hero-video-story.ts). */
+  .site-header {
+    transition: transform 360ms cubic-bezier(.22, 1, .36, 1), opacity 240ms ease;
   }
 
-  // Motion values for everything after the rope intro, kept together so they are easy to tune.
-  const heroMotion = {
-    revealEase: CustomEase.create('heroReveal', '.2,.8,.2,1'),
-    words: { duration: .65, stagger: .08 },
-    follow: { rise: 34, blur: 8, duration: .9, stagger: .15 },
-    // Different periods per robot so the two never move in sync.
-    idle: [
-      { float: 1, floatPeriod: 4.6, tilt: 1, tiltPeriod: 6.1, turn: 4, turnPeriod: 9.2 },
-      { float: 1.1, floatPeriod: 5.5, tilt: 1.2, tiltPeriod: 7.3, turn: 4, turnPeriod: 10.6 },
-    ],
-    pointerTilt: { turn: 6, pitch: 3, lag: 1.2 },
-    // Scroll parallax distances (yPercent at the bottom of the hero) and the chase rate.
-    scroll: { message: -6, robots: 4, landscape: 9, chase: 9 },
-    // Seconds for one full, seamless cycle of the glass ribbon's flow.
-    ribbon: { loop: 18 },
-    perspective: 1000,
-  };
+  html.hero-hides-header .site-header:not(:focus-within) {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+  }
 
-  const splitIntoWords = (slot: HTMLElement) => {
-    const text = slot.textContent?.trim() || '';
-    const label = document.createElement('span');
-    label.className = 'hero-sr-only';
-    label.textContent = text;
-    const visual = document.createElement('span');
-    visual.className = 'hero-title-visual';
-    visual.setAttribute('aria-hidden', 'true');
-    const words = text.split(/\s+/u).filter(Boolean).map((word) => {
-      const mask = document.createElement('span');
-      mask.className = 'word-mask';
-      const element = document.createElement('span');
-      element.className = 'hero-word';
-      element.textContent = word;
-      mask.append(element);
-      return mask;
-    });
-    words.forEach((word, index) => {
-      if (index) visual.append(' ');
-      visual.append(word);
-    });
-    slot.replaceChildren(label, visual);
-    return words.map((word) => word.firstElementChild as HTMLElement);
-  };
-
-  // A seamless back-and-forth around zero: out, across, and home again.
-  const sway = (target: HTMLElement, property: string, amount: number, period: number) => gsap.timeline({ repeat: -1 })
-    .to(target, { [property]: amount, duration: period / 4, ease: 'sine.out' })
-    .to(target, { [property]: -amount, duration: period / 2, ease: 'sine.inOut' })
-    .to(target, { [property]: 0, duration: period / 4, ease: 'sine.in' });
-
-  const initializeConnection = () => {
-    const stage = document.querySelector<HTMLElement>('[data-connection-hero]');
-    if (!stage || stage.dataset.initialized) return;
-    const left = stage.querySelector<HTMLElement>('.robot-ry');
-    const right = stage.querySelector<HTMLElement>('.robot-zite');
-    const message = stage.querySelector<HTMLElement>('.hero-message');
-    const rope = stage.querySelector<SVGSVGElement>('.connection-rope');
-    const landscape = stage.querySelector<SVGSVGElement>('.landscape');
-    const flash = stage.querySelector<HTMLElement>('.meeting-flash');
-    if (!left || !right || !message || !rope || !landscape || !flash) return;
-    stage.dataset.initialized = 'true';
-    const headlineWords = [...message.querySelectorAll<HTMLElement>('[data-headline-word]')];
-    const description = message.querySelector<HTMLElement>('[data-hero-description]')!;
-    const cta = message.querySelector<HTMLElement>('.hero-cta')!;
-    const floats = [left.querySelector<HTMLElement>('.robot-float')!, right.querySelector<HTMLElement>('.robot-float')!];
-    const headlineTargets = headlineWords.flatMap(splitIntoWords);
-    const chrome = document.querySelectorAll('.site-header, .footer');
-    const paths = rope.querySelectorAll('path');
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const introSeenKey = 'ryzite-home-intro-seen';
-    let skipIntro = false;
-    try { skipIntro = window.sessionStorage.getItem(introSeenKey) === 'true'; } catch {}
-    const bodies = [left.querySelector<HTMLImageElement>('.robot-body')!, right.querySelector<HTMLImageElement>('.robot-body')!];
-    const frontPoses = [left.querySelector<HTMLImageElement>('.robot-front')!, right.querySelector<HTMLImageElement>('.robot-front')!];
-    const legs = [left.querySelectorAll('.robot-leg'), right.querySelectorAll('.robot-leg')];
-    const shadows = [left.querySelector<HTMLElement>('.ground-shadow')!, right.querySelector<HTMLElement>('.ground-shadow')!];
-    const pullLayers = [...bodies, ...legs[0], ...legs[1]];
-    const state = { progress: 0, tension: 0, ripple: 0, dissolve: 0 };
-    let timeline: gsap.core.Timeline | undefined;
-    let headlineReveal: gsap.core.Tween | undefined;
-    let imagesReady = false;
-    // The glass ribbons are redrawn each frame: they ripple, twist, and their reflections slide.
-    const ribbonGroups = [...stage.querySelectorAll<SVGGElement>('[data-ribbon]')].map((group) => {
-      const index = Number(group.dataset.ribbon);
-      return {
-        config: ribbons[index],
-        bodies: [...group.querySelectorAll<SVGPathElement>('[data-ribbon-part="body"]')],
-        top: group.querySelector<SVGPathElement>('[data-ribbon-part="top"]'),
-        bottom: group.querySelector<SVGPathElement>('[data-ribbon-part="bottom"]'),
-        reflection: stage.querySelector<SVGLinearGradientElement>(`#ribbon-reflection-${index}`),
-      };
-    });
-    const renderRibbons = (phase: number) => {
-      ribbonGroups.forEach(({ config, bodies, top, bottom, reflection }) => {
-        if (!config) return;
-        const shape = buildRibbon(config, phase);
-        bodies.forEach((path) => path.setAttribute('d', shape.body));
-        top?.setAttribute('d', shape.topEdge);
-        bottom?.setAttribute('d', shape.bottomEdge);
-        reflection?.setAttribute('gradientTransform', `translate(${reflectionShift(config, phase).toFixed(1)} 0)`);
-      });
-    };
-    const waveTweens: gsap.core.Tween[] = [];
-    const stopWaveMotion = () => {
-      waveTweens.forEach((tween) => tween.kill());
-      waveTweens.length = 0;
-      renderRibbons(0);
-    };
-    const startWaveMotion = () => {
-      stopWaveMotion();
-      if (preference.matches) return;
-      const flow = { phase: 0 };
-      waveTweens.push(gsap.to(flow, {
-        phase: Math.PI * 2,
-        duration: heroMotion.ribbon.loop,
-        ease: 'none',
-        repeat: -1,
-        onUpdate: () => renderRibbons(flow.phase),
-      }));
-    };
-    startWaveMotion();
-
-    // Idle robots: a slow float, tilt and turn on the inner wrapper, so it never fights
-    // the intro or pointer transforms on the outer .robot element.
-    const idleLoops: gsap.core.Timeline[] = [];
-    const stopIdle = () => {
-      idleLoops.forEach((loop) => loop.kill());
-      idleLoops.length = 0;
-      gsap.set(floats, { yPercent: 0, rotation: 0, rotationY: 0 });
-    };
-    const startIdle = () => {
-      stopIdle();
-      if (preference.matches) return;
-      floats.forEach((float, index) => {
-        const idle = heroMotion.idle[index];
-        const side = index ? -1 : 1;
-        idleLoops.push(
-          sway(float, 'yPercent', -idle.float, idle.floatPeriod),
-          sway(float, 'rotation', idle.tilt * side, idle.tiltPeriod),
-          sway(float, 'rotationY', idle.turn * side, idle.turnPeriod),
-        );
-      });
-      syncLoops();
-    };
-
-    // Scroll parallax that eases toward the scroll position instead of jumping to it.
-    const scrollFollow = { active: false, current: 0, top: 0, height: 1 };
-    const measureStage = () => {
-      scrollFollow.top = stage.getBoundingClientRect().top + window.scrollY;
-      scrollFollow.height = Math.max(1, stage.offsetHeight);
-    };
-    const applyScroll = (progress: number) => {
-      const { scroll } = heroMotion;
-      gsap.set(message, { yPercent: scroll.message * progress });
-      gsap.set([left, right], { yPercent: scroll.robots * progress });
-      gsap.set(landscape, { yPercent: scroll.landscape * progress });
-    };
-    const followScroll = (_time: number, deltaTime: number) => {
-      const target = Math.min(1, Math.max(0, (window.scrollY - scrollFollow.top) / scrollFollow.height));
-      const gap = target - scrollFollow.current;
-      if (Math.abs(gap) < .0005) return;
-      const seconds = Math.min(deltaTime, 100) / 1000;
-      scrollFollow.current += gap * (1 - Math.exp(-seconds * heroMotion.scroll.chase));
-      applyScroll(scrollFollow.current);
-    };
-    const startFollow = () => {
-      if (preference.matches) return;
-      measureStage();
-      scrollFollow.active = true;
-      syncLoops();
-    };
-    const stopFollow = () => {
-      scrollFollow.active = false;
-      gsap.ticker.remove(followScroll);
-      scrollFollow.current = 0;
-      applyScroll(0);
-    };
-
-    // Loops run only while the hero is on screen and the tab is visible.
-    let inView = true;
-    let following = false;
-    function syncLoops() {
-      const run = inView && !document.hidden;
-      [...waveTweens, ...idleLoops].forEach((loop) => loop.paused(!run));
-      const follow = run && scrollFollow.active;
-      if (follow && !following) gsap.ticker.add(followScroll);
-      if (!follow && following) gsap.ticker.remove(followScroll);
-      following = follow;
-    }
-
-    let introDone = false;
-    const markLive = () => {
-      introDone = true;
-      stage.classList.add('is-live');
-      startIdle();
-      startFollow();
-    };
-    const revealHeadline = () => {
-      headlineReveal?.kill();
-      headlineReveal = gsap.fromTo(headlineTargets, { yPercent: 110, autoAlpha: 0 }, {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: heroMotion.words.duration,
-        stagger: heroMotion.words.stagger,
-        ease: 'power3.out',
-        clearProps: 'transform,opacity,visibility',
-      });
-    };
-
-    const finePointer = window.matchMedia('(pointer: fine)');
-    const parallax = {
-      ryX: gsap.quickTo(left, 'x', { duration: .7, ease: 'power3.out' }),
-      ryY: gsap.quickTo(left, 'y', { duration: .7, ease: 'power3.out' }),
-      ziteX: gsap.quickTo(right, 'x', { duration: .7, ease: 'power3.out' }),
-      ziteY: gsap.quickTo(right, 'y', { duration: .7, ease: 'power3.out' }),
-    };
-    // The pointer tilt trails the cursor on a longer ease than the position parallax.
-    gsap.set([left, right, ...floats], { transformPerspective: heroMotion.perspective });
-    const tiltEase = { duration: heroMotion.pointerTilt.lag, ease: 'power3.out' };
-    const tilt = [left, right].map((robot) => ({
-      turn: gsap.quickTo(robot, 'rotationY', tiltEase),
-      pitch: gsap.quickTo(robot, 'rotationX', tiltEase),
-    }));
-    const resetParallax = () => {
-      parallax.ryX(0); parallax.ryY(0); parallax.ziteX(0); parallax.ziteY(0);
-      tilt.forEach(({ turn, pitch }) => { turn(0); pitch(0); });
-    };
-    const handleHeroPointerMove = (event: PointerEvent) => {
-      if (!introDone || preference.matches || event.pointerType === 'touch') return;
-      const rect = stage.getBoundingClientRect();
-      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-      const dx = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
-      const dy = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
-      parallax.ryX(dx * 8); parallax.ryY(dy * 6);
-      parallax.ziteX(dx * 10); parallax.ziteY(dy * 8);
-      const { turn, pitch } = heroMotion.pointerTilt;
-      tilt.forEach((robot) => { robot.turn(dx * turn); robot.pitch(-dy * pitch); });
-    };
-    const handleHeroPointerLeave = () => resetParallax();
-    if (finePointer.matches) {
-      stage.addEventListener('pointermove', handleHeroPointerMove);
-      stage.addEventListener('pointerleave', handleHeroPointerLeave);
-    }
-
-    const handleMotionPreferenceChange = () => {
-      startWaveMotion();
-      if (preference.matches) {
-        stopIdle();
-        stopFollow();
-        resetParallax();
-        if (timeline) timeline.progress(1).pause();
-        headlineReveal?.progress(1).kill();
-        gsap.set(headlineTargets, { clearProps: 'all' });
-      } else if (introDone) {
-        startIdle();
-        startFollow();
-      }
-    };
-    const handleVisibilityChange = () => syncLoops();
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    const visibility = new IntersectionObserver(([entry]) => {
-      inView = entry.isIntersecting;
-      syncLoops();
-    });
-    visibility.observe(stage);
-
-    const drawRope = () => {
-      const bounds = stage.getBoundingClientRect();
-      const hand = (actor: HTMLElement, body: Element, x: number, y: number) => {
-        const rect = actor.getBoundingClientRect();
-        const style = getComputedStyle(body);
-        const origin = style.transformOrigin.split(' ').map(Number.parseFloat);
-        const point = new DOMPoint(actor.offsetWidth * x - origin[0], actor.offsetHeight * y - origin[1]);
-        const transformed = point.matrixTransform(new DOMMatrix(style.transform === 'none' ? undefined : style.transform));
-        return { x: rect.left - bounds.left + transformed.x + origin[0], y: rect.top - bounds.top + transformed.y + origin[1] };
-      };
-      const a = hand(left, bodies[0], .81, .45);
-      const b = hand(right, bodies[1], .22, .45);
-      const aInner = hand(left, bodies[0], .64, .51);
-      const bInner = hand(right, bodies[1], .42, .51);
-      const x1 = a.x;
-      const x2 = b.x;
-      const y1 = a.y;
-      const y2 = b.y;
-      const width = Math.max(0, x2 - x1);
-      const wave = Math.min(width * .18, bounds.height * .075) * (1 - state.tension * .94);
-      const vibration = Math.sin(state.ripple * Math.PI * 8) * state.tension * Math.min(width * .012, 4);
-      const d = `M${aInner.x},${aInner.y} L${x1},${y1} C${x1 + width * .3},${y1 + wave + vibration} ${x2 - width * .3},${y2 + wave - vibration} ${x2},${y2} L${bInner.x},${bInner.y}`;
-      paths.forEach((path) => path.setAttribute('d', d));
-      rope.style.opacity = String((.8 + state.tension * .2) * (1 - state.dissolve));
-    };
-
-    const createTimeline = () => {
-      timeline?.kill();
-      clearTimeout(window.ryziteIntroFallback);
-      document.documentElement.classList.add('home-intro');
-      document.documentElement.classList.add('home-transition');
-      gsap.set(chrome, { autoAlpha: 0, y: -12 });
-      gsap.set([left, right], { x: 0, y: 0, rotation: 0, autoAlpha: 1 });
-      gsap.set([...bodies, ...legs[0], ...legs[1]], { x: 0, y: 0, rotation: 0, scaleY: 1 });
-      gsap.set(pullLayers, { autoAlpha: 1 });
-      gsap.set(frontPoses, { autoAlpha: 0, scaleX: .95, transformOrigin: '50% 95%' });
-      gsap.set(message, { autoAlpha: 0, y: 24 });
-      const { follow } = heroMotion;
-      gsap.set(headlineTargets, { autoAlpha: 0, yPercent: 110 });
-      gsap.set([description, cta], { autoAlpha: 0, y: follow.rise, filter: `blur(${follow.blur}px)` });
-      gsap.set(shadows, { scaleX: 1, opacity: .65 });
-      gsap.set(flash, { opacity: 0, scale: .6 });
-      Object.assign(state, { progress: 0, tension: 0, ripple: 0, dissolve: 0 });
-      const travel = Math.max(0, stage.clientWidth * .5 - left.offsetWidth * 1.02 - left.offsetLeft);
-      timeline = gsap.timeline({
-        delay: .2,
-        onUpdate: drawRope,
-        onComplete: () => {
-          document.documentElement.classList.remove('home-intro', 'home-transition');
-          markLive();
-        },
-      });
-      const steps = 3;
-      const stride = .6;
-      for (let step = 1; step <= steps; step++) {
-        const position = (step - 1) * stride;
-        // Plant the feet, lean away, then overcome the rope's resistance.
-        timeline.to(bodies[0], { rotation: -7, x: -3, y: 4, duration: .24, ease: 'power2.inOut' }, position)
-          .to(bodies[1], { rotation: 7, x: 3, y: 4, duration: .24, ease: 'power2.inOut' }, position)
-          .to(state, { tension: 1, ripple: step, duration: .24, ease: 'power2.in' }, position);
-        timeline.to(state, { progress: step / steps, duration: .52, ease: 'none' }, position + .08);
-
-        const activeTimeline = timeline;
-        [left, right].forEach((actor, index) => {
-          const direction = index === 0 ? 1 : -1;
-          const lift = Math.min(actor.offsetHeight * .035, 15);
-          const reach = Math.min(actor.offsetWidth * .028, 10);
-          const footfall = (step - 1) % 2;
-          const time = position + .08;
-          const swing = legs[index][footfall];
-          const planted = legs[index][1 - footfall];
-          activeTimeline.to(actor, { x: direction * travel * step / steps, duration: .52, ease: 'sine.inOut' }, time)
-            .to(swing, { rotation: -direction * 8, x: direction * reach, y: -lift, duration: .24, ease: 'sine.out' }, time)
-            .to(planted, { rotation: direction * 3, x: -direction * reach * .5, y: 0, duration: .45, ease: 'sine.inOut' }, time)
-            .to(bodies[index], { rotation: -direction * 3, x: direction, y: -3, scaleY: 1, duration: .22, ease: 'sine.out' }, time)
-            .to(shadows[index], { scaleX: .94, opacity: .6, duration: .22 }, time)
-            .to(swing, { rotation: 0, x: 0, y: 0, duration: .22, ease: 'power2.in' }, time + .26)
-            .to(bodies[index], { rotation: 0, x: 0, y: 0, scaleY: 1, duration: .2, ease: 'power1.out' }, time + .38)
-            .to(shadows[index], { scaleX: 1, opacity: .65, duration: .2 }, time + .38);
-        });
-        timeline.to(state, { tension: .38, duration: .18, ease: 'power2.out' }, position + .45);
-      }
-      const finish = (steps - 1) * stride + .64;
-      timeline.to(bodies, { rotation: 0, x: 0, y: 0, duration: .4 }, finish)
-        .to(state, { tension: .15, duration: .6 }, finish)
-        .to(flash, { opacity: .85, scale: 1, duration: .35 }, finish)
-        .to(state, { dissolve: 1, duration: .25 }, finish + .1)
-        // Rope pulled: a small celebratory hop, then the hero comes in straight away.
-        .to([left, right], { scaleY: .93, y: 8, duration: .16, ease: 'power2.in' }, finish + .1)
-        .to([left, right], { scaleY: 1.03, y: () => -Math.min(stage.clientHeight * .07, 48), duration: .3, ease: 'power2.out' }, finish + .26)
-        .to(shadows, { scaleX: .8, opacity: .4, duration: .3 }, finish + .26)
-        .to([left, right], { scaleY: 1, y: 0, duration: .26, ease: 'power2.in' }, finish + .56)
-        .to(shadows, { scaleX: 1, opacity: .65, duration: .26 }, finish + .56)
-        .to(flash, { opacity: 0, duration: .3, ease: 'power2.out' }, finish + .6)
-        .to([left, right], { autoAlpha: 0, duration: .22, ease: 'power2.in' }, finish + .85)
-        .set([left, right], { x: 0, y: 16 }, finish + 1.08)
-        .set(pullLayers, { autoAlpha: 0 }, finish + 1.08)
-        .set(frontPoses, { autoAlpha: 1, scaleX: 1 }, finish + 1.08)
-        .set(message, { autoAlpha: 1, y: 0 }, finish + 1.08)
-        .call(() => {
-          document.documentElement.classList.remove('home-intro');
-        }, [], finish + 1.08)
-        .to(chrome, { autoAlpha: 1, y: 0, duration: .6, ease: 'power2.out' }, finish + 1.08)
-        .to([left, right], { autoAlpha: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out' }, finish + 1.12)
-        .to([description, cta], { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: follow.duration, stagger: follow.stagger, ease: heroMotion.revealEase, clearProps: 'transform,filter' }, finish + 2.55);
-      if (!preference.matches && !skipIntro) timeline.call(revealHeadline, [], finish + 1.18);
-      if (preference.matches || skipIntro) {
-        timeline.progress(1).pause();
-        document.documentElement.classList.remove('home-intro', 'home-transition');
-        if (preference.matches) gsap.set(headlineTargets, { clearProps: 'all' });
-        else revealHeadline();
-        markLive();
-      }
-      drawRope();
-    };
-
-    preference.addEventListener('change', handleMotionPreferenceChange);
-    document.addEventListener('astro:before-swap', () => {
-      timeline?.kill();
-      headlineReveal?.kill();
-      stopWaveMotion();
-      stopIdle();
-      stopFollow();
-      visibility.disconnect();
-      resizeObserver.disconnect();
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      stage.removeEventListener('pointermove', handleHeroPointerMove);
-      stage.removeEventListener('pointerleave', handleHeroPointerLeave);
-      preference.removeEventListener('change', handleMotionPreferenceChange);
-    }, { once: true });
-    let resizeTimer: ReturnType<typeof setTimeout> | undefined;
-    let observedWidth = stage.clientWidth;
-    const resizeObserver = new ResizeObserver(() => {
-      if (introDone) measureStage();
-      if (!imagesReady) return;
-      if (stage.clientWidth === observedWidth) return;
-      observedWidth = stage.clientWidth;
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        const progress = timeline?.progress() || 0;
-        const paused = timeline?.paused();
-        createTimeline();
-        timeline?.progress(progress).paused(paused || progress === 1);
-        if (progress === 1) markLive();
-        drawRope();
-      }, 150);
-    });
-    resizeObserver.observe(stage);
-    Promise.all([...bodies, ...frontPoses].map((img) => img.decode().catch(() => {}))).then(() => {
-      if (!stage.isConnected) return;
-      imagesReady = true;
-      if (!skipIntro) {
-        try { window.sessionStorage.setItem(introSeenKey, 'true'); } catch {}
-      }
-      createTimeline();
-    });
-  };
-  initializeConnection();
-  document.addEventListener('astro:page-load', initializeConnection);
-</script>
-
-<script>
-  import '../../scripts/hero-marquee';
-</script>
+  @media (prefers-reduced-motion: reduce) {
+    .site-header { transition: none; }
+  }
+</style>
 
 <style>
-  .connection-hero { overflow: hidden; background: var(--color-paper); }
-  .hero-marquee { overflow: hidden; padding-block: 8px 0; background: var(--color-paper); }
-  /* Curved band: on narrow screens the SVG stays wider than the viewport so the text keeps a readable size. */
-  .hero-marquee-arc { display: block; width: max(100%, 960px); height: auto; margin-left: 50%; transform: translateX(-50%); overflow: visible; }
-  .hero-marquee-band { fill: none; stroke: #242427; stroke-width: 96px; }
-  .hero-marquee-text { fill: #fff; font-family: var(--font-display); font-size: 42px; font-weight: 700; letter-spacing: .01em; white-space: pre; }
-  .hero-marquee-star { font-family: var(--font-body); font-weight: 400; }
-  .connection-stage { position: relative; isolation: isolate; height: clamp(680px, 84svh, 840px); max-width: 1800px; margin-inline: auto; overflow: hidden; background: var(--color-paper); }
-  .hero-halo { position: absolute; inset: 15% 10% 4%; background: radial-gradient(ellipse, #d8f9ff60, transparent 68%); }
-  .hero-message { position: absolute; z-index: 4; top: 15%; left: 29%; width: 42%; text-align: center; font-family: var(--font-body); }
-  .hero-title { margin: 0; color: #080c12; font-family: var(--font-heading); font-size: var(--size-hero); font-weight: var(--weight-heading); font-style: normal; line-height: var(--leading-hero); letter-spacing: var(--tracking-hero); text-transform: uppercase; text-wrap: balance; }
-  h1 > span, h1 > strong { display: block; }
-  /* Each headline word sits in a clip mask; padding keeps descenders inside it. */
-  .hero-message :global(.word-mask) { display: inline-block; overflow: hidden; padding: .08em .06em .14em; margin: -.08em -.06em -.14em; vertical-align: bottom; }
-  [data-headline-word] { display: contents; }
-  .hero-message :global(.hero-title-visual) { display: contents; }
-  [data-description-word] { display: inline-block; }
-  .hero-message :global(.hero-word) { display: inline-block; }
-  .hero-message :global(.hero-sr-only) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  h1 strong { color: #064bed; font-weight: inherit; }
-  .digital-line { position: relative; margin-bottom: .2em; }
-  .hero-message p { margin: 24px 0; color: #344159; font-size: var(--size-body); line-height: var(--leading-body); }
-  .hero-cta { display: inline-flex; align-items: center; gap: 15px; padding: 17px 30px; border-radius: 999px; background: #064bed; box-shadow: 0 9px 20px #064bed25; color: white; font-size: 18.5px; font-weight: var(--weight-strong); text-decoration: none; text-transform: uppercase; transition: background .25s ease, transform .25s ease, box-shadow .25s ease; }
-  .hero-cta:hover { background: #0539b7; transform: translateY(-2px) scale(1.04); box-shadow: 0 14px 30px #064bed38; }
-  .hero-cta:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
-  .landscape { position: absolute; width: 100%; max-width: none; height: 100%; inset: 0; z-index: -1; }
-  .ribbon--back { opacity: .6; }
-  .floor-glow { position: absolute; bottom: 0; width: 100%; height: 26%; background: radial-gradient(ellipse 60% 80% at 50% 100%, #b4e4ff66, transparent 72%); pointer-events: none; }
-  .robot { position: absolute; z-index: 2; bottom: 9%; width: 29%; aspect-ratio: 1180 / 1333; transform-origin: 50% 95%; will-change: transform; }
-  .robot-float { position: absolute; inset: 0; transform-origin: 50% 95%; will-change: transform; }
-  .ground-shadow { position: absolute; bottom: -1%; left: 12%; width: 76%; height: 5%; background: #174ecb55; filter: blur(10px); border-radius: 50%; z-index: -1; }
-  .robot-ry { left: 3%; }
-  .robot-zite { right: 3%; }
-  .robot img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .robot-body { position: relative; z-index: 3; clip-path: inset(0 0 34% 0); transform-origin: 50% 65%; will-change: transform; }
-  .robot .robot-front { position: absolute; inset: 0; z-index: 4; opacity: 0; visibility: hidden; pointer-events: none; will-change: opacity, transform; }
-  .robot-leg { position: absolute; inset: 0; background-size: 100% 100%; background-repeat: no-repeat; will-change: transform; }
-  .robot-ry .robot-leg { background-image: url('/images/hero/ry.webp'); }
-  .robot-zite .robot-leg { background-image: url('/images/hero/zite.webp'); }
-  .leg-back { z-index: 1; clip-path: polygon(0 62%, 52% 62%, 52% 100%, 0 100%); transform-origin: 46% 64%; }
-  .leg-front { z-index: 2; clip-path: polygon(49% 62%, 100% 62%, 100% 100%, 49% 100%); transform-origin: 60% 64%; }
-  .connection-rope { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; overflow: visible; }
-  .connection-rope path { fill: none; stroke-linecap: round; }
-  .rope-aura { stroke: #17caff; stroke-width: 23px; filter: blur(10px); opacity: .5; }
-  .rope-body { stroke: url(#rope-color); stroke-width: 11px; }
-  .rope-light { stroke: #d1ffff; stroke-width: 3px; filter: drop-shadow(0 0 4px #fff); }
-  .meeting-flash { position: absolute; z-index: 1; width: 34%; height: 55%; left: 33%; top: 28%; border-radius: 50%; background: radial-gradient(ellipse, #efffff, #85e9ff70 35%, transparent 70%); opacity: 0; pointer-events: none; }
-  @media (max-width: 800px) {
-    .connection-stage { height: clamp(780px, 100svh, 920px); }
-    /* Show a wider, centred slice of the ribbon so it is not squeezed into narrow screens. */
-    .landscape { width: 220%; left: -60%; }
-    .hero-message { top: 13%; left: 6%; width: 88%; }
-    .hero-message p { margin: 22px 0; }
-    .robot { width: 39%; bottom: 5%; }
-    .robot-ry { left: -2%; }
-    .robot-zite { right: -2%; }
-    .rope-body { stroke-width: 7px; }
-    .rope-light { stroke-width: 2px; }
-    .desktop-break { display: none; }
+  .video-hero {
+    --hero-ink: #13285c;
+    --hero-body: #3f4d66;
+    --hero-accent: #0a4cf0;
+    --hero-accent-hover: #073bc0;
+    --hero-bg: #dfe9f1;
+    --hero-gutter: clamp(20px, 6vw, 96px);
+    --hero-ease: cubic-bezier(.22, 1, .36, 1);
+
+    position: relative;
+    height: 100svh;
+    margin-top: -86px;
+    background: var(--hero-bg);
+    color: var(--hero-ink);
+    font-family: var(--font-body);
   }
-  @media (max-width: 500px) {
-    .landscape { width: 300%; left: -100%; }
-    .connection-stage {
-      height: calc(100vh - 70px);
-      min-height: min(460px, calc(100vh - 70px));
-      height: calc(100svh - 70px);
-      min-height: min(460px, calc(100svh - 70px));
+
+  .video-hero.is-animated {
+    height: 500svh;
+  }
+
+  .video-hero__stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--hero-bg);
+  }
+
+  .video-hero__media,
+  .video-hero__poster,
+  .video-hero__video,
+  .video-hero__overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-hero__poster,
+  .video-hero__video {
+    display: block;
+    object-fit: cover;
+    object-position: var(--video-x, 50%) center;
+  }
+
+  .video-hero__video {
+    opacity: 0;
+  }
+
+  .video-hero.is-animated .video-hero__video {
+    opacity: 1;
+  }
+
+  .video-hero.is-animated .video-hero__poster {
+    opacity: 0;
+  }
+
+  .video-hero__overlay {
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(223 233 241 / 35%), transparent 18%);
+  }
+
+  /* Scenes: text sits straight on the footage, no card. */
+  .video-hero__panel {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    display: flex;
+    width: min(44%, 40rem);
+    flex-direction: column;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translate3d(0, calc(-50% + var(--panel-shift, 24px)), 0);
+    visibility: hidden;
+    will-change: opacity, transform;
+  }
+
+  .video-hero__panel--left {
+    left: var(--hero-gutter);
+  }
+
+  .video-hero__panel--right {
+    left: 53%;
+  }
+
+  .video-hero__panel.is-visible,
+  .video-hero:not(.is-animated) .video-hero__panel[data-video-panel="0"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .video-hero:not(.is-animated) .video-hero__panel[data-video-panel="0"] {
+    transform: translate3d(0, -50%, 0);
+  }
+
+  .video-hero__eyebrow {
+    margin: 0 0 18px;
+    color: var(--hero-accent);
+    font-size: clamp(.78rem, .85vw, .9rem);
+    font-weight: 500;
+    letter-spacing: .02em;
+    line-height: 1.4;
+  }
+
+  .video-hero__title {
+    margin: 0;
+    color: var(--hero-ink);
+    font-family: var(--font-heading);
+    font-size: clamp(2.75rem, 5.6vw, 6rem);
+    font-weight: 500;
+    letter-spacing: -.045em;
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  .video-hero__body {
+    max-width: 30rem;
+    margin: clamp(18px, 2vw, 28px) 0 clamp(24px, 2.6vw, 36px);
+    color: var(--hero-body);
+    font-size: clamp(1rem, 1.05vw, 1.125rem);
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .video-hero__button {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    border: 1px solid var(--hero-accent);
+    border-radius: 999px;
+    background: var(--hero-accent);
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color 200ms ease, transform 200ms var(--hero-ease), box-shadow 200ms ease;
+  }
+
+  .video-hero__button:hover {
+    background: var(--hero-accent-hover);
+    box-shadow: 0 10px 24px rgb(10 76 240 / 28%);
+    transform: translateY(-2px);
+  }
+
+  .video-hero__button:focus-visible {
+    outline: 3px solid var(--hero-accent);
+    outline-offset: 4px;
+  }
+
+  .video-hero__arrow {
+    font-size: .85em;
+    transition: transform 200ms var(--hero-ease);
+  }
+
+  .video-hero__button:hover .video-hero__arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .video-hero__button--ghost {
+    background: rgb(255 255 255 / 70%);
+    color: var(--hero-accent);
+  }
+
+  .video-hero__button--ghost:hover {
+    background: #fff;
+  }
+
+  .video-hero__fallback-pathways {
+    display: none;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .video-hero:not(.is-animated) .video-hero__fallback-pathways {
+    display: flex;
+  }
+
+  /* Scene progress dots */
+  .video-hero__progress {
+    position: absolute;
+    z-index: 2;
+    bottom: 28px;
+    left: 50%;
+    display: none;
+    gap: 8px;
+    transform: translateX(-50%);
+  }
+
+  .video-hero.is-animated .video-hero__progress {
+    display: flex;
+  }
+
+  .video-hero__progress span {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(19 40 92 / 25%);
+    transition: width 300ms var(--hero-ease), background-color 300ms ease;
+  }
+
+  .video-hero__progress span.is-active {
+    width: 22px;
+    background: var(--hero-accent);
+  }
+
+  @media (max-width: 760px) {
+    .video-hero {
+      margin-top: -70px;
     }
-    .hero-message {
-      top: clamp(24px, calc(24vh - 120px), 80px);
-      top: clamp(24px, calc(24svh - 120px), 80px);
-      left: 5%;
-      width: 90%;
+
+    .video-hero__overlay {
+      background: linear-gradient(180deg, rgb(223 233 241 / 92%) 0%, rgb(223 233 241 / 70%) 34%, transparent 58%);
     }
-    h1 > span:first-child { display: none; }
-    .hero-message p { margin: clamp(10px, 2svh, 16px) 0; }
-    .robot {
-      width: clamp(7.5rem, 42vw, 11rem);
-      bottom: clamp(6.5rem, 20svh, 12rem);
+
+    /* On phones the copy stacks above the robot instead of beside it. */
+    .video-hero__panel,
+    .video-hero__panel--left,
+    .video-hero__panel--right {
+      top: calc(70px + 6svh);
+      right: 20px;
+      left: 20px;
+      width: auto;
+      transform: translate3d(0, var(--panel-shift, 24px), 0);
     }
-    .robot-ry { left: 0; }
-    .robot-zite { right: 0; }
-    /* Pull the curved band up over the empty strip at the bottom of the hero so no cream gap shows. */
-    .hero-marquee { position: relative; z-index: 5; margin-top: -72px; padding-block: 0; background: transparent; }
-  }
-  @media (max-width: 500px) and (max-height: 640px) {
-    .hero-message { top: clamp(18px, 4svh, 28px); }
-    .hero-message p { margin: clamp(10px, 2svh, 14px) 0; }
-    .robot {
-      width: min(42vw, 26svh);
-      bottom: clamp(4rem, 15svh, 5.75rem);
+
+    .video-hero:not(.is-animated) .video-hero__panel[data-video-panel="0"] {
+      transform: none;
+    }
+
+    .video-hero__eyebrow {
+      margin-bottom: 10px;
+    }
+
+    .video-hero__title {
+      font-size: clamp(2.25rem, 11vw, 3.25rem);
+      letter-spacing: -.04em;
+    }
+
+    .video-hero__body {
+      margin: 12px 0 20px;
+      font-size: 1rem;
     }
   }
-  @media (max-width: 500px) and (max-height: 520px) {
-    .connection-stage { height: 460px; min-height: 460px; }
-    .robot { bottom: 3rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .video-hero__video {
+      display: none;
+    }
+
+    .video-hero__button,
+    .video-hero__arrow,
+    .video-hero__progress span {
+      transition: none;
+    }
   }
-  @media (max-width: 500px) and (min-height: 760px) {
-    .robot { bottom: clamp(8rem, 25svh, 14rem); }
-  }
-  /* Tamil and Sinhala words are much wider and taller than the uppercase Latin headline,
-     so the title is sized to keep the longest word inside the message column. */
-  :global(html[lang="ta"]) .hero-title, :global(html[lang="si"]) .hero-title { overflow-wrap: anywhere; }
-  :global(html[lang="ta"]) .digital-line, :global(html[lang="si"]) .digital-line { margin-bottom: .22em; }
-  :global(html[lang="ta"]) .hero-message p, :global(html[lang="si"]) .hero-message p { line-height: 1.6; }
 </style>

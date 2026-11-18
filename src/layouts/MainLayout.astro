@@ -11,7 +11,6 @@ interface Props {
 }
 
 const { title, description, openGraph = false, canonicalUrl } = Astro.props;
-const isHome = Astro.url.pathname === '/';
 ---
 
 <!doctype html>
@@ -37,12 +36,6 @@ const isHome = Astro.url.pathname === '/';
     <link rel="apple-touch-icon" href="/Original%20Logo.png" />
     <title>RYZITE</title>
     <slot name="head" />
-    <script is:inline define:vars={{ isHome }}>
-      if (isHome) {
-        document.documentElement.classList.add('home-intro');
-        window.ryziteIntroFallback = setTimeout(() => document.documentElement.classList.remove('home-intro'), 20000);
-      }
-    </script>
   </head>
   <body>
     <Navbar />
@@ -52,11 +45,3 @@ const isHome = Astro.url.pathname === '/';
     <Footer />
   </body>
 </html>
-
-<style is:global>
-  html.home-intro { overflow: hidden; }
-  html.home-intro .site-header, html.home-intro .footer { visibility: hidden; opacity: 0; pointer-events: none; }
-  html.home-intro .connection-hero { position: fixed; inset: 0; z-index: 100; }
-  html.home-intro .connection-stage { height: 100svh; max-width: none; }
-  html.home-transition:not(.home-intro) .connection-hero { position: relative; z-index: 100; }
-</style>
