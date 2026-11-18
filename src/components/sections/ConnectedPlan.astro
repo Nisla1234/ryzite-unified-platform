@@ -81,9 +81,9 @@ const highlightIcons = [
   .connected-flow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(80px, 200px) minmax(0, 1fr); align-items: center; max-width: 960px; margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
   .connected-inputs { display: grid; gap: 1.1rem; justify-items: stretch; }
   .connected-node { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem; }
-  .connected-node p { color: var(--hs-ink); font-size: var(--size-h4); font-weight: 800; line-height: 1.3; }
+  .connected-node p { color: var(--hs-ink); font-size: var(--size-h4); font-weight: 600; line-height: 1.3; }
   .connected-node__image { display: block; flex-shrink: 0; width: 4.5rem; height: 4.5rem; border-radius: 1rem; object-fit: cover; box-shadow: 0 6px 14px #0655e91c; }
-  .connected-plus { display: none; color: var(--hs-blue); font-size: 1.5rem; font-weight: 800; text-align: center; }
+  .connected-plus { display: none; color: var(--hs-blue); font-size: 1.5rem; font-weight: 600; text-align: center; }
   .connected-lines { width: 100%; height: 100%; min-height: 200px; }
   .connected-lines--narrow { display: none; }
   .connected-pulse { animation: connected-pulse 2.8s linear infinite; }
@@ -92,11 +92,11 @@ const highlightIcons = [
   /* Growth image behind the card; pink tones rotated onto brand blue, then a blue wash keeps the text legible. */
   .connected-result__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; filter: hue-rotate(-110deg) saturate(1.1); }
   .connected-result::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle at 30% 20%, #078be9b3, #0655e9b3 45%, #0643cfd9); }
-  .connected-result p { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 800; line-height: var(--leading-h3); }
+  .connected-result p { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); }
   .connected-result__icon { display: grid; place-items: center; width: 4rem; height: 4rem; border: 2px solid #ffffff55; border-radius: 50%; background: #ffffff1f; }
   .connected-result__icon svg { width: 2rem; height: 2rem; }
   .connected-highlights { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
-  .connected-highlights li { display: flex; flex-direction: column; align-items: center; gap: .85rem; padding: 1.25rem 1rem; color: var(--hs-ink); font-size: .9375rem; font-weight: 700; line-height: 1.45; text-align: center; overflow-wrap: anywhere; }
+  .connected-highlights li { display: flex; flex-direction: column; align-items: center; gap: .85rem; padding: 1.25rem 1rem; color: var(--hs-ink); font-size: .9375rem; font-weight: 600; line-height: 1.45; text-align: center; overflow-wrap: anywhere; }
   @media (max-width: 1100px) { .connected-highlights { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 760px) {
     .connected-flow { grid-template-columns: 1fr; }

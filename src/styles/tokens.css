@@ -13,23 +13,35 @@
     --color-lilac-soft: #eadcff;
     --color-line-dark: #2a323c;
     --color-line-light: #d5cec2;
-    --font-display: 'Manrope', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
-    --font-body: 'Inter', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
+    /* English: Inter Tight for the hero and headings, Inter for body, navigation and buttons.
+       Tamil and Sinhala glyphs fall through to their Noto families.
+       Loaded weights: Inter Tight 600/700, Inter 400/500/600, Noto 400/500/600/700. */
+    --font-display: 'Inter Tight', 'Noto Sans Tamil', 'Noto Sans Sinhala', system-ui, sans-serif;
+    --font-heading: var(--font-display);
+    --font-body: 'Inter', 'Noto Sans Tamil', 'Noto Sans Sinhala', system-ui, sans-serif;
+    --weight-heading: 700;
+    --weight-subheading: 600;
+    --weight-body: 400;
+    --weight-medium: 500;
+    --weight-strong: 600;
     --size-display: clamp(6rem, 14vw, 14rem);
     /* Typography scale: one system for every page.
-       h1 34→64px, h2 26→42px, h3 18→24px, h4 16→18px, body 15→17px, labels 12–13px. */
+       hero 36→72px, h1 34→64px, h2 26→42px, h3 18→24px, h4 16→18px, body 16→17px, labels 12–13px. */
+    --size-hero: clamp(2.25rem, 1.5rem + 3.2vw, 4.5rem);
     --size-h1: clamp(2.125rem, 1.4rem + 3vw, 4rem);
     --size-h2: clamp(1.625rem, 1.2rem + 1.6vw, 2.625rem);
     --size-h3: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
     --size-h4: clamp(1rem, 0.94rem + 0.25vw, 1.125rem);
     --size-lead: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
-    --size-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+    --size-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
     --size-small: 0.8125rem;
     --size-eyebrow: 0.75rem;
+    --leading-hero: 1.05;
     --leading-h1: 1.08;
     --leading-h2: 1.12;
     --leading-h3: 1.25;
-    --leading-body: 1.7;
+    --leading-body: 1.65;
+    --tracking-hero: -0.025em;
     --tracking-h1: -0.02em;
     --tracking-h2: -0.015em;
     --tracking-h3: -0.01em;
