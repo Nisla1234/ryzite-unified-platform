@@ -425,7 +425,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .services[data-standalone="false"] + .solutions[data-standalone="false"] { padding-top: 32px; }
   .solutions .title-plaque { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
   .section-intro { text-align: center; max-width: 700px; margin: 0 auto 22px; }
-  .eyebrow { display: block; color: var(--dark); font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; }
+  .eyebrow { display: block; color: var(--dark); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; }
   .title-plaque { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 20px 30px; border: 2px solid white; border-radius: 26px; background: linear-gradient(125deg, #fff, var(--tint)); box-shadow: 0 7px 0 var(--accent), 0 17px 25px color-mix(in srgb, var(--accent) 20%, transparent); }
   .title-plaque--plain { gap: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
   .title-plaque h1, .title-plaque h2 { font-size: var(--size-h2); line-height: var(--leading-h2); font-weight: 700; letter-spacing: var(--tracking-h2); margin: 0; }
@@ -434,11 +434,11 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .solutions .title-plaque h1 { min-width: 0; font-size: var(--size-h1); line-height: var(--leading-h1); letter-spacing: var(--tracking-h1); }
   .services-title { color: #0a1734; }
   .services-title strong { color: #064bed; }
-  .section-intro > .section-description { color: #596580; font-size: 15px; line-height: 1.7; margin: 26px auto 0; max-width: 570px; }
+  .section-intro > .section-description { color: #596580; font-size: 16.5px; line-height: 1.7; margin: 26px auto 0; max-width: 570px; }
   .services .section-intro > .section-description { color: #000; font-size: var(--size-lead); line-height: 1.5; margin: 0 auto; }
   .solutions .section-intro > .section-description { color: #000; font-size: var(--size-lead); line-height: 1.5; margin: 0 auto; }
-  .division-symbol { display: grid; place-items: center; flex-shrink: 0; width: 58px; height: 58px; border-radius: 17px; background: linear-gradient(145deg, var(--accent), var(--dark)); color: white; font-size: 25px; font-weight: 600; box-shadow: inset 0 2px 3px #ffffff80, 0 6px 12px #23387120; }
-  .item-count { color: var(--dark); font-size: 12px; font-weight: 600; }
+  .division-symbol { display: grid; place-items: center; flex-shrink: 0; width: 58px; height: 58px; border-radius: 17px; background: linear-gradient(145deg, var(--accent), var(--dark)); color: white; font-size: 27.5px; font-weight: 600; box-shadow: inset 0 2px 3px #ffffff80, 0 6px 12px #23387120; }
+  .item-count { color: var(--dark); font-size: 13px; font-weight: 600; }
   .snake-roadmap { position: relative; max-width: 1240px; margin: auto; }
   .services .snake-roadmap { max-width: 1380px; }
   .service-robot { position: absolute; top: 0; left: 0; width: clamp(46px, 5.2vw, 68px); height: auto; z-index: 4; opacity: 0; visibility: hidden; pointer-events: none; transform-origin: 50% 90%; filter: drop-shadow(0 4px 4px #1264c42b); }
@@ -461,32 +461,32 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   @keyframes service-arrival { 0% { scale: .96; } 55% { scale: 1.035; } 100% { scale: 1; } }
   .roadmap-stop.is-reached .roadmap-dot { background: var(--accent); box-shadow: 0 0 14px 4px var(--tint); }
   .roadmap-dot { position: absolute; bottom: -14px; left: calc(50% - 7px); width: 14px; height: 9px; border-radius: 50%; background: white; box-shadow: 0 0 8px 2px #b9cce4; transition: background .3s, box-shadow .3s; }
-  .service-icon { flex-shrink: 0; display: grid; place-items: center; width: 42px; height: 48px; border-radius: 13px; color: var(--dark); font-size: 29px; background: linear-gradient(145deg, #fff, var(--tint)); box-shadow: inset 0 0 0 1px #fff, 0 5px 9px #355d9b15; }
-  .service-copy h3 { margin: 0 0 7px; font-family: var(--font-display); font-size: 14px; line-height: 1.3; font-weight: 700; letter-spacing: -.025em; }
+  .service-icon { flex-shrink: 0; display: grid; place-items: center; width: 42px; height: 48px; border-radius: 13px; color: var(--dark); font-size: 32px; background: linear-gradient(145deg, #fff, var(--tint)); box-shadow: inset 0 0 0 1px #fff, 0 5px 9px #355d9b15; }
+  .service-copy h3 { margin: 0 0 7px; font-family: var(--font-display); font-size: 15.5px; line-height: 1.3; font-weight: 700; letter-spacing: -.025em; }
   .services .service-copy { min-width: 0; flex: 1; }
-  .services .service-copy h3 { margin-bottom: 10px; font-size: 22px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
-  .service-copy p { margin: 0; color: #63718a; font-size: 11px; line-height: 1.45; }
-  .services .service-copy p { font-size: 16.5px; line-height: 1.5; }
-  .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .55; font-size: 9px; font-weight: 600; }
+  .services .service-copy h3 { margin-bottom: 10px; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+  .service-copy p { margin: 0; color: #63718a; font-size: 12px; line-height: 1.45; }
+  .services .service-copy p { font-size: 18px; line-height: 1.5; }
+  .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .55; font-size: 10px; font-weight: 600; }
   /* Same pill as the Business Challenge "Solve These Challenges" button. */
-  .division-link { display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 18px 30px; border-radius: 999px; color: white; background: linear-gradient(110deg, #008aff, #063df3); box-shadow: 0 8px 18px #085be735; font-size: 16px; font-weight: 600; text-align: center; text-decoration: none; transition: translate .2s; }
-  .division-link span[aria-hidden="true"] { flex-shrink: 0; font-size: 23px; line-height: 1; }
+  .division-link { display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 18px 30px; border-radius: 999px; color: white; background: linear-gradient(110deg, #008aff, #063df3); box-shadow: 0 8px 18px #085be735; font-size: 17.5px; font-weight: 600; text-align: center; text-decoration: none; transition: translate .2s; }
+  .division-link span[aria-hidden="true"] { flex-shrink: 0; font-size: 25.5px; line-height: 1; }
   .division-link:hover { translate: 0 -3px; }.division-link:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
-  @media (max-width: 700px) { .division-link { gap: 14px; padding: 16px 22px; font-size: 14px; } .division-link span[aria-hidden="true"] { font-size: 20px; } }
+  @media (max-width: 700px) { .division-link { gap: 14px; padding: 16px 22px; font-size: 15.5px; } .division-link span[aria-hidden="true"] { font-size: 22px; } }
   .orb { position: absolute; z-index: -1; width: 600px; height: 600px; border-radius: 50%; filter: blur(70px); opacity: .25; pointer-events: none; }.orb-blue { left: -430px; top: 150px; background: var(--accent); }.orb-accent { right: -430px; bottom: 50px; background: var(--accent); }
   @media (min-width: 701px) and (max-width: 1050px) { .roadmap { grid-template-columns: repeat(3, minmax(0, 1fr)); }.roadmap-stop { grid-column: var(--col-3); grid-row: var(--row-3); } }
-  @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 21px; }.item-count { display: none; }.section-intro > .section-description { font-size: 13px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 24px; }.service-copy h3 { font-size: 12px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 9px; } }
+  @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 23px; }.item-count { display: none; }.section-intro > .section-description { font-size: 14.5px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 26.5px; }.service-copy h3 { font-size: 13px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 10px; } }
   /* Three stair flights: 1?4 right, 5?8 left, then 9?11 right. */
   .services .roadmap { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(44px, auto); row-gap: 0; padding: 30px 0 45px; }
   .services .roadmap-stop { grid-column: var(--col-4); grid-row: var(--step-row-4) / span 3; min-height: 168px; padding: 28px 26px 26px; border-radius: 26px; translate: none; rotate: none; }
-  .services .service-number { top: 12px; right: 16px; font-size: 12px; opacity: .75; }
+  .services .service-number { top: 12px; right: 16px; font-size: 13px; opacity: .75; }
   @media (min-width: 768px) and (max-width: 1050px) {
     /* Rows grow with the copy so text is never clipped by the fixed 3 x 44px span. */
     .services .roadmap { column-gap: 16px; grid-auto-rows: minmax(44px, auto); padding-top: 52px; }
     .services .roadmap-stop { min-height: 150px; padding: 22px 14px 18px; gap: 8px; border-radius: 22px; }
-    .services .service-icon { width: 30px; height: 36px; font-size: 24px; }
-    .services .service-copy h3 { margin-bottom: 8px; font-size: 19px; overflow-wrap: anywhere; }
-    .services .service-copy p { font-size: 15px; overflow-wrap: anywhere; }
+    .services .service-icon { width: 30px; height: 36px; font-size: 26.5px; }
+    .services .service-copy h3 { margin-bottom: 8px; font-size: 21px; overflow-wrap: anywhere; }
+    .services .service-copy p { font-size: 16.5px; overflow-wrap: anywhere; }
   }
   /* Mobile: content-sized cards stacked with a fixed gap, alternating left/right.
      The connector script reads --track-layout and routes each segment through the gap. */
@@ -496,8 +496,8 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
     .services .roadmap-stop { width: min(86%, 420px); min-height: 0; flex-direction: column; justify-content: center; gap: 0; padding: 26px 22px 24px; text-align: center; border-radius: 22px; }
     .services .roadmap-stop:nth-child(even) { align-self: flex-end; }
     .services .service-copy { width: 100%; }
-    .services .service-copy h3 { margin: 0; font-size: clamp(17px, 4.9vw, 19px); overflow-wrap: break-word; }
-    .services .service-copy p { display: block; margin-top: 8px; font-size: 14.5px; line-height: 1.5; }
+    .services .service-copy h3 { margin: 0; font-size: clamp(18.5px, 5.39vw, 21px); overflow-wrap: break-word; }
+    .services .service-copy p { display: block; margin-top: 8px; font-size: 16px; line-height: 1.5; }
   }
   /* Below the smallest supported phone the stagger no longer fits: single column. */
   @media (max-width: 319px) {
@@ -520,15 +520,15 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   }
   .solutions .solution-card-link:focus-visible { outline: none; box-shadow: inset 0 0 0 4px var(--dark); }
   .solutions .roadmap-stop:focus-within { border-color: var(--accent); }
-  .solution-card-link__more { display: inline-flex; align-items: center; gap: .4rem; margin-top: .15rem; color: var(--dark); font-size: .68rem; font-weight: 600; }
-  .solution-card-link__more span { font-size: .9rem; transition: transform .18s ease; }
+  .solution-card-link__more { display: inline-flex; align-items: center; gap: .4rem; margin-top: .15rem; color: var(--dark); font-size: .748rem; font-weight: 600; }
+  .solution-card-link__more span { font-size: .99rem; transition: transform .18s ease; }
   .solution-card-link:hover .solution-card-link__more span { transform: translate(2px, -2px); }
   .solutions .roadmap-stop.is-reached { animation: none; }
   .solution-card-image { display: block; width: 100%; height: 150px; flex: 0 0 auto; border-radius: var(--radius-small); object-fit: cover; }
   .solutions .service-icon { width: 42px; height: 42px; margin-bottom: 0; }
   .solutions .service-copy { width: 100%; min-width: 0; }
-  .solutions .service-copy h3 { font-size: 21px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; overflow-wrap: anywhere; }
-  .solutions .service-copy p { color: #63718a; font-size: 16px; overflow-wrap: anywhere; }
+  .solutions .service-copy h3 { font-size: 23px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  .solutions .service-copy p { color: #63718a; font-size: 17.5px; overflow-wrap: anywhere; }
   .solution-tree { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
   .solution-tree :global(path) { stroke-linecap: round; stroke-linejoin: round; }
   .solution-tree :global(.network-trunk) { stroke-width: 3px; }
@@ -541,8 +541,8 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   @media (min-width: 768px) and (max-width: 1023px) {
     .solutions .roadmap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 28px 20px; padding: 16px 0 36px; }
     .solutions .roadmap-stop { grid-column: auto; grid-row: auto; width: 100%; height: auto; margin-left: 0; translate: none; rotate: none; }
-    .solutions .service-copy h3 { font-size: 18px; }
-    .solutions .service-copy p { font-size: 14px; }
+    .solutions .service-copy h3 { font-size: 20px; }
+    .solutions .service-copy p { font-size: 15.5px; }
   }
   /* Mobile: one centred, content-sized card per row; no fixed heights, no horizontal overflow. */
   @media (max-width: 767px) {
@@ -550,10 +550,10 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
     .solutions .roadmap { display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 12px 0 36px; }
     .solutions .roadmap-stop { width: 100%; max-width: 400px; height: auto; margin-left: 0; padding: 18px 16px 20px; border-radius: 20px; translate: none; rotate: none; }
     .solution-card-image { height: 170px; }
-    .solutions .service-copy h3 { margin: 0 0 4px; font-size: 17px; line-height: 1.3; overflow-wrap: break-word; }
-    .solutions .service-copy p { display: block; font-size: 13px; line-height: 1.5; }
-    .solutions .service-icon { width: 34px; height: 34px; font-size: 24px; }
-    .solution-card-link__more { margin-top: .4rem; font-size: .74rem; white-space: nowrap; }
+    .solutions .service-copy h3 { margin: 0 0 4px; font-size: 18.5px; line-height: 1.3; overflow-wrap: break-word; }
+    .solutions .service-copy p { display: block; font-size: 14.5px; line-height: 1.5; }
+    .solutions .service-icon { width: 34px; height: 34px; font-size: 26.5px; }
+    .solution-card-link__more { margin-top: .4rem; font-size: .814rem; white-space: nowrap; }
     .solution-tree :global(.network-trunk-glow) { stroke-width: 8px; }
     .solution-tree :global(.network-branch-glow) { stroke-width: 7px; }
   }

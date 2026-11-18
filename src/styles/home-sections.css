@@ -59,7 +59,7 @@
 }
 
 .hs-card h3 { margin: 0 0 .5rem; color: var(--hs-ink); font-size: var(--size-h4); line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); overflow-wrap: anywhere; }
-.hs-card p { margin: 0; color: var(--hs-muted); font-size: .9375rem; line-height: 1.6; overflow-wrap: anywhere; }
+.hs-card p { margin: 0; color: var(--hs-muted); font-size: 1.0312rem; line-height: 1.6; overflow-wrap: anywhere; }
 
 .hs-icon {
   display: grid;
@@ -88,7 +88,7 @@
   color: #fff;
   background: linear-gradient(110deg, var(--hs-blue-light), var(--hs-blue-deep));
   box-shadow: 0 8px 18px #0655e935;
-  font-size: .9375rem;
+  font-size: 1.0312rem;
   font-weight: 600;
   line-height: 1.3;
   text-align: center;
@@ -104,7 +104,7 @@
   align-items: center;
   gap: .45rem;
   color: var(--hs-blue);
-  font-size: .9375rem;
+  font-size: 1.0312rem;
   font-weight: 600;
   text-decoration: none;
 }
