@@ -49,6 +49,10 @@ Status tags (defined in `AGENTS.md`; must be preserved wherever they appear):
 
 - `[BASELINE]` **Fira Sans** for all English text (400/500/600/700); Tamil and Sinhala fall back to
   **Noto Sans Tamil** / **Noto Sans Sinhala** (`tokens.css`).
+- `[BASELINE]` **Fira Sans Extra Condensed** (700) for condensed display titles (process steps, FAQ title,
+  footer wordmark).
+- `[BASELINE]` All web fonts are SIL Open Font License 1.1; licence files and copyright notices are kept in
+  `licenses/fonts/`. Add one there for every new font family.
 - `[BASELINE]` One shared type scale in `tokens.css` (`--size-hero`, `--size-h1` … `--size-eyebrow`).
 
 ### 3.3 Colour

@@ -22,6 +22,14 @@ const splineSegments = (points: Point[]) => {
   return segments;
 };
 
+// Wave: one S-curve per pair, leaving and entering every point vertically, so points that
+// alternate left and right read as the crests of a regular wave.
+const waveSegments = (points: Point[]) => points.slice(1).map((p2, i) => {
+  const p1 = points[i];
+  const d = (p2.y - p1.y) * .55;
+  return `C${p1.x.toFixed(1)},${(p1.y + d).toFixed(1)} ${p2.x.toFixed(1)},${(p2.y - d).toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+});
+
 const initializeProcessRoad = () => {
   const section = document.querySelector<HTMLElement>('[data-process-road]');
   if (!section || section.dataset.roadInitialized) return;
@@ -62,19 +70,8 @@ const initializeProcessRoad = () => {
     if (wide.matches) {
       // Start at a knob on the top-right edge, like a road unrolling from a spool.
       anchors.push({ x: width - 14, y: 0, key: -1 });
-      anchors.push({ x: width * .82, y: badges[0].y * .35 });
-      const lastIndex = badges.length - 1;
-      badges.forEach((badge, index) => {
-        anchors.push({ ...badge, key: index });
-        const next = badges[index + 1];
-        if (!next) return;
-        // Swing wider than a straight hop so the road feels hand-drawn.
-        const swing = (index % 2 ? 1 : -1) * Math.min(160, width * .12);
-        anchors.push({ x: (badge.x + next.x) / 2 + swing, y: (badge.y + next.y) / 2 });
-      });
+      badges.forEach((badge, index) => anchors.push({ ...badge, key: index }));
       // Finish by sweeping down to a knob on the bottom-left edge.
-      const last = badges[lastIndex];
-      anchors.push({ x: last.x - width * .05, y: last.y + (height - last.y) * .55 });
       anchors.push({ x: 16, y: height - 14, key: -2 });
     } else {
       // Narrow screens: a gentle wave down the badge column.
@@ -88,7 +85,7 @@ const initializeProcessRoad = () => {
       anchors.push({ x: last.x, y: height + 10, key: -2 });
     }
 
-    const segments = splineSegments(anchors);
+    const segments = wide.matches ? waveSegments(anchors) : splineSegments(anchors);
     const start = `M${anchors[0].x.toFixed(1)},${anchors[0].y.toFixed(1)}`;
     const full = `${start} ${segments.join(' ')}`;
     track.setAttribute('d', full);

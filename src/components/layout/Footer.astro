@@ -8,13 +8,25 @@ import { company } from '../../Constants';
 const year = new Date().getFullYear();
 const whatsappUrl = `https://wa.me/${company.whatsapp.number}`;
 const phoneHref = `tel:+${company.whatsapp.number}`;
+
+// Regular background waves: each path repeats every 1440 units across a 2880-unit canvas, so the
+// canvas can slide left by half its width and loop seamlessly.
+const wave = (base: number, amplitude: number, phase: number) => {
+  const points: string[] = [];
+  for (let x = 0; x <= 2880; x += 24) {
+    points.push(`${x},${(base + amplitude * Math.sin((2 * Math.PI * x) / 1440 + phase)).toFixed(1)}`);
+  }
+  return `M${points.join(' L')}`;
+};
+const waves = [wave(200, 55, 0), wave(500, 70, 2.1), wave(790, 55, 4.2)];
 ---
 
 <footer class="footer" id="site-footer">
-  <svg class="footer-loops" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-    <path pathLength="1" d="M-60 140 C 180 -40 440 250 310 310 C 180 370 150 170 330 140 C 540 105 610 430 830 390 C 1050 350 990 120 870 160 C 740 205 830 430 1070 470 C 1310 510 1450 300 1520 250" />
-    <path pathLength="1" d="M-60 720 C 170 560 390 830 300 870 C 200 910 150 730 360 690 C 620 640 760 870 1000 790 C 1210 720 1110 560 1000 600 C 880 650 1060 880 1520 770" />
-  </svg>
+  <div class="footer-waves" aria-hidden="true">
+    <svg viewBox="0 0 2880 900" preserveAspectRatio="none" focusable="false">
+      {waves.map((d) => <path d={d} />)}
+    </svg>
+  </div>
 
   <div class="footer-inner">
     <div class="footer-top">
@@ -84,21 +96,33 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
     font-family: var(--font-body);
   }
 
-  /* Faint looping lines behind everything. */
-  .footer-loops {
+  /* Faint regular waves behind everything, flowing slowly to the left. */
+  .footer-waves {
     position: absolute;
     z-index: -1;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    overflow: hidden;
     pointer-events: none;
   }
 
-  .footer-loops path {
+  .footer-waves svg {
+    display: block;
+    width: 200%;
+    height: 100%;
+    animation: footer-wave-flow 48s linear infinite;
+  }
+
+  .footer-waves path {
     fill: none;
     stroke: rgb(255 255 255 / 8%);
     stroke-linecap: round;
-    stroke-width: 34;
+    stroke-width: 30;
+    vector-effect: non-scaling-stroke;
+  }
+
+  @keyframes footer-wave-flow {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
   }
 
   .footer-inner {
@@ -283,27 +307,15 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
     outline-offset: 4px;
   }
 
-  /* Scroll-linked motion where supported: loops draw in and the wordmark rises into place. */
+  /* Scroll-linked motion where supported: the wordmark rises into place. */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
-      .footer-loops path {
-        stroke-dasharray: 1 1;
-        animation: footer-draw linear both;
-        animation-timeline: view();
-        animation-range: entry 0% cover 55%;
-      }
-
       .footer-wordmark svg {
         animation: footer-rise linear both;
         animation-timeline: view();
         animation-range: entry 0% entry 100%;
       }
     }
-  }
-
-  @keyframes footer-draw {
-    from { stroke-dashoffset: 1; }
-    to { stroke-dashoffset: 0; }
   }
 
   @keyframes footer-rise {
@@ -322,6 +334,8 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .footer-waves svg { animation: none; }
+
     .footer-cta-button,
     .footer-cta-icon,
     .footer-column a {
