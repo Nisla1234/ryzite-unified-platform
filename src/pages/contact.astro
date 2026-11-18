@@ -41,14 +41,15 @@ const enquiryConfig = {
           <p class="contact-hero__tagline" data-contact-key="heroTagline">One Agency. All Your Business Solutions.</p>
           <a class="contact-button contact-button--primary" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true">↓</span></a>
         </div>
-        <div class="contact-hero__art" aria-hidden="true">
-          <div class="contact-hero__ring contact-hero__ring--outer"></div>
-          <div class="contact-hero__ring contact-hero__ring--inner"></div>
-          <div class="contact-hero__message-card"><span class="message-card__dot"></span><span class="message-card__line"></span><span class="message-card__line message-card__line--short"></span><span class="message-card__send"><ArrowUpRight /></span></div>
-          <span class="contact-hero__orbit-label contact-hero__orbit-label--one" data-contact-key="artIdeas">IDEAS</span>
-          <span class="contact-hero__orbit-label contact-hero__orbit-label--two" data-contact-key="artSolutions">SOLUTIONS</span>
-          <span class="contact-hero__spark">✳</span>
-        </div>
+        <figure class="contact-hero__art">
+          <img src="/images/contact/contact-hero-handshake.webp" alt="Two hands meeting in a handshake, overlaid with glowing digital network lines." width="735" height="913" fetchpriority="high" decoding="async" />
+          <span class="contact-hero__sheen" aria-hidden="true"></span>
+          <span class="contact-hero__waves" aria-hidden="true">
+            <span class="contact-hero__wave contact-hero__wave--back"></span>
+            <span class="contact-hero__wave contact-hero__wave--mid"></span>
+            <span class="contact-hero__wave contact-hero__wave--front"></span>
+          </span>
+        </figure>
       </div>
       <div class="contact-hero__edge" aria-hidden="true"><span data-contact-key="edgeLabel">RYZITE / CONTACT</span><span><span data-contact-key="edgeNote">Let’s talk about what’s next</span> <b>↓</b></span></div>
     </section>
@@ -88,11 +89,11 @@ const enquiryConfig = {
           <p data-contact-key="formDescription">Complete the enquiry form below and share a few details about your project. Our team can review your requirements and discuss the next steps.</p>
           <ul class="enquiry-contacts">
             <li class="enquiry-copy__note">
-              <span class="enquiry-contact__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="m4 7 8 6 8-6" /></svg></span>
+              <span class="enquiry-contact__icon" aria-hidden="true"><img src="/images/contact/gmail.webp" alt="" width="128" height="128" loading="lazy" decoding="async" /></span>
               <p><span data-contact-key="emailFallback">Prefer email? Write to us at</span> <a href={`mailto:${company.email}`}>{company.email}</a></p>
             </li>
             <li class="enquiry-copy__note">
-              <span class="enquiry-contact__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" /></svg></span>
+              <span class="enquiry-contact__icon" aria-hidden="true"><img src="/images/contact/whatsapp.webp" alt="" width="128" height="128" loading="lazy" decoding="async" /></span>
               <p><span>WhatsApp</span> <a href={`https://wa.me/${company.whatsapp.number}`} target="_blank" rel="noopener noreferrer">{company.whatsapp.display}</a></p>
             </li>
           </ul>
@@ -138,22 +139,12 @@ const enquiryConfig = {
                 <optgroup label="Technology Solutions" data-contact-group="technologyGroup">
                   {technology.map(([title]) => <option value={offeringSlug(title)} data-service-title={title}>{title}</option>)}
                 </optgroup>
-              </select>
-            </div>
-            <div class="contact-field">
-              <label for="contact-package"><span data-contact-key="package">Preferred Package</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
-              <select id="contact-package" name="package">
-                <option value="" data-contact-key="packagePlaceholder">No package preference</option>
-                <option value="guidance" data-english="I’d like help choosing a suitable option" data-contact-key="packageGuidance">I’d like help choosing a suitable option</option>
+                <option value="other" data-english="Other" data-contact-key="serviceOther">Other</option>
               </select>
             </div>
             <div class="contact-field">
               <label for="contact-budget"><span data-contact-key="budget">Estimated Budget</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
               <input id="contact-budget" name="budget" type="text" inputmode="text" data-contact-placeholder="budgetPlaceholder" placeholder="Optional — share an estimated range" />
-            </div>
-            <div class="contact-field">
-              <label for="contact-start-date"><span data-contact-key="startDate">Preferred Start Date</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
-              <input id="contact-start-date" name="startDate" type="date" />
             </div>
             <div class="contact-field contact-field--wide">
               <label for="contact-hear"><span data-contact-key="hearAbout">How did you hear about us?</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
@@ -163,7 +154,7 @@ const enquiryConfig = {
               </select>
             </div>
             <div class="contact-field contact-field--wide">
-              <label for="contact-project"><span data-contact-key="projectDescription">Project Description</span><span class="required-mark" aria-hidden="true">*</span></label>
+              <label for="contact-project"><span data-contact-key="projectDescription">Notes</span><span class="required-mark" aria-hidden="true">*</span></label>
               <textarea id="contact-project" name="project" rows="5" required data-contact-placeholder="projectPlaceholder" placeholder="Tell us about your goals, needs, and any useful details." aria-describedby="contact-project-error"></textarea>
               <span class="field-error" id="contact-project-error" data-error-for="project" aria-live="polite"></span>
             </div>
@@ -223,8 +214,8 @@ const enquiryConfig = {
         </header>
         <div class="faq-list" data-contact-reveal>
           <details class="faq-item"><summary data-contact-key="faqQuestionOne">How do I start a project with RYZITE?</summary><div class="faq-answer"><p data-contact-key="faqAnswerOne">Share your project details in the enquiry form. It prepares an email in your email app for you to review and send. Your enquiry is not delivered until you send that email.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionTwo">Can I request multiple services?</summary><div class="faq-answer"><p data-contact-key="faqAnswerTwo">Yes. Choose one service in the form if helpful, then list any other services you’re considering in the project description.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionThree">Can RYZITE help me choose a suitable solution?</summary><div class="faq-answer"><p data-contact-key="faqAnswerThree">Yes. Select the option asking for help choosing and describe your business goals and needs so we can discuss suitable options.</p></div></details>
+          <details class="faq-item"><summary data-contact-key="faqQuestionTwo">Can I request multiple services?</summary><div class="faq-answer"><p data-contact-key="faqAnswerTwo">Yes. Choose one service in the form if helpful, then list any other services you’re considering in the notes.</p></div></details>
+          <details class="faq-item"><summary data-contact-key="faqQuestionThree">Can RYZITE help me choose a suitable solution?</summary><div class="faq-answer"><p data-contact-key="faqAnswerThree">Yes. Choose Other if you are unsure, then describe your business goals and needs in the notes so we can discuss suitable options.</p></div></details>
           <details class="faq-item"><summary data-contact-key="faqQuestionFour">How much does a project cost?</summary><div class="faq-answer"><p data-contact-key="faqAnswerFour">Pricing depends on the project details. No prices are listed on this page; use the enquiry form to describe your needs and ask for pricing information.</p></div></details>
           <details class="faq-item"><summary data-contact-key="faqQuestionFive">Can I discuss my project before choosing a package?</summary><div class="faq-answer"><p data-contact-key="faqAnswerFive">Yes. Describe your requirements in the form and let us know you would like to discuss the project before deciding on a package.</p></div></details>
         </div>
@@ -346,12 +337,6 @@ const enquiryConfig = {
       serviceField.value = serviceValue;
     }
 
-    const requestedPackage = (query.get('package') || '').trim();
-    const packageField = form.querySelector('[name="package"]');
-    if ([...packageField.options].some((option) => option.value === requestedPackage && option.value)) {
-      packageField.value = requestedPackage;
-    }
-
     const hearField = form.querySelector('[name="hearAbout"]');
     const clean = (value) => String(value || '').trim();
 
@@ -359,16 +344,13 @@ const enquiryConfig = {
     const collectEnquiry = () => {
       const data = new FormData(form);
       const serviceOption = serviceField.selectedOptions[0];
-      const packageOption = packageField.selectedOptions[0];
       return {
         name: clean(data.get('name')),
         business: clean(data.get('business')),
         email: clean(data.get('email')),
         phone: clean(data.get('phone')),
-        service: serviceField.value ? clean(serviceOption?.dataset.serviceTitle || serviceOption?.textContent) : '',
-        package: packageField.value ? clean(packageOption?.dataset.english || packageOption?.textContent) : '',
+        service: serviceField.value ? clean(serviceOption?.dataset.serviceTitle || serviceOption?.dataset.english || serviceOption?.textContent) : '',
         budget: clean(data.get('budget')),
-        startDate: clean(data.get('startDate')),
         project: clean(data.get('project')),
         hearAbout: clean(hearField?.value),
       };
@@ -389,24 +371,12 @@ const enquiryConfig = {
         ['Business / Company', enquiry.business],
         ['Phone / WhatsApp', enquiry.phone],
         ['Service Interested In', enquiry.service],
-        ['Preferred Package', enquiry.package],
         ['Estimated Budget', enquiry.budget],
-        ['Preferred Start Date', enquiry.startDate],
         ['How did you hear about us?', enquiry.hearAbout],
       ];
       optional.forEach(([label, value]) => { if (value) payload[label] = value; });
       if (form.elements.botcheck?.checked) payload.botcheck = true;
       return payload;
-    };
-
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    // Date inputs give YYYY-MM-DD. Read the parts directly so the day never shifts with the visitor's time zone.
-    const formatStartDate = (value) => {
-      const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-      if (!match) return value;
-      const month = monthNames[Number(match[2]) - 1];
-      return month ? `${Number(match[3])} ${month} ${match[1]}` : value;
     };
 
     // Adds thousand separators to the amounts the visitor typed. Their wording and currency stay exactly as entered.
@@ -439,13 +409,9 @@ const enquiryConfig = {
         '',
         line('Service Required', enquiry.service),
         '',
-        line('Preferred Package', enquiry.package),
-        '',
         line('Estimated Budget', formatBudget(enquiry.budget)),
         '',
-        line('Preferred Start Date', formatStartDate(enquiry.startDate)),
-        '',
-        '*📝 PROJECT DESCRIPTION*',
+        '*📝 NOTES*',
         '',
         orMissing(enquiry.project),
         '',
@@ -640,11 +606,17 @@ const enquiryConfig = {
   .contact-button:focus-visible, .reach-card a:focus-visible, .service-choice-card a:focus-visible { outline: 3px solid #0655e9; outline-offset: 4px; }
   .contact-hero__glow { position: absolute; z-index: -1; width: min(40vw, 550px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgb(54 154 255 / 15%), transparent 70%); }
   .contact-hero__glow--one { top: -40%; right: 4%; }
-  .contact-hero__art { position: relative; width: min(100%, 440px); aspect-ratio: 1; justify-self: center; border: 1px solid rgb(6 85 233 / 12%); border-radius: 50%; background: radial-gradient(circle, #ffffffb8 0 28%, #ffffff35 29% 58%, transparent 59%); animation: contact-art-in 800ms 120ms var(--ease-out) both; }
-  .contact-hero__ring { position: absolute; inset: 9%; border: 1px solid rgb(6 85 233 / 23%); border-radius: 50%; }.contact-hero__ring--inner { inset: 24%; border-style: dashed; border-color: rgb(0 166 250 / 32%); }
-  .contact-hero__message-card { position: absolute; top: 50%; left: 50%; display: grid; width: 56%; min-height: 31%; grid-template-columns: 1.4rem minmax(0, 1fr) 2.3rem; align-items: center; gap: .6rem; padding: .8rem; transform: translate(-50%, -50%); border: 1px solid #ffffffd9; border-radius: 1.2rem; background: rgb(255 255 255 / 88%); box-shadow: 0 1.1rem 2.7rem rgb(22 62 115 / 15%); backdrop-filter: blur(16px); }
-  .message-card__dot { width: .65rem; aspect-ratio: 1; align-self: start; margin-top: .35rem; border-radius: 50%; background: var(--contact-cyan); box-shadow: 0 0 0 .35rem #00a6fa20; }.message-card__line { height: .45rem; border-radius: 99px; background: #bdd4f1; }.message-card__line--short { width: 66%; margin-top: -.9rem; }.message-card__send { display: grid; width: 2.3rem; aspect-ratio: 1; grid-row: span 2; place-items: center; border-radius: .75rem; color: #fff; background: var(--contact-blue); }
-  .contact-hero__orbit-label { position: absolute; padding: .45rem .7rem; border: 1px solid #d3e3f7; border-radius: 999px; color: #305278; background: #fff; box-shadow: 0 .5rem 1rem #193f7212; font-size: .638rem; font-weight: 600; letter-spacing: .13em; }.contact-hero__orbit-label--one { top: 19%; left: 7%; }.contact-hero__orbit-label--two { right: -1%; bottom: 22%; }.contact-hero__spark { position: absolute; top: 16%; right: 19%; color: var(--contact-blue); font-size: 1.65rem; }
+  .contact-hero__art { position: relative; width: min(100%, 440px); aspect-ratio: 735 / 913; margin: 0; justify-self: center; overflow: hidden; border: 1px solid #ffffffcc; border-radius: 1.75rem; background: #0b1a4a; box-shadow: 0 1.6rem 3.4rem rgb(22 62 115 / 22%); animation: contact-art-in 800ms 120ms var(--ease-out) both, contact-art-float 7s 1s ease-in-out infinite; }
+  .contact-hero__art img { display: block; width: 100%; height: 100%; object-fit: cover; transform-origin: 55% 45%; animation: contact-art-zoom 18s ease-in-out infinite alternate; }
+  /* A soft light band sweeps across the photo every few seconds. */
+  .contact-hero__sheen { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 22%) 50%, transparent 65%); background-size: 250% 100%; background-position: 150% 0; mix-blend-mode: screen; animation: contact-art-sheen 6s 1.2s ease-in-out infinite; }
+  /* Three translucent wave layers drift along the bottom edge. Each layer is twice the card width and
+     holds two identical wave tiles, so moving it by exactly half its width loops with no visible seam. */
+  .contact-hero__waves { position: absolute; right: 0; bottom: -1px; left: 0; z-index: 2; height: 22%; overflow: hidden; pointer-events: none; }
+  .contact-hero__wave { position: absolute; top: 0; bottom: 0; left: 0; width: 200%; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60 Q180 20 360 60 T720 60 T1080 60 T1440 60 V120 H0 Z'/%3E%3C/svg%3E") repeat-x 0 0 / 50% 100%; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60 Q180 20 360 60 T720 60 T1080 60 T1440 60 V120 H0 Z'/%3E%3C/svg%3E") repeat-x 0 0 / 50% 100%; animation: contact-wave-drift 9s linear infinite; will-change: translate; }
+  .contact-hero__wave--back { top: 0; background: rgb(7 139 233 / 40%); animation-duration: 16s; animation-direction: reverse; }
+  .contact-hero__wave--mid { top: 14%; background: rgb(6 85 233 / 50%); animation-duration: 12s; }
+  .contact-hero__wave--front { top: 28%; background: linear-gradient(180deg, rgb(6 67 207 / 80%), rgb(10 23 52 / 92%)); }
   .contact-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: .9rem; border-top: 1px solid rgb(19 51 91 / 12%); color: #788494; font-size: .715rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }.contact-hero__edge b { margin-left: .4rem; color: var(--contact-blue); }
 
   .contact-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
@@ -663,7 +635,7 @@ const enquiryConfig = {
   .enquiry-layout { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .enquiry-copy { position: sticky; top: 120px; }.enquiry-copy > p:not(.contact-eyebrow) { margin: 1.1rem 0 0; color: var(--contact-muted); line-height: 1.75; }
   .enquiry-contacts { display: grid; gap: .7rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
-  .enquiry-contact__icon { display: inline-flex; flex: 0 0 auto; width: 1.25rem; height: 1.25rem; }.enquiry-contact__icon svg { width: 100%; height: 100%; }
+  .enquiry-contact__icon { display: grid; flex: 0 0 auto; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid #e3ecf8; border-radius: .8rem; background: #fff; box-shadow: 0 .35rem .9rem #193f7210; }.enquiry-contact__icon img { display: block; width: 1.75rem; height: 1.75rem; object-fit: contain; }
   .enquiry-copy__note { display: flex; align-items: center; gap: .7rem; padding: 1rem; border: 1px solid #d5e3f4; border-radius: 1rem; color: #305278; background: #fff; }.enquiry-copy__note > span { color: var(--contact-blue); }.enquiry-copy__note p { margin: 0; font-size: .913rem; line-height: 1.6; }.enquiry-copy__note a { color: var(--contact-blue); font-weight: 600; overflow-wrap: anywhere; }
   .enquiry-form { min-width: 0; padding: clamp(1.25rem, 3vw, 2.2rem); border: 1px solid #dbe5f1; border-radius: var(--radius-medium); background: #fff; box-shadow: 0 1rem 3rem rgb(20 51 91 / 7%); }
   .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.05rem 1rem; }
@@ -691,6 +663,10 @@ const enquiryConfig = {
 
   .contact-reveal-pending { opacity: 0; transform: translateY(16px); transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }.contact-reveal-pending.is-visible { opacity: 1; transform: translateY(0); }
   @keyframes contact-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes contact-art-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+  @keyframes contact-art-zoom { from { scale: 1; } to { scale: 1.08; } }
+  @keyframes contact-art-sheen { 0% { background-position: 150% 0; } 45%, 100% { background-position: -50% 0; } }
+  @keyframes contact-wave-drift { from { translate: 0 0; } to { translate: -50% 0; } }
   @keyframes contact-art-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
   @media (max-width: 980px) {
