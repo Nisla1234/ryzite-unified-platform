@@ -130,7 +130,7 @@ The project currently contains **three different blue sets** and a legacy palett
 11. How We Work
 12. Trust `[PROPOSAL]`, with Client Reviews subsection below it
 13. FAQs `[PROPOSAL]`
-14. Closing Invitation `[PROPOSAL]`
+~~14. Closing Invitation~~ — removed from the homepage at the client's request (2026-11-18)
 
 ## 8. Enquiries and forms
 

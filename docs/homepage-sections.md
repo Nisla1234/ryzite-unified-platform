@@ -16,7 +16,6 @@ Order is fixed by the homepage brief. Do not add major sections between these wi
 | 11 | How We Work | `ProcessPreview.astro` + `src/scripts/process-road.ts` | `resources-translations.ts` process steps (six steps, same as `/how-we-work`) | Existing process; [PROPOSAL] scroll-drawn winding-road layout |
 | 12 | Trust | `TrustPrinciples.astro` | `home-sections-translations.ts` | [PROPOSAL] copy |
 | 13 | FAQs | `HomeFaq.astro` | `home-sections-translations.ts` | [PROPOSAL] answers; timeline and payment answers are non-committal; [PROPOSAL] chat-style layout |
-| 14 | Closing Invitation | `ClosingInvitation.astro` | `home-sections-translations.ts` | [PROPOSAL] copy |
 
 ## In review (not on the homepage)
 
@@ -25,6 +24,7 @@ Order is fixed by the homepage brief. Do not add major sections between these wi
 ## Hidden from the homepage
 
 - `AboutPreview.astro`: replaced by Two Divisions. Kept for possible reuse.
+- `ClosingInvitation.astro`: removed from the homepage at the client's request (2026-11-18); the footer now carries the closing call to action. Kept for possible reuse.
 - `ReviewsTrust.astro`: Client Reviews subsection rendered inside Trust (12), below the trust points. It renders nothing until an official profile URL is confirmed in `src/data/reviews.ts`; ratings, counts, and quotes show only when verified values are entered there. Design review page: `/preview/client-reviews` (noindex, unlinked).
 
 ## Rules for these sections

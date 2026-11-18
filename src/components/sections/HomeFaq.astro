@@ -5,13 +5,17 @@
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 
 const copy = homeSectionsTranslations.en.faq;
+// Two-tone title: first two words in ink, the rest in blue (same split rule as index.astro uses on language change).
+const titleWords = copy.title.split(/\s+/);
+const titleBase = titleWords.slice(0, 2).join(' ');
+const titleAccent = titleWords.slice(2).join(' ');
 ---
 
 <section class="hs-section hs-section--pale home-faq" aria-labelledby="home-faq-title">
   <div class="hs-shell home-faq__layout">
     <header class="home-faq__intro" data-hs-reveal>
       <p class="home-faq__eyebrow" data-home-key="sections.faq.eyebrow">{copy.eyebrow}</p>
-      <h2 id="home-faq-title" class="home-faq__title" data-home-key="sections.faq.title">{copy.title}</h2>
+      <h2 id="home-faq-title" class="home-faq__title hs-bicolor" data-home-key="sections.faq.title"><span class="hs-bicolor__base">{titleBase}</span><span class="hs-bicolor__accent"> {titleAccent}</span></h2>
       <img class="home-faq__robot" src="/images/hero/ry-front-plain.webp" alt="" width="1180" height="1333" loading="lazy" decoding="async" />
     </header>
 
@@ -75,6 +79,8 @@ const copy = homeSectionsTranslations.en.faq;
     text-transform: uppercase;
     text-wrap: balance;
   }
+
+  .home-faq__title .hs-bicolor__accent { color: var(--faq-blue); }
 
   :global(html[lang='ta']) .home-faq__title,
   :global(html[lang='si']) .home-faq__title {

@@ -102,14 +102,14 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
   }
 
   .footer-inner {
-    padding: clamp(3.5rem, 7vw, 6rem) var(--footer-gutter) 0;
+    padding: clamp(2.5rem, 4.5vw, 4rem) var(--footer-gutter) 0;
   }
 
   .footer-top {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
     align-items: start;
-    gap: clamp(2.5rem, 6vw, 6rem);
+    gap: clamp(2rem, 5vw, 4.5rem);
   }
 
   .footer-label {
@@ -122,11 +122,11 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
   }
 
   .footer-headline {
-    max-width: 14ch;
+    max-width: 16ch;
     margin: 0;
     color: var(--footer-ink);
     font-family: var(--font-heading);
-    font-size: clamp(2.4rem, 5vw, 4.6rem);
+    font-size: clamp(1.9rem, 3.4vw, 3.2rem);
     font-weight: 700;
     letter-spacing: -.03em;
     line-height: 1;
@@ -136,7 +136,7 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
   :global(html[lang='ta']) .footer-headline,
   :global(html[lang='si']) .footer-headline {
     max-width: 22ch;
-    font-size: clamp(1.8rem, 3.4vw, 3rem);
+    font-size: clamp(1.5rem, 2.6vw, 2.3rem);
     line-height: 1.2;
   }
 
@@ -144,7 +144,7 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
     display: inline-flex;
     align-items: center;
     gap: .85rem;
-    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    margin-top: clamp(1.1rem, 2vw, 1.6rem);
     padding: .55rem .55rem .55rem 1.4rem;
     border-radius: 999px;
     background: #0a1734;
@@ -179,7 +179,7 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
     flex-direction: column;
     align-items: flex-start;
     gap: .35rem;
-    margin-top: clamp(1.75rem, 3vw, 2.5rem);
+    margin-top: clamp(1.2rem, 2vw, 1.75rem);
   }
 
   .footer-contact-list a {
@@ -210,7 +210,7 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
   }
 
   .footer-column h2 {
-    margin: 0 0 1rem;
+    margin: 0 0 .75rem;
     color: var(--footer-muted);
     font-size: var(--size-small);
     font-weight: 600;
@@ -220,9 +220,9 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
   }
 
   .footer-column a {
-    margin: 0 0 .55rem;
+    margin: 0 0 .4rem;
     color: var(--footer-ink);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.45;
     text-decoration: none;
@@ -236,9 +236,9 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
 
   .footer-tagline {
     grid-column: 1 / -1;
-    margin: 1.5rem 0 0;
+    margin: 1rem 0 0;
     color: var(--footer-ink);
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.45;
   }
@@ -249,7 +249,7 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
     align-items: center;
     justify-content: space-between;
     gap: .5rem 1.5rem;
-    margin-top: clamp(3rem, 7vw, 6rem);
+    margin-top: clamp(1.75rem, 4vw, 3rem);
     color: var(--footer-muted);
     font-size: var(--size-small);
   }
@@ -259,7 +259,7 @@ const phoneHref = `tel:+${company.whatsapp.number}`;
   /* Giant wordmark: SVG text stretched to exactly the content width. */
   .footer-wordmark {
     display: block;
-    margin-top: clamp(.75rem, 1.5vw, 1.25rem);
+    margin-top: clamp(.5rem, 1vw, .9rem);
     line-height: 0;
     text-decoration: none;
   }
