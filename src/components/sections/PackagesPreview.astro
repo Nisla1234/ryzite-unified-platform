@@ -1,6 +1,8 @@
 ---
 // [PROPOSAL] Package names, descriptions, and features come from resources-translations.ts and
 // are labelled as proposed options there. No prices are shown because none are approved.
+// [PROPOSAL] Dark "light beam" presentation in the RYZITE logo blues (navy #0a1080, royal #2840c8, azure #2078f0). No card is highlighted by default,
+// so no package is implied as recommended; the glow follows hover and keyboard focus instead.
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 import { resourcesTranslations } from '../../data/resources-translations';
 
@@ -9,41 +11,53 @@ const packages = resourcesTranslations.en.packages;
 const featureCount = 4;
 ---
 
-<section class="hs-section hs-section--pale packages-preview" aria-labelledby="packages-preview-title">
+<section class="hs-section packages-preview" aria-labelledby="packages-preview-title">
   <div class="hs-shell">
-    <header class="hs-heading" data-hs-reveal>
+    <header class="hs-heading packages-heading" data-hs-reveal>
       <h2 id="packages-preview-title" data-home-key="sections.packages.title">{copy.title}</h2>
       <p data-home-key="sections.packages.intro">{copy.intro}</p>
     </header>
 
     <div class="packages-grid">
       {packages.packageCards.map((card, index) => (
-        <article class="hs-card hs-card--hover package-card" data-hs-reveal data-hs-delay={index * 0.12}>
-          <p class="package-card__label" data-home-key={`packageData.cards.${index}.label`}>{card.label}</p>
-          <h3 data-home-key={`packageData.cards.${index}.name`}>{card.name}</h3>
-          <p data-home-key={`packageData.cards.${index}.description`}>{card.description}</p>
+        <article class="package-card" data-hs-reveal data-hs-delay={index * 0.12}>
+          <p class="package-card__label"><span class="package-card__dot" aria-hidden="true"></span><span data-home-key={`packageData.cards.${index}.label`}>{card.label}</span></p>
 
-          <div class="package-card__suitable">
-            <p class="package-card__subhead" data-home-key="sections.packages.suitableLabel">{copy.suitableLabel}</p>
-            <p data-home-key={`sections.packages.suitable.${index}`}>{copy.suitable[index]}</p>
+          <div class="package-card__body">
+            <h3 data-home-key={`packageData.cards.${index}.name`}>{card.name}</h3>
+            <p class="package-card__description" data-home-key={`packageData.cards.${index}.description`}>{card.description}</p>
+
+            <div class="package-card__suitable">
+              <p class="package-card__subhead" data-home-key="sections.packages.suitableLabel">{copy.suitableLabel}</p>
+              <p data-home-key={`sections.packages.suitable.${index}`}>{copy.suitable[index]}</p>
+            </div>
+
+            <p class="package-card__subhead" data-home-key="packageData.featuresLabel">{packages.packageFeaturesLabel}</p>
+            <ul>
+              {card.features.slice(0, featureCount).map((feature, featureIndex) => (
+                <li>
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="url(#package-check)" /><path d="m6 10.5 2.5 2.5L14 7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  <span data-home-key={`packageData.cards.${index}.features.${featureIndex}`}>{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a class="package-card__cta" href="/contact/?package=guidance">
+              <span data-home-key="packageData.cta">{packages.packageCta}</span> <span aria-hidden="true">→</span>
+            </a>
           </div>
-
-          <p class="package-card__subhead" data-home-key="packageData.featuresLabel">{packages.packageFeaturesLabel}</p>
-          <ul>
-            {card.features.slice(0, featureCount).map((feature, featureIndex) => (
-              <li>
-                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="#e3eeff" /><path d="m6 10.5 2.5 2.5L14 7.5" stroke="#0655e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                <span data-home-key={`packageData.cards.${index}.features.${featureIndex}`}>{feature}</span>
-              </li>
-            ))}
-          </ul>
-
-          <a class="hs-link package-card__cta" href="/contact/?package=guidance">
-            <span data-home-key="packageData.cta">{packages.packageCta}</span> <span aria-hidden="true">→</span>
-          </a>
         </article>
       ))}
     </div>
+
+    <svg class="package-defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="package-check" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2078f0" />
+          <stop offset="1" stop-color="#2840c8" />
+        </linearGradient>
+      </defs>
+    </svg>
 
     <div class="hs-actions" data-hs-reveal>
       <a class="hs-button" href="/packages"><span data-home-key="sections.packages.cta">{copy.cta}</span> <span aria-hidden="true">→</span></a>
@@ -52,16 +66,128 @@ const featureCount = 4;
 </section>
 
 <style>
-  .packages-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-grid); }
-  .package-card { display: flex; flex-direction: column; padding: clamp(1.5rem, 2.5vw, 2rem); border-top: 4px solid var(--hs-blue); }
-  .package-card__label { margin-bottom: .75rem; color: var(--hs-blue); font-size: var(--size-eyebrow); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-  .package-card h3 { font-size: var(--size-h3); }
-  .package-card__suitable { margin: 1.25rem 0; padding: .9rem 1rem; border-radius: var(--radius-small); background: var(--hs-pale); }
-  .package-card__suitable p:last-child { color: var(--hs-ink); font-weight: 600; }
-  .package-card__subhead { margin-bottom: .35rem; color: var(--hs-ink); font-size: var(--size-small); font-weight: 800; }
-  .package-card ul { display: grid; gap: .6rem; margin: .4rem 0 1.5rem; padding: 0; list-style: none; }
-  .package-card li { display: flex; align-items: flex-start; gap: .6rem; color: var(--hs-muted); font-size: .9375rem; line-height: 1.45; overflow-wrap: anywhere; }
+  /* Colours sampled from the RYZITE logo: deep navy #0a1080, royal blue #2840c8, bright azure #2078f0. */
+  .packages-preview {
+    --logo-navy: #0a1080;
+    --logo-royal: #2840c8;
+    --logo-azure: #2078f0;
+    --pk-night: #050833;
+    --pk-card: #0b1158;
+    --pk-card-edge: #ffffff17;
+    --pk-text: #f4f6ff;
+    --pk-muted: #b4bfe8;
+    --pk-cyan: #5b9bff;
+    --pk-glow: linear-gradient(100deg, var(--logo-azure), var(--logo-royal) 55%, var(--logo-navy));
+    padding-bottom: clamp(3rem, 6vw, 4.5rem);
+    color: var(--pk-text);
+    background:
+      radial-gradient(ellipse 9% 48% at 50% 0%, #d6e2ff8c 0%, #2078f066 35%, transparent 75%),
+      radial-gradient(ellipse 30% 60% at 50% 4%, #2840c880 0%, transparent 70%),
+      linear-gradient(180deg, var(--pk-night) 0%, #070c4a 62%, var(--logo-navy) 76%, var(--logo-royal) 84%, #9fb4f5 93%, #ffffff 100%);
+  }
+  .packages-heading h2 {
+    color: var(--pk-text);
+    background: linear-gradient(100deg, #ffffff 0%, #ffffff 38%, #b9c8ff 58%, #6f9dff 78%, var(--logo-azure) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .packages-heading > p:not(.hs-eyebrow) { color: #d3def2; text-shadow: 0 1px 12px var(--pk-night); }
+
+  .packages-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
+  .package-card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    min-height: 36rem;
+    padding: clamp(1.4rem, 2.4vw, 1.9rem);
+    overflow: hidden;
+    border: 1px solid var(--pk-card-edge);
+    border-radius: 1.6rem;
+    background: linear-gradient(180deg, #0f1766 0%, var(--pk-card) 100%);
+    box-shadow: 0 24px 50px #02042680;
+    transition: border-color var(--duration-fast) var(--ease-out), translate var(--duration-fast) var(--ease-out);
+  }
+  /* Top glow, shown on hover or keyboard focus. */
+  .package-card::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 auto;
+    height: 9rem;
+    background: radial-gradient(ellipse 70% 100% at 50% 0%, #2840c8b3 0%, #2078f033 45%, transparent 75%);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+  .package-card:hover, .package-card:focus-within { border-color: #6f9dff73; }
+  .package-card:hover::before, .package-card:focus-within::before { opacity: 1; }
+  @media (hover: hover) { .package-card:hover { translate: 0 -4px; } }
+
+  .package-card__label {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    align-self: flex-start;
+    margin: 0;
+    padding: .45rem .9rem .45rem .7rem;
+    border: 1px solid #ffffff1f;
+    border-radius: 999px;
+    color: #dde4ff;
+    background: #ffffff0f;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .package-card__dot { width: .8rem; height: .8rem; border: 2px solid var(--pk-cyan); border-radius: 50%; box-shadow: inset 0 0 0 2px var(--pk-card), inset 0 0 0 5px var(--pk-cyan); }
+
+  .package-card__body { display: flex; flex: 1; flex-direction: column; margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+  .package-card h3 { margin: 0 0 .6rem; color: var(--pk-text); font-size: var(--size-h3); line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); overflow-wrap: anywhere; }
+  .package-card p { margin: 0; overflow-wrap: anywhere; }
+  .package-card__description { color: var(--pk-muted); font-size: .9375rem; line-height: 1.6; }
+  .package-card__suitable { margin: 1.25rem 0; padding: .9rem 1rem; border: 1px solid #ffffff12; border-radius: var(--radius-small); background: #ffffff08; }
+  .package-card__suitable p:last-child { color: var(--pk-text); font-size: .9375rem; font-weight: 600; line-height: 1.5; }
+  .package-card__subhead { margin-bottom: .35rem; color: #8fb0ff; font-size: var(--size-small); font-weight: 800; }
+  .package-card ul { display: grid; gap: .65rem; margin: .5rem 0 1.75rem; padding: 0; list-style: none; }
+  .package-card li { display: flex; align-items: flex-start; gap: .65rem; color: #d6ddf7; font-size: .9375rem; line-height: 1.45; overflow-wrap: anywhere; }
   .package-card li svg { flex-shrink: 0; width: 1.15rem; height: 1.15rem; margin-top: .12rem; }
-  .package-card__cta { margin-top: auto; }
-  @media (max-width: 1000px) { .packages-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; } }
+
+  .package-card__cta {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    min-height: 3rem;
+    margin-top: auto;
+    padding: .75rem 1.25rem;
+    overflow: hidden;
+    border: 1px solid #ffffff26;
+    border-radius: .85rem;
+    color: #fff;
+    background: #ffffff0d;
+    font-size: .9375rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .package-card__cta::before { content: ''; position: absolute; z-index: -1; inset: 0; background: var(--pk-glow); opacity: 0; transition: opacity var(--duration-fast) var(--ease-out); }
+  .package-card:hover .package-card__cta, .package-card:focus-within .package-card__cta { border-color: transparent; }
+  .package-card:hover .package-card__cta::before, .package-card:focus-within .package-card__cta::before { opacity: 1; }
+  .package-card__cta:focus-visible { outline: 3px solid #b9c8ff; outline-offset: 3px; }
+
+  .package-defs { position: absolute; }
+  .packages-preview .hs-button { background: var(--pk-glow); box-shadow: 0 8px 18px #2840c847; }
+  .packages-preview .hs-button:focus-visible { outline-color: var(--logo-royal); }
+
+  @media (max-width: 1000px) {
+    .packages-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
+    .package-card { min-height: 0; }
+    .package-card__body { margin-top: 2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .package-card, .package-card::before, .package-card__cta::before { transition: none; }
+    .package-card:hover { translate: none; }
+  }
 </style>
