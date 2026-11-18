@@ -5,6 +5,28 @@ import { homeSectionsTranslations } from '../../data/home-sections-translations'
 const scenes = homeTranslations.en.heroStory;
 const { marketing, technology } = homeSectionsTranslations.en.divisions;
 
+// Animated wave layers drawn over the footage's own (baked-in) waves. Each path repeats every
+// 1440 units across a 2880-unit canvas, so sliding it by half its width loops seamlessly.
+const WAVE_WIDTH = 2880;
+const WAVE_HEIGHT = 900;
+const wavePath = (base: number, amplitude: number, wavelength: number, phase = 0) => {
+  const points: string[] = [];
+  for (let x = 0; x <= WAVE_WIDTH; x += 16) {
+    const angle = (2 * Math.PI * x) / wavelength + phase;
+    const y = base + amplitude * Math.sin(angle) + amplitude * .28 * Math.sin(2 * angle + 1.3);
+    points.push(`${x},${y.toFixed(1)}`);
+  }
+  return `M${points.join(' L')} L${WAVE_WIDTH},${WAVE_HEIGHT} L0,${WAVE_HEIGHT} Z`;
+};
+const crestPath = (base: number, amplitude: number, wavelength: number, phase = 0) =>
+  wavePath(base, amplitude, wavelength, phase).split(` L${WAVE_WIDTH},${WAVE_HEIGHT}`)[0];
+
+const waveLayers = [
+  { name: 'back', d: wavePath(300, 85, 1440, .4), gradient: ['#078be9', .2, '#cfe8ff', 0] },
+  { name: 'middle', d: wavePath(440, 75, 1440, 2.4), gradient: ['#0655e9', .18, '#078be9', .03] },
+  { name: 'front', d: wavePath(570, 62, 1440, 4.2), gradient: ['#0643cf', .2, '#ffffff', .06], crest: crestPath(570, 62, 1440, 4.2) },
+] as const;
+
 // Each scene sits opposite the robot in the footage: robot right → text left, and so on.
 const sceneLayout = [
   { side: 'left', href: '/solutions/' },
@@ -33,6 +55,22 @@ const sceneLayout = [
         preload="auto"
         aria-hidden="true"
       ></video>
+    </div>
+    <div class="video-hero__waves" aria-hidden="true">
+      {waveLayers.map((layer) => (
+        <div class={`video-hero__wave video-hero__wave--${layer.name}`}>
+          <svg viewBox={`0 0 ${WAVE_WIDTH} ${WAVE_HEIGHT}`} preserveAspectRatio="none" focusable="false">
+            <defs>
+              <linearGradient id={`hero-wave-${layer.name}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color={layer.gradient[0]} stop-opacity={layer.gradient[1]} />
+                <stop offset="1" stop-color={layer.gradient[2]} stop-opacity={layer.gradient[3]} />
+              </linearGradient>
+            </defs>
+            <path d={layer.d} fill={`url(#hero-wave-${layer.name})`} />
+            {'crest' in layer && <path class="video-hero__crest" d={layer.crest} fill="none" />}
+          </svg>
+        </div>
+      ))}
     </div>
     <div class="video-hero__overlay" aria-hidden="true"></div>
 
@@ -188,6 +226,108 @@ const sceneLayout = [
       linear-gradient(180deg, rgb(223 233 241 / 35%), transparent 18%),
       /* Soft hand-off into the paper background of the next section. */
       linear-gradient(0deg, var(--color-paper) 0%, rgb(250 248 244 / 0%) 9%);
+  }
+
+  /* Wave layers: blended over the footage's waves, behind the copy. A soft gap follows the robot
+     (--robot-x, set by hero-video-story.ts) so the waves never cross its body. */
+  .video-hero__waves {
+    --robot-x: 50%;
+    --robot-hole: 12%;
+    --robot-feather: 6%;
+    --wave-mask: linear-gradient(90deg,
+      #000 calc(var(--robot-x) - var(--robot-hole) - var(--robot-feather)),
+      transparent calc(var(--robot-x) - var(--robot-hole)),
+      transparent calc(var(--robot-x) + var(--robot-hole)),
+      #000 calc(var(--robot-x) + var(--robot-hole) + var(--robot-feather)));
+
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 62%;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: var(--wave-mask);
+    mask-image: var(--wave-mask);
+  }
+
+  .video-hero:not(.is-animated) .video-hero__waves {
+    display: none;
+  }
+
+  .video-hero__wave {
+    position: absolute;
+    inset: 0;
+  }
+
+  .video-hero__wave svg {
+    display: block;
+    width: 200%;
+    height: 100%;
+  }
+
+  .video-hero__crest {
+    stroke: rgb(255 255 255 / 38%);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* Background: very slow drift right→left with a gentle light swell. */
+  .video-hero__wave--back {
+    animation: hero-wave-light 14s ease-in-out infinite alternate;
+  }
+
+  .video-hero__wave--back svg {
+    animation: hero-wave-flow-left 70s linear infinite;
+  }
+
+  /* Middle: gentle flow left→right. */
+  .video-hero__wave--middle {
+    animation: hero-wave-swell 11s ease-in-out infinite alternate;
+  }
+
+  .video-hero__wave--middle svg {
+    animation: hero-wave-flow-right 46s linear infinite;
+  }
+
+  /* Foreground: strongest rise and fall, a little faster. */
+  .video-hero__wave--front {
+    animation: hero-wave-rise 8s ease-in-out infinite alternate;
+  }
+
+  .video-hero__wave--front svg {
+    animation: hero-wave-flow-left 30s linear infinite;
+  }
+
+  .video-hero.is-offscreen .video-hero__wave,
+  .video-hero.is-offscreen .video-hero__wave svg {
+    animation-play-state: paused;
+  }
+
+  @keyframes hero-wave-flow-left {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+
+  @keyframes hero-wave-flow-right {
+    from { transform: translate3d(-50%, 0, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes hero-wave-light {
+    from { opacity: .75; transform: translate3d(0, 0, 0); }
+    to { opacity: 1; transform: translate3d(0, -6px, 0); }
+  }
+
+  @keyframes hero-wave-swell {
+    from { transform: translate3d(0, 6px, 0); }
+    to { transform: translate3d(0, -10px, 0); }
+  }
+
+  @keyframes hero-wave-rise {
+    from { transform: translate3d(0, 10px, 0) scaleY(.97); }
+    to { transform: translate3d(0, -16px, 0) scaleY(1.03); }
   }
 
   /* Scenes: text sits straight on the footage, no card. */
@@ -415,7 +555,8 @@ const sceneLayout = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .video-hero__video {
+    .video-hero__video,
+    .video-hero__waves {
       display: none;
     }
 

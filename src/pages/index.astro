@@ -97,12 +97,43 @@ const homePageTranslations = { en: homeLocale('en'), ta: homeLocale('ta'), si: h
     element.replaceChildren(fragment);
   };
 
+  const setBicolorHeading = (element, value) => {
+    if (typeof value !== 'string') return;
+
+    const splitRules = {
+      'sections.divisions.title': 2,
+      'sections.connected.title': 3,
+      'sections.payments.title': 2,
+      'sections.process.title': 3,
+      'sections.trust.title': 3,
+      'sections.faq.title': 2,
+    };
+    const key = element.dataset.homeKey || '';
+    const accentStart = splitRules[key];
+    const words = value.split(/\s+/).filter(Boolean);
+
+    if (!accentStart || words.length <= accentStart) {
+      element.textContent = value;
+      return;
+    }
+
+    const base = document.createElement('span');
+    base.className = 'hs-bicolor__base';
+    base.textContent = words.slice(0, accentStart).join(' ');
+    const accent = document.createElement('span');
+    accent.className = 'hs-bicolor__accent';
+    accent.textContent = ` ${words.slice(accentStart).join(' ')}`;
+    element.replaceChildren(base, accent);
+  };
+
   const applyHomeLocale = (locale) => {
     const content = homeTranslations[locale] || homeTranslations.en;
 
     document.querySelectorAll('[data-home-key]').forEach((element) => {
       const value = getValue(content, element.dataset.homeKey || '');
-      if (typeof value === 'string') element.textContent = value;
+      if (typeof value !== 'string') return;
+      if (element.classList.contains('hs-bicolor')) setBicolorHeading(element, value);
+      else element.textContent = value;
     });
 
     document.querySelectorAll('[data-home-aria]').forEach((element) => {

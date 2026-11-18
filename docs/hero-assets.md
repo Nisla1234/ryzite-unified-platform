@@ -41,3 +41,15 @@ Use case: stylized-concept. Reference image role: character reference. Create a 
 ## ZITE prompt
 
 Use case: stylized-concept. Reference image role: character reference. Create a single full-body transparent PNG cutout of ONLY the RIGHT robot in reference: cute premium 3D white robot with simple black oval eyes and smile, blue headphones, white cap with exact text ZITE, charcoal hoodie and dark cargo trousers, blue-white sneakers. Facing toward LEFT three-quarter view, legs braced apart, both hands extended toward left at waist height gripping an invisible horizontal rope, pulling pose. NO rope rendered, NO other character, NO background, NO floor or shadow. Entire character centered with small padding, fully visible including shoes and cap. Preserve reference identity and polished 3D materials. True alpha transparency.
+
+## Animated wave layers
+
+The footage's waves are baked into the same frames as the robot, so they cannot be deformed
+independently. The hero adds three SVG wave layers (back, middle, front) blended over the
+footage's waves. They loop with CSS transforms (no extra libraries) at different speeds and
+rise-and-fall amounts. A masked gap follows the robot's on-screen position (`--robot-x`, set by
+`hero-video-story.ts`), so waves never cross its body. Layers are hidden for reduced motion and
+the static poster fallback, and pause once the hero scrolls off screen.
+
+True independent 3D waves behind the robot need a robot-only render with transparency
+(WebM VP9 alpha + HEVC alpha for Safari) layered over an SVG/WebGL wave scene.

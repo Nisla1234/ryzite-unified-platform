@@ -74,6 +74,7 @@ const initializeHeroVideo = () => {
     const headerHeight = header?.offsetHeight ?? 0;
     const heroOnScreen = hero.classList.contains('is-animated') && hero.getBoundingClientRect().bottom > headerHeight;
     root.classList.toggle('hero-hides-header', heroOnScreen);
+    hero.classList.toggle('is-offscreen', hero.getBoundingClientRect().bottom <= 0);
   };
 
   const setPanel = (panel: HTMLElement, opacity: number, entering: boolean) => {
@@ -110,6 +111,23 @@ const initializeHeroVideo = () => {
     if (returnToHeroStart && wasAnimated) window.scrollTo(0, heroStart);
   };
 
+  // Track the robot's on-screen x so the wave layers leave a soft gap around it. The footage is
+  // 16:9 with the robot centred and about a fifth of the frame wide.
+  const waves = hero.querySelector<HTMLElement>('.video-hero__waves');
+  const VIDEO_ASPECT = 16 / 9;
+  const updateRobotGap = (pan: number, framing: number) => {
+    if (!waves) return;
+    const width = stage.clientWidth;
+    const height = stage.clientHeight;
+    const videoWidth = Math.max(width, height * VIDEO_ASPECT);
+    const cropOffset = (videoWidth - width) * (framing / 100);
+    const panDistance = parseFloat(getComputedStyle(hero).getPropertyValue('--pan-distance')) || 0;
+    const robotX = videoWidth / 2 - cropOffset + pan * (panDistance / 100) * width;
+    waves.style.setProperty('--robot-x', `${robotX.toFixed(1)}px`);
+    waves.style.setProperty('--robot-hole', `${(videoWidth * .13).toFixed(1)}px`);
+    waves.style.setProperty('--robot-feather', `${(videoWidth * .06).toFixed(1)}px`);
+  };
+
   const getProgress = () => {
     const scrollRange = hero.offsetHeight - stage.offsetHeight;
     const heroStart = hero.getBoundingClientRect().top + window.scrollY;
@@ -131,8 +149,11 @@ const initializeHeroVideo = () => {
     });
     dots.forEach((dot, index) => dot.classList.toggle('is-active', index === activeScene));
 
-    hero.style.setProperty('--video-x', mobileLayout.matches ? `${interpolateKeyframes(MOBILE_FRAMING, progress).toFixed(1)}%` : '50%');
-    hero.style.setProperty('--video-pan', interpolateKeyframes(DESKTOP_PAN, progress).toFixed(3));
+    const framing = mobileLayout.matches ? interpolateKeyframes(MOBILE_FRAMING, progress) : 50;
+    const pan = interpolateKeyframes(DESKTOP_PAN, progress);
+    hero.style.setProperty('--video-x', `${framing.toFixed(1)}%`);
+    hero.style.setProperty('--video-pan', pan.toFixed(3));
+    updateRobotGap(pan, framing);
 
     // Ease the video toward the scroll position so scrubbing feels smooth instead of steppy.
     targetTime = video.duration * progress * .999;

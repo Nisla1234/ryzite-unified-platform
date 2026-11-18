@@ -43,6 +43,14 @@
   letter-spacing: var(--tracking-h2);
 }
 
+.hs-bicolor__accent {
+  color: var(--hs-blue);
+}
+
+.hs-bicolor__base {
+  color: var(--hs-ink);
+}
+
 .hs-heading > p:not(.hs-eyebrow) { margin: 0; color: var(--hs-muted); font-size: var(--size-lead); line-height: 1.6; }
 
 .hs-card {
