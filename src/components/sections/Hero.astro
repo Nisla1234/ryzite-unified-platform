@@ -2,7 +2,7 @@
 import { homeTranslations } from '../../data/home-translations';
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 
-const scenes = homeTranslations.en.heroStory ?? [];
+const scenes = homeTranslations.en.heroStory;
 const { marketing, technology } = homeSectionsTranslations.en.divisions;
 
 // Each scene sits opposite the robot in the footage: robot right → text left, and so on.
@@ -102,6 +102,8 @@ const sceneLayout = [
     --hero-bg: #dfe9f1;
     --hero-gutter: clamp(20px, 6vw, 96px);
     --hero-ease: cubic-bezier(.22, 1, .36, 1);
+    /* Footage has the robot centred; slide it sideways so it sits opposite the copy. */
+    --pan-distance: 24%;
 
     position: relative;
     height: 100svh;
@@ -134,11 +136,22 @@ const sceneLayout = [
     height: 100%;
   }
 
+  /* Matches the footage's edge colours, so the gap the slide opens blends in. */
+  .video-hero__media {
+    background:
+      linear-gradient(180deg, #c8dbe2 0%, #c9dbe2 28%, #8fcbe0 44%, #6cbfdc 52%, #bdd4de 64%, #b5cdd9 100%) left / 50% 100% no-repeat,
+      linear-gradient(180deg, #c4d6da 0%, #bdcfd9 28%, #7fa6cf 46%, #8fb9d1 54%, #b6c8d2 64%, #b0c4cf 100%) right / 50% 100% no-repeat;
+  }
+
   .video-hero__poster,
   .video-hero__video {
     display: block;
     object-fit: cover;
     object-position: var(--video-x, 50%) center;
+    transform: translate3d(calc(var(--video-pan, 1) * var(--pan-distance)), 0, 0);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    will-change: transform;
   }
 
   .video-hero__video {
@@ -209,7 +222,16 @@ const sceneLayout = [
     font-weight: 500;
     letter-spacing: -.045em;
     line-height: 1;
+    overflow-wrap: break-word;
     text-wrap: balance;
+  }
+
+  /* Tamil and Sinhala words run long; scale the headline down so it fits on every width. */
+  :global(html[lang='ta']) .video-hero__title,
+  :global(html[lang='si']) .video-hero__title {
+    font-size: clamp(2rem, 3.6vw, 4rem);
+    letter-spacing: -.02em;
+    line-height: 1.15;
   }
 
   .video-hero__body {
@@ -308,7 +330,15 @@ const sceneLayout = [
 
   @media (max-width: 760px) {
     .video-hero {
+      --pan-distance: 0%;
+
       margin-top: -70px;
+    }
+
+    .video-hero__poster,
+    .video-hero__video {
+      -webkit-mask-image: none;
+      mask-image: none;
     }
 
     .video-hero__overlay {
@@ -337,6 +367,11 @@ const sceneLayout = [
     .video-hero__title {
       font-size: clamp(2.25rem, 11vw, 3.25rem);
       letter-spacing: -.04em;
+    }
+
+    :global(html[lang='ta']) .video-hero__title,
+    :global(html[lang='si']) .video-hero__title {
+      font-size: clamp(1.6rem, 7vw, 2.25rem);
     }
 
     .video-hero__body {

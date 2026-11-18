@@ -9,8 +9,8 @@ itself moves the robot. On phones the copy stacks at the top and `object-positio
 `ryzite-robot-poster.jpg` provides the static image for reduced-motion preferences and
 video-loading failures.
 
-Scene copy lives in `homeTranslations.en.heroStory` and is `[PROPOSAL]`, English only until
-Tamil and Sinhala copy is reviewed. For smooth scrubbing, re-encode the video with frequent
+Scene copy lives in `homeTranslations.<locale>.heroStory` and is `[PROPOSAL]`; Tamil and
+Sinhala need native-speaker review. For smooth scrubbing, re-encode the video with frequent
 keyframes (e.g. `ffmpeg -i in.mp4 -g 1 -an -crf 24 out.mp4`).
 
 ## Legacy robot assets

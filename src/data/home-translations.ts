@@ -1,8 +1,8 @@
 type HeroScene = { eyebrow: string; title: string; body: string; cta: string };
 
 type HomeCopy = {
-  // [PROPOSAL] Scroll-scrubbed hero scenes, English only until Tamil and Sinhala copy is reviewed.
-  heroStory?: HeroScene[];
+  // [PROPOSAL] Scroll-scrubbed hero scenes. Tamil and Sinhala need native-speaker review.
+  heroStory: HeroScene[];
   heroTitleWords: string[];
   heroDescription: string;
   heroCta: string;
@@ -57,21 +57,21 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     heroStory: [
       {
         eyebrow: 'RYZITE',
-        title: 'Rise with digital.',
-        body: 'We turn ideas into digital solutions that help businesses grow and stay ahead.',
-        cta: 'Explore solutions',
+        title: 'Grow Beyond Digital.',
+        body: 'We turn your business ideas into powerful digital experiences that drive growth and create new opportunities.',
+        cta: 'Explore Solutions',
       },
       {
-        eyebrow: 'Digital marketing & technology',
-        title: 'Build what’s next.',
-        body: 'Bring together digital marketing, web development, and automation to help your business grow.',
-        cta: 'View services',
+        eyebrow: 'DIGITAL MARKETING & TECHNOLOGY',
+        title: 'Smarter Solutions. Stronger Business.',
+        body: 'From digital marketing to websites and automation, we bring the right solutions together for your business.',
+        cta: 'View Services',
       },
       {
-        eyebrow: 'Start a project',
-        title: 'Let’s build together.',
-        body: 'Tell us where your business is today and what you want to achieve next.',
-        cta: 'Let’s talk',
+        eyebrow: 'START YOUR DIGITAL JOURNEY',
+        title: 'Let’s Build Something Great.',
+        body: 'Have an idea? Let’s transform it into a digital solution that moves your business forward.',
+        cta: 'Let’s Talk',
       },
     ],
     heroTitleWords: ['Have an idea?', 'Make it', 'happen.'],
@@ -135,6 +135,26 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     footerBottom: 'Designed to move forward.',
   },
   ta: {
+    heroStory: [
+      {
+        eyebrow: 'RYZITE',
+        title: 'டிஜிட்டலுக்கு அப்பால் வளருங்கள்.',
+        body: 'உங்கள் வணிக யோசனைகளை வளர்ச்சியைத் தூண்டும், புதிய வாய்ப்புகளை உருவாக்கும் சக்திவாய்ந்த டிஜிட்டல் அனுபவங்களாக மாற்றுகிறோம்.',
+        cta: 'தீர்வுகளை ஆராயுங்கள்',
+      },
+      {
+        eyebrow: 'டிஜிட்டல் சந்தைப்படுத்தல் & தொழில்நுட்பம்',
+        title: 'சிறந்த தீர்வுகள். வலுவான வணிகம்.',
+        body: 'டிஜிட்டல் சந்தைப்படுத்தல் முதல் இணையதளங்கள் மற்றும் தானியக்கம் வரை, உங்கள் வணிகத்திற்கான சரியான தீர்வுகளை ஒன்றிணைக்கிறோம்.',
+        cta: 'சேவைகளைப் பார்க்கவும்',
+      },
+      {
+        eyebrow: 'உங்கள் டிஜிட்டல் பயணத்தைத் தொடங்குங்கள்',
+        title: 'சிறந்த ஒன்றை உருவாக்குவோம்.',
+        body: 'ஒரு யோசனை உள்ளதா? உங்கள் வணிகத்தை முன்னேற்றும் டிஜிட்டல் தீர்வாக அதை மாற்றுவோம்.',
+        cta: 'பேசுவோம்',
+      },
+    ],
     heroTitleWords: ['ஒரு யோசனை உள்ளதா?', 'அதை நனவாக்க', 'வாருங்கள்.'],
     heroDescription: 'துணிச்சலான யோசனைகளை தெளிவான, பயனுள்ள டிஜிட்டல் அனுபவங்களாக மாற்ற வடிவமைப்பு, தொழில்நுட்பம் மற்றும் சந்தைப்படுத்தலை ஒன்றிணைக்கிறோம்.',
     heroCta: 'விலை மதிப்பீடு பெறுங்கள்',
@@ -196,6 +216,26 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     footerBottom: 'முன்னேற வடிவமைக்கப்பட்டது.',
   },
   si: {
+    heroStory: [
+      {
+        eyebrow: 'RYZITE',
+        title: 'ඩිජිටල් ඉක්මවා වර්ධනය වන්න.',
+        body: 'ඔබේ ව්‍යාපාරික අදහස් වර්ධනය ඇති කරන සහ නව අවස්ථා නිර්මාණය කරන ප්‍රබල ඩිජිටල් අත්දැකීම් බවට අපි පත් කරමු.',
+        cta: 'විසඳුම් ගවේෂණය කරන්න',
+      },
+      {
+        eyebrow: 'ඩිජිටල් අලෙවිකරණය සහ තාක්ෂණය',
+        title: 'වඩා බුද්ධිමත් විසඳුම්. වඩා ශක්තිමත් ව්‍යාපාරයක්.',
+        body: 'ඩිජිටල් අලෙවිකරණයේ සිට වෙබ් අඩවි සහ ස්වයංක්‍රීයකරණය දක්වා, ඔබේ ව්‍යාපාරයට ගැළපෙන නිවැරදි විසඳුම් අපි එකට ගෙන එන්නෙමු.',
+        cta: 'සේවාවන් බලන්න',
+      },
+      {
+        eyebrow: 'ඔබේ ඩිජිටල් ගමන අරඹන්න',
+        title: 'විශිෂ්ට දෙයක් එකට ගොඩනඟමු.',
+        body: 'අදහසක් තිබේද? ඔබේ ව්‍යාපාරය ඉදිරියට ගෙන යන ඩිජිටල් විසඳුමක් බවට එය පරිවර්තනය කරමු.',
+        cta: 'කතා කරමු',
+      },
+    ],
     heroTitleWords: ['අදහසක් තිබේද?', 'එය සැබෑ කරමු', 'දැන්ම.'],
     heroDescription: 'අභිලාෂවත් අදහස් පැහැදිලි සහ ප්‍රයෝජනවත් ඩිජිටල් අත්දැකීම් බවට පත් කිරීමට අපි නිර්මාණය, තාක්ෂණය සහ අලෙවිකරණය එක් කරමු.',
     heroCta: 'මිල ගණන් ලබා ගන්න',

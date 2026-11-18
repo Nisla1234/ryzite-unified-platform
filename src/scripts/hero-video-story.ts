@@ -23,6 +23,16 @@ const MOBILE_FRAMING: [number, number][] = [
   [1, 80],
 ];
 
+// Desktop pan (1 = robot to the right, -1 = robot to the left), timed between text scenes.
+const DESKTOP_PAN: [number, number][] = [
+  [0, 1],
+  [.2, 1],
+  [.38, -1],
+  [.62, -1],
+  [.8, 1],
+  [1, 1],
+];
+
 const sceneOpacity = (progress: number, [inStart, inEnd, outStart, outEnd]: [number, number, number, number]) => {
   if (progress <= inStart || progress >= outEnd) return 0;
   if (progress < inEnd) return easeInOut((progress - inStart) / (inEnd - inStart));
@@ -30,15 +40,15 @@ const sceneOpacity = (progress: number, [inStart, inEnd, outStart, outEnd]: [num
   return 1 - easeInOut((progress - outStart) / (outEnd - outStart));
 };
 
-const mobileFraming = (progress: number) => {
-  for (let index = 1; index < MOBILE_FRAMING.length; index += 1) {
-    const [toProgress, toValue] = MOBILE_FRAMING[index];
-    const [fromProgress, fromValue] = MOBILE_FRAMING[index - 1];
+const interpolateKeyframes = (keyframes: [number, number][], progress: number) => {
+  for (let index = 1; index < keyframes.length; index += 1) {
+    const [toProgress, toValue] = keyframes[index];
+    const [fromProgress, fromValue] = keyframes[index - 1];
     if (progress <= toProgress) {
       return lerp(fromValue, toValue, easeInOut((progress - fromProgress) / (toProgress - fromProgress || 1)));
     }
   }
-  return MOBILE_FRAMING[MOBILE_FRAMING.length - 1][1];
+  return keyframes[keyframes.length - 1][1];
 };
 
 const initializeHeroVideo = () => {
@@ -87,6 +97,7 @@ const initializeHeroVideo = () => {
       panel.inert = index !== 0;
     });
     hero.style.removeProperty('--video-x');
+    hero.style.removeProperty('--video-pan');
   };
 
   const showStaticFallback = (returnToHeroStart: boolean) => {
@@ -120,7 +131,8 @@ const initializeHeroVideo = () => {
     });
     dots.forEach((dot, index) => dot.classList.toggle('is-active', index === activeScene));
 
-    hero.style.setProperty('--video-x', mobileLayout.matches ? `${mobileFraming(progress).toFixed(1)}%` : '50%');
+    hero.style.setProperty('--video-x', mobileLayout.matches ? `${interpolateKeyframes(MOBILE_FRAMING, progress).toFixed(1)}%` : '50%');
+    hero.style.setProperty('--video-pan', interpolateKeyframes(DESKTOP_PAN, progress).toFixed(3));
 
     // Ease the video toward the scroll position so scrubbing feels smooth instead of steppy.
     targetTime = video.duration * progress * .999;
