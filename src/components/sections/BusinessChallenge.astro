@@ -71,15 +71,15 @@ const challenges = [
         animation!.to(robot, { autoAlpha: 1, y: position.y, scale: 1, duration: .65, ease: 'back.out(1.6)' }, 0);
       });
       for (let row = 0; row < 3; row++) {
-        const time = row * 1.65;
+        const time = row * 1.05;
         if (row > 0) {
           robots.forEach((robot, side) => {
             const position = corner(side, row);
-            animation!.to(robot, { y: corner(side, row - 1).y - 35, rotation: side === 0 ? -8 : 8, duration: .22, ease: 'power2.out' }, time)
-              .to(robot, { x: position.x, y: position.y, rotation: 0, duration: .55, ease: 'bounce.out' }, time + .22);
+            animation!.to(robot, { y: corner(side, row - 1).y - 35, rotation: side === 0 ? -8 : 8, duration: .18, ease: 'power2.out' }, time)
+              .to(robot, { x: position.x, y: position.y, rotation: 0, duration: .42, ease: 'bounce.out' }, time + .18);
           });
         }
-        animation!.to([cards[row], cards[row + 3]], { autoAlpha: 1, x: 0, duration: .7, ease: 'power3.out' }, time + .55);
+        animation!.to([cards[row], cards[row + 3]], { autoAlpha: 1, x: 0, duration: .5, ease: 'power3.out' }, time + .35);
       }
     };
     reset();
