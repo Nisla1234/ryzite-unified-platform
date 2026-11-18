@@ -423,6 +423,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .offerings { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 100px; padding: 76px max(28px, calc((100vw - 1240px) / 2)) 56px; background: var(--color-paper); color: #101d56; font-family: var(--font-body); }
   .solutions { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; }
   .services { padding-inline: max(28px, calc((100vw - 1380px) / 2)); }
+  .services[data-standalone="false"] + .solutions[data-standalone="false"] { padding-top: 32px; }
   .solutions .title-plaque { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
   .section-intro { text-align: center; max-width: 700px; margin: 0 auto 22px; }
   .eyebrow { display: block; color: var(--dark); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; }
