@@ -4,10 +4,11 @@
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 
 const copy = homeSectionsTranslations.en.payments;
-const icons = [
-  'M4 7h15a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z M4 7l11-3v3 M16 13h.01',
-  'M5 21V4 M5 4h11l-2 4 2 4H5 M9 21h-4',
-  'M20 6 9 17l-5-5',
+// Step images supplied by the client. [UNVERIFIED] Confirm usage rights before launch.
+const images = [
+  { src: '/images/payments/initial-payment.jpg', width: 736, height: 412 },
+  { src: '/images/payments/milestone-payments.jpg', width: 735, height: 412 },
+  { src: '/images/payments/final-payment-handover.jpg', width: 636, height: 382 },
 ];
 ---
 
@@ -21,8 +22,8 @@ const icons = [
     <ol class="payments-steps">
       {copy.steps.map((step, index) => (
         <li class="hs-card payment-step" data-hs-reveal data-hs-delay={index * 0.12}>
-          <div class="payment-step__top">
-            <span class="hs-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={icons[index]} /></svg></span>
+          <div class="payment-step__media">
+            <img src={images[index].src} alt="" width={images[index].width} height={images[index].height} loading="lazy" decoding="async" />
             <span class="payment-step__number" aria-hidden="true">0{index + 1}</span>
           </div>
           <h3 data-home-key={`sections.payments.steps.${index}.title`}>{step.title}</h3>
@@ -35,10 +36,13 @@ const icons = [
 
 <style>
   .payments-steps { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-grid); margin: 0; padding: 0; list-style: none; }
-  .payments-steps::before { content: ''; position: absolute; z-index: -1; top: 3.2rem; left: 12%; right: 12%; border-top: 2px dashed #a9c8fb; }
+  .payments-steps::before { content: ''; position: absolute; z-index: -1; top: 6rem; left: 12%; right: 12%; border-top: 2px dashed #a9c8fb; }
   .payment-step { padding: clamp(1.4rem, 2.5vw, 1.9rem); }
-  .payment-step__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; }
-  .payment-step__number { color: #c9dcff; font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; line-height: 1; }
+  .payment-step__media { position: relative; overflow: hidden; aspect-ratio: 16 / 9; margin-bottom: 1.2rem; border-radius: var(--radius-small); background: var(--hs-pale); box-shadow: 0 8px 20px #0655e91a; }
+  .payment-step__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale var(--duration-medium) var(--ease-out); }
+  .payment-step__number { position: absolute; top: .7rem; left: .7rem; display: grid; place-items: center; min-width: 2.6rem; height: 2.6rem; padding: 0 .55rem; border-radius: 999px; background: linear-gradient(110deg, #008aff, #063df3); box-shadow: 0 6px 14px #085be740; color: #fff; font-family: var(--font-display); font-size: 1rem; font-weight: 700; line-height: 1; }
+  @media (hover: hover) { .payment-step:hover .payment-step__media img { scale: 1.05; } }
+  @media (prefers-reduced-motion: reduce) { .payment-step__media img { transition: none; } }
   @media (max-width: 800px) {
     .payments-steps { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
     .payments-steps::before { top: 2rem; bottom: 2rem; left: 2.9rem; right: auto; border-top: 0; border-left: 2px dashed #a9c8fb; }
