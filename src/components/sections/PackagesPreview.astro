@@ -21,8 +21,6 @@ const featureCount = 4;
     <div class="packages-grid">
       {packages.packageCards.map((card, index) => (
         <article class="package-card" data-hs-reveal data-hs-delay={index * 0.12}>
-          <p class="package-card__label"><span class="package-card__dot" aria-hidden="true"></span><span data-home-key={`packageData.cards.${index}.label`}>{card.label}</span></p>
-
           <div class="package-card__body">
             <h3 data-home-key={`packageData.cards.${index}.name`}>{card.name}</h3>
             <p class="package-card__description" data-home-key={`packageData.cards.${index}.description`}>{card.description}</p>
@@ -71,28 +69,25 @@ const featureCount = 4;
     --logo-navy: #0a1080;
     --logo-royal: #2840c8;
     --logo-azure: #2078f0;
-    --pk-night: #050833;
-    --pk-card: #0b1158;
-    --pk-card-edge: #ffffff17;
-    --pk-text: #f4f6ff;
-    --pk-muted: #b4bfe8;
+    --pk-night: #0a1734;
+    --pk-card: #ffffff;
+    --pk-card-edge: #dce6f3;
+    --pk-text: #0a1734;
+    --pk-muted: #465771;
     --pk-cyan: #5b9bff;
     --pk-glow: linear-gradient(100deg, var(--logo-azure), var(--logo-royal) 55%, var(--logo-navy));
     padding-bottom: clamp(3rem, 6vw, 4.5rem);
     color: var(--pk-text);
-    background:
-      radial-gradient(ellipse 9% 48% at 50% 0%, #d6e2ff8c 0%, #2078f066 35%, transparent 75%),
-      radial-gradient(ellipse 30% 60% at 50% 4%, #2840c880 0%, transparent 70%),
-      linear-gradient(180deg, var(--pk-night) 0%, #070c4a 62%, var(--logo-navy) 76%, var(--logo-royal) 84%, #9fb4f5 93%, #ffffff 100%);
+    background-color: #07184f;
+    background-image: linear-gradient(rgba(5, 24, 79, .18), rgba(5, 24, 79, .18)), url('/images/packages/technology-blue-background.webp');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .packages-heading h2 {
-    color: var(--pk-text);
-    background: linear-gradient(100deg, #ffffff 0%, #ffffff 38%, #b9c8ff 58%, #6f9dff 78%, var(--logo-azure) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #fff;
   }
-  .packages-heading > p:not(.hs-eyebrow) { color: #d3def2; text-shadow: 0 1px 12px var(--pk-night); }
+  .packages-heading > p:not(.hs-eyebrow) { color: #edf4ff; }
 
   .packages-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
   .package-card {
@@ -103,10 +98,12 @@ const featureCount = 4;
     min-height: 36rem;
     padding: clamp(1.4rem, 2.4vw, 1.9rem);
     overflow: hidden;
-    border: 1px solid var(--pk-card-edge);
+    border: 1px solid rgb(255 255 255 / 32%);
     border-radius: 1.6rem;
-    background: linear-gradient(180deg, #0f1766 0%, var(--pk-card) 100%);
-    box-shadow: 0 24px 50px #02042680;
+    background: rgb(255 255 255 / 58%);
+    box-shadow: 0 18px 44px rgb(2 16 66 / 24%), inset 0 1px 0 rgb(255 255 255 / 70%);
+    backdrop-filter: blur(18px) saturate(135%);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
     transition: border-color var(--duration-fast) var(--ease-out), translate var(--duration-fast) var(--ease-out);
   }
   /* Top glow, shown on hover or keyboard focus. */
@@ -120,42 +117,22 @@ const featureCount = 4;
     opacity: 0;
     transition: opacity var(--duration-fast) var(--ease-out);
   }
-  .package-card:hover, .package-card:focus-within { border-color: #6f9dff73; }
+  .package-card:hover, .package-card:focus-within { border-color: rgb(255 255 255 / 58%); }
   .package-card:hover::before, .package-card:focus-within::before { opacity: 1; }
   @media (hover: hover) { .package-card:hover { translate: 0 -4px; } }
 
-  .package-card__label {
-    display: inline-flex;
-    align-items: center;
-    gap: .55rem;
-    align-self: flex-start;
-    margin: 0;
-    padding: .45rem .9rem .45rem .7rem;
-    border: 1px solid #ffffff1f;
-    border-radius: 999px;
-    color: #dde4ff;
-    background: #ffffff0f;
-    font-size: .825rem;
-    font-weight: 600;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-  }
-  .package-card__dot { width: .8rem; height: .8rem; border: 2px solid var(--pk-cyan); border-radius: 50%; box-shadow: inset 0 0 0 2px var(--pk-card), inset 0 0 0 5px var(--pk-cyan); }
-
-  .package-card__body { display: flex; flex: 1; flex-direction: column; margin-top: clamp(2.5rem, 6vw, 4.5rem); }
+  .package-card__body { display: flex; flex: 1; flex-direction: column; }
   .package-card h3 { margin: 0 0 .6rem; color: var(--pk-text); font-size: var(--size-h3); line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); overflow-wrap: anywhere; }
   .package-card p { margin: 0; overflow-wrap: anywhere; }
   .package-card__description { color: var(--pk-muted); font-size: 1.0312rem; line-height: 1.6; }
-  .package-card__suitable { margin: 1.25rem 0; padding: .9rem 1rem; border: 1px solid #ffffff12; border-radius: var(--radius-small); background: #ffffff08; }
+  .package-card__suitable { margin: 1.25rem 0; padding: .9rem 1rem; border: 1px solid rgb(255 255 255 / 48%); border-radius: var(--radius-small); background: rgb(255 255 255 / 32%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
   .package-card__suitable p:last-child { color: var(--pk-text); font-size: 1.0312rem; font-weight: 600; line-height: 1.5; }
-  .package-card__subhead { margin-bottom: .35rem; color: #8fb0ff; font-size: var(--size-small); font-weight: 600; }
+  .package-card__subhead { margin-bottom: .35rem; color: #064bed; font-size: var(--size-small); font-weight: 600; }
   .package-card ul { display: grid; gap: .65rem; margin: .5rem 0 1.75rem; padding: 0; list-style: none; }
-  .package-card li { display: flex; align-items: flex-start; gap: .65rem; color: #d6ddf7; font-size: 1.0312rem; line-height: 1.45; overflow-wrap: anywhere; }
+  .package-card li { display: flex; align-items: flex-start; gap: .65rem; color: #465771; font-size: 1.0312rem; line-height: 1.45; overflow-wrap: anywhere; }
   .package-card li svg { flex-shrink: 0; width: 1.15rem; height: 1.15rem; margin-top: .12rem; }
 
   .package-card__cta {
-    position: relative;
-    isolation: isolate;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -163,18 +140,17 @@ const featureCount = 4;
     min-height: 3rem;
     margin-top: auto;
     padding: .75rem 1.25rem;
-    overflow: hidden;
-    border: 1px solid #ffffff26;
+    border: 0;
     border-radius: .85rem;
     color: #fff;
-    background: #ffffff0d;
+    background: #064bed;
+    box-shadow: 0 9px 20px rgb(6 75 237 / 22%);
     font-size: 1.0312rem;
     font-weight: 600;
     text-decoration: none;
+    transition: background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
   }
-  .package-card__cta::before { content: ''; position: absolute; z-index: -1; inset: 0; background: var(--pk-glow); opacity: 0; transition: opacity var(--duration-fast) var(--ease-out); }
-  .package-card:hover .package-card__cta, .package-card:focus-within .package-card__cta { border-color: transparent; }
-  .package-card:hover .package-card__cta::before, .package-card:focus-within .package-card__cta::before { opacity: 1; }
+  .package-card__cta:hover { background: #0539b7; transform: translateY(-2px); box-shadow: 0 14px 30px rgb(6 75 237 / 32%); }
   .package-card__cta:focus-visible { outline: 3px solid #b9c8ff; outline-offset: 3px; }
 
   .package-defs { position: absolute; }
