@@ -106,11 +106,16 @@ const homePageTranslations = { en: homeLocale('en'), ta: homeLocale('ta'), si: h
       'sections.trust.title': 3,
       'sections.faq.title': 2,
       'heroStory.0.title': 2,
+      'heroStory.1.title': 2,
       'heroStory.2.title': 2,
     };
     const key = element.dataset.homeKey || '';
-    const accentStart = splitRules[key];
     const words = value.split(/\s+/).filter(Boolean);
+    // Hero titles with two sentences split after the first one (matches splitHeroTitle in Hero.astro).
+    const sentenceEnd = key.startsWith('heroStory.')
+      ? words.findIndex((word, i) => i < words.length - 1 && /[.!?]$/.test(word))
+      : -1;
+    const accentStart = sentenceEnd >= 0 ? sentenceEnd + 1 : splitRules[key];
 
     if (!accentStart || words.length <= accentStart) {
       element.textContent = value;

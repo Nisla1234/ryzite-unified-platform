@@ -37,9 +37,16 @@ const fillLayers = [
   { name: 'front', d: wavePath(520, 54, 1440, 5.2), gradient: ['#6ea9d3', .8, '#c3d4de', 0] },
 ] as const;
 
-// Two-tone scene titles: scene index → number of leading words in ink; the rest is blue.
-// Keep in sync with splitRules in index.astro, which re-applies the split on language change.
-const titleSplits: Record<number, number> = { 0: 2, 2: 2 };
+// Two-tone, two-line scene titles: first line in ink, second in brand blue. A title with two
+// sentences splits after the first sentence (works in every language); otherwise after the
+// number of words given here. Keep in sync with splitHeroTitle in index.astro.
+const titleSplits: Record<number, number> = { 0: 2, 1: 2, 2: 2 };
+const splitHeroTitle = (title: string, fallback: number) => {
+  const words = title.split(/\s+/).filter(Boolean);
+  const sentenceEnd = words.findIndex((word, i) => i < words.length - 1 && /[.!?]$/.test(word));
+  const at = sentenceEnd >= 0 ? sentenceEnd + 1 : fallback;
+  return [words.slice(0, at).join(' '), words.slice(at).join(' ')];
+};
 
 // Each scene sits opposite the robot in the footage: robot right → text left, and so on.
 const sceneLayout = [
@@ -128,11 +135,11 @@ const sceneLayout = [
           ) : (
             <p class="video-hero__eyebrow" data-home-key={`heroStory.${index}.eyebrow`}>{scene.eyebrow}</p>
           )}
-          <Heading class:list={['video-hero__title', { 'hs-bicolor': index in titleSplits, 'video-hero__title--stacked': index === 0 }]} id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
+          <Heading class:list={['video-hero__title', { 'hs-bicolor': index in titleSplits, 'video-hero__title--stacked': index in titleSplits }]} id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
             {index in titleSplits ? (
               <>
-                <span class="hs-bicolor__base">{scene.title.split(/\s+/).slice(0, titleSplits[index]).join(' ')}</span>
-                <span class="hs-bicolor__accent"> {scene.title.split(/\s+/).slice(titleSplits[index]).join(' ')}</span>
+                <span class="hs-bicolor__base">{splitHeroTitle(scene.title, titleSplits[index])[0]}</span>
+                <span class="hs-bicolor__accent"> {splitHeroTitle(scene.title, titleSplits[index])[1]}</span>
               </>
             ) : scene.title}
           </Heading>
@@ -480,7 +487,7 @@ const sceneLayout = [
 
   .video-hero__title :global(.hs-bicolor__base) { color: var(--hero-ink); }
   .video-hero__title :global(.hs-bicolor__accent) { color: var(--color-brand); }
-  /* Scene 1: ink phrase ("One Agency.") on its own line above the blue phrase. */
+  /* Every scene: ink phrase on its own line above the blue phrase. */
   .video-hero__title--stacked :global(.hs-bicolor__base) { display: block; }
 
   .video-hero__title {
