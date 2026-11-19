@@ -1,4 +1,5 @@
 ---
+import MarketingServiceArt from '../ui/MarketingServiceArt.astro';
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
@@ -103,9 +104,9 @@ const pageTranslations = Object.fromEntries(
                   aria-label={`${copy.exploreService}: ${service.title}`}
                   data-marketing-card-link={service.slug}
                 >
-                  <span class="marketing-service-card__topline">
-                    <span class="marketing-service-card__icon" aria-hidden="true">{service.icon === "\u2197" ? <ArrowUpRight /> : service.icon}</span>
-                    <span class="marketing-service-card__number">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="marketing-service-card__media">
+                    <MarketingServiceArt slug={service.slug} />
+                    <span class="marketing-service-card__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                   </span>
                   <h3 data-marketing-service-field="title" data-marketing-service-slug={service.slug}>{service.title}</h3>
                   <p data-marketing-service-field="description" data-marketing-service-slug={service.slug}>{service.description}</p>
@@ -300,14 +301,16 @@ const pageTranslations = Object.fromEntries(
   .marketing-service-card { min-width: 0; scroll-margin-top: 7rem; }
   .marketing-service-card__link { position: relative; display: flex; min-height: 290px; height: 100%; flex-direction: column; align-items: flex-start; padding: 1.45rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); color: var(--marketing-ink); background: linear-gradient(145deg, #fff, #f7faff); box-shadow: 0 .8rem 1.8rem #173b7109; text-decoration: none; transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease; }
   .marketing-service-card__link:hover { transform: translateY(-5px); border-color: #9fc1eb; box-shadow: 0 1rem 2rem #163f7615; }
-  .marketing-service-card__topline { display: flex; width: 100%; align-items: center; justify-content: space-between; }
-  .marketing-service-card__icon, .marketing-service-card__number { display: grid; width: 2.8rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .9rem; color: var(--marketing-blue); background: #eaf3ff; font-family: var(--font-display); font-size: 1.595rem; font-weight: 700; }
-  .marketing-service-card__number { width: auto; border: 0; color: #8292a6; background: transparent; font-family: var(--font-body); font-size: .748rem; font-weight: var(--weight-strong); letter-spacing: .12em; }
-  .marketing-service-card h3 { max-width: 95%; margin: 1.7rem 0 .55rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  /* Illustration banner across the top of the card; negative margins cancel the card padding. */
+  .marketing-service-card__media { position: relative; display: block; align-self: stretch; aspect-ratio: 16 / 9; margin: -1.45rem -1.45rem 0; overflow: hidden; border-radius: calc(var(--radius-medium) - 1px) calc(var(--radius-medium) - 1px) 0 0; background: #0643cf; }
+  .marketing-service-card__media :global(.marketing-art) { transition: scale 400ms var(--ease-out); }
+  .marketing-service-card__link:hover .marketing-service-card__media :global(.marketing-art) { scale: 1.05; }
+  .marketing-service-card__number { position: absolute; top: .8rem; right: .8rem; padding: .3rem .6rem; border-radius: 999px; color: #fff; background: rgb(10 23 52 / 40%); backdrop-filter: blur(6px); font-family: var(--font-body); font-size: .748rem; font-weight: var(--weight-strong); letter-spacing: .12em; }
+  .marketing-service-card h3 { max-width: 95%; margin: 1.3rem 0 .55rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .marketing-service-card p { margin: 0; color: var(--marketing-muted); font-size: 1.001rem; line-height: 1.65; }
   .marketing-service-card__more { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .75rem; margin-top: auto; padding-top: 1.35rem; color: var(--marketing-blue); font-size: .924rem; font-weight: 600; }
   .marketing-service-card__more span:last-child { transition: transform 180ms ease; }
-  .marketing-service-card__link:hover .marketing-service-card__more span:last-child { transform: translate(3px, -3px); }
+  .marketing-service-card__link:hover .marketing-service-card__more span:last-child { transform: translateX(4px); }
   .marketing-why-section { background: #fff; }
   .marketing-why-layout { display: grid; grid-template-columns: minmax(245px, .72fr) minmax(0, 1.28fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .marketing-section-heading--stacked { display: block; margin: 0; }
@@ -383,6 +386,7 @@ const pageTranslations = Object.fromEntries(
   }
   @media (max-width: 360px) {
     .marketing-service-card__link { padding: 1.2rem; }
+    .marketing-service-card__media { margin: -1.2rem -1.2rem 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .marketing-services-page *, .marketing-services-page *::before, .marketing-services-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }

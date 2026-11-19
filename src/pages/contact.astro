@@ -192,34 +192,82 @@ const enquiryConfig = {
           <article class="service-choice-card" data-contact-reveal>
             <span class="service-choice-card__mark" aria-hidden="true">01</span>
             <figure class="service-choice-card__media"><img src="/images/divisions/marketing-division.webp" alt="" width="736" height="411" loading="lazy" decoding="async" /></figure>
-            <span class="service-choice-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M7 21h8l20-9v24l-20-9H7v-6Zm8 6 4 12h8l-6-15m14-10 7-5m-7 23 7 5"/></svg></span>
             <h3 data-contact-key="marketingGroup">Marketing Services</h3>
             <p data-contact-key="marketingDescription">Looking to attract more customers, strengthen your brand, or improve online visibility? Explore our marketing services.</p>
-            <a href="/services/#services" class="service-choice-card__link"><span data-contact-key="exploreMarketing">Explore Marketing Services</span><span aria-hidden="true"><ArrowUpRight /></span></a>
+            <a href="/services/#services" class="service-choice-card__link"><span data-contact-key="exploreMarketing">Explore Marketing Services</span><span class="service-choice-card__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg></span></a>
           </article>
           <article class="service-choice-card service-choice-card--technology" data-contact-reveal>
             <span class="service-choice-card__mark" aria-hidden="true">02</span>
             <figure class="service-choice-card__media"><img src="/images/divisions/technology-division.webp" alt="" width="735" height="490" loading="lazy" decoding="async" /></figure>
-            <span class="service-choice-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="5" y="8" width="38" height="27" rx="3"/><path d="M17 42h14m-7-7v7M16 18l-5 4 5 4m16-8 5 4-5 4m-5-7-4 6"/></svg></span>
             <h3 data-contact-key="technologyGroup">Technology Solutions</h3>
             <p data-contact-key="technologyDescription">Need a website, e-commerce platform, mobile application, custom software, or automation solution? Explore our technology solutions.</p>
-            <a href="/solutions/#solutions" class="service-choice-card__link"><span data-contact-key="exploreTechnology">Explore Technology Solutions</span><span aria-hidden="true"><ArrowUpRight /></span></a>
+            <a href="/solutions/#solutions" class="service-choice-card__link"><span data-contact-key="exploreTechnology">Explore Technology Solutions</span><span class="service-choice-card__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg></span></a>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- [PROPOSAL] Chat-style FAQ matching the homepage FAQ: condensed two-tone title with the RYZITE robot
+         on the left; questions as pills, the open answer as a reply bubble from RYZITE. Native <details>
+         keeps it keyboard-friendly and working without JavaScript. -->
     <section class="contact-section contact-faq" aria-labelledby="contact-faq-title">
-      <div class="contact-shell faq-layout">
-        <header class="faq-heading" data-contact-reveal>
-          <h2 id="contact-faq-title" data-contact-key="faqTitle">Questions Before Getting Started?</h2>
+      <div class="contact-shell contact-faq__layout">
+        <header class="contact-faq__intro" data-contact-reveal>
+          <p class="contact-faq__eyebrow" data-contact-key="faqEyebrow">FREQUENTLY ASKED QUESTIONS</p>
+          <h2 id="contact-faq-title" class="contact-faq__title" data-contact-key="faqTitle" data-contact-bicolor="2"><span class="contact-faq__title-base">Questions Before</span><span class="contact-faq__title-accent"> Getting Started?</span></h2>
+          <img class="contact-faq__robot" src="/images/hero/ry-front-plain.webp" alt="" width="1180" height="1333" loading="lazy" decoding="async" />
         </header>
-        <div class="faq-list" data-contact-reveal>
-          <details class="faq-item"><summary data-contact-key="faqQuestionOne">How do I start a project with RYZITE?</summary><div class="faq-answer"><p data-contact-key="faqAnswerOne">Share your project details in the enquiry form. It prepares an email in your email app for you to review and send. Your enquiry is not delivered until you send that email.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionTwo">Can I request multiple services?</summary><div class="faq-answer"><p data-contact-key="faqAnswerTwo">Yes. Choose one service in the form if helpful, then list any other services you’re considering in the notes.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionThree">Can RYZITE help me choose a suitable solution?</summary><div class="faq-answer"><p data-contact-key="faqAnswerThree">Yes. Choose Other if you are unsure, then describe your business goals and needs in the notes so we can discuss suitable options.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionFour">How much does a project cost?</summary><div class="faq-answer"><p data-contact-key="faqAnswerFour">Pricing depends on the project details. No prices are listed on this page; use the enquiry form to describe your needs and ask for pricing information.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionFive">Can I discuss my project before choosing a package?</summary><div class="faq-answer"><p data-contact-key="faqAnswerFive">Yes. Describe your requirements in the form and let us know you would like to discuss the project before deciding on a package.</p></div></details>
+        <div class="contact-faq__list" data-contact-reveal>
+          <details class="contact-faq__item" name="contact-faq" open>
+            <summary><span data-contact-key="faqQuestionOne">How do I start a project with RYZITE?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerOne">Share your project details in the enquiry form. It prepares an email in your email app for you to review and send. Your enquiry is not delivered until you send that email.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionTwo">Can I request multiple services?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerTwo">Yes. Choose one service in the form if helpful, then list any other services you’re considering in the notes.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionThree">Can RYZITE help me choose a suitable solution?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerThree">Yes. Choose Other if you are unsure, then describe your business goals and needs in the notes so we can discuss suitable options.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionFour">How much does a project cost?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerFour">Pricing depends on the project details. No prices are listed on this page; use the enquiry form to describe your needs and ask for pricing information.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionFive">Can I discuss my project before choosing a package?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerFive">Yes. Describe your requirements in the form and let us know you would like to discuss the project before deciding on a package.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
         </div>
       </div>
     </section>
@@ -244,7 +292,21 @@ const enquiryConfig = {
     contactLocale = locale in contactTranslations ? locale : 'en';
     document.querySelectorAll('[data-contact-key]').forEach((element) => {
       const value = translations[element.dataset.contactKey];
-      if (typeof value === 'string') element.textContent = value;
+      if (typeof value !== 'string') return;
+      const split = Number(element.dataset.contactBicolor || 0);
+      const words = value.split(/\s+/).filter(Boolean);
+      if (!split || words.length <= split) {
+        element.textContent = value;
+        return;
+      }
+      // Two-tone heading: the first words in ink, the rest in blue.
+      const base = document.createElement('span');
+      base.className = 'contact-faq__title-base';
+      base.textContent = words.slice(0, split).join(' ');
+      const accent = document.createElement('span');
+      accent.className = 'contact-faq__title-accent';
+      accent.textContent = ` ${words.slice(split).join(' ')}`;
+      element.replaceChildren(base, accent);
     });
     document.querySelectorAll('[data-contact-placeholder]').forEach((element) => {
       const value = translations[element.dataset.contactPlaceholder];
@@ -601,7 +663,7 @@ const enquiryConfig = {
   .contact-button { display: inline-flex; min-height: 3.2rem; align-items: center; justify-content: center; gap: 1.1rem; padding: .8rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .99rem; font-weight: 600; line-height: 1.3; text-decoration: none; transition: transform var(--duration-fast) var(--ease-out), color var(--duration-fast) ease, background var(--duration-fast) ease, box-shadow var(--duration-fast) ease, border-color var(--duration-fast) ease; }
   .contact-button:hover:not(:disabled) { transform: translateY(-3px); }
   .contact-button span:last-child { font-size: 1.21rem; transition: transform var(--duration-fast) var(--ease-out); }
-  .contact-button:hover span:last-child { transform: translate(2px, -2px); }
+  .contact-button:hover span:last-child { transform: translateX(3px); }
   .contact-button--primary, .contact-button--submit { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.6rem rgb(6 75 237 / 20%); }
   .contact-button--primary { margin-top: 1.7rem; }
   .contact-button--primary:hover, .contact-button--submit:hover:not(:disabled) { background: linear-gradient(110deg, #087bd2, #043ec9); box-shadow: 0 .95rem 1.8rem rgb(6 75 237 / 26%); }
@@ -622,7 +684,7 @@ const enquiryConfig = {
   .contact-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: .9rem; border-top: 1px solid rgb(19 51 91 / 12%); color: #788494; font-size: .715rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }.contact-hero__edge b { margin-left: .4rem; color: var(--contact-blue); }
 
   .contact-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
-  .contact-section-heading h2, .enquiry-copy h2, .faq-heading h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
+  .contact-section-heading h2, .enquiry-copy h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .contact-section-heading > p:not(.contact-eyebrow) { max-width: 650px; margin: 1rem 0 0; color: var(--contact-muted); line-height: 1.7; }
   .contact-reach { background: #fff; }
   .contact-reach .contact-section-heading { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
@@ -631,7 +693,7 @@ const enquiryConfig = {
   .reach-card:hover { transform: translateY(-5px); border-color: #b6d1f4; box-shadow: 0 1.2rem 2.5rem rgb(17 47 89 / 9%); }
   .reach-card__icon { display: block; width: 4.8rem; height: 4.8rem; object-fit: contain; border-radius: .8rem; background: #f7faff; }.reach-card__icon svg { width: 1.8rem; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .reach-card h3 { margin: 1.25rem 0 .45rem; color: #182c48; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.reach-card p { margin: 0; color: var(--contact-muted); font-size: .99rem; line-height: 1.65; }
-  .reach-card__email, .reach-card__action { display: flex; width: 100%; min-height: 2.8rem; align-items: center; justify-content: space-between; gap: .7rem; margin-top: auto; padding-top: 1.4rem; color: var(--contact-blue); font-size: .913rem; font-weight: 600; text-decoration: none; }.reach-card__email span, .reach-card__action span:last-child { transition: transform var(--duration-fast) var(--ease-out); }.reach-card__email:hover span, .reach-card__action:hover span:last-child { transform: translate(2px, -2px); }
+  .reach-card__email, .reach-card__action { display: flex; width: 100%; min-height: 2.8rem; align-items: center; justify-content: space-between; gap: .7rem; margin-top: auto; padding-top: 1.4rem; color: var(--contact-blue); font-size: .913rem; font-weight: 600; text-decoration: none; }.reach-card__email span, .reach-card__action span:last-child { transition: transform var(--duration-fast) var(--ease-out); }.reach-card__email:hover span, .reach-card__action:hover span:last-child { transform: translateX(3px); }
 
   .enquiry-section { scroll-margin-top: 90px; background: #f1f6fc; }
   .enquiry-layout { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
@@ -661,9 +723,38 @@ const enquiryConfig = {
   /* Edge-to-edge photo across the top of each card; the negative margins cancel the card padding. */
   .service-choice-card__media { align-self: stretch; aspect-ratio: 16 / 8; margin: calc(clamp(1.5rem, 3vw, 2.5rem) * -1) calc(clamp(1.5rem, 3vw, 2.5rem) * -1) 1.5rem; overflow: hidden; border-bottom: 1px solid #dce6f1; background: #0b1a4a; }
   .service-choice-card__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale var(--duration-medium) var(--ease-out); }
-  .service-choice-card:hover .service-choice-card__media img { scale: 1.05; }.service-choice-card__icon { display: grid; width: 3.2rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: 1rem; color: var(--contact-blue); background: #eaf3ff; }.service-choice-card__icon svg { width: 1.8rem; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }.service-choice-card h3 { margin: 1.3rem 0 .55rem; color: #14243b; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.service-choice-card p { max-width: 600px; margin: 0; color: var(--contact-muted); font-size: .99rem; line-height: 1.7; }.service-choice-card__link { display: flex; width: 100%; min-height: 3rem; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.25rem; color: var(--contact-blue); font-size: .946rem; font-weight: 600; text-decoration: none; }.service-choice-card__link span:last-child { transition: transform var(--duration-fast) var(--ease-out); }.service-choice-card__link:hover span:last-child { transform: translate(3px, -3px); }
+  .service-choice-card:hover .service-choice-card__media img { scale: 1.05; }.service-choice-card h3 { margin: 0 0 .55rem; color: #14243b; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.service-choice-card p { max-width: 600px; margin: 0; color: var(--contact-muted); font-size: .99rem; line-height: 1.7; }.service-choice-card__link { display: flex; width: 100%; min-height: 3rem; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.25rem; color: var(--contact-blue); font-size: .946rem; font-weight: 600; text-decoration: none; }
+  /* Right arrow in a soft blue circle; fills and slides forward when the card is hovered or the link is focused. */
+  .service-choice-card__arrow { display: grid; flex-shrink: 0; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid #cfe0f5; border-radius: 50%; color: var(--contact-blue); background: #eaf3ff; font-size: 1.1rem; transition: translate var(--duration-fast) var(--ease-out), background-color var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease; }
+  .service-choice-card:hover .service-choice-card__arrow, .service-choice-card__link:focus-visible .service-choice-card__arrow { translate: 4px 0; border-color: var(--contact-blue); color: #fff; background: var(--contact-blue); }
 
-  .contact-faq { background: #f6f9fd; }.faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }.faq-heading { position: sticky; top: 120px; }.faq-list { border-top: 1px solid #d7e1ee; }.faq-item { border-bottom: 1px solid #d7e1ee; }.faq-item summary { position: relative; display: flex; min-height: 4.2rem; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.15rem 2.5rem 1.15rem 0; color: #15263d; cursor: pointer; font-size: 1.078rem; font-weight: 600; line-height: 1.45; list-style: none; }.faq-item summary::-webkit-details-marker { display: none; }.faq-item summary::after { position: absolute; top: 50%; right: .5rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--contact-blue); border-bottom: 2px solid var(--contact-blue); content: ''; transition: transform 180ms ease; }.faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }.faq-item summary:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; border-radius: 4px; }.faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 240ms ease; }.faq-item[open] .faq-answer { grid-template-rows: 1fr; }.faq-answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--contact-muted); font-size: .99rem; line-height: 1.7; }.faq-item[open] .faq-answer p { padding-bottom: 1.25rem; }
+  .contact-faq { --faq-blue: #0655e9; --faq-deep: #0643cf; --faq-pill: #e4ecfb; --faq-pill-hover: #d8e4fa; background: #f3f7ff; }
+  .contact-faq__layout { display: grid; grid-template-columns: minmax(240px, .85fr) minmax(0, 1.15fr); align-items: start; gap: clamp(2rem, 6vw, 5.5rem); }
+  .contact-faq__intro { position: sticky; top: 110px; display: flex; flex-direction: column; }
+  .contact-faq__eyebrow { margin: 0 0 clamp(1.5rem, 3vw, 2.5rem); color: #0a1734; font-size: var(--size-small); font-weight: 600; letter-spacing: .02em; text-transform: uppercase; }
+  .contact-faq__title { margin: 0; color: #0a1734; font-family: 'Fira Sans Extra Condensed', var(--font-heading); font-size: clamp(3rem, 6.2vw, 5.6rem); font-weight: 700; letter-spacing: -.01em; line-height: .92; text-transform: uppercase; text-wrap: balance; }
+  .contact-faq__title :global(.contact-faq__title-accent) { color: var(--faq-blue); }
+  :global(html[lang='ta']) .contact-faq__title, :global(html[lang='si']) .contact-faq__title { font-family: var(--font-heading); font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.2; text-transform: none; }
+  /* Robot gently bobs beside the title. */
+  .contact-faq__robot { display: block; width: min(62%, 260px); height: auto; margin-top: clamp(2rem, 5vw, 4rem); filter: drop-shadow(0 18px 24px #0655e926); animation: contact-faq-bob 4.5s ease-in-out infinite; }
+  .contact-faq__list { display: grid; gap: .85rem; }
+  .contact-faq__item summary { display: flex; align-items: center; min-height: 3.6rem; padding: .9rem 1.6rem; border: 1.5px solid transparent; border-radius: 999px; background: var(--faq-pill); color: #0a1734; cursor: pointer; font-size: var(--size-body); font-weight: 500; line-height: 1.4; list-style: none; transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, translate var(--duration-fast) var(--ease-out); }
+  .contact-faq__item summary::-webkit-details-marker { display: none; }
+  .contact-faq__item summary:hover { translate: 4px 0; background: var(--faq-pill-hover); }
+  .contact-faq__item summary:focus-visible { outline: 3px solid var(--faq-blue); outline-offset: 3px; }
+  .contact-faq__item[open] summary { width: fit-content; max-width: 100%; border-color: var(--faq-blue); background: #eef3fe; color: var(--faq-deep); translate: none; animation: contact-faq-sent 320ms var(--ease-out) both; }
+  .contact-faq__reply { display: flex; align-items: flex-end; justify-content: flex-end; gap: .75rem; margin: .75rem 0 .35rem; padding-left: clamp(1rem, 12%, 6rem); }
+  .contact-faq__bubble { margin: 0; padding: 1.2rem 1.5rem; border: 1px solid #d3def5; border-radius: 1.6rem 1.6rem .4rem 1.6rem; background: #fff; box-shadow: 0 12px 28px #0655e912; color: var(--contact-muted); font-size: 1.0312rem; line-height: 1.65; }
+  .contact-faq__sender { display: flex; flex-shrink: 0; flex-direction: column; align-items: center; gap: .3rem; }
+  .contact-faq__avatar { display: block; width: 4.8rem; height: 4.8rem; overflow: hidden; border: 3px solid #fff; border-radius: 50%; background: radial-gradient(circle at 50% 35%, #fff 0 30%, #dce8ff 75%); box-shadow: 0 8px 18px #0655e933; }
+  .contact-faq__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; transform: scale(1.18) translateY(6%); }
+  .contact-faq__name { color: var(--faq-blue); font-family: 'Fira Sans Extra Condensed', var(--font-heading); font-size: .85rem; font-weight: 700; letter-spacing: .08em; }
+  .contact-faq__item[open] .contact-faq__bubble { transform-origin: 100% 100%; animation: contact-faq-bubble 420ms var(--ease-out) both; }
+  .contact-faq__item[open] .contact-faq__sender { animation: contact-faq-avatar 420ms var(--ease-out) 120ms both; }
+  @keyframes contact-faq-bubble { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes contact-faq-avatar { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  @keyframes contact-faq-sent { from { opacity: .6; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  @keyframes contact-faq-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
 
   .contact-closing { position: relative; isolation: isolate; display: grid; min-height: 390px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }.contact-closing__inner { position: relative; z-index: 1; width: min(100%, 790px); }.contact-closing .contact-eyebrow { justify-content: center; color: #b9dbff; }.contact-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }.contact-closing__inner > p:not(.contact-eyebrow) { max-width: 640px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }.contact-button--light { margin-top: 1.5rem; color: #12305a; background: #fff; box-shadow: 0 .7rem 1.7rem rgb(0 15 50 / 18%); }.contact-button--light:hover { background: #eaf4ff; }.contact-closing__orb { position: absolute; z-index: -1; width: 24rem; aspect-ratio: 1; border: 1px solid #ffffff24; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0c, 0 0 0 70px #ffffff09; }.contact-closing__orb--one { top: -14rem; left: -4rem; }.contact-closing__orb--two { right: -7rem; bottom: -18rem; transform: scale(1.25); }.contact-closing__wordmark { position: absolute; right: 2vw; bottom: -2.2rem; z-index: -1; color: #ffffff0a; font-family: var(--font-display); font-size: clamp(5.5rem, 18.7vw, 16.5rem); font-weight: 700; letter-spacing: -.08em; line-height: .8; }
 
@@ -676,15 +767,15 @@ const enquiryConfig = {
   @keyframes contact-art-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
   @media (max-width: 980px) {
-    .contact-hero__inner { min-height: 500px; grid-template-columns: minmax(0, 1fr) minmax(240px, .62fr); gap: 1.5rem; }.contact-reach__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.reach-card:last-child { grid-column: 1 / -1; min-height: 250px; }.enquiry-layout, .faq-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
+    .contact-hero__inner { min-height: 500px; grid-template-columns: minmax(0, 1fr) minmax(240px, .62fr); gap: 1.5rem; }.contact-reach__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.reach-card:last-child { grid-column: 1 / -1; min-height: 250px; }.enquiry-layout, .contact-faq__layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
   @media (max-width: 700px) {
     .contact-shell { padding-inline: 1rem; }
     .contact-hero { padding: 4rem 1rem 1.3rem; }.contact-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: .5rem; }.contact-hero__description { margin-top: 1.1rem; }.contact-hero__art { width: min(77vw, 340px); margin: .5rem auto 0; }.contact-hero__edge { margin-top: 1.2rem; font-size: .616rem; letter-spacing: .07em; }
-    .contact-section { padding-block: 4.5rem; }.contact-reach__grid { grid-template-columns: 1fr; }.reach-card, .reach-card:last-child { grid-column: auto; min-height: 260px; }.enquiry-layout, .faq-layout { grid-template-columns: 1fr; gap: 2rem; }.enquiry-copy, .faq-heading { position: static; }.enquiry-form { padding: 1.15rem; }.form-grid { grid-template-columns: 1fr; }.contact-field--wide { grid-column: auto; }.service-choice-grid { grid-template-columns: 1fr; }.service-choice-card { min-height: 300px; }.contact-closing { min-height: 350px; padding-inline: 1rem; }
+    .contact-section { padding-block: 4.5rem; }.contact-reach__grid { grid-template-columns: 1fr; }.reach-card, .reach-card:last-child { grid-column: auto; min-height: 260px; }.enquiry-layout { grid-template-columns: 1fr; gap: 2rem; }.contact-faq__layout { grid-template-columns: 1fr; gap: 2rem; }.enquiry-copy, .contact-faq__intro { position: static; }.contact-faq__robot { display: none; }.enquiry-form { padding: 1.15rem; }.form-grid { grid-template-columns: 1fr; }.contact-field--wide { grid-column: auto; }.service-choice-grid { grid-template-columns: 1fr; }.service-choice-card { min-height: 300px; }.contact-closing { min-height: 350px; padding-inline: 1rem; }
   }
   @media (max-width: 380px) {
-    .contact-hero__edge span:last-child { text-align: right; }.contact-hero__art { width: min(82vw, 300px); }.contact-button { width: 100%; }.reach-card { padding: 1.3rem; }.service-choice-card { padding: 1.3rem; }.service-choice-card__media { margin: -1.3rem -1.3rem 1.2rem; }
+    .contact-hero__edge span:last-child { text-align: right; }.contact-hero__art { width: min(82vw, 300px); }.contact-button { width: 100%; }.reach-card { padding: 1.3rem; }.service-choice-card { padding: 1.3rem; }.service-choice-card__media { margin: -1.3rem -1.3rem 1.2rem; }.contact-faq__item summary { padding: .85rem 1.2rem; border-radius: 1.4rem; font-size: 1rem; }.contact-faq__reply { padding-left: 0; }.contact-faq__bubble { padding: 1rem 1.15rem; font-size: .975rem; }.contact-faq__avatar { width: 3rem; height: 3rem; }.contact-faq__name { font-size: .75rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .contact-page *, .contact-page *::before, .contact-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }

@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { homeTranslations } from '../../data/home-translations';
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 
@@ -27,6 +28,19 @@ const waveLayers = [
   { name: 'front', d: wavePath(570, 62, 1440, 4.2), gradient: ['#0643cf', .2, '#ffffff', .06], crest: crestPath(570, 62, 1440, 4.2) },
 ] as const;
 
+// Fill waves sit behind the footage. Their mask is the inverse of the video's edge fade, shifted by
+// the same pan, so they only show in the strip the sliding video uncovers and blend through its fade.
+// Colours are sampled from the footage's own waves.
+const fillLayers = [
+  { name: 'back', d: wavePath(330, 70, 1440, 1.1), gradient: ['#8bbdd6', .95, '#b6cfdc', .2] },
+  { name: 'middle', d: wavePath(430, 62, 1440, 3.1), gradient: ['#3d7cc4', .85, '#6ea9d3', .25] },
+  { name: 'front', d: wavePath(520, 54, 1440, 5.2), gradient: ['#6ea9d3', .8, '#c3d4de', 0] },
+] as const;
+
+// Two-tone scene titles: scene index → number of leading words in ink; the rest is blue.
+// Keep in sync with splitRules in index.astro, which re-applies the split on language change.
+const titleSplits: Record<number, number> = { 2: 2 };
+
 // Each scene sits opposite the robot in the footage: robot right → text left, and so on.
 const sceneLayout = [
   { side: 'left', href: '/solutions/' },
@@ -38,6 +52,21 @@ const sceneLayout = [
 <section class="video-hero" data-video-hero aria-labelledby="hero-title">
   <div class="video-hero__stage" data-video-stage>
     <div class="video-hero__media" aria-hidden="true">
+      <div class="video-hero__fill">
+        {fillLayers.map((layer) => (
+          <div class={`video-hero__fill-layer video-hero__fill-layer--${layer.name}`}>
+            <svg viewBox={`0 0 ${WAVE_WIDTH} ${WAVE_HEIGHT}`} preserveAspectRatio="none" focusable="false">
+              <defs>
+                <linearGradient id={`hero-fill-${layer.name}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color={layer.gradient[0]} stop-opacity={layer.gradient[1]} />
+                  <stop offset="1" stop-color={layer.gradient[2]} stop-opacity={layer.gradient[3]} />
+                </linearGradient>
+              </defs>
+              <path d={layer.d} fill={`url(#hero-fill-${layer.name})`} />
+            </svg>
+          </div>
+        ))}
+      </div>
       <img
         class="video-hero__poster"
         src="/images/hero/ryzite-robot-poster.jpg"
@@ -99,13 +128,18 @@ const sceneLayout = [
           ) : (
             <p class="video-hero__eyebrow" data-home-key={`heroStory.${index}.eyebrow`}>{scene.eyebrow}</p>
           )}
-          <Heading class="video-hero__title" id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
-            {scene.title}
+          <Heading class:list={['video-hero__title', { 'hs-bicolor': index in titleSplits }]} id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
+            {index in titleSplits ? (
+              <>
+                <span class="hs-bicolor__base">{scene.title.split(/\s+/).slice(0, titleSplits[index]).join(' ')}</span>
+                <span class="hs-bicolor__accent"> {scene.title.split(/\s+/).slice(titleSplits[index]).join(' ')}</span>
+              </>
+            ) : scene.title}
           </Heading>
           <p class="video-hero__body" data-home-key={`heroStory.${index}.body`}>{scene.body}</p>
           <a class="video-hero__button" href={layout.href}>
             <span data-home-key={`heroStory.${index}.cta`}>{scene.cta}</span>
-            <span class="video-hero__arrow" aria-hidden="true">↗</span>
+            <span class="video-hero__arrow" aria-hidden="true"><ArrowUpRight /></span>
           </a>
           {isFirst && (
             <nav class="video-hero__fallback-pathways" aria-label="Explore RYZITE">
@@ -196,6 +230,39 @@ const sceneLayout = [
       linear-gradient(180deg, #c4d6da 0%, #bdcfd9 28%, #7fa6cf 46%, #8fb9d1 54%, #b6c8d2 64%, #b0c4cf 100%) right / 50% 100% no-repeat;
   }
 
+  .video-hero__fill {
+    --pan-offset: calc(var(--video-pan, 1) * var(--pan-distance));
+    position: absolute;
+    right: 0;
+    bottom: 12%;
+    left: 0;
+    height: 62%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg,
+      #000 var(--pan-offset),
+      transparent calc(var(--pan-offset) + 14%),
+      transparent calc(var(--pan-offset) + 86%),
+      #000 calc(var(--pan-offset) + 100%));
+    mask-image: linear-gradient(90deg,
+      #000 var(--pan-offset),
+      transparent calc(var(--pan-offset) + 14%),
+      transparent calc(var(--pan-offset) + 86%),
+      #000 calc(var(--pan-offset) + 100%));
+  }
+
+  .video-hero__fill-layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .video-hero__fill-layer--back svg { animation: hero-wave-flow-left 80s linear infinite; }
+  .video-hero__fill-layer--middle svg { animation: hero-wave-flow-right 56s linear infinite; }
+  .video-hero__fill-layer--front svg { animation: hero-wave-flow-left 38s linear infinite; }
+
+  .video-hero.is-offscreen .video-hero__fill-layer svg {
+    animation-play-state: paused;
+  }
+
   .video-hero__poster,
   .video-hero__video {
     display: block;
@@ -261,9 +328,13 @@ const sceneLayout = [
     inset: 0;
   }
 
-  .video-hero__wave svg {
+  .video-hero__wave svg,
+  .video-hero__fill svg {
     display: block;
     width: 200%;
+    /* The global reset caps svg at 100%; without this the layer is only one screen wide and its
+       end slides into view as a hard vertical edge while it drifts. */
+    max-width: none;
     height: 100%;
   }
 
@@ -385,6 +456,9 @@ const sceneLayout = [
     height: clamp(48px, 5.4vw, 92px);
   }
 
+  .video-hero__title :global(.hs-bicolor__base) { color: var(--hero-ink); }
+  .video-hero__title :global(.hs-bicolor__accent) { color: #0655e9; }
+
   .video-hero__title {
     margin: 0;
     color: var(--hero-ink);
@@ -410,6 +484,7 @@ const sceneLayout = [
     margin: clamp(18px, 2vw, 28px) 0 clamp(24px, 2.6vw, 36px);
     color: var(--hero-body);
     font-size: var(--size-lead);
+    font-weight: var(--weight-strong);
     line-height: 1.6;
     text-wrap: pretty;
   }
@@ -449,7 +524,7 @@ const sceneLayout = [
   }
 
   .video-hero__button:hover .video-hero__arrow {
-    transform: translate(2px, -2px);
+    transform: translateX(3px);
   }
 
   .video-hero__button--ghost {
@@ -558,6 +633,10 @@ const sceneLayout = [
     .video-hero__video,
     .video-hero__waves {
       display: none;
+    }
+
+    .video-hero__fill-layer svg {
+      animation: none;
     }
 
     .video-hero__button,
