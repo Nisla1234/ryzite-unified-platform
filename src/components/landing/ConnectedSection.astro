@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 
 interface Props { content: any; }
@@ -30,7 +31,7 @@ const { content } = Astro.props;
         </article>
         <span class="signal-line" aria-hidden="true"></span>
         <article>
-            <span class="signal-icon" aria-hidden="true">↗</span>
+            <span class="signal-icon" aria-hidden="true"><ArrowUpRight /></span>
             <strong data-i18n="connected.operate">{content.connected.operate}</strong>
         </article>
     </div>

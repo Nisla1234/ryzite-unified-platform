@@ -1,19 +1,173 @@
 ﻿---
 import MainLayout from "../layouts/MainLayout.astro";
 import Hero from "../components/sections/Hero.astro";
-import AboutPreview from "../components/sections/AboutPreview.astro";
 import Offerings from "../components/sections/Offerings.astro";
 import BusinessChallenge from "../components/sections/BusinessChallenge.astro";
 import VisitorNeeds from "../components/sections/VisitorNeeds.astro";
+import HomeDivisions from "../components/sections/HomeDivisions.astro";
+import ConnectedPlan from "../components/sections/ConnectedPlan.astro";
+import PackagesPreview from "../components/sections/PackagesPreview.astro";
+import PaymentOptions from "../components/sections/PaymentOptions.astro";
+import ProcessPreview from "../components/sections/ProcessPreview.astro";
+import TrustPrinciples from "../components/sections/TrustPrinciples.astro";
+import HomeFaq from "../components/sections/HomeFaq.astro";
+import "../styles/home-sections.css";
+import { homeTranslations } from "../data/home-translations";
+import { homeSectionsTranslations } from "../data/home-sections-translations";
+import { resourcesTranslations } from "../data/resources-translations";
+import { marketingServices } from "../data/marketing-service-content";
+import { marketingServiceTranslations } from "../data/marketing-service-translations";
+import { technologySolutions } from "../data/technology-solutions";
+import { technologySolutionTranslations } from "../data/technology-solution-translations";
+
+type OfferingCopy = { title: string; description: string };
+type Locale = 'en' | 'ta' | 'si';
+
+const serviceOfferings = (locale: Locale): Record<string, OfferingCopy> =>
+    Object.fromEntries(marketingServices.map(({ slug }) => {
+        const service = marketingServiceTranslations[locale].services[slug];
+        return [slug, { title: service.title, description: service.description }];
+    }));
+
+const solutionOfferings = (locale: Locale): Record<string, OfferingCopy> =>
+    Object.fromEntries(technologySolutions.map(({ slug, title, description }) => {
+        const translated = locale === 'en'
+            ? undefined
+            : (technologySolutionTranslations[locale].items as Record<string, OfferingCopy>)[slug];
+        return [slug, { title: translated?.title ?? title, description: translated?.description ?? description }];
+    }));
+
+// Package cards and process steps are shared with /packages and /how-we-work so the homepage
+// previews never drift from those pages.
+const homeLocale = (locale: Locale) => {
+    const { packages, howWeWork } = resourcesTranslations[locale];
+    return {
+        ...homeTranslations[locale],
+        offerings: { services: serviceOfferings(locale), solutions: solutionOfferings(locale) },
+        sections: homeSectionsTranslations[locale],
+        packageData: { cards: packages.packageCards, featuresLabel: packages.packageFeaturesLabel, cta: packages.packageCta },
+        processData: { intro: howWeWork.processIntro, steps: howWeWork.processSteps },
+    };
+};
+
+const homePageTranslations = { en: homeLocale('en'), ta: homeLocale('ta'), si: homeLocale('si') };
 ---
 
 <MainLayout
   title="RYZITE | Digital Marketing & Technology"
   description="One Agency. All Your Business Solutions."
 >
+  <!-- Homepage order (approved brief): 1 Hero, 2 Business Challenge, 3 Visitor Needs, 4 Two Divisions,
+       5 Marketing Services + 6 Technology Solutions (Offerings), 8 Connected Plan, 9 Packages,
+       10 Payment Options, 11 How We Work, 12 Trust, 13 FAQs, 14 Closing Invitation.
+       AboutPreview moved off the homepage (replaced by Two Divisions); Client Reviews live inside Trust (12) and stay hidden until a verified review profile URL exists. Branding section (7) removed at client request. -->
   <Hero />
-  <AboutPreview />
   <BusinessChallenge />
   <VisitorNeeds />
+  <HomeDivisions />
   <Offerings />
+  <ConnectedPlan />
+  <PackagesPreview />
+  <PaymentOptions />
+  <ProcessPreview />
+  <TrustPrinciples />
+  <HomeFaq />
 </MainLayout>
+
+<script>
+  import '../scripts/home-reveal';
+</script>
+
+<script is:inline define:vars={{ homePageTranslations }}>
+  const homeTranslations = homePageTranslations;
+  const getValue = (source, path) => path.split('.').reduce((value, key) => value?.[key], source);
+
+  const setHeroDescription = (element, value) => {
+    const words = value.split(/\s+/).filter(Boolean);
+    const fragment = document.createDocumentFragment();
+    words.forEach((word, index) => {
+      const span = document.createElement('span');
+      span.dataset.descriptionWord = '';
+      span.textContent = word;
+      fragment.append(span);
+      if (index < words.length - 1) fragment.append(' ');
+    });
+    element.replaceChildren(fragment);
+  };
+
+  const setBicolorHeading = (element, value) => {
+    if (typeof value !== 'string') return;
+
+    const splitRules = {
+      'sections.divisions.title': 2,
+      'sections.connected.title': 3,
+      'sections.payments.title': 2,
+      'sections.process.title': 3,
+      'sections.trust.title': 3,
+      'sections.faq.title': 2,
+      'heroStory.2.title': 2,
+    };
+    const key = element.dataset.homeKey || '';
+    const accentStart = splitRules[key];
+    const words = value.split(/\s+/).filter(Boolean);
+
+    if (!accentStart || words.length <= accentStart) {
+      element.textContent = value;
+      return;
+    }
+
+    const base = document.createElement('span');
+    base.className = 'hs-bicolor__base';
+    base.textContent = words.slice(0, accentStart).join(' ');
+    const accent = document.createElement('span');
+    accent.className = 'hs-bicolor__accent';
+    accent.textContent = ` ${words.slice(accentStart).join(' ')}`;
+    element.replaceChildren(base, accent);
+  };
+
+  const applyHomeLocale = (locale) => {
+    const content = homeTranslations[locale] || homeTranslations.en;
+
+    document.querySelectorAll('[data-home-key]').forEach((element) => {
+      const value = getValue(content, element.dataset.homeKey || '');
+      if (typeof value !== 'string') return;
+      if (element.classList.contains('hs-bicolor')) setBicolorHeading(element, value);
+      else element.textContent = value;
+    });
+
+    document.querySelectorAll('[data-home-aria]').forEach((element) => {
+      const value = getValue(content, element.dataset.homeAria || '');
+      if (typeof value === 'string') element.setAttribute('aria-label', value);
+    });
+
+    const heroWords = document.querySelectorAll('.hero-message [data-headline-word]');
+    if (Array.isArray(content.heroTitleWords)) {
+      heroWords.forEach((element, index) => {
+        element.textContent = content.heroTitleWords[index] || '';
+      });
+    }
+
+    const heroDescription = document.querySelector('[data-hero-description]');
+    if (heroDescription && typeof content.heroDescription === 'string') {
+      setHeroDescription(heroDescription, content.heroDescription);
+    }
+
+    document.querySelectorAll('[data-home-offering]').forEach((element) => {
+      const offering = content.offerings?.[element.dataset.homeOffering];
+      const fallback = homeTranslations.en.offerings?.[element.dataset.homeOffering];
+      const item = offering?.[element.dataset.homeSlug] || fallback?.[element.dataset.homeSlug];
+      const value = item?.[element.dataset.homeField];
+      if (typeof value === 'string') element.textContent = value;
+    });
+
+    document.querySelectorAll('[data-home-card-group]').forEach((element) => {
+      const offering = content.offerings?.[element.dataset.homeCardGroup];
+      const fallback = homeTranslations.en.offerings?.[element.dataset.homeCardGroup];
+      const item = offering?.[element.dataset.homeCardSlug] || fallback?.[element.dataset.homeCardSlug];
+      if (item) element.setAttribute('aria-label', `${content.viewDetails}: ${item.title}`);
+    });
+  };
+
+  applyHomeLocale(document.body.dataset.locale || 'en');
+  window.addEventListener('ryzite:locale-change', (event) => applyHomeLocale(event.detail?.locale || 'en'));
+</script>

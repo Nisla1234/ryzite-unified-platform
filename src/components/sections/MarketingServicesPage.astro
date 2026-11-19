@@ -1,4 +1,6 @@
 ---
+import MarketingServiceArt from '../ui/MarketingServiceArt.astro';
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
 import { marketingServiceTranslations } from '../../data/marketing-service-translations';
@@ -58,7 +60,6 @@ const pageTranslations = Object.fromEntries(
       <div class="marketing-hero__glow" aria-hidden="true"></div>
       <div class="marketing-shell marketing-hero__inner">
         <div class="marketing-hero__copy">
-          <p class="marketing-eyebrow" data-marketing-key="heroLabel">{copy.heroLabel}</p>
           <h1 id="marketing-hero-title" data-marketing-key="heroTitle">{copy.heroTitle}</h1>
           <p class="marketing-hero__body" data-marketing-key="heroBodyOne">{copy.heroBodyOne}</p>
           <p class="marketing-hero__body marketing-hero__body--secondary" data-marketing-key="heroBodyTwo">{copy.heroBodyTwo}</p>
@@ -80,7 +81,6 @@ const pageTranslations = Object.fromEntries(
 
     <section class="marketing-introduction" aria-labelledby="marketing-intro-title">
       <div class="marketing-shell marketing-introduction__inner" data-marketing-reveal>
-        <p class="marketing-eyebrow" data-marketing-key="introEyebrow">{copy.introEyebrow}</p>
         <h2 id="marketing-intro-title" data-marketing-key="introTitle">{copy.introTitle}</h2>
         <p data-marketing-key="introBody">{copy.introBody}</p>
       </div>
@@ -90,7 +90,6 @@ const pageTranslations = Object.fromEntries(
       <div class="marketing-shell">
         <header class="marketing-section-heading" data-marketing-reveal>
           <div>
-            <p class="marketing-eyebrow" data-marketing-key="servicesEyebrow">{copy.servicesEyebrow}</p>
             <h2 id="marketing-services-title" data-marketing-key="servicesTitle">{copy.servicesTitle}</h2>
           </div>
           <p data-marketing-key="servicesBody">{copy.servicesBody}</p>
@@ -105,14 +104,14 @@ const pageTranslations = Object.fromEntries(
                   aria-label={`${copy.exploreService}: ${service.title}`}
                   data-marketing-card-link={service.slug}
                 >
-                  <span class="marketing-service-card__topline">
-                    <span class="marketing-service-card__icon" aria-hidden="true">{service.icon}</span>
-                    <span class="marketing-service-card__number">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="marketing-service-card__media">
+                    <MarketingServiceArt slug={service.slug} />
+                    <span class="marketing-service-card__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                   </span>
                   <h3 data-marketing-service-field="title" data-marketing-service-slug={service.slug}>{service.title}</h3>
                   <p data-marketing-service-field="description" data-marketing-service-slug={service.slug}>{service.description}</p>
                   <span class="marketing-service-card__more">
-                    <span data-marketing-key="exploreService">{copy.exploreService}</span><span aria-hidden="true">↗</span>
+                    <span data-marketing-key="exploreService">{copy.exploreService}</span><span aria-hidden="true"><ArrowUpRight /></span>
                   </span>
                 </a>
               </article>
@@ -125,14 +124,13 @@ const pageTranslations = Object.fromEntries(
     <section class="marketing-section marketing-why-section" aria-labelledby="marketing-why-title">
       <div class="marketing-shell marketing-why-layout">
         <header class="marketing-section-heading marketing-section-heading--stacked" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="whyEyebrow">{copy.whyEyebrow}</p>
           <h2 id="marketing-why-title" data-marketing-key="whyTitle">{copy.whyTitle}</h2>
         </header>
         <div class="marketing-why-grid">
           {copy.whyItems.map((item, index) => (
             <article class="marketing-why-card" data-marketing-reveal>
               <span class="marketing-why-card__number">0{index + 1}</span>
-              <span class="marketing-why-card__icon" aria-hidden="true">{['◎', '✦', '↗', '⌁', '◇'][index]}</span>
+              <span class="marketing-why-card__icon" aria-hidden="true">{['◎', '✦', <ArrowUpRight />, '⌁', '◇'][index]}</span>
               <h3 data-marketing-array="whyItems" data-marketing-index={index} data-marketing-field="title">{item.title}</h3>
               <p data-marketing-array="whyItems" data-marketing-index={index} data-marketing-field="body">{item.body}</p>
             </article>
@@ -144,7 +142,6 @@ const pageTranslations = Object.fromEntries(
     <section class="marketing-section marketing-process-section" aria-labelledby="marketing-process-title">
       <div class="marketing-shell">
         <header class="marketing-section-heading marketing-section-heading--center" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="processEyebrow">{copy.processEyebrow}</p>
           <h2 id="marketing-process-title" data-marketing-key="processTitle">{copy.processTitle}</h2>
           <p data-marketing-key="processIntro">{copy.processIntro}</p>
         </header>
@@ -165,7 +162,6 @@ const pageTranslations = Object.fromEntries(
     <section class="marketing-section marketing-faq-section" aria-labelledby="marketing-faq-title">
       <div class="marketing-shell marketing-faq-layout">
         <header class="marketing-section-heading marketing-section-heading--stacked" data-marketing-reveal>
-          <p class="marketing-eyebrow" data-marketing-key="faqEyebrow">{copy.faqEyebrow}</p>
           <h2 id="marketing-faq-title" data-marketing-key="faqTitle">{copy.faqTitle}</h2>
         </header>
         <div class="marketing-faq-list" data-marketing-reveal>
@@ -184,11 +180,10 @@ const pageTranslations = Object.fromEntries(
     <section class="marketing-closing" aria-labelledby="marketing-closing-title">
       <div class="marketing-closing__orb" aria-hidden="true"></div>
       <div class="marketing-closing__inner" data-marketing-reveal>
-        <p class="marketing-eyebrow" data-marketing-key="closingEyebrow">{copy.closingEyebrow}</p>
         <h2 id="marketing-closing-title" data-marketing-key="closingTitle">{copy.closingTitle}</h2>
         <p data-marketing-key="closingDescription">{copy.closingDescription}</p>
         <a class="marketing-button marketing-button--light" href="/contact/">
-          <span data-marketing-key="closingCta">{copy.closingCta}</span><span aria-hidden="true">↗</span>
+          <span data-marketing-key="closingCta">{copy.closingCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
         </a>
       </div>
     </section>
@@ -216,7 +211,6 @@ const pageTranslations = Object.fromEntries(
       if (service) element.setAttribute('aria-label', `${copy.exploreService}: ${service.title}`);
     });
 
-    document.title = copy.pageTitle;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', copy.metaDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');
@@ -271,33 +265,33 @@ const pageTranslations = Object.fromEntries(
   .marketing-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame) 2rem; background: linear-gradient(118deg, #faf8f4, #f3f8ff 64%, #eaf4ff); }
   .marketing-hero__inner { display: grid; min-height: 570px; grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); }
   .marketing-hero__copy { position: relative; z-index: 1; max-width: 800px; }
-  .marketing-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--marketing-blue); font-size: .73rem; font-weight: 800; letter-spacing: .15em; line-height: 1.5; text-transform: uppercase; }
+  .marketing-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--marketing-blue); font-size: var(--size-eyebrow); font-weight: 600; letter-spacing: .15em; line-height: 1.5; text-transform: uppercase; }
   .marketing-eyebrow::before { width: 1.5rem; height: 2px; flex: 0 0 auto; border-radius: 2px; background: currentColor; content: ''; }
-  .marketing-hero h1 { max-width: 800px; margin: 0; color: #101827; font-family: var(--font-display); font-size: clamp(3.2rem, 6.7vw, 6.2rem); font-weight: 900; letter-spacing: -.025em; line-height: .96; overflow-wrap: anywhere; }
-  .marketing-hero__body { max-width: 680px; margin: 1.4rem 0 0; color: var(--marketing-muted); font-size: clamp(1rem, 1.3vw, 1.15rem); line-height: 1.75; }
+  .marketing-hero h1 { max-width: var(--measure-h1); margin: 0; color: #101827; font-family: var(--font-display); font-size: var(--size-h1); font-weight: 700; letter-spacing: var(--tracking-h1); line-height: var(--leading-h1); overflow-wrap: anywhere; }
+  .marketing-hero__body { max-width: 680px; margin: 1.4rem 0 0; color: var(--marketing-muted); font-size: var(--size-lead); line-height: 1.75; }
   .marketing-hero__body--secondary { margin-top: .8rem; }
-  .marketing-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .9rem; font-weight: 800; text-align: center; text-decoration: none; transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 180ms ease; }
+  .marketing-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .99rem; font-weight: 600; text-align: center; text-decoration: none; transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 180ms ease; }
   .marketing-button:hover { transform: translateY(-3px); }
   .marketing-button:focus-visible, .marketing-service-card__link:focus-visible, .marketing-faq-item summary:focus-visible { outline: 3px solid var(--marketing-blue); outline-offset: 4px; }
   .marketing-button--primary { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.5rem #064bed30; }
   .marketing-button--primary:hover { background: linear-gradient(110deg, #087bd2, #043ec9); }
   .marketing-hero__visual { position: relative; display: grid; width: min(100%, 410px); aspect-ratio: 1; place-items: center; justify-self: center; overflow: hidden; border: 1px solid #d5e5f8; border-radius: 2.2rem; background: radial-gradient(circle at center, #fff 0 22%, #eef6ff 23% 66%, #e1efff 67%); box-shadow: inset 0 0 0 1rem #ffffff50, 0 1.5rem 3.5rem #173b7110; }
   .marketing-hero__visual::before { position: absolute; inset: 12%; border: 1px solid #8cb9ee80; border-radius: 50%; background-image: linear-gradient(#0655e914 1px, transparent 1px), linear-gradient(90deg, #0655e914 1px, transparent 1px); background-size: 16% 16%; content: ''; mask-image: radial-gradient(circle, #000 0 68%, transparent 69%); }
-  .marketing-hero__mark { position: relative; z-index: 1; display: grid; width: 35%; aspect-ratio: 1; place-items: center; border: 1px solid #ffffffa0; border-radius: 1.5rem; color: #fff; background: linear-gradient(145deg, #078be9, #0643cf); box-shadow: 0 1.2rem 2.7rem #0655e93b; font-family: var(--font-display); font-size: clamp(4rem, 7vw, 6rem); font-weight: 800; }
+  .marketing-hero__mark { position: relative; z-index: 1; display: grid; width: 35%; aspect-ratio: 1; place-items: center; border: 1px solid #ffffffa0; border-radius: 1.5rem; color: #fff; background: linear-gradient(145deg, #078be9, #0643cf); box-shadow: 0 1.2rem 2.7rem #0655e93b; font-family: var(--font-display); font-size: clamp(4.4rem, 7.7vw, 6.6rem); font-weight: 700; }
   .marketing-hero__orbit { position: absolute; inset: 7%; border: 1px solid #0655e92e; border-radius: 50%; }
   .marketing-hero__orbit--inner { inset: 22%; border-style: dashed; border-color: #00a6fa55; }
   .marketing-hero__spark { position: absolute; color: var(--marketing-blue); }
   .marketing-hero__spark--one { top: 15%; right: 22%; }
   .marketing-hero__spark--two { bottom: 17%; left: 19%; }
-  .marketing-hero__visual-caption { position: absolute; right: 1rem; bottom: 1.1rem; left: 1rem; color: #617794; font-size: .58rem; font-weight: 800; letter-spacing: .12em; text-align: center; }
+  .marketing-hero__visual-caption { position: absolute; right: 1rem; bottom: 1.1rem; left: 1rem; color: #617794; font-size: .638rem; font-weight: 600; letter-spacing: .12em; text-align: center; }
   .marketing-hero__glow { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #459eff28, transparent 68%); }
-  .marketing-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: 1rem; border-top: 1px solid #cdd9e7; color: #52647b; font-size: .62rem; font-weight: 800; letter-spacing: .12em; }
+  .marketing-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: 1rem; border-top: 1px solid #cdd9e7; color: #52647b; font-size: .682rem; font-weight: 600; letter-spacing: .12em; }
   .marketing-hero__edge b { margin-left: .4rem; color: var(--marketing-blue); }
   .marketing-introduction { padding-block: clamp(4rem, 7vw, 6rem); background: #fff; }
   .marketing-introduction__inner { display: grid; grid-template-columns: minmax(160px, .45fr) minmax(0, 1fr); align-items: start; gap: .7rem 3rem; }
   .marketing-introduction__inner .marketing-eyebrow { grid-row: span 2; margin-top: .8rem; }
-  .marketing-introduction h2, .marketing-section-heading h2 { max-width: 850px; margin: 0; color: #111d30; font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.8rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }
-  .marketing-introduction > .marketing-introduction__inner > p:last-child { max-width: 720px; margin: .4rem 0 0; color: var(--marketing-muted); font-size: 1.05rem; line-height: 1.75; }
+  .marketing-introduction h2, .marketing-section-heading h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
+  .marketing-introduction > .marketing-introduction__inner > p:last-child { max-width: 720px; margin: .4rem 0 0; color: var(--marketing-muted); font-size: 1.155rem; line-height: 1.75; }
   .marketing-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
   .marketing-service-section { background: #f2f7fd; }
   .marketing-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
@@ -307,51 +301,53 @@ const pageTranslations = Object.fromEntries(
   .marketing-service-card { min-width: 0; scroll-margin-top: 7rem; }
   .marketing-service-card__link { position: relative; display: flex; min-height: 290px; height: 100%; flex-direction: column; align-items: flex-start; padding: 1.45rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); color: var(--marketing-ink); background: linear-gradient(145deg, #fff, #f7faff); box-shadow: 0 .8rem 1.8rem #173b7109; text-decoration: none; transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease; }
   .marketing-service-card__link:hover { transform: translateY(-5px); border-color: #9fc1eb; box-shadow: 0 1rem 2rem #163f7615; }
-  .marketing-service-card__topline { display: flex; width: 100%; align-items: center; justify-content: space-between; }
-  .marketing-service-card__icon, .marketing-service-card__number { display: grid; width: 2.8rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .9rem; color: var(--marketing-blue); background: #eaf3ff; font-family: var(--font-display); font-size: 1.45rem; font-weight: 700; }
-  .marketing-service-card__number { width: auto; border: 0; color: #8292a6; background: transparent; font-family: var(--font-body); font-size: .68rem; letter-spacing: .12em; }
-  .marketing-service-card h3 { max-width: 95%; margin: 1.7rem 0 .55rem; color: #162942; font-family: var(--font-display); font-size: clamp(1.35rem, 1.7vw, 1.65rem); font-weight: 700; line-height: 1.1; }
-  .marketing-service-card p { margin: 0; color: var(--marketing-muted); font-size: .91rem; line-height: 1.65; }
-  .marketing-service-card__more { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .75rem; margin-top: auto; padding-top: 1.35rem; color: var(--marketing-blue); font-size: .84rem; font-weight: 800; }
+  /* Illustration banner across the top of the card; negative margins cancel the card padding. */
+  .marketing-service-card__media { position: relative; display: block; align-self: stretch; aspect-ratio: 16 / 9; margin: -1.45rem -1.45rem 0; overflow: hidden; border-radius: calc(var(--radius-medium) - 1px) calc(var(--radius-medium) - 1px) 0 0; background: #0643cf; }
+  .marketing-service-card__media :global(.marketing-art) { transition: scale 400ms var(--ease-out); }
+  .marketing-service-card__link:hover .marketing-service-card__media :global(.marketing-art) { scale: 1.05; }
+  .marketing-service-card__number { position: absolute; top: .8rem; right: .8rem; padding: .3rem .6rem; border-radius: 999px; color: #fff; background: rgb(10 23 52 / 40%); backdrop-filter: blur(6px); font-family: var(--font-body); font-size: .748rem; font-weight: var(--weight-strong); letter-spacing: .12em; }
+  .marketing-service-card h3 { max-width: 95%; margin: 1.3rem 0 .55rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .marketing-service-card p { margin: 0; color: var(--marketing-muted); font-size: 1.001rem; line-height: 1.65; }
+  .marketing-service-card__more { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .75rem; margin-top: auto; padding-top: 1.35rem; color: var(--marketing-blue); font-size: .924rem; font-weight: 600; }
   .marketing-service-card__more span:last-child { transition: transform 180ms ease; }
-  .marketing-service-card__link:hover .marketing-service-card__more span:last-child { transform: translate(3px, -3px); }
+  .marketing-service-card__link:hover .marketing-service-card__more span:last-child { transform: translateX(4px); }
   .marketing-why-section { background: #fff; }
   .marketing-why-layout { display: grid; grid-template-columns: minmax(245px, .72fr) minmax(0, 1.28fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .marketing-section-heading--stacked { display: block; margin: 0; }
   .marketing-section-heading--stacked .marketing-eyebrow { margin-bottom: 1rem; }
   .marketing-why-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   .marketing-why-card { position: relative; min-height: 220px; padding: 1.4rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, #fff, #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .marketing-why-card__number { color: #8795a8; font-size: .66rem; font-weight: 800; letter-spacing: .13em; }
-  .marketing-why-card__icon { position: absolute; top: 1.2rem; right: 1.2rem; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--marketing-blue); background: #eaf3ff; font-size: 1.1rem; }
-  .marketing-why-card h3 { margin: 2rem 0 .55rem; color: #172940; font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; line-height: 1.12; }
-  .marketing-why-card p { margin: 0; color: var(--marketing-muted); font-size: .9rem; line-height: 1.65; }
+  .marketing-why-card__number { color: #8795a8; font-size: .726rem; font-weight: 600; letter-spacing: .13em; }
+  .marketing-why-card__icon { position: absolute; top: 1.2rem; right: 1.2rem; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--marketing-blue); background: #eaf3ff; font-size: 1.21rem; }
+  .marketing-why-card h3 { margin: 2rem 0 .55rem; color: #172940; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .marketing-why-card p { margin: 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.65; }
   .marketing-process-section { background: #f2f7fd; }
   .marketing-section-heading--center { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .marketing-section-heading--center .marketing-eyebrow { justify-content: center; }
-  .marketing-section-heading--center h2 { max-width: 850px; }
+  .marketing-section-heading--center h2 { max-width: var(--measure-h2-wide); }
   .marketing-section-heading--center > p:last-child { max-width: 680px; margin: .9rem 0 0; color: var(--marketing-muted); line-height: 1.7; }
   .marketing-process { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin: 3.2rem 0 0; padding: 0; list-style: none; }
   .marketing-process::before { position: absolute; top: 1.25rem; right: 8%; left: 8%; height: 1px; background: linear-gradient(90deg, #b9d4f4, #4a9cf2, #b9d4f4); content: ''; }
   .marketing-process li { position: relative; display: grid; min-height: 175px; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 1.5rem; }
-  .marketing-process__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--marketing-blue); background: #fff; box-shadow: 0 0 0 .35rem #edf5ff; font-size: .68rem; font-weight: 800; }
-  .marketing-process h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; }
-  .marketing-process p { margin: 0; color: var(--marketing-muted); font-size: .88rem; line-height: 1.65; }
+  .marketing-process__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--marketing-blue); background: #fff; box-shadow: 0 0 0 .35rem #edf5ff; font-size: .748rem; font-weight: 600; }
+  .marketing-process h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .marketing-process p { margin: 0; color: var(--marketing-muted); font-size: .968rem; line-height: 1.65; }
   .marketing-faq-section { background: #fff; }
   .marketing-faq-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .marketing-faq-list { border-top: 1px solid #d7e1ee; }
   .marketing-faq-item { border-bottom: 1px solid #d7e1ee; }
-  .marketing-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: .95rem; font-weight: 700; line-height: 1.45; list-style: none; }
+  .marketing-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }
   .marketing-faq-item summary::-webkit-details-marker { display: none; }
   .marketing-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--marketing-blue); border-bottom: 2px solid var(--marketing-blue); content: ''; transition: transform 180ms ease; }
   .marketing-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }
   .marketing-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }
   .marketing-faq-item[open] .marketing-faq-item__answer { grid-template-rows: 1fr; }
-  .marketing-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--marketing-muted); font-size: .9rem; line-height: 1.7; }
+  .marketing-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.7; }
   .marketing-faq-item[open] .marketing-faq-item__answer p { padding-bottom: 1.1rem; }
   .marketing-closing { position: relative; isolation: isolate; display: grid; min-height: 390px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }
   .marketing-closing__inner { position: relative; z-index: 1; width: min(100%, 800px); }
   .marketing-closing .marketing-eyebrow { justify-content: center; color: #b9dbff; }
-  .marketing-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.8rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }
+  .marketing-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .marketing-closing__inner > p:not(.marketing-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }
   .marketing-button--light { color: #12305a; background: #fff; box-shadow: 0 .7rem 1.7rem #000f3230; }
   .marketing-button--light:hover { background: #eaf4ff; }
@@ -367,14 +363,14 @@ const pageTranslations = Object.fromEntries(
     .marketing-shell { padding-inline: 1rem; }
     .marketing-hero { padding: 3.5rem 1rem 1.5rem; }
     .marketing-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }
-    .marketing-hero h1 { font-size: clamp(2.65rem, 10.8vw, 4.3rem); }
-    .marketing-hero__body { margin-top: 1rem; font-size: 1rem; }
+    
+    .marketing-hero__body { margin-top: 1rem; }
     .marketing-hero__visual { width: min(72vw, 310px); }
-    .marketing-hero__edge { margin-top: 1.5rem; font-size: .55rem; letter-spacing: .07em; }
+    .marketing-hero__edge { margin-top: 1.5rem; font-size: .605rem; letter-spacing: .07em; }
     .marketing-introduction { padding-block: 4rem; }
     .marketing-introduction__inner { grid-template-columns: 1fr; gap: .6rem; }
     .marketing-introduction__inner .marketing-eyebrow { grid-row: auto; margin: 0 0 .2rem; }
-    .marketing-introduction h2, .marketing-section-heading h2 { font-size: clamp(2.65rem, 9.5vw, 4rem); }
+    
     .marketing-section { padding-block: 4.5rem; }
     .marketing-section-heading { display: block; margin-bottom: 1.8rem; }
     .marketing-section-heading > p { margin-top: .9rem; }
@@ -387,11 +383,10 @@ const pageTranslations = Object.fromEntries(
     .marketing-process li { min-height: 0; padding-bottom: 1.4rem; }
     .marketing-process::before { position: absolute; top: 1.2rem; bottom: 2rem; left: 1.2rem; display: block; width: 1px; height: auto; background: linear-gradient(#b9d4f4, #4a9cf2, #b9d4f4); }
     .marketing-closing { min-height: 350px; padding-inline: 1rem; }
-    .marketing-closing h2 { font-size: clamp(2.7rem, 10vw, 4.2rem); }
   }
   @media (max-width: 360px) {
-    .marketing-hero h1 { font-size: 2.55rem; }
     .marketing-service-card__link { padding: 1.2rem; }
+    .marketing-service-card__media { margin: -1.2rem -1.2rem 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .marketing-services-page *, .marketing-services-page *::before, .marketing-services-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }

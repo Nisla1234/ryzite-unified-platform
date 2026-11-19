@@ -13,15 +13,40 @@
     --color-lilac-soft: #eadcff;
     --color-line-dark: #2a323c;
     --color-line-light: #d5cec2;
-    --font-display: 'Barlow Condensed', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
-    --font-body: 'DM Sans', 'Noto Sans Tamil', 'Noto Sans Sinhala', sans-serif;
+    /* English: Fira Sans for all text. Tamil and Sinhala glyphs fall through to their Noto families.
+       Loaded weights: Fira Sans 400/500/600/700, Noto 400/500/600/700. */
+    --font-display: 'Fira Sans', 'Noto Sans Tamil', 'Noto Sans Sinhala', system-ui, sans-serif;
+    --font-heading: var(--font-display);
+    --font-body: 'Fira Sans', 'Noto Sans Tamil', 'Noto Sans Sinhala', system-ui, sans-serif;
+    --weight-heading: 700;
+    --weight-subheading: 600;
+    --weight-body: 400;
+    --weight-medium: 500;
+    --weight-strong: 600;
     --size-display: clamp(6rem, 14vw, 14rem);
-    --size-h1: clamp(3.3rem, 7vw, 7rem);
-    --size-h2: clamp(2.5rem, 5.2vw, 5.4rem);
-    --size-h3: 1.125rem;
-    --size-lead: clamp(1.1rem, 1.5vw, 1.45rem);
-    --size-body: 1rem;
-    --size-small: 0.8125rem;
+    /* Typography scale: one system for every page.
+       hero 40→79px, h1 37→70px, h2 29→46px, h3 20→26px, h4 18→20px, body 17.6→18.7px, labels 13–14px. */
+    --size-hero: clamp(2.475rem, 1.65rem + 3.52vw, 4.95rem);
+    --size-h1: clamp(2.3375rem, 1.54rem + 3.3vw, 4.4rem);
+    --size-h2: clamp(1.7875rem, 1.32rem + 1.76vw, 2.8875rem);
+    --size-h3: clamp(1.2375rem, 1.045rem + 0.88vw, 1.65rem);
+    --size-h4: clamp(1.1rem, 1.034rem + 0.28vw, 1.2375rem);
+    --size-lead: clamp(1.1rem, 1.045rem + 0.33vw, 1.3063rem);
+    --size-body: clamp(1.1rem, 1.056rem + 0.22vw, 1.1688rem);
+    --size-small: 0.8938rem;
+    --size-eyebrow: 0.825rem;
+    --leading-hero: 1.05;
+    --leading-h1: 1.08;
+    --leading-h2: 1.12;
+    --leading-h3: 1.25;
+    --leading-body: 1.65;
+    --tracking-hero: -0.025em;
+    --tracking-h1: -0.02em;
+    --tracking-h2: -0.015em;
+    --tracking-h3: -0.01em;
+    --measure-h1: min(100%, 52rem);
+    --measure-h2: min(100%, 44rem);
+    --measure-h2-wide: min(100%, 56rem);
     --space-section: clamp(6rem, 11vw, 11rem);
     --space-frame: clamp(1.25rem, 5vw, 6.5rem);
     --space-grid: clamp(1rem, 1.8vw, 2rem);

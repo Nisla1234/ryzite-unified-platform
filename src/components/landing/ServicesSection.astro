@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 
 interface Props {
@@ -29,7 +30,7 @@ const { content } = Astro.props;
                     <h3 data-i18n={`services.items.${index}.title`}>{item.title}</h3>
                     <p data-i18n={`services.items.${index}.body`}>{item.body}</p>
                 </div>
-                <span class="service-arrow" aria-hidden="true">↗</span>
+                <span class="service-arrow" aria-hidden="true"><ArrowUpRight /></span>
             </article>
         ))}
     </div>

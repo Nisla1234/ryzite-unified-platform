@@ -20,39 +20,118 @@ body {
     background: var(--color-paper);
     font-family: var(--font-body);
     font-size: var(--size-body);
-    line-height: 1.7;
+    line-height: var(--leading-body);
     overflow-x: hidden;
 }
 
 h1,
-h2 {
-    font-family: var(--font-display);
-    font-weight: 900;
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-heading);
 }
 
 h1 {
     font-size: var(--size-h1);
-    line-height: 1.04;
+    line-height: var(--leading-h1);
+    letter-spacing: var(--tracking-h1);
 }
 
 h2 {
     font-size: var(--size-h2);
-    line-height: 1.04;
-    letter-spacing: -0.015em;
+    line-height: var(--leading-h2);
+    letter-spacing: var(--tracking-h2);
 }
 
 h3 {
-    font-family: var(--font-body);
     font-size: var(--size-h3);
-    line-height: 1.04;
+    line-height: var(--leading-h3);
+    letter-spacing: var(--tracking-h3);
 }
 
-body[data-locale='ta'],
-body[data-locale='si'] {
-    letter-spacing: 0;
+h4,
+h5,
+h6 {
+    font-weight: var(--weight-subheading);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+    text-wrap: balance;
+}
+
+/* The browser default `bolder` can ask for up to 900; body emphasis stays at 600. */
+b,
+strong {
+    font-weight: var(--weight-strong);
+}
+
+:is(h1, h2, h3, h4, h5, h6) :is(b, strong) {
+    font-weight: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: var(--font-body);
+}
+
+/* Tamil and Sinhala run wider and taller than Latin: slightly smaller display sizes,
+   open line heights so stacked vowel signs never clip, and normal tracking. */
+html[lang='ta'],
+html[lang='si'] {
+    --size-hero: clamp(1.65rem, 3.52vw, 3.74rem);
+    --size-h1: clamp(1.925rem, 1.265rem + 2.75vw, 3.575rem);
+    --size-h2: clamp(1.54rem, 1.155rem + 1.49vw, 2.475rem);
+    --size-h3: clamp(1.1688rem, 1.012rem + 0.72vw, 1.5125rem);
+    --leading-hero: 1.35;
+    --leading-h1: 1.3;
+    --leading-h2: 1.32;
+    --leading-h3: 1.4;
+    --leading-body: 1.8;
+    --tracking-hero: normal;
+    --tracking-h1: normal;
+    --tracking-h2: normal;
+    --tracking-h3: normal;
+}
+
+/* Sinhala vowel signs reach further above and below the line than Tamil ones. */
+html[lang='si'] {
+    --leading-hero: 1.4;
+    --leading-h1: 1.35;
+    --leading-h2: 1.36;
+    --leading-h3: 1.45;
+    --leading-body: 1.85;
+}
+
+/* Chrome drops optional ligatures whenever letter-spacing is set, which breaks Tamil and
+   Sinhala conjuncts, so tracking is reset everywhere for these languages, including
+   component-level uppercase label tracking that only makes sense for Latin text. */
+html[lang='ta'] *,
+html[lang='si'] * {
+    letter-spacing: normal !important;
 }
 
 a { color: inherit; }
+
+/* The browser default `bolder` can ask for up to 900; body emphasis stays at 600. */
+b,
+strong {
+    font-weight: var(--weight-strong);
+}
+
+:is(h1, h2, h3, h4, h5, h6) :is(b, strong) {
+    font-weight: inherit;
+}
 
 button,
 input,

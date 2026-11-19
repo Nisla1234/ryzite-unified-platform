@@ -1,11 +1,28 @@
 ---
+import ArrowUpRight from '../components/ui/ArrowUpRight.astro';
 import MainLayout from '../layouts/MainLayout.astro';
-import { company } from '../Constants';
+import { company, enquiryForm } from '../Constants';
 import { divisions, offeringSlug } from '../data/offerings';
 import { contactTranslations } from '../data/contact-translations';
 
 const marketing = divisions.find(({ id }) => id === 'services')?.items ?? [];
 const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
+const hearOptions = [
+  ['hearGoogle', 'Google Search'],
+  ['hearFacebook', 'Facebook'],
+  ['hearInstagram', 'Instagram'],
+  ['hearLinkedin', 'LinkedIn'],
+  ['hearYoutube', 'YouTube'],
+  ['hearReferral', 'Recommendation from someone'],
+  ['hearOther', 'Other'],
+];
+const enquiryConfig = {
+  endpoint: enquiryForm.endpoint,
+  accessKey: enquiryForm.accessKey,
+  subject: enquiryForm.subject,
+  fromName: enquiryForm.fromName,
+  whatsappNumber: company.whatsapp.number,
+};
 ---
 
 <MainLayout
@@ -18,21 +35,21 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       <div class="contact-hero__glow contact-hero__glow--one" aria-hidden="true"></div>
       <div class="contact-hero__inner">
         <div class="contact-hero__copy">
-          <p class="contact-eyebrow" data-contact-key="heroEyebrow">CONTACT RYZITE</p>
           <h1 id="contact-hero-title" data-contact-key="heroTitle">Let’s Turn Your Ideas Into Reality.</h1>
           <p class="contact-hero__description" data-contact-key="heroDescription">Have a project in mind, a business challenge to solve, or a question about our services? We’re here to help you explore the right digital solutions for your business.</p>
           <p class="contact-hero__supporting" data-contact-key="heroSupporting">Whether you need a professional website, digital marketing support, a mobile application, or custom software, let’s start a conversation.</p>
           <p class="contact-hero__tagline" data-contact-key="heroTagline">One Agency. All Your Business Solutions.</p>
           <a class="contact-button contact-button--primary" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true">↓</span></a>
         </div>
-        <div class="contact-hero__art" aria-hidden="true">
-          <div class="contact-hero__ring contact-hero__ring--outer"></div>
-          <div class="contact-hero__ring contact-hero__ring--inner"></div>
-          <div class="contact-hero__message-card"><span class="message-card__dot"></span><span class="message-card__line"></span><span class="message-card__line message-card__line--short"></span><span class="message-card__send">↗</span></div>
-          <span class="contact-hero__orbit-label contact-hero__orbit-label--one" data-contact-key="artIdeas">IDEAS</span>
-          <span class="contact-hero__orbit-label contact-hero__orbit-label--two" data-contact-key="artSolutions">SOLUTIONS</span>
-          <span class="contact-hero__spark">✳</span>
-        </div>
+        <figure class="contact-hero__art">
+          <img src="/images/contact/contact-hero-handshake.webp" alt="Two hands meeting in a handshake, overlaid with glowing digital network lines." width="735" height="913" fetchpriority="high" decoding="async" />
+          <span class="contact-hero__sheen" aria-hidden="true"></span>
+          <span class="contact-hero__waves" aria-hidden="true">
+            <span class="contact-hero__wave contact-hero__wave--back"></span>
+            <span class="contact-hero__wave contact-hero__wave--mid"></span>
+            <span class="contact-hero__wave contact-hero__wave--front"></span>
+          </span>
+        </figure>
       </div>
       <div class="contact-hero__edge" aria-hidden="true"><span data-contact-key="edgeLabel">RYZITE / CONTACT</span><span><span data-contact-key="edgeNote">Let’s talk about what’s next</span> <b>↓</b></span></div>
     </section>
@@ -40,27 +57,26 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
     <section class="contact-section contact-reach" aria-labelledby="get-in-touch-title">
       <div class="contact-shell">
         <header class="contact-section-heading" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="heroEyebrow">CONTACT RYZITE</p>
           <h2 id="get-in-touch-title" data-contact-key="getInTouchTitle">Let’s Start a Conversation.</h2>
         </header>
         <div class="contact-reach__grid">
           <article class="reach-card reach-card--email" data-contact-reveal>
-            <span class="reach-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="5" y="9" width="38" height="30" rx="4"/><path d="m7 13 17 13 17-13"/></svg></span>
+          <img class="reach-card__icon" src="/images/contact/email-us.webp" alt="" width="736" height="736" loading="lazy" decoding="async" />
             <h3 data-contact-key="emailTitle">Email Us</h3>
             <p data-contact-key="emailDescription">Send us a message about your project or question.</p>
-            <a class="reach-card__email" href={`mailto:${company.email}`}>{company.email}<span aria-hidden="true">↗</span></a>
+            <a class="reach-card__email" href={`mailto:${company.email}`}>{company.email}<span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
           <article class="reach-card" data-contact-reveal>
-            <span class="reach-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M8 39V12a4 4 0 0 1 4-4h24a4 4 0 0 1 4 4v27l-8-5H16l-8 5Z"/><path d="M16 18h16m-16 8h11"/></svg></span>
+            <img class="reach-card__icon" src="/images/contact/business-enquiries.webp" alt="" width="736" height="736" loading="lazy" decoding="async" />
             <h3 data-contact-key="businessTitle">Business Enquiries</h3>
             <p data-contact-key="businessDescription">Tell us about your business, your goals, and the digital solutions you’re looking for.</p>
-            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true">↗</span></a>
+            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
           <article class="reach-card" data-contact-reveal>
-            <span class="reach-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18"/><path d="M24 14v11l8 5M6 24h5m26 0h5M24 6v5m0 26v5"/></svg></span>
+            <img class="reach-card__icon" src="/images/contact/project-consultation.webp" alt="" width="591" height="591" loading="lazy" decoding="async" />
             <h3 data-contact-key="consultationTitle">Project Consultation</h3>
             <p data-contact-key="consultationDescription">Not sure which service is right for you? Share your requirements, and let’s explore suitable options together.</p>
-            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="formTitle">Tell Us About Your Project.</span><span aria-hidden="true">↗</span></a>
+            <a class="reach-card__action" href="#project-enquiry"><span data-contact-key="formTitle">Tell Us About Your Project.</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
         </div>
       </div>
@@ -69,21 +85,31 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
     <section class="contact-section enquiry-section" id="project-enquiry" aria-labelledby="project-form-title">
       <div class="contact-shell enquiry-layout">
         <div class="enquiry-copy" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="formEyebrow">PROJECT ENQUIRY</p>
           <h2 id="project-form-title" data-contact-key="formTitle">Tell Us About Your Project.</h2>
           <p data-contact-key="formDescription">Complete the enquiry form below and share a few details about your project. Our team can review your requirements and discuss the next steps.</p>
-          <div class="enquiry-copy__note"><span aria-hidden="true">✳</span><p><span data-contact-key="emailFallback">If your email app does not open, email us at</span> <a href={`mailto:${company.email}`}>{company.email}</a></p></div>
+          <ul class="enquiry-contacts">
+            <li class="enquiry-copy__note">
+              <span class="enquiry-contact__icon" aria-hidden="true"><img src="/images/contact/gmail.webp" alt="" width="128" height="128" loading="lazy" decoding="async" /></span>
+              <p><span data-contact-key="emailFallback">Prefer email? Write to us at</span> <a href={`mailto:${company.email}`}>{company.email}</a></p>
+            </li>
+            <li class="enquiry-copy__note">
+              <span class="enquiry-contact__icon" aria-hidden="true"><img src="/images/contact/whatsapp.webp" alt="" width="128" height="128" loading="lazy" decoding="async" /></span>
+              <p><span>WhatsApp</span> <a href={`https://wa.me/${company.whatsapp.number}`} target="_blank" rel="noopener noreferrer">{company.whatsapp.display}</a></p>
+            </li>
+          </ul>
         </div>
 
         <form
           class="enquiry-form"
           data-contact-form
           method="post"
-          action={`mailto:${company.email}`}
-          enctype="text/plain"
-          data-company-email={company.email}
+          action={enquiryForm.endpoint}
           data-contact-reveal
         >
+          <input type="hidden" name="access_key" value={enquiryForm.accessKey} />
+          <input type="hidden" name="subject" value={enquiryForm.subject} />
+          <input type="hidden" name="from_name" value={enquiryForm.fromName} />
+          <input class="enquiry-form__trap" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="form-grid">
             <div class="contact-field">
               <label for="contact-name"><span data-contact-key="fullName">Full Name</span><span class="required-mark" aria-hidden="true">*</span></label>
@@ -113,25 +139,22 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
                 <optgroup label="Technology Solutions" data-contact-group="technologyGroup">
                   {technology.map(([title]) => <option value={offeringSlug(title)} data-service-title={title}>{title}</option>)}
                 </optgroup>
-              </select>
-            </div>
-            <div class="contact-field">
-              <label for="contact-package"><span data-contact-key="package">Preferred Package</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
-              <select id="contact-package" name="package">
-                <option value="" data-contact-key="packagePlaceholder">No package preference</option>
-                <option value="guidance" data-contact-key="packageGuidance">I’d like help choosing a suitable option</option>
+                <option value="other" data-english="Other" data-contact-key="serviceOther">Other</option>
               </select>
             </div>
             <div class="contact-field">
               <label for="contact-budget"><span data-contact-key="budget">Estimated Budget</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
               <input id="contact-budget" name="budget" type="text" inputmode="text" data-contact-placeholder="budgetPlaceholder" placeholder="Optional — share an estimated range" />
             </div>
-            <div class="contact-field">
-              <label for="contact-start-date"><span data-contact-key="startDate">Preferred Start Date</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
-              <input id="contact-start-date" name="startDate" type="date" />
+            <div class="contact-field contact-field--wide">
+              <label for="contact-hear"><span data-contact-key="hearAbout">How did you hear about us?</span><span class="optional-mark" data-contact-key="optional">Optional</span></label>
+              <select id="contact-hear" name="hearAbout">
+                <option value="" data-contact-key="hearPlaceholder">Choose an option (optional)</option>
+                {hearOptions.map(([key, label]) => <option value={label} data-contact-key={key}>{label}</option>)}
+              </select>
             </div>
             <div class="contact-field contact-field--wide">
-              <label for="contact-project"><span data-contact-key="projectDescription">Project Description</span><span class="required-mark" aria-hidden="true">*</span></label>
+              <label for="contact-project"><span data-contact-key="projectDescription">Notes</span><span class="required-mark" aria-hidden="true">*</span></label>
               <textarea id="contact-project" name="project" rows="5" required data-contact-placeholder="projectPlaceholder" placeholder="Tell us about your goals, needs, and any useful details." aria-describedby="contact-project-error"></textarea>
               <span class="field-error" id="contact-project-error" data-error-for="project" aria-live="polite"></span>
             </div>
@@ -143,9 +166,18 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
               <span class="field-error" id="contact-consent-error" data-error-for="consent" aria-live="polite"></span>
             </div>
           </div>
-          <button class="contact-button contact-button--submit" type="submit"><span data-contact-key="submit">Prepare Enquiry Email</span><span aria-hidden="true">↗</span></button>
-          <p class="form-privacy" data-contact-key="formHandoff">Your email app should open with a draft. Review it and send it to contact RYZITE. This page has not sent or stored your enquiry.</p>
-          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          <button class="contact-button contact-button--submit" type="submit" data-form-submit><span data-contact-key="submit" data-submit-label>Submit Enquiry & Open WhatsApp</span><span aria-hidden="true"><ArrowUpRight /></span></button>
+          <p class="form-privacy" data-contact-key="formGuidance" data-form-guidance>When you submit, your enquiry is sent to RYZITE through the Web3Forms form service. Once that is confirmed, WhatsApp opens with your enquiry details ready. The WhatsApp message is only sent if you press Send.</p>
+          <p class="form-status form-status--error" data-form-error role="alert"></p>
+          <div class="form-result" data-form-result role="status" aria-live="polite" tabindex="-1" hidden>
+            <p class="form-result__title"><span aria-hidden="true">✓</span> <span data-contact-key="successTitle">Your enquiry was submitted successfully.</span></p>
+            <p data-contact-key="successBody">Your enquiry has been submitted to RYZITE through Web3Forms. The WhatsApp message is separate and has not been sent automatically.</p>
+            <p data-whatsapp-note></p>
+            <div class="form-result__actions">
+              <a class="contact-button contact-button--whatsapp" data-whatsapp-link href={`https://wa.me/${company.whatsapp.number}`} target="_blank" rel="noopener noreferrer"><span data-contact-key="openWhatsapp">Open WhatsApp</span><span aria-hidden="true"><ArrowUpRight /></span></a>
+              <button class="form-result__reset" type="button" data-form-reset data-contact-key="sendAnother">Send another enquiry</button>
+            </div>
+          </div>
         </form>
       </div>
     </section>
@@ -153,41 +185,89 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
     <section class="contact-section contact-services" aria-labelledby="contact-services-title">
       <div class="contact-shell">
         <header class="contact-section-heading contact-section-heading--center" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="heroTagline">One Agency. All Your Business Solutions.</p>
           <h2 id="contact-services-title" data-contact-key="servicesTitle">Find the Right Solution for Your Business.</h2>
           <p data-contact-key="servicesIntro">Explore the two areas where RYZITE can support your business.</p>
         </header>
         <div class="service-choice-grid">
           <article class="service-choice-card" data-contact-reveal>
             <span class="service-choice-card__mark" aria-hidden="true">01</span>
-            <span class="service-choice-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M7 21h8l20-9v24l-20-9H7v-6Zm8 6 4 12h8l-6-15m14-10 7-5m-7 23 7 5"/></svg></span>
+            <figure class="service-choice-card__media"><img src="/images/divisions/marketing-division.webp" alt="" width="736" height="411" loading="lazy" decoding="async" /></figure>
             <h3 data-contact-key="marketingGroup">Marketing Services</h3>
             <p data-contact-key="marketingDescription">Looking to attract more customers, strengthen your brand, or improve online visibility? Explore our marketing services.</p>
-            <a href="/services/#services" class="service-choice-card__link"><span data-contact-key="exploreMarketing">Explore Marketing Services</span><span aria-hidden="true">↗</span></a>
+            <a href="/services/#services" class="service-choice-card__link"><span data-contact-key="exploreMarketing">Explore Marketing Services</span><span class="service-choice-card__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg></span></a>
           </article>
           <article class="service-choice-card service-choice-card--technology" data-contact-reveal>
             <span class="service-choice-card__mark" aria-hidden="true">02</span>
-            <span class="service-choice-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="5" y="8" width="38" height="27" rx="3"/><path d="M17 42h14m-7-7v7M16 18l-5 4 5 4m16-8 5 4-5 4m-5-7-4 6"/></svg></span>
+            <figure class="service-choice-card__media"><img src="/images/divisions/technology-division.webp" alt="" width="735" height="490" loading="lazy" decoding="async" /></figure>
             <h3 data-contact-key="technologyGroup">Technology Solutions</h3>
             <p data-contact-key="technologyDescription">Need a website, e-commerce platform, mobile application, custom software, or automation solution? Explore our technology solutions.</p>
-            <a href="/solutions/#solutions" class="service-choice-card__link"><span data-contact-key="exploreTechnology">Explore Technology Solutions</span><span aria-hidden="true">↗</span></a>
+            <a href="/solutions/#solutions" class="service-choice-card__link"><span data-contact-key="exploreTechnology">Explore Technology Solutions</span><span class="service-choice-card__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg></span></a>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- [PROPOSAL] Chat-style FAQ matching the homepage FAQ: condensed two-tone title with the RYZITE robot
+         on the left; questions as pills, the open answer as a reply bubble from RYZITE. Native <details>
+         keeps it keyboard-friendly and working without JavaScript. -->
     <section class="contact-section contact-faq" aria-labelledby="contact-faq-title">
-      <div class="contact-shell faq-layout">
-        <header class="faq-heading" data-contact-reveal>
-          <p class="contact-eyebrow" data-contact-key="faqEyebrow">FREQUENTLY ASKED QUESTIONS</p>
-          <h2 id="contact-faq-title" data-contact-key="faqTitle">Questions Before Getting Started?</h2>
+      <div class="contact-shell contact-faq__layout">
+        <header class="contact-faq__intro" data-contact-reveal>
+          <p class="contact-faq__eyebrow" data-contact-key="faqEyebrow">FREQUENTLY ASKED QUESTIONS</p>
+          <h2 id="contact-faq-title" class="contact-faq__title" data-contact-key="faqTitle" data-contact-bicolor="2"><span class="contact-faq__title-base">Questions Before</span><span class="contact-faq__title-accent"> Getting Started?</span></h2>
+          <img class="contact-faq__robot" src="/images/hero/ry-front-plain.webp" alt="" width="1180" height="1333" loading="lazy" decoding="async" />
         </header>
-        <div class="faq-list" data-contact-reveal>
-          <details class="faq-item"><summary data-contact-key="faqQuestionOne">How do I start a project with RYZITE?</summary><div class="faq-answer"><p data-contact-key="faqAnswerOne">Share your project details in the enquiry form. It prepares an email in your email app for you to review and send. Your enquiry is not delivered until you send that email.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionTwo">Can I request multiple services?</summary><div class="faq-answer"><p data-contact-key="faqAnswerTwo">Yes. Choose one service in the form if helpful, then list any other services you’re considering in the project description.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionThree">Can RYZITE help me choose a suitable solution?</summary><div class="faq-answer"><p data-contact-key="faqAnswerThree">Yes. Select the option asking for help choosing and describe your business goals and needs so we can discuss suitable options.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionFour">How much does a project cost?</summary><div class="faq-answer"><p data-contact-key="faqAnswerFour">Pricing depends on the project details. No prices are listed on this page; use the enquiry form to describe your needs and ask for pricing information.</p></div></details>
-          <details class="faq-item"><summary data-contact-key="faqQuestionFive">Can I discuss my project before choosing a package?</summary><div class="faq-answer"><p data-contact-key="faqAnswerFive">Yes. Describe your requirements in the form and let us know you would like to discuss the project before deciding on a package.</p></div></details>
+        <div class="contact-faq__list" data-contact-reveal>
+          <details class="contact-faq__item" name="contact-faq" open>
+            <summary><span data-contact-key="faqQuestionOne">How do I start a project with RYZITE?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerOne">Share your project details in the enquiry form. It prepares an email in your email app for you to review and send. Your enquiry is not delivered until you send that email.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionTwo">Can I request multiple services?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerTwo">Yes. Choose one service in the form if helpful, then list any other services you’re considering in the notes.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionThree">Can RYZITE help me choose a suitable solution?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerThree">Yes. Choose Other if you are unsure, then describe your business goals and needs in the notes so we can discuss suitable options.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionFour">How much does a project cost?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerFour">Pricing depends on the project details. No prices are listed on this page; use the enquiry form to describe your needs and ask for pricing information.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
+          <details class="contact-faq__item" name="contact-faq">
+            <summary><span data-contact-key="faqQuestionFive">Can I discuss my project before choosing a package?</span></summary>
+            <div class="contact-faq__reply">
+              <p class="contact-faq__bubble" data-contact-key="faqAnswerFive">Yes. Describe your requirements in the form and let us know you would like to discuss the project before deciding on a package.</p>
+              <span class="contact-faq__sender" aria-hidden="true">
+                <span class="contact-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+                <span class="contact-faq__name">RYZITE</span>
+              </span>
+            </div>
+          </details>
         </div>
       </div>
     </section>
@@ -196,7 +276,6 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       <div class="contact-closing__orb contact-closing__orb--one" aria-hidden="true"></div>
       <div class="contact-closing__orb contact-closing__orb--two" aria-hidden="true"></div>
       <div class="contact-closing__inner" data-contact-reveal>
-        <p class="contact-eyebrow" data-contact-key="closingEyebrow">LET’S WORK TOGETHER</p>
         <h2 id="contact-closing-title" data-contact-key="closingTitle">Your Next Big Idea Starts Here.</h2>
         <p data-contact-key="closingDescription">Let’s explore how technology, creativity, and digital strategy can help move your business forward.</p>
         <a class="contact-button contact-button--light" href="#project-enquiry"><span data-contact-key="closingCta">Start a Conversation</span><span aria-hidden="true">↓</span></a>
@@ -206,14 +285,28 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
   </div>
 </MainLayout>
 
-<script is:inline define:vars={{ contactTranslations }}>
+<script is:inline define:vars={{ contactTranslations, enquiryConfig }}>
   let contactLocale = document.body.dataset.locale || 'en';
   const applyContactLocale = (locale) => {
     const translations = contactTranslations[locale] || contactTranslations.en;
     contactLocale = locale in contactTranslations ? locale : 'en';
     document.querySelectorAll('[data-contact-key]').forEach((element) => {
       const value = translations[element.dataset.contactKey];
-      if (typeof value === 'string') element.textContent = value;
+      if (typeof value !== 'string') return;
+      const split = Number(element.dataset.contactBicolor || 0);
+      const words = value.split(/\s+/).filter(Boolean);
+      if (!split || words.length <= split) {
+        element.textContent = value;
+        return;
+      }
+      // Two-tone heading: the first words in ink, the rest in blue.
+      const base = document.createElement('span');
+      base.className = 'contact-faq__title-base';
+      base.textContent = words.slice(0, split).join(' ');
+      const accent = document.createElement('span');
+      accent.className = 'contact-faq__title-accent';
+      accent.textContent = ` ${words.slice(split).join(' ')}`;
+      element.replaceChildren(base, accent);
     });
     document.querySelectorAll('[data-contact-placeholder]').forEach((element) => {
       const value = translations[element.dataset.contactPlaceholder];
@@ -235,9 +328,6 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       error.textContent = translations[messageKey];
       field.setCustomValidity(translations[messageKey]);
     });
-    const feedback = document.querySelector('[data-form-status]');
-    if (feedback?.dataset.statusKey) feedback.textContent = translations[feedback.dataset.statusKey] || '';
-    document.title = translations.pageTitle;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', translations.metaDescription);
     const openGraphTitle = document.querySelector('meta[property="og:title"]');
@@ -251,9 +341,26 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
 
   const form = document.querySelector('[data-contact-form]');
   if (form) {
-    const status = form.querySelector('[data-form-status]');
-    const submitButton = form.querySelector('button[type="submit"]');
-    const submitLabel = submitButton?.querySelector('[data-contact-key="submit"]');
+    const submitButton = form.querySelector('[data-form-submit]');
+    const submitLabel = form.querySelector('[data-submit-label]');
+    const guidance = form.querySelector('[data-form-guidance]');
+    const errorStatus = form.querySelector('[data-form-error]');
+    const result = form.querySelector('[data-form-result]');
+    const whatsappLink = form.querySelector('[data-whatsapp-link]');
+    const whatsappNote = form.querySelector('[data-whatsapp-note]');
+    const resetButton = form.querySelector('[data-form-reset]');
+    const currentTranslations = () => contactTranslations[contactLocale] || contactTranslations.en;
+    // Text set through a key stays in sync when the visitor switches language.
+    const setKeyedText = (element, key) => {
+      if (!element) return;
+      if (key) {
+        element.dataset.contactKey = key;
+        element.textContent = currentTranslations()[key] || '';
+      } else {
+        delete element.dataset.contactKey;
+        element.textContent = '';
+      }
+    };
     form.addEventListener('invalid', (event) => {
       const field = event.target;
       const key = field.name === 'email' && field.validity.typeMismatch ? 'emailError' : 'requiredError';
@@ -294,18 +401,135 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       serviceField.value = serviceValue;
     }
 
-    const requestedPackage = (query.get('package') || '').trim();
-    const packageField = form.querySelector('[name="package"]');
-    if ([...packageField.options].some((option) => option.value === requestedPackage && option.value)) {
-      packageField.value = requestedPackage;
-    }
+    const hearField = form.querySelector('[name="hearAbout"]');
+    const clean = (value) => String(value || '').trim();
 
-    let preparingEmail = false;
-    form.addEventListener('submit', (event) => {
+    // Enquiry details are sent in English so the RYZITE team reads the same labels whatever language the visitor used.
+    const collectEnquiry = () => {
+      const data = new FormData(form);
+      const serviceOption = serviceField.selectedOptions[0];
+      return {
+        name: clean(data.get('name')),
+        business: clean(data.get('business')),
+        email: clean(data.get('email')),
+        phone: clean(data.get('phone')),
+        service: serviceField.value ? clean(serviceOption?.dataset.serviceTitle || serviceOption?.dataset.english || serviceOption?.textContent) : '',
+        budget: clean(data.get('budget')),
+        project: clean(data.get('project')),
+        hearAbout: clean(hearField?.value),
+      };
+    };
+
+    const buildPayload = (enquiry) => {
+      const payload = {
+        access_key: enquiryConfig.accessKey,
+        subject: enquiryConfig.subject,
+        from_name: enquiryConfig.fromName,
+        name: enquiry.name,
+        email: enquiry.email,
+        message: enquiry.project,
+        'Privacy Consent': 'Agreed',
+        'Site Language': contactLocale,
+      };
+      const optional = [
+        ['Business / Company', enquiry.business],
+        ['Phone / WhatsApp', enquiry.phone],
+        ['Service Interested In', enquiry.service],
+        ['Estimated Budget', enquiry.budget],
+        ['How did you hear about us?', enquiry.hearAbout],
+      ];
+      optional.forEach(([label, value]) => { if (value) payload[label] = value; });
+      if (form.elements.botcheck?.checked) payload.botcheck = true;
+      return payload;
+    };
+
+    // Adds thousand separators to the amounts the visitor typed. Their wording and currency stay exactly as entered.
+    const formatBudget = (value) => value.replace(/\d+(,\d+)*(\.\d+)?/g, (amount) => {
+      const [whole, decimals] = amount.replace(/,/g, '').split('.');
+      if (whole.length < 4) return amount;
+      const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return decimals ? `${grouped}.${decimals}` : grouped;
+    });
+
+    // Written from the customer's side: they review it in WhatsApp and choose whether to send it.
+    const buildWhatsappUrl = (enquiry) => {
+      const orMissing = (value) => value || 'Not provided';
+      const line = (label, value) => `*${label}:* ${orMissing(value)}`;
+      const message = [
+        '*📩 NEW PROJECT ENQUIRY | RYZITE*',
+        '',
+        'Hello RYZITE Team,',
+        '',
+        'I would like to enquire about your services and discuss my project. Please find my details below.',
+        '',
+        '*👤 CONTACT INFORMATION*',
+        '',
+        line('Full Name', enquiry.name),
+        line('Business / Company', enquiry.business),
+        line('Email', enquiry.email),
+        line('Phone / WhatsApp', enquiry.phone),
+        '',
+        '*💼 PROJECT INFORMATION*',
+        '',
+        line('Service Required', enquiry.service),
+        '',
+        line('Estimated Budget', formatBudget(enquiry.budget)),
+        '',
+        '*📝 NOTES*',
+        '',
+        orMissing(enquiry.project),
+        '',
+        '*📢 HOW I FOUND RYZITE*',
+        '',
+        orMissing(enquiry.hearAbout),
+        '',
+        '---',
+        '',
+        'I would appreciate your guidance on the most suitable solution for my project.',
+        '',
+        'Thank you! I look forward to hearing from your team.',
+        '',
+        '_Sent via RYZITE Website Enquiry Form_',
+      ].join('\n');
+      return `https://wa.me/${enquiryConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    };
+
+    // Only a 2xx response whose body says success: true counts as a submitted enquiry.
+    const sendEnquiry = async (payload) => {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 20000);
+      try {
+        const response = await fetch(enquiryConfig.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+        const body = await response.json().catch(() => null);
+        return response.ok && body?.success === true;
+      } catch {
+        return false;
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    };
+
+    // idle -> submitting -> submitted. Anything other than idle ignores further submits, so one enquiry is sent once.
+    let submitState = 'idle';
+    let redirectedToThankYou = false;
+    const setSubmitting = (active) => {
+      if (submitButton) {
+        submitButton.disabled = active;
+        submitButton.setAttribute('aria-busy', String(active));
+      }
+      setKeyedText(submitLabel, active ? 'submitting' : 'submit');
+    };
+
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      if (preparingEmail) return;
+      if (submitState !== 'idle') return;
 
-      const translations = contactTranslations[contactLocale] || contactTranslations.en;
+      const translations = currentTranslations();
       const emptyRequiredField = [...form.querySelectorAll('[required]')].find((field) => {
         if (field.type === 'checkbox') return !field.checked;
         return !field.value.trim();
@@ -317,36 +541,82 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
       }
       if (!form.reportValidity()) return;
 
-      const data = new FormData(form);
-      const service = serviceField.selectedOptions[0]?.textContent || '';
-      const packageChoice = packageField.selectedOptions[0]?.textContent || '';
-      const values = [
-        [translations.fullName, data.get('name')],
-        [translations.businessName, data.get('business')],
-        [translations.emailAddress, data.get('email')],
-        [translations.phone, data.get('phone')],
-        [translations.service, serviceField.value ? service : ''],
-        [translations.package, packageField.value ? packageChoice : ''],
-        [translations.budget, data.get('budget')],
-        [translations.startDate, data.get('startDate')],
-        [translations.projectDescription, data.get('project')],
-      ].filter(([, value]) => String(value || '').trim());
-      const body = values.map(([label, value]) => `${label}: ${value}`).join('\n\n');
-      const subject = encodeURIComponent('Project enquiry — RYZITE');
-      const message = encodeURIComponent(body);
-      preparingEmail = true;
-      if (submitButton) submitButton.disabled = true;
-      if (submitLabel) submitLabel.textContent = translations.preparing;
-      if (status) {
-        status.textContent = translations.formHandoff;
-        status.dataset.statusKey = 'formHandoff';
+      submitState = 'submitting';
+      setKeyedText(errorStatus, '');
+      setSubmitting(true);
+
+      const enquiry = collectEnquiry();
+      const submitted = await sendEnquiry(buildPayload(enquiry));
+
+      if (!submitted) {
+        submitState = 'idle';
+        setSubmitting(false);
+        setKeyedText(errorStatus, 'submitError');
+        return;
       }
-      window.location.href = `mailto:${form.dataset.companyEmail}?subject=${subject}&body=${message}`;
-      window.setTimeout(() => {
-        preparingEmail = false;
-        if (submitButton) submitButton.disabled = false;
-        if (submitLabel) submitLabel.textContent = (contactTranslations[contactLocale] || contactTranslations.en).submit;
-      }, 1800);
+
+      submitState = 'submitted';
+      const whatsappUrl = buildWhatsappUrl(enquiry);
+      if (whatsappLink) whatsappLink.href = whatsappUrl;
+      // Browsers may block a window opened after the network wait; the visible link covers that case.
+      let whatsappWindow = null;
+      try {
+        whatsappWindow = window.open(whatsappUrl, '_blank');
+        if (whatsappWindow) whatsappWindow.opener = null;
+      } catch {
+        // Losing the opener reference is fine; the window either opened or the link is offered.
+      }
+
+      // The Thank You page reads this from sessionStorage, so no enquiry details are placed in its URL.
+      let confirmationStored = false;
+      try {
+        window.sessionStorage.setItem('ryzite-enquiry-confirmation', JSON.stringify({
+          confirmed: true,
+          firstName: enquiry.name.split(/\s+/)[0] || '',
+          whatsappUrl,
+          whatsappOpened: Boolean(whatsappWindow),
+        }));
+        confirmationStored = true;
+      } catch {
+        // Storage can be unavailable (private modes); the confirmation is then shown on this page instead.
+      }
+      if (confirmationStored) {
+        redirectedToThankYou = true;
+        window.location.assign('/thank-you/');
+        return;
+      }
+
+      setSubmitting(false);
+      setKeyedText(whatsappNote, whatsappWindow ? 'whatsappOpened' : 'whatsappBlocked');
+      if (submitButton) submitButton.hidden = true;
+      if (guidance) guidance.hidden = true;
+      if (result) {
+        result.hidden = false;
+        result.focus({ preventScroll: true });
+        result.scrollIntoView({ block: 'nearest' });
+      }
+    });
+
+    // Coming back from the Thank You page can restore this page as it was left; give the visitor a usable, empty form again.
+    window.addEventListener('pageshow', (event) => {
+      if (!event.persisted || !redirectedToThankYou) return;
+      redirectedToThankYou = false;
+      form.reset();
+      submitState = 'idle';
+      setSubmitting(false);
+    });
+
+    resetButton?.addEventListener('click', () => {
+      form.reset();
+      submitState = 'idle';
+      if (result) result.hidden = true;
+      if (whatsappLink) whatsappLink.href = `https://wa.me/${enquiryConfig.whatsappNumber}`;
+      setKeyedText(whatsappNote, '');
+      setKeyedText(errorStatus, '');
+      if (guidance) guidance.hidden = false;
+      if (submitButton) submitButton.hidden = false;
+      setSubmitting(false);
+      form.querySelector('[name="name"]')?.focus();
     });
   }
 
@@ -384,79 +654,128 @@ const technology = divisions.find(({ id }) => id === 'solutions')?.items ?? [];
   .contact-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4.5rem, 8vw, 7.5rem) var(--space-frame) 1.5rem; background: linear-gradient(115deg, #faf8f4, #f5f8fc 58%, #eaf4ff); }
   .contact-hero__inner { display: grid; width: min(100%, var(--content-max)); min-height: 560px; margin-inline: auto; grid-template-columns: minmax(0, 1fr) minmax(280px, .7fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
   .contact-hero__copy { position: relative; z-index: 1; max-width: 790px; animation: contact-rise 650ms var(--ease-out) both; }
-  .contact-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1.1rem; color: var(--contact-blue); font-size: .74rem; font-weight: 800; letter-spacing: .16em; line-height: 1.4; text-transform: uppercase; }
+  .contact-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1.1rem; color: var(--contact-blue); font-size: var(--size-eyebrow); font-weight: 600; letter-spacing: .16em; line-height: 1.4; text-transform: uppercase; }
   .contact-eyebrow::before { width: 1.6rem; height: 2px; border-radius: 2px; background: currentColor; content: ''; }
-  .contact-hero h1 { max-width: 860px; margin: 0; color: #101827; font-family: var(--font-display); font-size: clamp(3.7rem, 7.5vw, 7.4rem); font-weight: 900; letter-spacing: -.025em; line-height: .94; }
-  .contact-hero__description { max-width: 680px; margin: 1.5rem 0 0; color: #4e5d71; font-size: clamp(1.02rem, 1.35vw, 1.2rem); line-height: 1.75; }
-  .contact-hero__supporting { max-width: 650px; margin: .8rem 0 0; color: var(--contact-muted); font-size: .94rem; line-height: 1.7; }
-  .contact-hero__tagline { margin: 1.1rem 0 0; color: var(--contact-blue-deep); font-family: var(--font-display); font-size: clamp(1.35rem, 2vw, 1.75rem); font-weight: 700; letter-spacing: .02em; }
-  .contact-button { display: inline-flex; min-height: 3.2rem; align-items: center; justify-content: center; gap: 1.1rem; padding: .8rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .9rem; font-weight: 700; line-height: 1.3; text-decoration: none; transition: transform var(--duration-fast) var(--ease-out), color var(--duration-fast) ease, background var(--duration-fast) ease, box-shadow var(--duration-fast) ease, border-color var(--duration-fast) ease; }
+  .contact-hero h1 { max-width: var(--measure-h1); margin: 0; color: #101827; font-family: var(--font-display); font-size: var(--size-h1); font-weight: 700; letter-spacing: var(--tracking-h1); line-height: var(--leading-h1); }
+  .contact-hero__description { max-width: 680px; margin: 1.5rem 0 0; color: #4e5d71; font-size: var(--size-lead); line-height: 1.75; }
+  .contact-hero__supporting { max-width: 650px; margin: .8rem 0 0; color: var(--contact-muted); font-size: 1.034rem; line-height: 1.7; }
+  .contact-hero__tagline { margin: 1.1rem 0 0; color: var(--contact-blue-deep); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; letter-spacing: .02em; }
+  .contact-button { display: inline-flex; min-height: 3.2rem; align-items: center; justify-content: center; gap: 1.1rem; padding: .8rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .99rem; font-weight: 600; line-height: 1.3; text-decoration: none; transition: transform var(--duration-fast) var(--ease-out), color var(--duration-fast) ease, background var(--duration-fast) ease, box-shadow var(--duration-fast) ease, border-color var(--duration-fast) ease; }
   .contact-button:hover:not(:disabled) { transform: translateY(-3px); }
-  .contact-button span:last-child { font-size: 1.1rem; transition: transform var(--duration-fast) var(--ease-out); }
-  .contact-button:hover span:last-child { transform: translate(2px, -2px); }
+  .contact-button span:last-child { font-size: 1.21rem; transition: transform var(--duration-fast) var(--ease-out); }
+  .contact-button:hover span:last-child { transform: translateX(3px); }
   .contact-button--primary, .contact-button--submit { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.6rem rgb(6 75 237 / 20%); }
   .contact-button--primary { margin-top: 1.7rem; }
   .contact-button--primary:hover, .contact-button--submit:hover:not(:disabled) { background: linear-gradient(110deg, #087bd2, #043ec9); box-shadow: 0 .95rem 1.8rem rgb(6 75 237 / 26%); }
   .contact-button:focus-visible, .reach-card a:focus-visible, .service-choice-card a:focus-visible { outline: 3px solid #0655e9; outline-offset: 4px; }
   .contact-hero__glow { position: absolute; z-index: -1; width: min(40vw, 550px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgb(54 154 255 / 15%), transparent 70%); }
   .contact-hero__glow--one { top: -40%; right: 4%; }
-  .contact-hero__art { position: relative; width: min(100%, 440px); aspect-ratio: 1; justify-self: center; border: 1px solid rgb(6 85 233 / 12%); border-radius: 50%; background: radial-gradient(circle, #ffffffb8 0 28%, #ffffff35 29% 58%, transparent 59%); animation: contact-art-in 800ms 120ms var(--ease-out) both; }
-  .contact-hero__ring { position: absolute; inset: 9%; border: 1px solid rgb(6 85 233 / 23%); border-radius: 50%; }.contact-hero__ring--inner { inset: 24%; border-style: dashed; border-color: rgb(0 166 250 / 32%); }
-  .contact-hero__message-card { position: absolute; top: 50%; left: 50%; display: grid; width: 56%; min-height: 31%; grid-template-columns: 1.4rem minmax(0, 1fr) 2.3rem; align-items: center; gap: .6rem; padding: .8rem; transform: translate(-50%, -50%); border: 1px solid #ffffffd9; border-radius: 1.2rem; background: rgb(255 255 255 / 88%); box-shadow: 0 1.1rem 2.7rem rgb(22 62 115 / 15%); backdrop-filter: blur(16px); }
-  .message-card__dot { width: .65rem; aspect-ratio: 1; align-self: start; margin-top: .35rem; border-radius: 50%; background: var(--contact-cyan); box-shadow: 0 0 0 .35rem #00a6fa20; }.message-card__line { height: .45rem; border-radius: 99px; background: #bdd4f1; }.message-card__line--short { width: 66%; margin-top: -.9rem; }.message-card__send { display: grid; width: 2.3rem; aspect-ratio: 1; grid-row: span 2; place-items: center; border-radius: .75rem; color: #fff; background: var(--contact-blue); }
-  .contact-hero__orbit-label { position: absolute; padding: .45rem .7rem; border: 1px solid #d3e3f7; border-radius: 999px; color: #305278; background: #fff; box-shadow: 0 .5rem 1rem #193f7212; font-size: .58rem; font-weight: 800; letter-spacing: .13em; }.contact-hero__orbit-label--one { top: 19%; left: 7%; }.contact-hero__orbit-label--two { right: -1%; bottom: 22%; }.contact-hero__spark { position: absolute; top: 16%; right: 19%; color: var(--contact-blue); font-size: 1.5rem; }
-  .contact-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: .9rem; border-top: 1px solid rgb(19 51 91 / 12%); color: #788494; font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }.contact-hero__edge b { margin-left: .4rem; color: var(--contact-blue); }
+  .contact-hero__art { position: relative; width: min(100%, 440px); aspect-ratio: 735 / 913; margin: 0; justify-self: center; overflow: hidden; border: 1px solid #ffffffcc; border-radius: 1.75rem; background: #0b1a4a; box-shadow: 0 1.6rem 3.4rem rgb(22 62 115 / 22%); animation: contact-art-in 800ms 120ms var(--ease-out) both, contact-art-float 7s 1s ease-in-out infinite; }
+  .contact-hero__art img { display: block; width: 100%; height: 100%; object-fit: cover; transform-origin: 55% 45%; animation: contact-art-zoom 18s ease-in-out infinite alternate; }
+  /* A soft light band sweeps across the photo every few seconds. */
+  .contact-hero__sheen { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 22%) 50%, transparent 65%); background-size: 250% 100%; background-position: 150% 0; mix-blend-mode: screen; animation: contact-art-sheen 6s 1.2s ease-in-out infinite; }
+  /* Three translucent wave layers drift along the bottom edge. Each layer is twice the card width and
+     holds two identical wave tiles, so moving it by exactly half its width loops with no visible seam. */
+  .contact-hero__waves { position: absolute; right: 0; bottom: -1px; left: 0; z-index: 2; height: 22%; overflow: hidden; pointer-events: none; }
+  .contact-hero__wave { position: absolute; top: 0; bottom: 0; left: 0; width: 200%; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60 Q180 20 360 60 T720 60 T1080 60 T1440 60 V120 H0 Z'/%3E%3C/svg%3E") repeat-x 0 0 / 50% 100%; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0 60 Q180 20 360 60 T720 60 T1080 60 T1440 60 V120 H0 Z'/%3E%3C/svg%3E") repeat-x 0 0 / 50% 100%; animation: contact-wave-drift 9s linear infinite; will-change: translate; }
+  .contact-hero__wave--back { top: 0; background: rgb(7 139 233 / 40%); animation-duration: 16s; animation-direction: reverse; }
+  .contact-hero__wave--mid { top: 14%; background: rgb(6 85 233 / 50%); animation-duration: 12s; }
+  .contact-hero__wave--front { top: 28%; background: linear-gradient(180deg, rgb(6 67 207 / 80%), rgb(10 23 52 / 92%)); }
+  .contact-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: .9rem; border-top: 1px solid rgb(19 51 91 / 12%); color: #788494; font-size: .715rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }.contact-hero__edge b { margin-left: .4rem; color: var(--contact-blue); }
 
   .contact-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
-  .contact-section-heading h2, .enquiry-copy h2, .faq-heading h2 { max-width: 820px; margin: 0; color: #111d30; font-family: var(--font-display); font-size: clamp(3rem, 5.5vw, 5.5rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }
+  .contact-section-heading h2, .enquiry-copy h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .contact-section-heading > p:not(.contact-eyebrow) { max-width: 650px; margin: 1rem 0 0; color: var(--contact-muted); line-height: 1.7; }
   .contact-reach { background: #fff; }
   .contact-reach .contact-section-heading { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
   .contact-reach__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.8rem, 2vw, 1.5rem); }
   .reach-card { display: flex; min-height: 300px; flex-direction: column; align-items: flex-start; padding: clamp(1.4rem, 2.5vw, 2rem); border: 1px solid #dfe7f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, #fff, #f6f9fd); box-shadow: 0 .8rem 2rem rgb(17 47 89 / 4%); transition: transform var(--duration-medium) var(--ease-out), border-color var(--duration-medium) ease, box-shadow var(--duration-medium) ease; }
   .reach-card:hover { transform: translateY(-5px); border-color: #b6d1f4; box-shadow: 0 1.2rem 2.5rem rgb(17 47 89 / 9%); }
-  .reach-card__icon { display: grid; width: 3.1rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: 1rem; color: var(--contact-blue); background: #eaf3ff; }.reach-card__icon svg { width: 1.8rem; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .reach-card h3 { margin: 1.25rem 0 .45rem; color: #182c48; font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; line-height: 1.08; }.reach-card p { margin: 0; color: var(--contact-muted); font-size: .9rem; line-height: 1.65; }
-  .reach-card__email, .reach-card__action { display: flex; width: 100%; min-height: 2.8rem; align-items: center; justify-content: space-between; gap: .7rem; margin-top: auto; padding-top: 1.4rem; color: var(--contact-blue); font-size: .83rem; font-weight: 800; text-decoration: none; }.reach-card__email span, .reach-card__action span:last-child { transition: transform var(--duration-fast) var(--ease-out); }.reach-card__email:hover span, .reach-card__action:hover span:last-child { transform: translate(2px, -2px); }
+  .reach-card__icon { display: block; width: 4.8rem; height: 4.8rem; object-fit: contain; border-radius: .8rem; background: #f7faff; }.reach-card__icon svg { width: 1.8rem; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .reach-card h3 { margin: 1.25rem 0 .45rem; color: #182c48; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.reach-card p { margin: 0; color: var(--contact-muted); font-size: .99rem; line-height: 1.65; }
+  .reach-card__email, .reach-card__action { display: flex; width: 100%; min-height: 2.8rem; align-items: center; justify-content: space-between; gap: .7rem; margin-top: auto; padding-top: 1.4rem; color: var(--contact-blue); font-size: .913rem; font-weight: 600; text-decoration: none; }.reach-card__email span, .reach-card__action span:last-child { transition: transform var(--duration-fast) var(--ease-out); }.reach-card__email:hover span, .reach-card__action:hover span:last-child { transform: translateX(3px); }
 
   .enquiry-section { scroll-margin-top: 90px; background: #f1f6fc; }
   .enquiry-layout { display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .enquiry-copy { position: sticky; top: 120px; }.enquiry-copy > p:not(.contact-eyebrow) { margin: 1.1rem 0 0; color: var(--contact-muted); line-height: 1.75; }
-  .enquiry-copy__note { display: flex; gap: .7rem; margin-top: 1.6rem; padding: 1rem; border: 1px solid #d5e3f4; border-radius: 1rem; color: #305278; background: #fff; }.enquiry-copy__note > span { color: var(--contact-blue); }.enquiry-copy__note p { margin: 0; font-size: .83rem; line-height: 1.6; }.enquiry-copy__note a { color: var(--contact-blue); font-weight: 700; overflow-wrap: anywhere; }
+  .enquiry-contacts { display: grid; gap: .7rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+  .enquiry-contact__icon { display: grid; flex: 0 0 auto; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid #e3ecf8; border-radius: .8rem; background: #fff; box-shadow: 0 .35rem .9rem #193f7210; }.enquiry-contact__icon img { display: block; width: 1.75rem; height: 1.75rem; object-fit: contain; }
+  .enquiry-copy__note { display: flex; align-items: center; gap: .7rem; padding: 1rem; border: 1px solid #d5e3f4; border-radius: 1rem; color: #305278; background: #fff; }.enquiry-copy__note > span { color: var(--contact-blue); }.enquiry-copy__note p { margin: 0; font-size: .913rem; line-height: 1.6; }.enquiry-copy__note a { color: var(--contact-blue); font-weight: 600; overflow-wrap: anywhere; }
   .enquiry-form { min-width: 0; padding: clamp(1.25rem, 3vw, 2.2rem); border: 1px solid #dbe5f1; border-radius: var(--radius-medium); background: #fff; box-shadow: 0 1rem 3rem rgb(20 51 91 / 7%); }
   .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.05rem 1rem; }
   .contact-field { display: flex; min-width: 0; flex-direction: column; gap: .45rem; }.contact-field--wide { grid-column: 1 / -1; }
-  .contact-field > label:not(.consent-label) { display: flex; align-items: baseline; gap: .35rem; color: #24364e; font-size: .78rem; font-weight: 700; }
-  .required-mark { color: #c13f4b; }.optional-mark { margin-left: auto; color: #778496; font-size: .67rem; font-weight: 500; }
-  .contact-field input:not([type="checkbox"]), .contact-field select, .contact-field textarea { width: 100%; min-height: 3rem; padding: .72rem .82rem; border: 1px solid #d2dce9; border-radius: .75rem; color: #16243a; background: #fff; font: inherit; font-size: .86rem; line-height: 1.45; transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease; }
+  .contact-field > label:not(.consent-label) { display: flex; align-items: baseline; gap: .35rem; color: #24364e; font-size: .858rem; font-weight: 600; }
+  .required-mark { color: #c13f4b; }.optional-mark { margin-left: auto; color: #778496; font-size: .737rem; font-weight: 500; }
+  .contact-field input:not([type="checkbox"]), .contact-field select, .contact-field textarea { width: 100%; min-height: 3rem; padding: .72rem .82rem; border: 1px solid #d2dce9; border-radius: .75rem; color: #16243a; background: #fff; font: inherit; font-size: .946rem; line-height: 1.45; transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease; }
   .contact-field textarea { min-height: 8rem; resize: vertical; }.contact-field input::placeholder, .contact-field textarea::placeholder { color: #8995a3; opacity: 1; }.contact-field input:focus, .contact-field select:focus, .contact-field textarea:focus { border-color: #4388ec; outline: 0; box-shadow: 0 0 0 3px #0655e91c; }.contact-field [aria-invalid="true"] { border-color: #c13f4b; }
-  .field-error { display: block; min-height: 0; color: #a92b38; font-size: .75rem; line-height: 1.4; }.field-error:empty { display: none; }
-  .consent-field { gap: .35rem; padding-top: .2rem; }.consent-label { display: flex; align-items: flex-start; gap: .75rem; color: #39495e; font-size: .8rem; line-height: 1.6; }.consent-label input { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; margin: .15rem 0 0; accent-color: var(--contact-blue); }.consent-label input:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; }.consent-label input[aria-invalid="true"] { outline: 2px solid #c13f4b; }
-  .contact-button--submit { margin-top: 1.35rem; cursor: pointer; }.contact-button--submit:disabled { cursor: wait; opacity: .72; }.form-privacy { margin: .9rem 0 0; color: #68778a; font-size: .76rem; line-height: 1.6; }.form-status { margin: .6rem 0 0; color: #164b87; font-size: .8rem; line-height: 1.55; }
+  .field-error { display: block; min-height: 0; color: #a92b38; font-size: .825rem; line-height: 1.4; }.field-error:empty { display: none; }
+  .consent-field { gap: .35rem; padding-top: .2rem; }.consent-label { display: flex; align-items: flex-start; gap: .75rem; color: #39495e; font-size: .88rem; line-height: 1.6; }.consent-label input { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; margin: .15rem 0 0; accent-color: var(--contact-blue); }.consent-label input:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; }.consent-label input[aria-invalid="true"] { outline: 2px solid #c13f4b; }
+  .contact-button--submit { margin-top: 1.35rem; cursor: pointer; }.contact-button--submit:disabled { cursor: wait; opacity: .72; }.form-privacy { margin: .9rem 0 0; color: #68778a; font-size: .836rem; line-height: 1.6; }.form-status { margin: .6rem 0 0; color: #164b87; font-size: .88rem; line-height: 1.55; }.form-status--error { color: #a92b38; font-weight: 600; }.form-status:empty { display: none; }
+  .enquiry-form__trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); opacity: 0; pointer-events: none; }
+  .form-result { margin-top: 1.35rem; padding: 1.1rem; border: 1px solid #b6d1f4; border-radius: 1rem; color: #24364e; background: #f1f6fc; }.form-result[hidden], .contact-button--submit[hidden] { display: none; }.form-result:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; }.form-result p { margin: .55rem 0 0; font-size: .913rem; line-height: 1.6; }.form-result p:empty { display: none; }.form-result .form-result__title { margin: 0; color: #0b3f9c; font-size: 1.078rem; font-weight: 600; }
+  .form-result__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; margin-top: 1rem; }.contact-button--whatsapp { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.6rem rgb(6 75 237 / 20%); }.contact-button--whatsapp:hover { background: linear-gradient(110deg, #087bd2, #043ec9); }
+  .form-result__reset { min-height: 2.75rem; padding: .4rem .2rem; border: 0; color: var(--contact-blue); background: none; cursor: pointer; font: inherit; font-size: .913rem; font-weight: 600; text-decoration: underline; text-underline-offset: .2em; }.form-result__reset:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; border-radius: 4px; }
 
-  .contact-services { background: #fff; }.contact-section-heading--center { display: flex; flex-direction: column; align-items: center; text-align: center; }.contact-section-heading--center .contact-eyebrow { justify-content: center; }.contact-section-heading--center h2 { max-width: 900px; }.contact-section-heading--center > p:last-child:not(.contact-eyebrow) { margin-top: .9rem; }
+  .contact-services { background: #fff; }.contact-section-heading--center { display: flex; flex-direction: column; align-items: center; text-align: center; }.contact-section-heading--center .contact-eyebrow { justify-content: center; }.contact-section-heading--center h2 { max-width: var(--measure-h2-wide); }.contact-section-heading--center > p:last-child:not(.contact-eyebrow) { margin-top: .9rem; }
   .service-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); margin-top: clamp(2rem, 4vw, 3rem); }
   .service-choice-card { position: relative; display: flex; min-height: 330px; flex-direction: column; align-items: flex-start; padding: clamp(1.5rem, 3vw, 2.5rem); overflow: hidden; border: 1px solid #dce6f1; border-radius: var(--radius-medium); background: linear-gradient(145deg, #fff, #f1f7ff); transition: transform var(--duration-medium) var(--ease-out), box-shadow var(--duration-medium) ease; }.service-choice-card:hover { transform: translateY(-5px); box-shadow: 0 1.3rem 2.8rem rgb(17 47 89 / 9%); }.service-choice-card--technology { background: linear-gradient(145deg, #fff, #eef5ff); }
-  .service-choice-card__mark { position: absolute; top: 1.8rem; right: 1.8rem; color: #8292a6; font-size: .63rem; font-weight: 800; letter-spacing: .12em; }.service-choice-card__icon { display: grid; width: 3.2rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: 1rem; color: var(--contact-blue); background: #eaf3ff; }.service-choice-card__icon svg { width: 1.8rem; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }.service-choice-card h3 { margin: 1.3rem 0 .55rem; color: #14243b; font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700; line-height: 1.05; }.service-choice-card p { max-width: 600px; margin: 0; color: var(--contact-muted); font-size: .9rem; line-height: 1.7; }.service-choice-card__link { display: flex; width: 100%; min-height: 3rem; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.25rem; color: var(--contact-blue); font-size: .86rem; font-weight: 800; text-decoration: none; }.service-choice-card__link span:last-child { transition: transform var(--duration-fast) var(--ease-out); }.service-choice-card__link:hover span:last-child { transform: translate(3px, -3px); }
+  .service-choice-card__mark { position: absolute; z-index: 1; top: 1rem; right: 1rem; padding: .35rem .6rem; border-radius: 999px; color: #fff; background: rgb(10 23 52 / 55%); backdrop-filter: blur(6px); font-size: .693rem; font-weight: 600; letter-spacing: .12em; }
+  /* Edge-to-edge photo across the top of each card; the negative margins cancel the card padding. */
+  .service-choice-card__media { align-self: stretch; aspect-ratio: 16 / 8; margin: calc(clamp(1.5rem, 3vw, 2.5rem) * -1) calc(clamp(1.5rem, 3vw, 2.5rem) * -1) 1.5rem; overflow: hidden; border-bottom: 1px solid #dce6f1; background: #0b1a4a; }
+  .service-choice-card__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale var(--duration-medium) var(--ease-out); }
+  .service-choice-card:hover .service-choice-card__media img { scale: 1.05; }.service-choice-card h3 { margin: 0 0 .55rem; color: #14243b; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.service-choice-card p { max-width: 600px; margin: 0; color: var(--contact-muted); font-size: .99rem; line-height: 1.7; }.service-choice-card__link { display: flex; width: 100%; min-height: 3rem; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.25rem; color: var(--contact-blue); font-size: .946rem; font-weight: 600; text-decoration: none; }
+  /* Right arrow in a soft blue circle; fills and slides forward when the card is hovered or the link is focused. */
+  .service-choice-card__arrow { display: grid; flex-shrink: 0; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid #cfe0f5; border-radius: 50%; color: var(--contact-blue); background: #eaf3ff; font-size: 1.1rem; transition: translate var(--duration-fast) var(--ease-out), background-color var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease; }
+  .service-choice-card:hover .service-choice-card__arrow, .service-choice-card__link:focus-visible .service-choice-card__arrow { translate: 4px 0; border-color: var(--contact-blue); color: #fff; background: var(--contact-blue); }
 
-  .contact-faq { background: #f6f9fd; }.faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }.faq-heading { position: sticky; top: 120px; }.faq-list { border-top: 1px solid #d7e1ee; }.faq-item { border-bottom: 1px solid #d7e1ee; }.faq-item summary { position: relative; display: flex; min-height: 4.2rem; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.15rem 2.5rem 1.15rem 0; color: #15263d; cursor: pointer; font-size: .98rem; font-weight: 700; line-height: 1.45; list-style: none; }.faq-item summary::-webkit-details-marker { display: none; }.faq-item summary::after { position: absolute; top: 50%; right: .5rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--contact-blue); border-bottom: 2px solid var(--contact-blue); content: ''; transition: transform 180ms ease; }.faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }.faq-item summary:focus-visible { outline: 3px solid #0655e9; outline-offset: 3px; border-radius: 4px; }.faq-answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 240ms ease; }.faq-item[open] .faq-answer { grid-template-rows: 1fr; }.faq-answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--contact-muted); font-size: .9rem; line-height: 1.7; }.faq-item[open] .faq-answer p { padding-bottom: 1.25rem; }
+  .contact-faq { --faq-blue: #0655e9; --faq-deep: #0643cf; --faq-pill: #e4ecfb; --faq-pill-hover: #d8e4fa; background: #f3f7ff; }
+  .contact-faq__layout { display: grid; grid-template-columns: minmax(240px, .85fr) minmax(0, 1.15fr); align-items: start; gap: clamp(2rem, 6vw, 5.5rem); }
+  .contact-faq__intro { position: sticky; top: 110px; display: flex; flex-direction: column; }
+  .contact-faq__eyebrow { margin: 0 0 clamp(1.5rem, 3vw, 2.5rem); color: #0a1734; font-size: var(--size-small); font-weight: 600; letter-spacing: .02em; text-transform: uppercase; }
+  .contact-faq__title { margin: 0; color: #0a1734; font-family: 'Fira Sans Extra Condensed', var(--font-heading); font-size: clamp(3rem, 6.2vw, 5.6rem); font-weight: 700; letter-spacing: -.01em; line-height: .92; text-transform: uppercase; text-wrap: balance; }
+  .contact-faq__title :global(.contact-faq__title-accent) { color: var(--faq-blue); }
+  :global(html[lang='ta']) .contact-faq__title, :global(html[lang='si']) .contact-faq__title { font-family: var(--font-heading); font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.2; text-transform: none; }
+  /* Robot gently bobs beside the title. */
+  .contact-faq__robot { display: block; width: min(62%, 260px); height: auto; margin-top: clamp(2rem, 5vw, 4rem); filter: drop-shadow(0 18px 24px #0655e926); animation: contact-faq-bob 4.5s ease-in-out infinite; }
+  .contact-faq__list { display: grid; gap: .85rem; }
+  .contact-faq__item summary { display: flex; align-items: center; min-height: 3.6rem; padding: .9rem 1.6rem; border: 1.5px solid transparent; border-radius: 999px; background: var(--faq-pill); color: #0a1734; cursor: pointer; font-size: var(--size-body); font-weight: 500; line-height: 1.4; list-style: none; transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, translate var(--duration-fast) var(--ease-out); }
+  .contact-faq__item summary::-webkit-details-marker { display: none; }
+  .contact-faq__item summary:hover { translate: 4px 0; background: var(--faq-pill-hover); }
+  .contact-faq__item summary:focus-visible { outline: 3px solid var(--faq-blue); outline-offset: 3px; }
+  .contact-faq__item[open] summary { width: fit-content; max-width: 100%; border-color: var(--faq-blue); background: #eef3fe; color: var(--faq-deep); translate: none; animation: contact-faq-sent 320ms var(--ease-out) both; }
+  .contact-faq__reply { display: flex; align-items: flex-end; justify-content: flex-end; gap: .75rem; margin: .75rem 0 .35rem; padding-left: clamp(1rem, 12%, 6rem); }
+  .contact-faq__bubble { margin: 0; padding: 1.2rem 1.5rem; border: 1px solid #d3def5; border-radius: 1.6rem 1.6rem .4rem 1.6rem; background: #fff; box-shadow: 0 12px 28px #0655e912; color: var(--contact-muted); font-size: 1.0312rem; line-height: 1.65; }
+  .contact-faq__sender { display: flex; flex-shrink: 0; flex-direction: column; align-items: center; gap: .3rem; }
+  .contact-faq__avatar { display: block; width: 4.8rem; height: 4.8rem; overflow: hidden; border: 3px solid #fff; border-radius: 50%; background: radial-gradient(circle at 50% 35%, #fff 0 30%, #dce8ff 75%); box-shadow: 0 8px 18px #0655e933; }
+  .contact-faq__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; transform: scale(1.18) translateY(6%); }
+  .contact-faq__name { color: var(--faq-blue); font-family: 'Fira Sans Extra Condensed', var(--font-heading); font-size: .85rem; font-weight: 700; letter-spacing: .08em; }
+  .contact-faq__item[open] .contact-faq__bubble { transform-origin: 100% 100%; animation: contact-faq-bubble 420ms var(--ease-out) both; }
+  .contact-faq__item[open] .contact-faq__sender { animation: contact-faq-avatar 420ms var(--ease-out) 120ms both; }
+  @keyframes contact-faq-bubble { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes contact-faq-avatar { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  @keyframes contact-faq-sent { from { opacity: .6; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  @keyframes contact-faq-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
 
-  .contact-closing { position: relative; isolation: isolate; display: grid; min-height: 390px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }.contact-closing__inner { position: relative; z-index: 1; width: min(100%, 790px); }.contact-closing .contact-eyebrow { justify-content: center; color: #b9dbff; }.contact-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: clamp(3.1rem, 6.7vw, 6.3rem); font-weight: 800; letter-spacing: -.02em; line-height: .98; }.contact-closing__inner > p:not(.contact-eyebrow) { max-width: 640px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }.contact-button--light { margin-top: 1.5rem; color: #12305a; background: #fff; box-shadow: 0 .7rem 1.7rem rgb(0 15 50 / 18%); }.contact-button--light:hover { background: #eaf4ff; }.contact-closing__orb { position: absolute; z-index: -1; width: 24rem; aspect-ratio: 1; border: 1px solid #ffffff24; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0c, 0 0 0 70px #ffffff09; }.contact-closing__orb--one { top: -14rem; left: -4rem; }.contact-closing__orb--two { right: -7rem; bottom: -18rem; transform: scale(1.25); }.contact-closing__wordmark { position: absolute; right: 2vw; bottom: -2.2rem; z-index: -1; color: #ffffff0a; font-family: var(--font-display); font-size: clamp(5rem, 17vw, 15rem); font-weight: 900; letter-spacing: -.08em; line-height: .8; }
+  .contact-closing { position: relative; isolation: isolate; display: grid; min-height: 390px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }.contact-closing__inner { position: relative; z-index: 1; width: min(100%, 790px); }.contact-closing .contact-eyebrow { justify-content: center; color: #b9dbff; }.contact-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }.contact-closing__inner > p:not(.contact-eyebrow) { max-width: 640px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }.contact-button--light { margin-top: 1.5rem; color: #12305a; background: #fff; box-shadow: 0 .7rem 1.7rem rgb(0 15 50 / 18%); }.contact-button--light:hover { background: #eaf4ff; }.contact-closing__orb { position: absolute; z-index: -1; width: 24rem; aspect-ratio: 1; border: 1px solid #ffffff24; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0c, 0 0 0 70px #ffffff09; }.contact-closing__orb--one { top: -14rem; left: -4rem; }.contact-closing__orb--two { right: -7rem; bottom: -18rem; transform: scale(1.25); }.contact-closing__wordmark { position: absolute; right: 2vw; bottom: -2.2rem; z-index: -1; color: #ffffff0a; font-family: var(--font-display); font-size: clamp(5.5rem, 18.7vw, 16.5rem); font-weight: 700; letter-spacing: -.08em; line-height: .8; }
 
   .contact-reveal-pending { opacity: 0; transform: translateY(16px); transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }.contact-reveal-pending.is-visible { opacity: 1; transform: translateY(0); }
   @keyframes contact-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes contact-art-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+  @keyframes contact-art-zoom { from { scale: 1; } to { scale: 1.08; } }
+  @keyframes contact-art-sheen { 0% { background-position: 150% 0; } 45%, 100% { background-position: -50% 0; } }
+  @keyframes contact-wave-drift { from { translate: 0 0; } to { translate: -50% 0; } }
   @keyframes contact-art-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
   @media (max-width: 980px) {
-    .contact-hero__inner { min-height: 500px; grid-template-columns: minmax(0, 1fr) minmax(240px, .62fr); gap: 1.5rem; }.contact-hero h1 { font-size: clamp(3.7rem, 8vw, 5.8rem); }.contact-reach__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.reach-card:last-child { grid-column: 1 / -1; min-height: 250px; }.enquiry-layout, .faq-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
+    .contact-hero__inner { min-height: 500px; grid-template-columns: minmax(0, 1fr) minmax(240px, .62fr); gap: 1.5rem; }.contact-reach__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.reach-card:last-child { grid-column: 1 / -1; min-height: 250px; }.enquiry-layout, .contact-faq__layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
   @media (max-width: 700px) {
     .contact-shell { padding-inline: 1rem; }
-    .contact-hero { padding: 4rem 1rem 1.3rem; }.contact-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: .5rem; }.contact-hero h1 { font-size: clamp(3.2rem, 12vw, 4.8rem); }.contact-hero__description { margin-top: 1.1rem; }.contact-hero__art { width: min(77vw, 340px); margin: .5rem auto 0; }.contact-hero__edge { margin-top: 1.2rem; font-size: .56rem; letter-spacing: .07em; }
-    .contact-section { padding-block: 4.5rem; }.contact-section-heading h2, .enquiry-copy h2, .faq-heading h2 { font-size: clamp(2.8rem, 10vw, 4.1rem); }.contact-reach__grid { grid-template-columns: 1fr; }.reach-card, .reach-card:last-child { grid-column: auto; min-height: 260px; }.enquiry-layout, .faq-layout { grid-template-columns: 1fr; gap: 2rem; }.enquiry-copy, .faq-heading { position: static; }.enquiry-form { padding: 1.15rem; }.form-grid { grid-template-columns: 1fr; }.contact-field--wide { grid-column: auto; }.service-choice-grid { grid-template-columns: 1fr; }.service-choice-card { min-height: 300px; }.contact-closing { min-height: 350px; padding-inline: 1rem; }.contact-closing h2 { font-size: clamp(3rem, 11vw, 4.8rem); }
+    .contact-hero { padding: 4rem 1rem 1.3rem; }.contact-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: .5rem; }.contact-hero__description { margin-top: 1.1rem; }.contact-hero__art { width: min(77vw, 340px); margin: .5rem auto 0; }.contact-hero__edge { margin-top: 1.2rem; font-size: .616rem; letter-spacing: .07em; }
+    .contact-section { padding-block: 4.5rem; }.contact-reach__grid { grid-template-columns: 1fr; }.reach-card, .reach-card:last-child { grid-column: auto; min-height: 260px; }.enquiry-layout { grid-template-columns: 1fr; gap: 2rem; }.contact-faq__layout { grid-template-columns: 1fr; gap: 2rem; }.enquiry-copy, .contact-faq__intro { position: static; }.contact-faq__robot { display: none; }.enquiry-form { padding: 1.15rem; }.form-grid { grid-template-columns: 1fr; }.contact-field--wide { grid-column: auto; }.service-choice-grid { grid-template-columns: 1fr; }.service-choice-card { min-height: 300px; }.contact-closing { min-height: 350px; padding-inline: 1rem; }
   }
   @media (max-width: 380px) {
-    .contact-hero h1 { font-size: clamp(2.8rem, 12.7vw, 3.35rem); }.contact-hero__edge span:last-child { text-align: right; }.contact-hero__art { width: min(82vw, 300px); }.contact-button { width: 100%; }.reach-card { padding: 1.3rem; }.service-choice-card { padding: 1.3rem; }
+    .contact-hero__edge span:last-child { text-align: right; }.contact-hero__art { width: min(82vw, 300px); }.contact-button { width: 100%; }.reach-card { padding: 1.3rem; }.service-choice-card { padding: 1.3rem; }.service-choice-card__media { margin: -1.3rem -1.3rem 1.2rem; }.contact-faq__item summary { padding: .85rem 1.2rem; border-radius: 1.4rem; font-size: 1rem; }.contact-faq__reply { padding-left: 0; }.contact-faq__bubble { padding: 1rem 1.15rem; font-size: .975rem; }.contact-faq__avatar { width: 3rem; height: 3rem; }.contact-faq__name { font-size: .75rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .contact-page *, .contact-page *::before, .contact-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }

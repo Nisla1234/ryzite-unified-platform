@@ -1,0 +1,55 @@
+// Copy for the Client Reviews subsection in the Trust section.
+// [PROPOSAL] Heading and description supplied by the client. Card text is neutral: it never states
+// that reviews exist or are verified; the card itself only renders once its profile URL is confirmed.
+// Tamil and Sinhala copy needs native-speaker review before launch.
+// {rating} and {count} are filled in from verified data in reviews.ts.
+export const reviewsTranslations = {
+  en: {
+    eyebrow: 'CLIENT REVIEWS',
+    title: 'Trusted Voices. Real Experiences.',
+    intro: 'Explore customer feedback across independent review platforms.',
+    rating: '{rating} out of 5',
+    count: '{count} reviews',
+    googleTitle: 'Google Reviews',
+    googleBody: 'Read what customers say about RYZITE on Google.',
+    googleCta: 'View Google Reviews',
+    trustpilotTitle: 'Trustpilot',
+    trustpilotBody: 'Read what customers say about RYZITE on Trustpilot.',
+    trustpilotCta: 'View Trustpilot Reviews',
+    clutchTitle: 'Clutch',
+    clutchBody: 'Read what clients say about RYZITE on Clutch.',
+    clutchCta: 'View Clutch Reviews',
+  },
+  ta: {
+    eyebrow: 'வாடிக்கையாளர் மதிப்புரைகள்',
+    title: 'நம்பகமான குரல்கள். உண்மையான அனுபவங்கள்.',
+    intro: 'சுயாதீன மதிப்புரைத் தளங்களில் உள்ள வாடிக்கையாளர் கருத்துகளைப் பாருங்கள்.',
+    rating: '5-க்கு {rating}',
+    count: '{count} மதிப்புரைகள்',
+    googleTitle: 'Google மதிப்புரைகள்',
+    googleBody: 'Google-இல் RYZITE பற்றி வாடிக்கையாளர்கள் கூறுவதைப் படியுங்கள்.',
+    googleCta: 'Google மதிப்புரைகளைப் பாருங்கள்',
+    trustpilotTitle: 'Trustpilot',
+    trustpilotBody: 'Trustpilot-இல் RYZITE பற்றி வாடிக்கையாளர்கள் கூறுவதைப் படியுங்கள்.',
+    trustpilotCta: 'Trustpilot மதிப்புரைகளைப் பாருங்கள்',
+    clutchTitle: 'Clutch',
+    clutchBody: 'Clutch-இல் RYZITE பற்றி வாடிக்கையாளர்கள் கூறுவதைப் படியுங்கள்.',
+    clutchCta: 'Clutch மதிப்புரைகளைப் பாருங்கள்',
+  },
+  si: {
+    eyebrow: 'පාරිභෝගික සමාලෝචන',
+    title: 'විශ්වාසදායක හඬවල්. සැබෑ අත්දැකීම්.',
+    intro: 'ස්වාධීන සමාලෝචන වේදිකාවල ඇති පාරිභෝගික අදහස් සොයා බලන්න.',
+    rating: '5න් {rating}',
+    count: 'සමාලෝචන {count}',
+    googleTitle: 'Google සමාලෝචන',
+    googleBody: 'Google හි RYZITE ගැන පාරිභෝගිකයන් පවසන දේ කියවන්න.',
+    googleCta: 'Google සමාලෝචන බලන්න',
+    trustpilotTitle: 'Trustpilot',
+    trustpilotBody: 'Trustpilot හි RYZITE ගැන පාරිභෝගිකයන් පවසන දේ කියවන්න.',
+    trustpilotCta: 'Trustpilot සමාලෝචන බලන්න',
+    clutchTitle: 'Clutch',
+    clutchBody: 'Clutch හි RYZITE ගැන සේවාදායකයන් පවසන දේ කියවන්න.',
+    clutchCta: 'Clutch සමාලෝචන බලන්න',
+  },
+};

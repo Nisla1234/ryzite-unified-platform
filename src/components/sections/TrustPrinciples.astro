@@ -1,0 +1,131 @@
+---
+// [PROPOSAL] Trust points describe the working approach already stated on /how-we-work.
+// They are not guarantees. The Client Reviews subsection (ReviewsTrust) sits below the trust points
+// and renders nothing until at least one official review profile URL is confirmed in reviews.ts.
+import ReviewsTrust from './ReviewsTrust.astro';
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
+
+interface Props { reviewsPreview?: boolean }
+const { reviewsPreview = false } = Astro.props;
+
+const copy = homeSectionsTranslations.en.trust;
+const icons = [
+  '/images/trust/clear-proposals.jpeg',
+  '/images/trust/transparent-communication.jpeg',
+  '/images/trust/professional-delivery.jpeg',
+  '/images/trust/proper-handover.jpeg',
+];
+---
+
+<section class="hs-section trust trust--neu" aria-labelledby="trust-title">
+  <span class="trust-orb trust-orb--one" aria-hidden="true"></span>
+  <span class="trust-orb trust-orb--two" aria-hidden="true"></span>
+  <span class="trust-orb trust-orb--three" aria-hidden="true"></span>
+  <div class="hs-shell trust-shell">
+    <header class="hs-heading" data-hs-reveal>
+      <h2 id="trust-title" class="hs-bicolor" data-home-key="sections.trust.title">{copy.title}</h2>
+      <p data-home-key="sections.trust.intro">{copy.intro}</p>
+    </header>
+
+    <ul class="trust-grid">
+      {copy.items.map((item, index) => (
+        <li class="trust-card" data-hs-reveal data-hs-delay={index * 0.1}>
+          <span class="trust-icon" aria-hidden="true"><img src={icons[index]} alt="" width="96" height="96" loading="lazy" /></span>
+          <h3 data-home-key={`sections.trust.items.${index}.title`}>{item.title}</h3>
+          <p data-home-key={`sections.trust.items.${index}.body`}>{item.body}</p>
+        </li>
+      ))}
+    </ul>
+
+    <ReviewsTrust preview={reviewsPreview} />
+  </div>
+</section>
+
+<style>
+  /* [PROPOSAL] Neumorphic + glassmorphic treatment. Blurred colour orbs sit behind
+     frosted, translucent cards that keep soft raised shadows. */
+  /* Neumorphic treatment: soft raised cards on a matching tinted surface.
+     Card edges keep a faint border and text keeps full contrast so the soft shadows
+     are decoration only, never the sole cue. */
+  .trust--neu {
+    --neu-surface: #eef3fb;
+    --neu-light: #ffffff;
+    --neu-dark: #c9d6ea;
+    --neu-raised: 10px 10px 24px var(--neu-dark), -10px -10px 24px var(--neu-light);
+    --neu-raised-hover: 14px 14px 30px var(--neu-dark), -14px -14px 30px var(--neu-light);
+    --neu-inset: inset 6px 6px 12px var(--neu-dark), inset -6px -6px 12px var(--neu-light);
+    --glass-fill: linear-gradient(145deg, #ffffffb8, #ffffff5c);
+    --glass-edge: #ffffffcc;
+    background: var(--neu-surface);
+  }
+
+  .trust-shell { position: relative; z-index: 1; }
+
+  .trust-orb {
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: .55;
+    pointer-events: none;
+  }
+  .trust-orb--one { top: 12%; left: -6%; width: clamp(220px, 30vw, 420px); aspect-ratio: 1; background: radial-gradient(circle, #078be9, transparent 70%); }
+  .trust-orb--two { right: -8%; bottom: 8%; width: clamp(240px, 34vw, 480px); aspect-ratio: 1; background: radial-gradient(circle, #0655e9, transparent 70%); opacity: .4; }
+  .trust-orb--three { top: 45%; left: 42%; width: clamp(180px, 22vw, 320px); aspect-ratio: 1; background: radial-gradient(circle, #8fc3ff, transparent 70%); }
+
+  .trust-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1.5rem, 2.6vw, 2.25rem); margin: 0; padding: 0; list-style: none; }
+
+  .trust-card {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    padding: clamp(1.5rem, 2.6vw, 2rem);
+    border: 1px solid var(--glass-edge);
+    border-radius: 24px;
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    box-shadow: var(--neu-raised), inset 0 1px 0 #ffffffe6;
+    transition: box-shadow var(--duration-fast) var(--ease-out), translate var(--duration-fast) var(--ease-out);
+  }
+
+  .trust-card h3 { margin: 0 0 .5rem; color: var(--hs-ink); font-size: var(--size-h4); line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); overflow-wrap: anywhere; }
+  .trust-card p { margin: 0; color: var(--hs-muted); font-size: 1.0312rem; line-height: 1.6; overflow-wrap: anywhere; }
+
+  .trust-icon {
+    display: grid;
+    width: 88px;
+    height: 88px;
+    margin-bottom: 1rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #ffffff66;
+    box-shadow: var(--neu-inset);
+  }
+  .trust-icon img { display: block; width: 56px; height: 56px; border-radius: 50%; object-fit: contain; mix-blend-mode: multiply; }
+
+  @media (hover: hover) {
+    .trust-card:hover { translate: 0 -3px; box-shadow: var(--neu-raised-hover), inset 0 1px 0 #ffffffe6; }
+  }
+
+  @media (max-width: 1100px) { .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) {
+    .trust-grid { grid-template-columns: 1fr; }
+    .trust--neu { --neu-raised: 8px 8px 18px var(--neu-dark), -8px -8px 18px var(--neu-light); }
+  }
+
+  /* Without backdrop blur, fall back to a near-opaque card so text stays readable. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .trust-card { background: #f7faffee; }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .trust-card { background: var(--neu-surface); backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .trust-orb { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trust-card { transition: none; }
+    .trust-card:hover { translate: none; }
+  }
+</style>
