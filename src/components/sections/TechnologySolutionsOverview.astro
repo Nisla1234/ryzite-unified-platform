@@ -12,6 +12,17 @@ const pageTranslations = {
   ...technologySolutionTranslations,
   en: { ...technologySolutionTranslations.en, items: englishItems },
 };
+// FAQPage structured data built from the same English FAQ copy shown on the page, so the two never
+// drift apart. `<` is escaped so answer text can never close the script tag.
+const faqSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: technologySolutionTranslations.en.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+}).replace(/</g, '\\u003c');
 ---
 
 <div class="technology-solutions-overview">
@@ -65,6 +76,7 @@ const pageTranslations = {
       </div>
     </div>
   </section>
+  <script type="application/ld+json" set:html={faqSchema} />
 
   <section class="solutions-closing-cta" aria-labelledby="solutions-closing-title">
     <div class="solutions-closing-cta__orb" aria-hidden="true"></div>
