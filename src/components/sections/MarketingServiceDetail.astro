@@ -1,6 +1,7 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import WindingRoad from './WindingRoad.astro';
+import { serviceIcons } from '../../data/detail-icons';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
 import { marketingServicePhotos, marketingServicePhotoSrc } from '../../data/marketing-service-photos';
@@ -131,7 +132,11 @@ const detailTranslations = Object.fromEntries(
         </div>
       )}
       <div class="marketing-shell marketing-provides-layout">
-        <div class="marketing-provides-mark" aria-hidden="true">{service.icon === "\u2197" ? <ArrowUpRight /> : service.icon}</div>
+        <div class="marketing-provides-mark" aria-hidden="true">
+          {serviceIcons[service.slug]
+            ? <svg class="provides-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" set:html={serviceIcons[service.slug]} />
+            : service.icon === "\u2197" ? <ArrowUpRight /> : service.icon}
+        </div>
         <div class="marketing-provides-glass" data-marketing-reveal>
           <h2 id="marketing-provides-title" data-marketing-key="providesTitle">{copy.providesTitle}</h2>
           <p class="marketing-provides-copy" data-marketing-template-key="detailSupporting">{copy.detailSupporting}</p>
@@ -374,6 +379,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-provides-copy { max-width: 850px; margin: 1.2rem 0 0; color: #cad6e4; font-size: var(--size-lead); line-height: 1.75; }
   .marketing-proposed-note { max-width: 850px; margin: 1.1rem 0 0; padding: 1rem 1.1rem; border: 1px solid #ffffff2b; border-radius: .8rem; color: #d7e5f4; font-size: .99rem; line-height: 1.65; }
   .marketing-provides-mark { display: grid; width: min(100%, 220px); aspect-ratio: 1; place-items: center; justify-self: center; border: 1px solid #8ac8ff60; border-radius: 2rem; color: #9dd7ff; background: linear-gradient(145deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 5%)); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); box-shadow: 0 0 0 1.1rem #ffffff05, 0 0 0 2.2rem #ffffff03; font-family: var(--font-display); font-size: 5.5rem; font-weight: 700; }
+  .marketing-provides-mark .provides-icon { width: 48%; height: auto; filter: drop-shadow(0 .4rem .9rem rgb(133 198 255 / 35%)); }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .marketing-provides-glass, .marketing-provides-mark { background: rgb(16 29 50 / 88%); } }
   .marketing-capabilities-section { background: #f0f6fd; }
   .marketing-capability-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }

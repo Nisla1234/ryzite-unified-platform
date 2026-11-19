@@ -3,6 +3,7 @@ import ArrowUpRight from '../../components/ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import WindingRoad from '../../components/sections/WindingRoad.astro';
 import { solutionCoverImages } from '../../data/solution-cover-images';
+import { solutionIcons } from '../../data/detail-icons';
 import { technologySolutions, technologySolutionBySlug } from '../../data/technology-solutions';
 import { technologySolutionTranslations } from '../../data/technology-solution-translations';
 
@@ -76,7 +77,11 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
         </div>
       )}
       <div class="solution-shell provides-layout">
-        <div class="provides-mark" aria-hidden="true">{solution.icon}</div>
+        <div class="provides-mark" aria-hidden="true">
+          {solutionIcons[solution.slug]
+            ? <svg class="provides-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" set:html={solutionIcons[solution.slug]} />
+            : solution.icon}
+        </div>
         <div class="provides-glass" data-solution-reveal>
           <h2 id="provides-title" data-technology-key="providesTitle">What RYZITE Provides.</h2>
           <p class="provides-copy" data-solution-field="provides">{solution.provides}</p>
@@ -253,6 +258,7 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
   .provides-backdrop img { display: block; width: 100%; height: 100%; object-fit: cover; filter: blur(3px) saturate(1.1); transform: scale(1.05); }
   .provides-backdrop::after { position: absolute; inset: 0; background: linear-gradient(120deg, rgb(11 28 88 / 82%), rgb(16 29 50 / 62%) 55%, rgb(8 12 17 / 78%)); content: ''; }
   .provides-glass { padding: clamp(1.5rem, 3.2vw, 2.75rem); border: 1px solid rgb(255 255 255 / 22%); border-radius: 1.75rem; background: linear-gradient(145deg, rgb(255 255 255 / 14%), rgb(255 255 255 / 5%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 28%), 0 1.5rem 3.5rem rgb(4 10 30 / 35%); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+  .provides-mark .provides-icon { width: 48%; height: auto; filter: drop-shadow(0 .4rem .9rem rgb(133 198 255 / 35%)); }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .provides-glass, .provides-mark { background: rgb(16 29 50 / 88%); } }
  .provides-layout { display: grid; grid-template-columns: minmax(180px, .5fr) minmax(0, 1.5fr); align-items: center; gap: clamp(2rem, 7vw, 7rem); }.provides-layout .solution-eyebrow { color: #85c6ff; }.provides-layout h2 { max-width: var(--measure-h2); margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }.provides-copy { max-width: 850px; margin: 1.2rem 0 0; color: #cad6e4; font-size: var(--size-lead); line-height: 1.75; }.provides-mark { display: grid; width: min(100%, 220px); aspect-ratio: 1; place-items: center; justify-self: center; border: 1px solid #8ac8ff60; border-radius: 2rem; color: #9dd7ff; background: linear-gradient(145deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 5%)); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); box-shadow: 0 0 0 1.1rem #ffffff05, 0 0 0 2.2rem #ffffff03; font-family: var(--font-display); font-size: 5.5rem; font-weight: 700; }
   .capabilities-section { background: #f0f6fd; }.capabilities-layout { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 7vw, 7rem); }.capability-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid #d3e0ef; }.capability-list li { display: grid; grid-template-columns: 2.3rem minmax(0, 1fr) 2rem; align-items: center; gap: 1rem; padding: 1.15rem .2rem; border-bottom: 1px solid #d3e0ef; }.capability-index { color: var(--solution-blue); font-size: .8125rem; font-weight: 600; }.capability-list p { margin: 0; color: #223b5a; line-height: 1.5; }.capability-mark { color: var(--color-brand); font-size: 1.21rem; }
