@@ -8,6 +8,17 @@ import { marketingServiceTranslations } from '../../data/marketing-service-trans
 
 const copy = marketingServiceTranslations.en;
 const canonicalUrl = new URL('/services/', Astro.url).href;
+// FAQPage structured data built from the same English FAQ copy shown on the page, so the two never
+// drift apart. `<` is escaped so answer text can never close the script tag.
+const faqSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: copy.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+}).replace(/</g, '\\u003c');
 const pageTranslations = Object.fromEntries(
   Object.entries(marketingServiceTranslations).map(([locale, translation]) => [
     locale,
@@ -233,6 +244,7 @@ const wideRoad = [
         </div>
       </div>
     </section>
+    <script type="application/ld+json" set:html={faqSchema} />
 
     <section class="marketing-closing" aria-labelledby="marketing-closing-title">
       <div class="marketing-closing__orb" aria-hidden="true"></div>
