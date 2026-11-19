@@ -61,18 +61,32 @@ const homePageTranslations = { en: homeLocale('en'), ta: homeLocale('ta'), si: h
        5 Marketing Services + 6 Technology Solutions (Offerings), 8 Connected Plan, 9 Packages,
        10 Payment Options, 11 How We Work, 12 Trust, 13 FAQs, 14 Closing Invitation.
        AboutPreview moved off the homepage (replaced by Two Divisions); Client Reviews live inside Trust (12) and stay hidden until a verified review profile URL exists. Branding section (7) removed at client request. -->
-  <Hero />
-  <BusinessChallenge />
-  <VisitorNeeds />
-  <HomeDivisions />
-  <Offerings />
-  <ConnectedPlan />
-  <PackagesPreview />
-  <PaymentOptions />
-  <ProcessPreview />
-  <TrustPrinciples />
-  <HomeFaq />
+  <div class="home-page">
+    <Hero />
+    <BusinessChallenge />
+    <VisitorNeeds />
+    <HomeDivisions />
+    <Offerings />
+    <ConnectedPlan />
+    <PackagesPreview />
+    <PaymentOptions />
+    <ProcessPreview />
+    <TrustPrinciples />
+    <HomeFaq />
+  </div>
 </MainLayout>
+
+<style>
+  /* Homepage only (client request 2026-11-20): one milky-white surface across every light section.
+     The paper token is milk site-wide (tokens.css); here the large blue background
+     glows are hidden. Dark sections (Packages, Connected Plan result) and the cards are unchanged.
+     The same components keep their own backgrounds on other pages. */
+  .home-page :global(.business-challenge::before),
+  .home-page :global(.business-challenge::after),
+  .home-page :global(.offerings .orb),
+  .home-page :global(.trust-orb) { display: none; }
+  .home-page :global(.trust--neu) { --neu-surface: var(--color-milk); }
+</style>
 
 <script>
   import '../scripts/home-reveal';

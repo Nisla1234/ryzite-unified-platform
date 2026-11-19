@@ -296,7 +296,7 @@ const labels = {
     height: 86px;
     padding: 0 max(28px, calc((100vw - 1300px) / 2));
     border-bottom: 1px solid #ece9e3;
-    background: rgba(250, 248, 244, .94);
+    background: rgb(253 255 245 / 94%); /* milky white (--color-milk) */
     backdrop-filter: blur(20px);
     color: var(--header-ink);
     font-family: var(--font-body);
@@ -326,7 +326,7 @@ const labels = {
   .language-globe { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .language-chevron { width: 8px; height: 8px; border-right: 1.8px solid currentColor; border-bottom: 1.8px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform 160ms ease; }
   .language-picker[open] .language-chevron { transform: rotate(225deg) translate(-1px, -1px); }
-  .language-options { position: absolute; top: calc(100% + 8px); right: 0; z-index: 33; display: grid; min-width: 140px; gap: 3px; padding: 6px; border: 1px solid #dce8fa; border-radius: 14px; background: rgba(250, 248, 244, .98); box-shadow: 0 14px 28px #153c7a20; backdrop-filter: blur(16px); }
+  .language-options { position: absolute; top: calc(100% + 8px); right: 0; z-index: 33; display: grid; min-width: 140px; gap: 3px; padding: 6px; border: 1px solid #dce8fa; border-radius: 14px; background: rgba(253, 255, 245, .98); box-shadow: 0 14px 28px #153c7a20; backdrop-filter: blur(16px); }
   .language-options button { width: 100%; padding: 9px 12px; border: 0; border-radius: 9px; color: var(--header-ink); background: transparent; cursor: pointer; font-size: 15.5px; text-align: left; }
   .language-options button:hover, .language-options button[aria-pressed='true'] { color: var(--color-brand); background: #eaf1ff; }
   .language-options button:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }

@@ -40,11 +40,35 @@ const heroImages: Partial<Record<ResourcePage, { src: string; alt: string; width
   articles: { src: '/images/resources/articles-hero.webp', alt: 'A person working at a laptop in a modern office, with content and data panels flowing through the air.', width: 735, height: 522 },
 };
 const heroImage = heroImages[page];
+const topicImages = [
+  '/images/solutions/website-development-cover.webp',
+  '/images/services/google-seo-and-search-visibility.webp',
+  '/images/solutions/ui-ux-design-cover.webp',
+  '/images/solutions/business-workflow-automation-cover.webp',
+  '/images/solutions/software-api-integrations-cover.webp',
+];
 const packageContactHref = '/contact/?package=guidance';
 const canonicalUrl = new URL(paths[page], Astro.url).href;
 const pageTranslations = Object.fromEntries(
   Object.entries(resourcesTranslations).map(([locale, translations]) => [locale, translations[page]]),
 );
+// Line icons (24x24) for the empty Our Work and Blog cards: a folder and an article.
+const emptyStateIcons = {
+  projects: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><path d="M3 10h18" />',
+  articles: '<rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8 M8 12h8 M8 16h5" />',
+};
+// Line icons (24x24) for the How We Work principle cards: communication, planning, design,
+// development, scope, feedback.
+const principleIcons = [
+  '<path d="M4 5h16v11H9l-5 4z" /><path d="M8 9.5h8 M8 12.5h5" />',
+  '<circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" />',
+  '<path d="M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />',
+  '<path d="m8 7-5 5 5 5 M16 7l5 5-5 5 M14 4l-4 16" />',
+  '<rect x="5" y="3" width="14" height="18" rx="2" /><path d="M9 8h6 M9 12h6 M9 16h3" />',
+  '<path d="M20 12a8 8 0 0 1-13.7 5.6 M4 12a8 8 0 0 1 13.7-5.6 M18 3v4h-4 M6 21v-4h4" />',
+];
+// Our Work approach cards reuse the principle card: understand (target), design (pen), develop (code).
+const approachIcons = [principleIcons[1], principleIcons[2], principleIcons[3]];
 ---
 
 <MainLayout title={copy.pageTitle} description={copy.metaDescription} openGraph={true} canonicalUrl={canonicalUrl}>
@@ -80,7 +104,6 @@ const pageTranslations = Object.fromEntries(
           </div>
         )}
       </div>
-      {page !== 'packages' && <div class="resource-hero__edge" aria-hidden="true"><span>RYZITE / RESOURCES</span><span>IDEAS INTO ACTION <b>↓</b></span></div>}
     </section>
 
     {packages && <>
@@ -196,10 +219,15 @@ const pageTranslations = Object.fromEntries(
           <div class="resource-principles-grid">
             {howWeWork.principles.map((principle, index) => (
               <article class="resource-principle-card" data-resource-reveal>
-                <span class="resource-principle-card__number">0{index + 1}</span>
-                <span class="resource-principle-card__icon" aria-hidden="true">{['◎', '⌁', '✦', '✓', <ArrowUpRight />, '◇'][index]}</span>
-                <h3 data-resource-array="principles" data-resource-index={index} data-resource-field="title">{principle.title}</h3>
-                <p data-resource-array="principles" data-resource-index={index} data-resource-field="body">{principle.body}</p>
+                <div class="resource-principle-card__head" aria-hidden="true">
+                  <span class="resource-principle-card__number">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="resource-principle-card__divider"></span>
+                  <svg class="resource-principle-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" set:html={principleIcons[index % principleIcons.length]} />
+                </div>
+                <div class="resource-principle-card__body">
+                  <h3 data-resource-array="principles" data-resource-index={index} data-resource-field="title">{principle.title}</h3>
+                  <p data-resource-array="principles" data-resource-index={index} data-resource-field="body">{principle.body}</p>
+                </div>
               </article>
             ))}
           </div>
@@ -216,9 +244,10 @@ const pageTranslations = Object.fromEntries(
             </div>
           </header>
           <div class="resource-empty-state" data-resource-reveal>
-            <span class="resource-empty-state__icon" aria-hidden="true">✦</span>
+            <svg class="resource-empty-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={emptyStateIcons.projects} />
             <h3 data-resource-key="emptyTitle">{ourWork.emptyTitle}</h3>
             <p data-resource-key="emptyDescription">{ourWork.emptyDescription}</p>
+            <span class="resource-empty-state__dome" aria-hidden="true"><span>✦</span></span>
           </div>
         </div>
       </section>
@@ -231,11 +260,16 @@ const pageTranslations = Object.fromEntries(
           </header>
           <div class="resource-approach-grid">
             {ourWork.approachCards.map((card, index) => (
-              <article class="resource-approach-card" data-resource-reveal>
-                <span class="resource-approach-card__number">0{index + 1}</span>
-                <span class="resource-approach-card__icon" aria-hidden="true">{['◎', '✦', <ArrowUpRight />][index]}</span>
-                <h3 data-resource-array="approachCards" data-resource-index={index} data-resource-field="title">{card.title}</h3>
-                <p data-resource-array="approachCards" data-resource-index={index} data-resource-field="body">{card.body}</p>
+              <article class="resource-principle-card" data-resource-reveal>
+                <div class="resource-principle-card__head" aria-hidden="true">
+                  <span class="resource-principle-card__number">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="resource-principle-card__divider"></span>
+                  <svg class="resource-principle-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" set:html={approachIcons[index % approachIcons.length]} />
+                </div>
+                <div class="resource-principle-card__body">
+                  <h3 data-resource-array="approachCards" data-resource-index={index} data-resource-field="title">{card.title}</h3>
+                  <p data-resource-array="approachCards" data-resource-index={index} data-resource-field="body">{card.body}</p>
+                </div>
               </article>
             ))}
           </div>
@@ -254,9 +288,13 @@ const pageTranslations = Object.fromEntries(
           <div class="resource-topic-grid">
             {articles.topicCategories.map((category, index) => (
               <article class="resource-topic-card" data-resource-reveal>
-                <span class="resource-topic-card__number">0{index + 1}</span>
-                <h3 data-resource-array="topicCategories" data-resource-index={index} data-resource-field="title">{category.title}</h3>
-                <p data-resource-array="topicCategories" data-resource-index={index} data-resource-field="description">{category.description}</p>
+                <img class="resource-topic-card__image" src={topicImages[index]} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <div class="resource-topic-card__content">
+                  <div>
+                    <h3 data-resource-array="topicCategories" data-resource-index={index} data-resource-field="title">{category.title}</h3>
+                    <p data-resource-array="topicCategories" data-resource-index={index} data-resource-field="description">{category.description}</p>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
@@ -271,9 +309,10 @@ const pageTranslations = Object.fromEntries(
             </div>
           </header>
           <div class="resource-empty-state resource-empty-state--articles" data-resource-reveal>
-            <span class="resource-empty-state__icon" aria-hidden="true">≡</span>
+            <svg class="resource-empty-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={emptyStateIcons.articles} />
             <h3 data-resource-key="articleEmptyTitle">{articles.articleEmptyTitle}</h3>
             <p data-resource-key="articleEmptyDescription">{articles.articleEmptyDescription}</p>
+            <span class="resource-empty-state__dome" aria-hidden="true"><span>✦</span></span>
           </div>
         </div>
       </section>
@@ -387,7 +426,7 @@ const pageTranslations = Object.fromEntries(
   .resource-page { --resource-blue: var(--color-brand); --resource-deep: var(--color-brand); --resource-ink: var(--color-heading); --resource-muted: var(--color-body); color: var(--resource-ink); background: var(--color-paper); }
   .resource-page *, .resource-page *::before, .resource-page *::after { box-sizing: border-box; }
   .resource-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
-  .resource-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame) 2rem; background: linear-gradient(118deg, var(--color-paper), var(--color-milk-highlight) 64%, var(--color-milk)); }
+  .resource-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame) 2rem; background: var(--color-milk); }
   .resource-hero__inner { display: grid; min-height: 530px; grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); }
   .resource-hero__copy { position: relative; z-index: 1; max-width: 800px; }
   .resource-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--resource-blue); font-size: var(--size-eyebrow); font-weight: 600; letter-spacing: .15em; line-height: 1.5; text-transform: uppercase; }
@@ -410,8 +449,6 @@ const pageTranslations = Object.fromEntries(
   .resource-hero__spark--two { bottom: 17%; left: 19%; }
   .resource-hero__visual-caption { position: absolute; right: 1rem; bottom: 1.1rem; left: 1rem; color: #617794; font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-align: center; }
   .resource-hero__glow { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #0b1c5828, transparent 68%); }
-  .resource-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: 1rem; border-top: 1px solid #cdd9e7; color: #52647b; font-size: .75rem; font-weight: 600; letter-spacing: .12em; }
-  .resource-hero__edge b { margin-left: .4rem; color: var(--resource-blue); }
   .resource-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
   .resource-section:nth-of-type(even) { background: var(--color-milk); }
   /* Packages intro: one frosted milky-glass panel over soft brand-blue light, with a navy compass badge
@@ -499,32 +536,52 @@ const pageTranslations = Object.fromEntries(
   .resource-text-link span:last-child { transition: transform 180ms ease; }
   .resource-text-link:hover span:last-child { transform: translateX(4px); }
   .resource-comparison-section, .resource-principles-section, .resource-work-section, .resource-articles-section, .resource-approach-section { background: var(--color-milk); }
-  .resource-editorial-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
+  .resource-editorial-layout { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 2rem; }
   .resource-process-section { background: var(--color-paper); }
-  .resource-principles-section { background: var(--color-milk); }
+  /* Principle cards: same navy-header glass card as the Solutions overview "why" cards
+     (TechnologySolutionsOverview.astro): deep navy band, lighter navy header with number, divider and
+     line icon, and a raised milky-white body. Without backdrop-filter the layers turn solid. */
+  .resource-principles-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 30% 35%, rgb(124 192 255 / 50%), transparent 100%), radial-gradient(circle 12rem at 88% 80%, rgb(143 166 255 / 48%), transparent 100%), radial-gradient(circle 10rem at 62% 58%, rgb(11 28 88 / 20%), transparent 100%), var(--color-milk); }
+  .resource-principles-section .resource-principles-grid { gap: 1.25rem; }
+  /* Our Work approach cards use the same glass cards and glow. */
+  .resource-approach-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 25% 60%, rgb(124 192 255 / 50%), transparent 100%), radial-gradient(circle 12rem at 85% 72%, rgb(143 166 255 / 48%), transparent 100%), radial-gradient(circle 10rem at 55% 70%, rgb(11 28 88 / 20%), transparent 100%), var(--color-milk); }
+  .resource-approach-section .resource-approach-grid { gap: 1.25rem; }
+  .resource-principle-card { position: relative; isolation: isolate; display: flex; min-width: 0; flex-direction: column; padding: 1.1rem 1.1rem 1.25rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 80%); border-radius: 1.6rem; background: linear-gradient(180deg, rgb(255 255 255 / 45%), rgb(253 255 245 / 25%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1.2rem 2.6rem rgb(11 28 88 / 12%); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
+  .resource-principle-card::before { position: absolute; z-index: -1; top: 0; right: 0; left: 0; height: 6.25rem; background: linear-gradient(160deg, rgb(11 28 88 / 88%), rgb(8 19 74 / 78%)); content: ''; }
+  .resource-principle-card:hover { transform: translateY(-5px); box-shadow: 0 1.6rem 3.2rem rgb(11 28 88 / 18%); }
+  .resource-principle-card__head { display: flex; align-items: center; gap: 1rem; padding: .85rem 1.4rem; border: 1px solid rgb(255 255 255 / 22%); border-bottom: 0; border-radius: 1.1rem 1.1rem 0 0; color: var(--color-milk); background: linear-gradient(120deg, rgb(52 78 170 / 62%), rgb(22 41 111 / 55%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%); -webkit-backdrop-filter: blur(12px) saturate(150%); backdrop-filter: blur(12px) saturate(150%); }
+  .resource-principle-card__number { font-family: var(--font-display); font-size: 2rem; font-weight: 500; line-height: 1; letter-spacing: .02em; }
+  .resource-principle-card__divider { width: 1px; height: 1.9rem; background: rgb(253 255 245 / 45%); }
+  .resource-principle-card__icon { width: 2rem; height: 2rem; }
+  .resource-principle-card__body { flex: 1; padding: 1.5rem 1.4rem 1.6rem; border: 1px solid rgb(255 255 255 / 85%); border-top: 0; border-radius: 0 0 1.1rem 1.1rem; text-align: center; background: linear-gradient(170deg, rgb(255 255 255 / 92%), rgb(253 255 245 / 66%)); box-shadow: 0 .9rem 1.8rem rgb(11 28 88 / 10%); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .resource-principle-card { background: var(--color-milk); }.resource-principle-card__head { background: var(--color-brand-hover); }.resource-principle-card__body { background: var(--color-milk-highlight); } }
+  .resource-principle-card h3 { margin: 0 0 .6rem; color: var(--color-brand); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .resource-principle-card p { margin: 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.65; }
+  @media (prefers-reduced-motion: reduce) { .resource-principle-card:hover { transform: none; } }
   .resource-principles-grid, .resource-approach-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
-  .resource-principle-card, .resource-approach-card, .resource-topic-card { position: relative; min-width: 0; min-height: 205px; padding: 1.4rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk-highlight), var(--color-milk)); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .resource-principle-card__number, .resource-approach-card__number { color: var(--color-text-subtle); font-size: .8125rem; font-weight: 600; letter-spacing: .13em; }
-  .resource-principle-card__icon, .resource-approach-card__icon { position: absolute; top: 1.2rem; right: 1.2rem; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--resource-blue); background: #eaf3ff; font-size: 1.21rem; }
-  .resource-principle-card h3, .resource-approach-card h3, .resource-topic-card h3 { margin: 2rem 0 .55rem; color: #172940; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .resource-principle-card p, .resource-approach-card p, .resource-topic-card p { margin: 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.65; }
-  .resource-work-section { background: var(--color-paper); }
-  .resource-empty-state { display: flex; min-height: 280px; flex-direction: column; align-items: center; justify-content: center; padding: clamp(2rem, 5vw, 4rem); border: 1px dashed #b6cbe2; border-radius: 1.6rem; background: linear-gradient(145deg, var(--color-milk), #f7faff); text-align: center; }
-  .resource-empty-state__icon { display: grid; width: 3.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: 1rem; color: var(--resource-blue); background: #eaf3ff; font-size: 1.54rem; }
-  .resource-empty-state h3 { margin: 1.2rem 0 0; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .resource-empty-state p { max-width: 620px; margin: .75rem 0 0; color: var(--resource-muted); line-height: 1.7; }
-  .resource-approach-section { background: var(--color-milk); }
-  .resource-approach-card { min-height: 220px; }
+  .resource-topic-card { position: relative; isolation: isolate; display: flex; min-width: 0; min-height: 320px; overflow: hidden; border: 1px solid rgb(255 255 255 / 45%); border-radius: 1.4rem; color: #fff; background: var(--color-brand); box-shadow: 0 1rem 2.5rem rgb(11 28 88 / 18%); }
+  .resource-topic-card::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgb(5 26 82 / 22%), rgb(5 26 82 / 74%) 44%, rgb(5 26 82 / 96%)); content: ''; pointer-events: none; }
+  .resource-topic-card__image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 360ms var(--ease-out); }
+  .resource-topic-card:hover .resource-topic-card__image { transform: scale(1.04); }
+  .resource-topic-card__content { display: flex; flex: 1; flex-direction: column; justify-content: space-between; gap: 2rem; padding: 1.4rem; }
+  .resource-topic-card h3 { margin: 0 0 .55rem; color: #fff; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); text-wrap: balance; }
+  .resource-topic-card p { margin: 0; color: rgb(255 255 255 / 88%); font-size: .99rem; line-height: 1.65; }
+  /* Empty Our Work / Blog card: milky-white glass card with a small glass dome, like the solution benefit cards ([slug].astro). */
+  .resource-work-section, .resource-articles-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 28% 60%, rgb(124 192 255 / 45%), transparent 100%), radial-gradient(circle 12rem at 78% 40%, rgb(143 166 255 / 42%), transparent 100%), var(--color-milk); }
+  .resource-empty-state { position: relative; display: flex; max-width: 760px; flex-direction: column; align-items: center; margin-inline: auto; overflow: hidden; padding: 2.25rem clamp(1.25rem, 4vw, 2.5rem) 0; border: 1px solid rgb(255 255 255 / 85%); border-radius: 1.75rem; color: var(--color-ink); text-align: center; background: linear-gradient(160deg, rgb(255 255 255 / 70%), rgb(253 255 245 / 35%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), 0 1.5rem 3rem rgb(8 12 17 / 14%); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .resource-empty-state { background: rgb(253 255 245 / 94%); } }
+  .resource-empty-state__icon { width: 2.6rem; height: 2.6rem; flex: none; color: var(--color-ink); }
+  .resource-empty-state h3 { margin: 1.1rem 0 0; color: var(--color-ink); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .resource-empty-state p { max-width: 560px; margin: .75rem auto 1.75rem; color: var(--resource-muted); line-height: 1.7; }
+  .resource-empty-state__dome { position: relative; display: grid; width: 100%; height: 5rem; place-items: start center; }
+  .resource-empty-state__dome::before { position: absolute; top: 0; right: 30%; left: 30%; height: 200%; border: 1px solid rgb(255 255 255 / 90%); border-radius: 50%; background: linear-gradient(180deg, rgb(255 255 255 / 75%), rgb(8 12 17 / 8%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), inset 0 -1.5rem 2.5rem rgb(8 12 17 / 6%), 0 -.5rem 1.6rem rgb(8 12 17 / 10%); -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%); content: ''; }
+  .resource-empty-state__dome > span { position: relative; padding-top: 1.45rem; color: var(--color-ink); font-size: 1.6rem; line-height: 1; }
   .resource-topics-section { background: var(--color-paper); }
   .resource-topic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
   .resource-topic-card { min-height: 195px; }
-  .resource-topic-card__number { color: var(--resource-blue); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }
   .resource-topic-card h3 { margin-top: 1.2rem; }
-  .resource-articles-section { background: var(--color-milk); }
-  .resource-empty-state--articles { min-height: 240px; }
   .resource-editorial-section { background: var(--color-paper); }
-  .resource-editorial-layout { grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); }
-  .resource-editorial-note { margin: 1rem 0 0; color: var(--resource-muted); line-height: 1.65; }
+  .resource-section-heading--stacked .resource-editorial-note { max-width: none; margin: 1rem 0 0; color: var(--resource-muted); line-height: 1.65; }
   .resource-editorial-list { display: grid; margin: 0; padding: 0; border-top: 1px solid #d7e1ee; list-style: none; }
   .resource-editorial-list li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem; padding: 1.1rem .2rem; border-bottom: 1px solid #d7e1ee; }
   .resource-editorial-list li > span { color: var(--resource-blue); font-size: .8125rem; font-weight: 600; }
@@ -533,7 +590,6 @@ const pageTranslations = Object.fromEntries(
     .resource-hero__inner { min-height: 450px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }
     .resource-package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .resource-editorial-layout { grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
   @media (max-width: 700px) {
     .resource-shell { padding-inline: 1rem; }
@@ -542,7 +598,6 @@ const pageTranslations = Object.fromEntries(
     .resource-hero__body { margin-top: 1rem; }
     .resource-hero__visual { width: min(72vw, 310px); }
     .resource-hero__frame { width: 100%; max-width: 420px; margin-inline: auto; }.resource-hero__photo { padding: .6rem; border-radius: 1.5rem; }.resource-hero__photo img { border-radius: 1.05rem; }
-    .resource-hero__edge { margin-top: 1.5rem; font-size: .75rem; letter-spacing: .07em; }
     .resource-section { padding-block: 4.5rem; }
     .resource-intro__card { grid-template-columns: 1fr; gap: 1.25rem; border-radius: 1.5rem; }
     .resource-intro__badge { width: 4.25rem; border-radius: 1.2rem; }
@@ -551,12 +606,10 @@ const pageTranslations = Object.fromEntries(
     .resource-package-grid, .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: 1fr; }
     .resource-package-card { padding: 1.25rem; }
     .resource-editorial-layout { grid-template-columns: 1fr; gap: 1.8rem; }
-    .resource-principle-card, .resource-approach-card, .resource-topic-card { min-height: 175px; }
-    .resource-principle-card h3, .resource-approach-card h3, .resource-topic-card h3 { margin-top: 1.5rem; }
-    .resource-empty-state { min-height: 250px; padding: 2rem 1.2rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .resource-page *, .resource-page *::before, .resource-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
     .resource-button:hover { transform: none; }
+    .resource-topic-card:hover .resource-topic-card__image { transform: none; }
   }
 </style>
