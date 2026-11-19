@@ -32,9 +32,9 @@ const waveLayers = [
 // the same pan, so they only show in the strip the sliding video uncovers and blend through its fade.
 // Colours are sampled from the footage's own waves.
 const fillLayers = [
-  { name: 'back', d: wavePath(330, 70, 1440, 1.1), gradient: ['#8bbdd6', .95, '#b6cfdc', .2] },
-  { name: 'middle', d: wavePath(430, 62, 1440, 3.1), gradient: ['#3d7cc4', .85, '#6ea9d3', .25] },
-  { name: 'front', d: wavePath(520, 54, 1440, 5.2), gradient: ['#6ea9d3', .8, '#c3d4de', 0] },
+  { name: 'back', d: wavePath(330, 70, 1440, 1.1), gradient: ['#2a4b72', .95, '#1b3658', .2] },
+  { name: 'middle', d: wavePath(430, 62, 1440, 3.1), gradient: ['#0a192e', .7, '#1f3653', .25] },
+  { name: 'front', d: wavePath(520, 54, 1440, 5.2), gradient: ['#305075', .8, '#2b4d76', 0] },
 ] as const;
 
 // Two-tone, two-line scene titles: first line in ink, second in brand blue. A title with two
@@ -76,7 +76,7 @@ const sceneLayout = [
       </div>
       <img
         class="video-hero__poster"
-        src="/images/hero/ryzite-robot-poster.jpg"
+        src="/images/hero/ryzite-robot-navy-poster.jpg"
         alt=""
         width="1000"
         height="562"
@@ -84,8 +84,8 @@ const sceneLayout = [
       />
       <video
         class="video-hero__video"
-        src="/images/hero/Novu_London_fashion_landing_page_b5275c3a.mp4"
-        poster="/images/hero/ryzite-robot-poster.jpg"
+        src="/images/hero/ryzite-robot-navy.mp4"
+        poster="/images/hero/ryzite-robot-navy-poster.jpg"
         muted
         playsinline
         preload="auto"
@@ -195,15 +195,19 @@ const sceneLayout = [
 
 <style>
   .video-hero {
-    /* Same palette as the homepage sections (home-sections.css, BusinessChallenge). */
-    --hero-ink: var(--color-heading);
-    --hero-body: var(--color-body);
-    /* Soft milky glow behind the copy so it stays readable over the moving blue waves. */
-    --hero-copy-glow: rgb(253 255 245 / 62%);
-    --hero-accent: var(--color-brand);
-    --hero-cta: var(--color-brand);
-    --hero-cta-shadow: 0 8px 18px #0b1c5835;
-    --hero-bg: #dfe9f1;
+    /* Light copy on the navy footage. */
+    --hero-ink: #f5f8ff;
+    --hero-body: #d5e0f2;
+    --hero-title-accent: #9ec2ff;
+    /* Soft dark glow behind the copy so it stays readable over the moving waves. */
+    --hero-copy-glow: rgb(8 22 46 / 42%);
+    --hero-accent: #9ec2ff;
+    --hero-cta: #fff;
+    --hero-cta-hover: #e4edff;
+    --hero-cta-text: var(--color-brand);
+    --hero-cta-shadow: 0 8px 18px rgb(3 10 24 / 35%);
+    /* Sampled from the navy footage's edges. */
+    --hero-bg: #193456;
     --hero-gutter: max(28px, calc((100vw - 1300px) / 2)); /* aligns with the header logo */
     --hero-ease: var(--ease-out);
     /* Footage has the robot centred; slide it sideways so it sits opposite the copy. */
@@ -243,8 +247,8 @@ const sceneLayout = [
   /* Matches the footage's edge colours, so the gap the slide opens blends in. */
   .video-hero__media {
     background:
-      linear-gradient(180deg, #c8dbe2 0%, #c9dbe2 28%, #8fcbe0 44%, #6cbfdc 52%, #bdd4de 64%, #b5cdd9 100%) left / 50% 100% no-repeat,
-      linear-gradient(180deg, #c4d6da 0%, #bdcfd9 28%, #7fa6cf 46%, #8fb9d1 54%, #b6c8d2 64%, #b0c4cf 100%) right / 50% 100% no-repeat;
+      linear-gradient(180deg, #193456 0%, #193455 42%, #2d4a6f 55%, #2a4b72 66%, #2c4f78 85%, #2b4d76 100%) left / 50% 100% no-repeat,
+      linear-gradient(180deg, #132844 0%, #152946 25%, #0d1e36 42%, #0a192e 55%, #233d62 65%, #1f3653 82%, #305075 100%) right / 50% 100% no-repeat;
   }
 
   .video-hero__fill {
@@ -307,7 +311,7 @@ const sceneLayout = [
     z-index: 1;
     pointer-events: none;
     background:
-      linear-gradient(180deg, rgb(223 233 241 / 35%), transparent 18%),
+      linear-gradient(180deg, rgb(18 39 67 / 35%), transparent 18%),
       /* Soft hand-off into the paper background of the next section. */
       linear-gradient(0deg, var(--color-paper) 0%, rgb(250 248 244 / 0%) 9%);
   }
@@ -441,7 +445,7 @@ const sceneLayout = [
     position: absolute;
     z-index: -1;
     inset: -22% -18%;
-    background: radial-gradient(closest-side, var(--hero-copy-glow) 0%, rgb(253 255 245 / 40%) 55%, rgb(253 255 245 / 0%) 100%);
+    background: radial-gradient(closest-side, var(--hero-copy-glow) 0%, rgb(8 22 46 / 26%) 55%, rgb(8 22 46 / 0%) 100%);
     pointer-events: none;
   }
 
@@ -483,12 +487,27 @@ const sceneLayout = [
     display: block;
     width: auto;
     height: clamp(48px, 5.4vw, 92px);
+    /* Lifts the blue lettering off the navy footage. */
+    filter: brightness(1.35) drop-shadow(0 0 18px rgb(158 194 255 / 35%));
   }
 
   .video-hero__title :global(.hs-bicolor__base) { color: var(--hero-ink); }
-  .video-hero__title :global(.hs-bicolor__accent) { color: var(--color-brand); }
+  .video-hero__title :global(.hs-bicolor__accent) { color: var(--hero-title-accent); }
   /* Every scene: ink phrase on its own line above the blue phrase. */
   .video-hero__title--stacked :global(.hs-bicolor__base) { display: block; }
+
+  /* Every scene: headline and eyebrow in milky white over the dark navy footage. */
+  .video-hero__title :global(.hs-bicolor__base),
+  .video-hero__title :global(.hs-bicolor__accent),
+  .video-hero__eyebrow {
+    color: var(--color-milk);
+    text-shadow: 0 2px 18px rgb(6 16 48 / 45%);
+  }
+
+  /* The milky glow behind the copy would wash out white text, so every scene gets a navy glow. */
+  .video-hero__panel::before {
+    background: radial-gradient(closest-side, rgb(11 28 88 / 45%) 0%, rgb(11 28 88 / 22%) 55%, rgb(11 28 88 / 0%) 100%);
+  }
 
   .video-hero__title {
     margin: 0;
@@ -530,7 +549,7 @@ const sceneLayout = [
     border-radius: 999px;
     background: var(--hero-cta);
     box-shadow: var(--hero-cta-shadow);
-    color: #fff;
+    color: var(--hero-cta-text);
     font-size: 17.5px;
     font-weight: var(--weight-strong);
     line-height: 1.2;
@@ -540,12 +559,12 @@ const sceneLayout = [
   }
 
   .video-hero__button:hover {
-    box-shadow: 0 12px 24px #0b1c584d;
+    box-shadow: 0 12px 24px rgb(3 10 24 / 45%);
     transform: translateY(-3px);
   }
 
   .video-hero__button:not(.video-hero__button--ghost):hover {
-    background: var(--color-brand-hover);
+    background: var(--hero-cta-hover);
   }
 
   .video-hero__button:focus-visible {
@@ -565,8 +584,8 @@ const sceneLayout = [
   .video-hero__button--ghost {
     border: 2px solid #fff;
     background: linear-gradient(135deg, var(--color-milk), #edf3ff);
-    box-shadow: 0 9px 24px #0b1c5824;
-    color: var(--hero-accent);
+    box-shadow: 0 9px 24px rgb(3 10 24 / 30%);
+    color: var(--color-brand);
   }
 
   .video-hero__fallback-pathways {
@@ -607,7 +626,7 @@ const sceneLayout = [
     width: 6px;
     height: 6px;
     border-radius: 999px;
-    background: rgb(19 40 92 / 25%);
+    background: rgb(255 255 255 / 30%);
     transition: width 300ms var(--hero-ease), background-color 300ms ease;
   }
 
@@ -659,7 +678,7 @@ const sceneLayout = [
     }
 
     .video-hero__media {
-      background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg) 46%, #c9dbe2 62%, #b5cdd9 100%);
+      background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg) 46%, #2a4b72 66%, #2b4d76 100%);
     }
 
     .video-hero__fill {
@@ -667,7 +686,7 @@ const sceneLayout = [
     }
 
     .video-hero__overlay {
-      background: linear-gradient(180deg, rgb(223 233 241 / 60%) 0%, transparent 40%);
+      background: linear-gradient(180deg, rgb(18 39 67 / 60%) 0%, transparent 40%);
     }
 
     /* On phones the copy stacks above the robot instead of beside it. */

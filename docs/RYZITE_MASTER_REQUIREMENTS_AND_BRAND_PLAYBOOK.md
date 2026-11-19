@@ -187,7 +187,7 @@ The project currently contains **three different blue sets** and a legacy palett
 
 | Asset | Status |
 | --- | --- |
-| Hero video `Novu_London_fashion_landing_page_b5275c3a.mp4` (1280×720) | `[UNVERIFIED]` source and rights |
+| Hero video `ryzite-robot-navy.mp4` (1280×720) | `[UNVERIFIED]` source and rights |
 | Payment step images (`public/images/payments/`) — handshake carries a "pngtree" watermark | `[UNVERIFIED]` rights |
 | Visitor Needs covers — two carry a third-party "REN" mark | `[OPEN]` rights |
 | Offerings covers (first three), Connected Plan icons | `[OPEN]` rights |
