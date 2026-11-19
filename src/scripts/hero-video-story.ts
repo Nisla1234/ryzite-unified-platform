@@ -77,12 +77,13 @@ const initializeHeroVideo = () => {
   const root = document.documentElement;
   const header = document.querySelector<HTMLElement>('.site-header');
 
-  // Hide the site header while the video story fills the screen; bring it back as the next
-  // section (Business Challenge) reaches the top of the viewport.
+  // The header starts hidden on the homepage (CSS in Hero.astro) and is revealed once the hero has
+  // scrolled away and the next section (Business Challenge) reaches the top of the viewport.
+  // The static fallback (video error, reduced motion) keeps it visible.
   const updateHeader = () => {
     const headerHeight = header?.offsetHeight ?? 0;
-    const heroOnScreen = hero.classList.contains('is-animated') && hero.getBoundingClientRect().bottom > headerHeight;
-    root.classList.toggle('hero-hides-header', heroOnScreen);
+    const pastHero = hero.getBoundingClientRect().bottom <= headerHeight;
+    root.classList.toggle('hero-shows-header', hero.classList.contains('is-static') || motionPreference.matches || pastHero);
     hero.classList.toggle('is-offscreen', hero.getBoundingClientRect().bottom <= 0);
   };
 
@@ -114,9 +115,10 @@ const initializeHeroVideo = () => {
     const wasAnimated = hero.classList.contains('is-animated');
     const heroStart = hero.getBoundingClientRect().top + window.scrollY;
     hero.classList.remove('is-animated');
+    hero.classList.add('is-static');
     video.pause();
     resetPanels();
-    root.classList.remove('hero-hides-header');
+    updateHeader();
     if (returnToHeroStart && wasAnimated) window.scrollTo(0, heroStart);
   };
 
@@ -207,6 +209,7 @@ const initializeHeroVideo = () => {
     const heroStart = hero.getBoundingClientRect().top + window.scrollY;
     if (window.scrollY > heroStart + stage.offsetHeight * .05) return;
 
+    hero.classList.remove('is-static');
     hero.classList.add('is-animated');
     displayedTime = video.duration * getProgress();
     scheduleRender();
@@ -228,6 +231,7 @@ const initializeHeroVideo = () => {
   const handleSeeked = () => scheduleRender();
   const handleScroll = () => {
     activateIfReady();
+    updateHeader();
     scheduleRender();
   };
   const handleResize = () => scheduleRender();
@@ -241,7 +245,7 @@ const initializeHeroVideo = () => {
   motionPreference.addEventListener('change', handleMotionPreferenceChange);
   document.addEventListener('astro:before-swap', () => {
     if (frame) window.cancelAnimationFrame(frame);
-    root.classList.remove('hero-hides-header');
+    root.classList.remove('hero-shows-header');
     video.removeEventListener('loadeddata', activateIfReady);
     video.removeEventListener('canplay', activateIfReady);
     video.removeEventListener('seeked', handleSeeked);
@@ -251,6 +255,7 @@ const initializeHeroVideo = () => {
     motionPreference.removeEventListener('change', handleMotionPreferenceChange);
   }, { once: true });
 
+  updateHeader();
   if (video.error) {
     handleVideoError();
   } else if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {

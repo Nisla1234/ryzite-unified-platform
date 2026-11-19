@@ -162,19 +162,27 @@ const sceneLayout = [
 </script>
 
 <style is:global>
-  /* Header hides during the scroll-scrubbed hero (class set by hero-video-story.ts). */
+  /* On the homepage the header is hidden from first paint (so it never flashes on refresh) and
+     appears when the Business Challenge section reaches the top. hero-video-story.ts adds
+     .hero-shows-header at that point, and also for the static fallback. */
   .site-header {
     transition: transform 360ms cubic-bezier(.22, 1, .36, 1), opacity 240ms ease;
   }
 
-  html.hero-hides-header .site-header:not(:focus-within) {
+  html:has([data-video-hero]):not(.hero-shows-header) .site-header:not(:focus-within) {
     opacity: 0;
     pointer-events: none;
     transform: translateY(-100%);
   }
 
+  /* Reduced motion and no-JS keep the header visible. */
   @media (prefers-reduced-motion: reduce) {
     .site-header { transition: none; }
+    html:has([data-video-hero]) .site-header { opacity: 1 !important; pointer-events: auto !important; transform: none !important; }
+  }
+
+  @media (scripting: none) {
+    html:has([data-video-hero]) .site-header { opacity: 1 !important; pointer-events: auto !important; transform: none !important; }
   }
 </style>
 
@@ -541,8 +549,16 @@ const sceneLayout = [
     margin-top: 14px;
   }
 
-  .video-hero:not(.is-animated) .video-hero__fallback-pathways {
+  /* Only for the real static fallback (no JS, video error, reduced motion), not while the video loads. */
+  .video-hero:not([data-initialized]) .video-hero__fallback-pathways,
+  .video-hero.is-static .video-hero__fallback-pathways {
     display: flex;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .video-hero:not(.is-animated) .video-hero__fallback-pathways {
+      display: flex;
+    }
   }
 
   /* Scene progress dots */
