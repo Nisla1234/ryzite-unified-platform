@@ -75,7 +75,9 @@ The project currently contains **three different blue sets** and a legacy palett
   including Trust Principles and How We Work. Not changed: logo artwork, robot, images/video and
   the hero waves matched to the footage, third-party marks, and light accents on dark backgrounds
   kept for contrast.
-- `[CLIENT]` **Approved 2026-11-19: Milky White `#F8F8F5`** (`--color-milk`) replaces pure-white surfaces.
+- `[CLIENT]` **Approved 2026-11-19: Milky White scheme** on all pages — page base `#F9F8F0`
+  (`--color-paper`), surfaces `#FDFFF5` (`--color-milk`), highlight `#FFFFFF` (`--color-milk-highlight`).
+  Replaces the earlier `#F8F8F5` milk and the pale-blue section/hero backgrounds. Hero video background kept.
 - ~~`[OPEN]` Confirm one official site-wide palette and retire the others (§14).~~ Resolved 2026-11-19 (navy above).
 
 ### 3.4 Tone and messaging
@@ -214,5 +216,6 @@ The project currently contains **three different blue sets** and a legacy palett
 | 2026-11-18 | Trust Principles colours `#0655E9`, `#0643CF`, `#078BE9` | Approved for Trust Principles section only | Client |
 | 2026-11-18 | How We Work "winding road" layout in `#0655E9`, `#0643CF`, `#078BE9` | Client instructed to build (section scope only; layout `[PROPOSAL]`) | Client |
 | 2026-11-19 | Primary brand colour `#0B1C58` site-wide; replaces bright blues (incl. Trust Principles, How We Work) | Approved | Client |
-| 2026-11-19 | Milky White `#F8F8F5` for pure-white surfaces | Approved | Client |
+| 2026-11-19 | Milky White `#F8F8F5` for pure-white surfaces | Superseded same day | Client |
+| 2026-11-19 | Milky White scheme `#F9F8F0` / `#FFFFFF` / `#FDFFF5` on all pages | Approved | Client |
 | — | This playbook (draft) | Pending | — |

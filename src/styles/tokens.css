@@ -2,10 +2,11 @@
     --color-ink: #080c11;
     --color-ink-soft: #11171f;
     --color-panel: #171d25;
-    --color-paper: #faf8f4;
+    --color-paper: #f9f8f0;
     --color-paper-soft: #eee8dc;
     --color-white: #ffffff;
-    --color-milk: #f8f8f5;
+    /* [CLIENT] Milky White scheme (2026-11-19): paper #F9F8F0, milk #FDFFF5, highlight #FFFFFF. */
+    --color-milk: #fdfff5;
     --color-milk-highlight: #ffffff;
     --color-milk-shadow: #e5e5e5;
     /* [CLIENT] Approved primary brand colour (2026-11-19); replaces the bright-blue sets. */

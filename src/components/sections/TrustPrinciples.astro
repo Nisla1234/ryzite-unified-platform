@@ -54,7 +54,7 @@ const icons = [
     --neu-raised: 10px 10px 24px var(--neu-dark), -10px -10px 24px var(--neu-light);
     --neu-raised-hover: 14px 14px 30px var(--neu-dark), -14px -14px 30px var(--neu-light);
     --neu-inset: inset 6px 6px 12px var(--neu-dark), inset -6px -6px 12px var(--neu-light);
-    --glass-fill: linear-gradient(145deg, #f8f8f5b8, #f8f8f55c);
+    --glass-fill: linear-gradient(145deg, #fdfff5b8, #fdfff55c);
     --glass-edge: #ffffffcc;
     background: var(--neu-surface);
   }
@@ -116,7 +116,7 @@ const icons = [
 
   /* Without backdrop blur, fall back to a near-opaque card so text stays readable. */
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .trust-card { background: #f8f8f5ee; }
+    .trust-card { background: #fdfff5ee; }
   }
 
   @media (prefers-reduced-transparency: reduce) {

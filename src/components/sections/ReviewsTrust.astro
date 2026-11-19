@@ -128,7 +128,7 @@ const fill = (template: string, key: string, value: string) => template.replace(
     padding: clamp(2rem, 4.5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
     border: 1px solid #e3ecfb;
     border-radius: var(--radius-large);
-    background: linear-gradient(160deg, #f5f9ff 0%, #eaf2ff 100%);
+    background: linear-gradient(160deg, var(--color-milk) 0%, var(--color-paper) 100%);
     overflow: hidden;
   }
   /* Soft brand-blue light behind the glass cards. */
@@ -169,7 +169,7 @@ const fill = (template: string, key: string, value: string) => template.replace(
     padding: clamp(1.4rem, 2.4vw, 1.8rem);
     border: 1px solid #ffffffcc;
     border-radius: var(--radius-medium);
-    background: #f8f8f5a6;
+    background: #fdfff5a6;
     box-shadow: 0 1px 0 #ffffff inset, 0 0 0 1px #dce7fb80, 0 14px 32px #0b1c5814;
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     backdrop-filter: blur(14px) saturate(140%);
@@ -190,7 +190,7 @@ const fill = (template: string, key: string, value: string) => template.replace(
   .review-card__body { flex: 1; margin: 0; color: var(--hs-muted); font-size: 1.0312rem; line-height: 1.6; }
 
   .review-card__quotes { display: grid; gap: .75rem; margin: 0; padding: 0; list-style: none; }
-  .review-card__quotes li { padding: .9rem 1rem; border-radius: .9rem; background: #f8f8f5b3; }
+  .review-card__quotes li { padding: .9rem 1rem; border-radius: .9rem; background: #fdfff5b3; }
   .review-card__quotes blockquote { margin: 0 0 .4rem; }
   .review-card__quotes p { margin: 0; color: var(--hs-ink); font-size: .99rem; line-height: 1.55; }
   .review-card__quotes a { color: var(--hs-blue); font-size: .8938rem; font-weight: 600; text-decoration: none; }

@@ -9,7 +9,7 @@
   --hs-ink: #0a1734;
   --hs-muted: #465771;
   --hs-line: #dce7fb;
-  --hs-pale: #f3f7ff;
+  --hs-pale: var(--color-paper);
   position: relative;
   isolation: isolate;
   overflow: hidden;

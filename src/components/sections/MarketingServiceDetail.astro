@@ -311,7 +311,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail { --marketing-blue: var(--color-brand); --marketing-deep: var(--color-brand); --marketing-ink: #14243a; --marketing-muted: #58677c; color: var(--marketing-ink); background: var(--color-paper); }
   .marketing-detail *, .marketing-detail *::before, .marketing-detail *::after { box-sizing: border-box; }
   .marketing-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
-  .marketing-detail-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame); background: linear-gradient(118deg, #faf8f4, #f3f8ff 64%, #eaf4ff); }
+  .marketing-detail-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame); background: linear-gradient(118deg, var(--color-paper), var(--color-milk-highlight) 64%, var(--color-milk)); }
   .marketing-detail-hero__inner { display: grid; min-height: 490px; grid-template-columns: minmax(0, 1fr) minmax(270px, .7fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); }
   .marketing-detail-hero__copy { position: relative; z-index: 1; max-width: 800px; }
   .marketing-detail-back { display: inline-flex; min-height: 2.75rem; align-items: center; gap: .55rem; margin-bottom: 1.4rem; color: #52647b; font-size: .902rem; font-weight: 600; text-decoration: none; }
@@ -365,7 +365,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-capability-card p { margin: 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.65; }
   .marketing-benefits-section { background: var(--color-milk); }
   .marketing-benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2.8rem 0 0; padding: 0; list-style: none; }
-  .marketing-benefit-card { min-height: 190px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk), #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; }
+  .marketing-benefit-card { min-height: 190px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk-highlight), var(--color-milk)); box-shadow: 0 .8rem 1.8rem #173b7109; }
   .marketing-benefit-card > span { color: var(--marketing-blue); font-size: .748rem; font-weight: 600; letter-spacing: .12em; }
   .marketing-benefit-card p { margin: 2rem 0 0; color: #30435c; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); }
   .marketing-approach-section { background: #f7f9fc; }
