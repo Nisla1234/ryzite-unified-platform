@@ -288,7 +288,7 @@ const labels = {
 <style>
   .site-header {
     --header-blue: var(--color-brand);
-    --header-ink: #132447;
+    --header-ink: var(--color-heading);
     position: sticky;
     top: 0;
     z-index: 30;
@@ -361,6 +361,9 @@ const labels = {
   html[lang='ta'] .project-link, html[lang='si'] .project-link { padding: 13px 17px; font-size: 16.5px; }
   html[lang='ta'] .language-picker > summary, html[lang='si'] .language-picker > summary { font-size: 16.5px; gap: 7px; }
   html[lang='ta'] .header-actions, html[lang='si'] .header-actions { gap: clamp(10px, 1.3vw, 18px); }
+  /* Tamil labels need ~700px; the fixed 320px side columns left 604px, so the nav ran under the
+     language picker. Size the side columns to their content instead. */
+  html[lang='ta'] .header-inner, html[lang='si'] .header-inner { grid-template-columns: auto minmax(0, 1fr) auto; }
   @media (max-width: 1379px) {
     .header-inner { display: flex; justify-content: space-between; }
     .desktop-nav, .desktop-project { display: none; }
@@ -381,7 +384,7 @@ const labels = {
     .mobile-panel { position: absolute; top: 100%; left: 0; right: 0; padding: 12px clamp(20px, 3vw, 54px) 24px; border-bottom: 1px solid #e5e1d9; background: var(--color-paper); box-shadow: 0 18px 28px #153c7a15; max-height: calc(100dvh - 86px); overflow-y: auto; }
     .mobile-panel nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 26px; margin-bottom: 20px; }
     .mobile-panel nav a { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 15px 8px; border-bottom: 1px solid #dfE8f6; font-size: 17.5px; font-weight: 500; }
-    .mobile-panel nav a span { color: #7290b9; }
+    .mobile-panel nav a span[aria-hidden='true'] { color: #4f6b94; }
     .mobile-panel nav a:hover, .mobile-panel nav a[aria-current='page'] { color: var(--header-blue); }
     .mobile-services { grid-column: 1 / -1; }
     .mobile-services > summary { display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 15px 8px; border: 0; border-bottom: 1px solid #dfE8f6; border-radius: 0; background: transparent; color: inherit; font-size: 17.5px; font-weight: 500; }

@@ -90,7 +90,9 @@ textarea {
 html[lang='ta'],
 html[lang='si'] {
     --size-hero: clamp(1.65rem, 3.52vw, 3.74rem);
-    --size-h1: clamp(1.925rem, 1.265rem + 2.75vw, 3.575rem);
+    /* Capped at ~50px: single Tamil words such as "பார்வையாளர்களை" are wider than the
+       page-hero copy column at the larger size and were split mid-word. */
+    --size-h1: clamp(1.8rem, 1.2rem + 2.3vw, 3.1rem);
     --size-h2: clamp(1.54rem, 1.155rem + 1.49vw, 2.475rem);
     --size-h3: clamp(1.1688rem, 1.012rem + 0.72vw, 1.5125rem);
     --leading-hero: 1.35;
@@ -151,8 +153,9 @@ svg {
     background: var(--color-lime);
 }
 
+/* Navy ring for the light pages; dark sections override --color-focus with a light tone. */
 :focus-visible {
-    outline: 3px solid var(--color-lime);
+    outline: 3px solid var(--color-focus);
     outline-offset: 4px;
 }
 

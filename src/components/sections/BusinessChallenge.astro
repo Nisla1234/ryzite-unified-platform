@@ -14,7 +14,7 @@ const challenges = [
 <section class="business-challenge" aria-labelledby="challenge-title" data-business-challenge>
   <header class="challenge-heading">
     <h2 id="challenge-title"><span data-home-key="challengeTitleLead">Is Your Business Facing</span><br /><strong data-home-key="challengeTitleAccent">These Challenges?</strong></h2>
-    <h3><span data-home-key="challengeSubLead">Common problems businesses face online — and why they</span><br class="wide-break" /><span data-home-key="challengeSubAccent">need the right digital solution.</span></h3>
+    <h3><span data-home-key="challengeSubLead">Common problems businesses face online — and why they</span> <br class="wide-break" /><span data-home-key="challengeSubAccent">need the right digital solution.</span></h3>
    <br>
   </header>
   <div class="challenge-scene">
@@ -121,12 +121,16 @@ const challenges = [
   h3 { font-size: 18.5px; font-weight: 700; line-height: 1.2; letter-spacing: -.035em; margin: 0 0 8px; overflow-wrap: anywhere; }.challenge-card p { font-size: 14.5px; line-height: 1.4; color: #465771; margin: 0; overflow-wrap: anywhere; }
   .challenge-cta { position: relative; display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; margin: 36px auto 0; padding: 18px 30px; border-radius: 999px; background: var(--color-brand); color: white; box-shadow: 0 8px 18px #0b1c5835; text-decoration: none; font-size: 17.5px; font-weight: 600; transition: translate .2s; }.challenge-cta span { white-space: nowrap; }.challenge-cta span[aria-hidden="true"] { font-size: 25.5px; line-height: 1; }.challenge-cta:hover { translate: 0 -3px; background: var(--color-brand-hover); }.challenge-cta:focus-visible { outline: 3px solid var(--color-brand); outline-offset: 5px; }
   @media (hover: hover) { .challenge-card:hover { rotate: 0deg; translate: 0 -6px; transform: perspective(800px) rotateX(4deg) rotateY(-4deg); box-shadow: 0 14px 30px #0b1c5824; }.from-right:hover { transform: perspective(800px) rotateX(4deg) rotateY(4deg); } }
+  /* Desktop: the card scene is pulled up beside the heading, so keep the heading inside the
+     centre column. Longer Tamil/Sinhala lines wrap here instead of running under the cards and robots. */
+  @media (min-width: 1101px) { .challenge-heading { max-width: clamp(420px, 36vw, 520px); margin-inline: auto; } }
   @media (max-width: 1100px) { .challenge-scene { margin-top: 25px; }.challenge-list { grid-template-columns: 34% 32% 34%; grid-template-rows: repeat(3, minmax(145px, auto)); gap: 20px 0; }.challenge-card { padding: 15px 12px; gap: 10px; }.challenge-icon { width: 44px; height: 50px; }.challenge-icon svg { width: 30px; height: 30px; }h3 { font-size: 16.5px; }.challenge-card p { font-size: 13px; }.challenge-visual { width: 49%; left: 25.5%; bottom: 25px; } }
   @media (max-width: 700px) { .business-challenge { padding: 50px 22px 12px; }.challenge-heading p { font-size: 15.5px; }.wide-break { display: none; }.challenge-scene { display: flex; flex-direction: column; min-height: 0; margin-top: 12px; }.challenge-visual { position: relative; width: 100%; left: auto; bottom: auto; max-width: 480px; margin: auto; }.challenge-list { grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 18px 14px; }.challenge-card { grid-row: auto; grid-column: auto; rotate: 0deg; flex-direction: column; text-align: center; min-height: 190px; padding: 18px 12px; border: 2px solid white; border-bottom: 4px solid var(--color-brand); border-radius: 20px; }.challenge-icon { width: 48px; height: 48px; }.challenge-cta { font-size: 15.5px; padding: 16px 22px; margin-top: 16px; } }
   @media (max-width: 700px) {
     .challenge-list { row-gap: 42px; padding-top: 25px; }
     .from-left { grid-column: 1; grid-row: calc(var(--order) + 1); }
     .from-right { grid-column: 2; grid-row: calc(var(--order) + 1); }
+    .challenge-card p { font-size: 14px; }
     .challenge-robot { width: 58px; }
   }
   @media (prefers-reduced-motion: reduce) { .challenge-card, .challenge-cta { transition: none; }.challenge-card:hover, .challenge-cta:hover { transform: none; translate: none; } }

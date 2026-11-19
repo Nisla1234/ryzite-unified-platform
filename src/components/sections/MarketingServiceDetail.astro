@@ -308,7 +308,7 @@ const detailTranslations = Object.fromEntries(
 </script>
 
 <style>
-  .marketing-detail { --marketing-blue: var(--color-brand); --marketing-deep: var(--color-brand); --marketing-ink: #14243a; --marketing-muted: #58677c; color: var(--marketing-ink); background: var(--color-paper); }
+  .marketing-detail { --marketing-blue: var(--color-brand); --marketing-deep: var(--color-brand); --marketing-ink: var(--color-heading); --marketing-muted: var(--color-body); color: var(--marketing-ink); background: var(--color-paper); }
   .marketing-detail *, .marketing-detail *::before, .marketing-detail *::after { box-sizing: border-box; }
   .marketing-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
   .marketing-detail-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame); background: linear-gradient(118deg, var(--color-paper), var(--color-milk-highlight) 64%, var(--color-milk)); }
@@ -336,7 +336,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail-hero__spark { position: absolute; color: var(--marketing-blue); }
   .marketing-detail-hero__spark--one { top: 15%; right: 22%; }
   .marketing-detail-hero__spark--two { bottom: 16%; left: 19%; }
-  .marketing-detail-hero__index { position: absolute; right: 1.2rem; bottom: 1rem; color: #617794; font-size: .715rem; font-weight: 600; letter-spacing: .13em; }
+  .marketing-detail-hero__index { position: absolute; right: 1.2rem; bottom: 1rem; color: #617794; font-size: .8125rem; font-weight: 600; letter-spacing: .13em; }
   .marketing-detail-hero__glow { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #0b1c5828, transparent 68%); }
   .marketing-detail-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
   .marketing-detail-split { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 7vw, 7rem); }
@@ -347,7 +347,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail-lead { max-width: 660px; margin: 1rem 0 0; color: var(--marketing-muted); line-height: 1.7; }
   .marketing-detail-numbered-list { display: grid; margin: 0; padding: 0; border-top: 1px solid #dce5f0; list-style: none; }
   .marketing-detail-numbered-list li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); align-items: start; gap: 1rem; padding: 1.3rem .3rem; border-bottom: 1px solid #dce5f0; }
-  .marketing-detail-number { color: var(--marketing-blue); font-size: .748rem; font-weight: 600; letter-spacing: .12em; }
+  .marketing-detail-number { color: var(--marketing-blue); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }
   .marketing-detail-numbered-list p { margin: 0; color: #30435c; line-height: 1.6; }
   .marketing-provides-section { color: #fff; background: #101d32; }
   .marketing-provides-layout { display: grid; grid-template-columns: minmax(180px, .5fr) minmax(0, 1.5fr); align-items: center; gap: clamp(2rem, 7vw, 7rem); }
@@ -360,26 +360,26 @@ const detailTranslations = Object.fromEntries(
   .marketing-capability-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
   .marketing-capability-card { position: relative; min-height: 215px; padding: 1.4rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk), #f7faff); box-shadow: 0 .8rem 1.8rem #173b7109; }
   .marketing-capability-card__icon { display: grid; width: 2.6rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--marketing-blue); background: #eaf3ff; font-size: 1.21rem; }
-  .marketing-capability-card__number { position: absolute; top: 1.5rem; right: 1.4rem; color: #8292a6; font-size: .715rem; font-weight: 600; letter-spacing: .12em; }
+  .marketing-capability-card__number { position: absolute; top: 1.5rem; right: 1.4rem; color: var(--color-text-subtle); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }
   .marketing-capability-card h3 { margin: 1.3rem 0 .5rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .marketing-capability-card p { margin: 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.65; }
   .marketing-benefits-section { background: var(--color-milk); }
   .marketing-benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2.8rem 0 0; padding: 0; list-style: none; }
   .marketing-benefit-card { min-height: 190px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk-highlight), var(--color-milk)); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .marketing-benefit-card > span { color: var(--marketing-blue); font-size: .748rem; font-weight: 600; letter-spacing: .12em; }
+  .marketing-benefit-card > span { color: var(--marketing-blue); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }
   .marketing-benefit-card p { margin: 2rem 0 0; color: #30435c; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); }
   .marketing-approach-section { background: #f7f9fc; }
   .marketing-detail-process { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin: 3.2rem 0 0; padding: 0; list-style: none; }
   .marketing-detail-process::before { position: absolute; top: 1.25rem; right: 8%; left: 8%; height: 1px; background: linear-gradient(90deg, #b9d4f4, var(--color-brand), #b9d4f4); content: ''; }
   .marketing-detail-process li { position: relative; display: grid; min-height: 175px; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 1.5rem; }
-  .marketing-detail-process__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--marketing-blue); background: var(--color-milk); box-shadow: 0 0 0 .35rem #edf5ff; font-size: .748rem; font-weight: 600; }
+  .marketing-detail-process__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--marketing-blue); background: var(--color-milk); box-shadow: 0 0 0 .35rem #edf5ff; font-size: .8125rem; font-weight: 600; }
   .marketing-detail-process h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .marketing-detail-process p { margin: 0; color: var(--marketing-muted); font-size: .968rem; line-height: 1.65; }
   .marketing-related-section { background: var(--color-milk); }
   .marketing-related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
   .marketing-related-card { position: relative; display: flex; min-height: 180px; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: .75rem; padding: 1.4rem; overflow: hidden; border: 1px solid #dce5f0; border-radius: 1.2rem; color: #162942; background: linear-gradient(145deg, var(--color-milk), #f1f7ff); text-decoration: none; transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease; }
   .marketing-related-card:hover { transform: translateY(-4px); border-color: #9fc1eb; box-shadow: 0 1rem 2rem #163f7615; }
-  .marketing-related-card__number { color: #8292a6; font-size: .715rem; font-weight: 600; letter-spacing: .12em; }
+  .marketing-related-card__number { color: var(--color-text-subtle); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }
   .marketing-related-card__icon { position: absolute; top: 1.2rem; right: 1.3rem; display: grid; width: 2.6rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--marketing-blue); background: #eaf3ff; font-family: var(--font-display); font-size: 1.43rem; font-weight: 700; }
   .marketing-related-card__title { max-width: 90%; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .marketing-related-card__arrow { position: absolute; right: 1.2rem; bottom: 1.2rem; color: var(--marketing-blue); font-size: 1.21rem; }
@@ -402,7 +402,7 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail-cta h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .marketing-detail-cta__inner > p:not(.marketing-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }
   .marketing-button--light { color: #12305a; background: var(--color-milk); box-shadow: 0 .7rem 1.7rem #000f3230; }
-  .marketing-button--light:hover { background: #eaf4ff; }
+  .marketing-button--light:hover { background: #eaf4ff; } .marketing-detail .marketing-button.marketing-button--light:focus-visible { outline-color: #fff; }
   .marketing-detail-cta__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
   @media (max-width: 900px) {
     .marketing-detail-hero__inner { min-height: 440px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }

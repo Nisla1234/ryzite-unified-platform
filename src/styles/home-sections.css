@@ -6,8 +6,8 @@
   --hs-blue: var(--color-brand);
   --hs-blue-deep: var(--color-brand);
   --hs-blue-light: var(--color-brand);
-  --hs-ink: #0a1734;
-  --hs-muted: #465771;
+  --hs-ink: var(--color-heading);
+  --hs-muted: var(--color-body);
   --hs-line: #dce7fb;
   --hs-pale: var(--color-paper);
   position: relative;

@@ -12,6 +12,13 @@
     /* [CLIENT] Approved primary brand colour (2026-11-19); replaces the bright-blue sets. */
     --color-brand: #0b1c58;
     --color-brand-hover: #16296f;
+    /* Text colours for light surfaces (readability pass, 2026-11-19): headings, body, and a
+       secondary tone for small labels such as card numbers. All meet WCAG AA on paper/milk
+       (on paper: heading 16.6:1, body 11.9:1, subtle 5.6:1). Dark surfaces keep their own light text. */
+    --color-heading: #0a1734;
+    --color-body: #24334f;
+    --color-text-subtle: #56647a;
+    --color-focus: var(--color-brand);
     --color-muted-dark: #9ca6b2;
     --color-muted-light: #4e555d;
     --color-lime: #c9ff57;
