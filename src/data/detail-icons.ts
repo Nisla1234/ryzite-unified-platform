@@ -54,3 +54,24 @@ export const benefitIcons = [
   '<circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" />',
   '<rect x="5" y="4" width="14" height="17" rx="2" /><path d="M9 4V3h6v1 M8.5 12.5l2.3 2.3 4.7-4.8" />',
 ];
+
+// Capability card icons (24x24 strokes), by position: idea, explore, launch.
+export const capabilityIcons = [
+  '<path d="M9 18h6 M10 21h4 M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z" /><path d="M12 7.5a2.5 2.5 0 0 0-2.5 2.5" />',
+  '<circle cx="10.5" cy="10.5" r="6" /><path d="m15 15 5.5 5.5" /><path d="M8 9a3 3 0 0 1 2.5-1.5" />',
+  '<path d="M12 2.5c3 2 4.5 5.5 4.5 9.5l-2 3.5h-5l-2-3.5c0-4 1.5-7.5 4.5-9.5z" /><circle cx="12" cy="9.5" r="1.8" /><path d="M7.5 12 5 14.5V17l3-1 M16.5 12l2.5 2.5V17l-3-1 M10.5 18.5 12 21l1.5-2.5" />',
+];
+
+// Packages "Scope to Confirm Together" icons (24x24 strokes), in the order of comparisonFeatures:
+// pages, responsive design, content management, contact forms, SEO foundations, custom functionality,
+// integrations, maintenance or support.
+export const scopeIcons = [
+  '<path d="M8 3h7l4 4v11H8z" /><path d="M15 3v4h4" /><path d="M5 7v14h11" />',
+  '<rect x="2.5" y="4" width="13.5" height="10" rx="1.5" /><path d="M1.5 17.5h13" /><rect x="16.5" y="9" width="5.5" height="11" rx="1.5" /><path d="M18.75 17.5h1" />',
+  '<rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18 M9 9v12 M12 13h6 M12 16.5h4" />',
+  '<rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 6.5 8.5 6.5 8.5-6.5" />',
+  serviceIcons['google-seo-and-search-visibility'],
+  solutionIcons['custom-software-for-businesses'],
+  solutionIcons['software-and-api-integrations'],
+  solutionIcons['website-care-and-maintenance'],
+];

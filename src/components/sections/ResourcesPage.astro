@@ -1,5 +1,7 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
+import TabbedCards from '../ui/TabbedCards.astro';
+import { scopeIcons } from '../../data/detail-icons';
 import ChatFaq from '../ui/ChatFaq.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { resourcesTranslations } from '../../data/resources-translations';
@@ -136,28 +138,18 @@ const pageTranslations = Object.fromEntries(
             <h2 id="package-comparison-title" data-resource-key="compareTitle">{packages.compareTitle}</h2>
             <p data-resource-key="compareDescription">{packages.compareDescription}</p>
           </header>
-          <div class="resource-comparison-wrap" data-resource-reveal>
-            <table class="resource-comparison">
-              <thead>
-                <tr>
-                  <th scope="col"></th>
-                  {packages.packageCards.map((packageOption, index) => (
-                    <th scope="col" data-resource-package-name-index={index}>{packageOption.name}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {packages.comparisonFeatures.map((feature, index) => (
-                  <tr>
-                    <th scope="row" data-resource-array="comparisonFeatures" data-resource-index={index}>{feature}</th>
-                    {packages.packageCards.map(() => (
-                      <td data-resource-key="comparisonStatus">{packages.comparisonStatus}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <TabbedCards layout="stack" items={packages.comparisonFeatures.map((feature, index) => ({
+            text: feature,
+            textAttrs: { 'data-resource-array': 'comparisonFeatures', 'data-resource-index': index },
+            icon: scopeIcons[index],
+            attrs: { 'data-resource-reveal': true },
+            tags: packages.packageCards.map((packageOption, packageIndex) => ({
+              label: packageOption.name,
+              labelAttrs: { 'data-resource-package-name-index': packageIndex },
+              value: packages.comparisonStatus,
+              valueAttrs: { 'data-resource-key': 'comparisonStatus' },
+            })),
+          }))} />
         </div>
       </section>
 
@@ -513,14 +505,6 @@ const pageTranslations = Object.fromEntries(
   .resource-text-link span:last-child { transition: transform 180ms ease; }
   .resource-text-link:hover span:last-child { transform: translateX(4px); }
   .resource-comparison-section, .resource-principles-section, .resource-work-section, .resource-articles-section, .resource-approach-section { background: var(--color-milk); }
-  .resource-comparison-wrap { overflow-x: auto; border: 1px solid #dce5f0; border-radius: 1.2rem; background: var(--color-milk); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .resource-comparison { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .resource-comparison th, .resource-comparison td { padding: .9rem 1rem; border-bottom: 1px solid #e1e9f2; color: #40546d; font-size: .913rem; line-height: 1.45; text-align: left; vertical-align: middle; overflow-wrap: anywhere; }
-  .resource-comparison thead th { color: #162942; background: #f1f6fc; font-weight: 600; }
-  .resource-comparison th:first-child { width: 31%; }
-  .resource-comparison tbody th { color: #233a56; font-weight: 600; }
-  .resource-comparison tbody td { color: var(--color-text-subtle); font-size: .814rem; }
-  .resource-comparison tr:last-child > * { border-bottom: 0; }
   .resource-editorial-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .resource-process-section { background: var(--color-paper); }
   .resource-process-list { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin: 3.2rem 0 0; padding: 0; list-style: none; }
@@ -582,19 +566,12 @@ const pageTranslations = Object.fromEntries(
     .resource-section-heading > p { margin-top: .9rem; }
     .resource-package-grid, .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: 1fr; }
     .resource-package-card { padding: 1.25rem; }
-    .resource-comparison th, .resource-comparison td { padding: .7rem .45rem; font-size: .792rem; }
-    .resource-comparison th:first-child { width: 34%; }
-    .resource-comparison tbody td { font-size: .75rem; }
     .resource-editorial-layout { grid-template-columns: 1fr; gap: 1.8rem; }
     .resource-process-list { grid-template-columns: 1fr; gap: 0; margin-top: 2.4rem; }
     .resource-process-step { padding-bottom: 1.7rem; }
     .resource-principle-card, .resource-approach-card, .resource-topic-card { min-height: 175px; }
     .resource-principle-card h3, .resource-approach-card h3, .resource-topic-card h3 { margin-top: 1.5rem; }
     .resource-empty-state { min-height: 250px; padding: 2rem 1.2rem; }
-  }
-  @media (max-width: 360px) {
-    .resource-comparison th, .resource-comparison td { padding-inline: .35rem; }
-    .resource-comparison tbody td { font-size: .75rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .resource-page *, .resource-page *::before, .resource-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
