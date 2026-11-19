@@ -85,7 +85,7 @@ The project currently contains **three different blue sets** and a legacy palett
 - `[BASELINE]` Plain, business-first language; no jargon aimed at technical buyers.
 - `[PROPOSAL]` The "Connected Engine / Signal Path" concept, design tokens, routes, and draft copy
   remain proposals (`AGENTS.md`).
-- `[PROPOSAL]` Hero scene copy ("Grow Beyond Digital.", "Smarter Solutions. Stronger Business.",
+- `[PROPOSAL]` Hero scene copy ("One Agency. All Your Business Solutions." — replaced "Grow Beyond Digital." 2026-11-19 `[CLIENT]`, "Smarter Solutions. Stronger Business.",
   "Let's Build Something Great.") — supplied by the client 2026-11-18 `[CLIENT]`, still draft copy.
 
 ## 4. Calls to action

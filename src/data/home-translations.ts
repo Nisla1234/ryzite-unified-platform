@@ -58,7 +58,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     heroStory: [
       {
         eyebrow: 'RYZITE',
-        title: 'Grow Beyond Digital.',
+        title: 'One Agency. All Your Business Solutions.',
         body: 'We turn your business ideas into powerful digital experiences that drive growth and create new opportunities.',
         cta: 'Explore Solutions',
       },
@@ -140,7 +140,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     heroStory: [
       {
         eyebrow: 'RYZITE',
-        title: 'டிஜிட்டலுக்கு அப்பால் வளருங்கள்.',
+        title: 'ஒரே நிறுவனம். உங்கள் அனைத்து வணிகத் தீர்வுகளும்.',
         body: 'உங்கள் வணிக யோசனைகளை வளர்ச்சியைத் தூண்டும், புதிய வாய்ப்புகளை உருவாக்கும் சக்திவாய்ந்த டிஜிட்டல் அனுபவங்களாக மாற்றுகிறோம்.',
         cta: 'தீர்வுகளை ஆராயுங்கள்',
       },
@@ -222,7 +222,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     heroStory: [
       {
         eyebrow: 'RYZITE',
-        title: 'ඩිජිටල් ඉක්මවා වර්ධනය වන්න.',
+        title: 'එක් ආයතනයක්. ඔබේ සියලු ව්‍යාපාරික විසඳුම්.',
         body: 'ඔබේ ව්‍යාපාරික අදහස් වර්ධනය ඇති කරන සහ නව අවස්ථා නිර්මාණය කරන ප්‍රබල ඩිජිටල් අත්දැකීම් බවට අපි පත් කරමු.',
         cta: 'විසඳුම් ගවේෂණය කරන්න',
       },
