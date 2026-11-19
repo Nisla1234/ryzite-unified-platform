@@ -43,7 +43,6 @@ const approachSteps = stepKeys.map((key) => ({
           <img src="/images/about/team-hands-together.webp" alt="A smiling team seen from above, joining hands in a circle around a burst of light." width="736" height="736" fetchpriority="high" decoding="async" />
         </figure>
       </div>
-      <div class="about-hero__footer" aria-hidden="true"><span>RYZITE / ABOUT</span><span>Ideas into possibilities <b>↓</b></span></div>
     </section>
 
     <section class="about-section who-section" aria-labelledby="who-title">
@@ -67,15 +66,21 @@ const approachSteps = stepKeys.map((key) => ({
         </header>
         <div class="purpose-grid">
           <article class="purpose-card" data-reveal>
-            <span class="purpose-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M24 5v38M5 24h38M10.6 10.6l26.8 26.8m0-26.8L10.6 37.4"/><circle cx="24" cy="24" r="10"/></svg></span>
-            <span class="purpose-card__index">01</span>
-            <h3 data-about-key="missionTitle">Our Mission</h3>
+            <div class="purpose-card__head">
+              <div>
+                <h3 data-about-key="missionTitle">Our Mission</h3>
+              </div>
+              <span class="purpose-card__icon purpose-card__icon--contain"><img src="/images/about/mission.webp" alt="" width="450" height="450" loading="lazy" decoding="async" /></span>
+            </div>
             <p data-about-key="missionBody">To empower businesses with accessible, innovative, and reliable digital solutions that improve efficiency, strengthen their online presence, and support sustainable growth.</p>
           </article>
           <article class="purpose-card purpose-card--blue" data-reveal>
-            <span class="purpose-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M4 24s7.3-12 20-12 20 12 20 12-7.3 12-20 12S4 24 4 24Z"/><circle cx="24" cy="24" r="6"/></svg></span>
-            <span class="purpose-card__index">02</span>
-            <h3 data-about-key="visionTitle">Our Vision</h3>
+            <div class="purpose-card__head">
+              <div>
+                <h3 data-about-key="visionTitle">Our Vision</h3>
+              </div>
+              <span class="purpose-card__icon"><img src="/images/about/vision.webp" alt="" width="735" height="490" loading="lazy" decoding="async" /></span>
+            </div>
             <p data-about-key="visionBody">To become a trusted digital solutions partner, helping businesses of all sizes embrace technology, unlock new opportunities, and succeed in an evolving digital world.</p>
           </article>
         </div>
@@ -90,7 +95,7 @@ const approachSteps = stepKeys.map((key) => ({
         </header>
         <div class="division-grid">
           <article class="division-card division-card--marketing" data-reveal>
-            <div class="division-card__top"><span class="division-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><path d="M7 21h8l20-9v24l-20-9H7v-6Zm8 6 4 12h8l-6-15m14-10 7-5m-7 23 7 5M15 21v6"/><path d="M39 17a10 10 0 0 1 0 14"/></svg></span><span class="division-card__index">01</span></div>
+            <figure class="division-card__art"><img src="/images/divisions/marketing-division.webp" alt="A strategist talking through business questions and growth data with two clients" width="736" height="411" loading="lazy" decoding="async" /></figure>
             <h3 data-about-key="marketingTitle">Marketing Services</h3>
             <p class="division-card__description" data-about-key="marketingBody">We help businesses build their brands, improve online visibility, reach the right audiences, and turn digital engagement into meaningful business opportunities.</p>
             <p class="division-card__list-label" data-about-key="marketingListLabel">Explore services such as</p>
@@ -103,7 +108,7 @@ const approachSteps = stepKeys.map((key) => ({
             <a class="division-card__link" href="/services/#services"><span data-about-key="marketingCta">Explore Marketing Services</span><span aria-hidden="true"><ArrowUpRight /></span></a>
           </article>
           <article class="division-card division-card--technology" data-reveal>
-            <div class="division-card__top"><span class="division-card__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none"><rect x="5" y="8" width="38" height="27" rx="3"/><path d="M17 42h14m-7-7v7M16 18l-5 4 5 4m16-8 5 4-5 4m-5-7-4 6"/></svg></span><span class="division-card__index">02</span></div>
+            <figure class="division-card__art"><img src="/images/divisions/technology-division.webp" alt="Connected devices, buildings and systems linked to a central digital network" width="735" height="490" loading="lazy" decoding="async" /></figure>
             <h3 data-about-key="technologyTitle">Technology Solutions</h3>
             <p class="division-card__description" data-about-key="technologyBody">We design and develop websites, e-commerce platforms, mobile applications, custom software, and automation solutions that help businesses operate smarter.</p>
             <p class="division-card__list-label" data-about-key="technologyListLabel">Explore solutions such as</p>
@@ -261,8 +266,6 @@ const approachSteps = stepKeys.map((key) => ({
   .visual-node--one { top: 16%; left: 16%; }.visual-node--two { top: 24%; right: 8%; }.visual-node--three { right: 18%; bottom: 12%; }
   .visual-caption { position: absolute; bottom: 7%; left: 50%; width: max-content; transform: translateX(-50%); color: #667891; font-size: .8125rem; font-weight: 600; letter-spacing: .16em; }
   .visual-caption i { margin-inline: .5rem; color: var(--about-cyan); font-style: normal; }
-  .about-hero__footer { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: clamp(2rem, 5vw, 4rem) auto 0; padding-top: 1rem; border-top: 1px solid rgb(19 51 91 / 12%); color: var(--color-text-subtle); font-size: .77rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-  .about-hero__footer b { margin-left: .6rem; color: var(--about-blue); font-size: 1.1rem; }
 
   .about-section { padding-block: var(--space-section); }
   .who-section { background: var(--color-milk); }
@@ -294,20 +297,24 @@ const approachSteps = stepKeys.map((key) => ({
   .purpose-card { position: relative; min-height: 320px; padding: clamp(1.7rem, 3.5vw, 3rem); overflow: hidden; border: 1px solid #dce7f4; border-radius: var(--radius-medium); background: rgb(253 255 245 / 88%); box-shadow: 0 1rem 2.7rem rgb(20 51 91 / 5%); transition: transform var(--duration-medium) var(--ease-out), box-shadow var(--duration-medium) ease; }
   .purpose-card:hover { transform: translateY(-5px); box-shadow: 0 1.5rem 3rem rgb(20 51 91 / 10%); }
   .purpose-card--blue { color: #fff; border-color: var(--color-brand); background: var(--color-brand); }
-  .purpose-card__icon { display: grid; width: 3.1rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f6; border-radius: 1rem; color: var(--about-blue); background: #f2f7ff; }
-  .purpose-card--blue .purpose-card__icon { color: #fff; border-color: #ffffff50; background: #ffffff18; }
-  .purpose-card__icon svg { width: 1.8rem; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .purpose-card__index { position: absolute; top: 2.3rem; right: 2.5rem; color: var(--color-text-subtle); font-size: .8125rem; font-weight: 600; letter-spacing: .15em; }.purpose-card--blue .purpose-card__index { color: #b9d8ff; }
-  .purpose-card h3 { margin: 2rem 0 .7rem; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.purpose-card p { max-width: 620px; margin: 0; color: var(--about-muted); line-height: 1.75; }.purpose-card--blue p { color: #dfebff; }
+  .purpose-card__head { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; margin-bottom: 1.2rem; }
+  .purpose-card__icon { display: block; flex-shrink: 0; width: clamp(6rem, 22%, 7.5rem); aspect-ratio: 1; overflow: hidden; border: 3px solid #cfe0f6; border-radius: 50%; background: #fff; }
+  .purpose-card--blue .purpose-card__icon { border-color: #ffffff50; }
+  .purpose-card__icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .purpose-card__icon--contain img { padding: 16%; object-fit: contain; }
+
+  .purpose-card h3 { margin: 0; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.purpose-card p { max-width: 620px; margin: 0; color: var(--about-muted); line-height: 1.75; }.purpose-card--blue p { color: #dfebff; }
 
   .divisions-section { background: var(--color-milk); }
   .divisions-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, .62fr); align-items: end; gap: 3rem; }.divisions-heading > p { max-width: 450px; margin: 0 0 .4rem; color: var(--about-muted); line-height: 1.75; }
   .division-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2.4vw, 2rem); margin-top: clamp(2.5rem, 5vw, 4rem); }
-  .division-card { display: flex; min-width: 0; flex-direction: column; padding: clamp(1.5rem, 3vw, 2.7rem); border: 1px solid #dce4ee; border-radius: var(--radius-medium); background: var(--color-milk); box-shadow: 0 .8rem 2rem rgb(17 47 89 / 4%); transition: transform var(--duration-medium) var(--ease-out), box-shadow var(--duration-medium) ease, border-color var(--duration-medium) ease; }
+  .division-card { --division-pad: clamp(1.5rem, 3vw, 2.7rem); display: flex; min-width: 0; flex-direction: column; overflow: hidden; padding: var(--division-pad); border: 1px solid #dce4ee; border-radius: var(--radius-medium); background: var(--color-milk); box-shadow: 0 .8rem 2rem rgb(17 47 89 / 4%); transition: transform var(--duration-medium) var(--ease-out), box-shadow var(--duration-medium) ease, border-color var(--duration-medium) ease; }
   .division-card:hover { transform: translateY(-5px); border-color: #b6d1f4; box-shadow: 0 1.3rem 2.8rem rgb(17 47 89 / 9%); }
+  .division-card__art { margin: calc(var(--division-pad) * -1) calc(var(--division-pad) * -1) var(--division-pad); aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(160deg, #f3f7ff, #e3eeff); }
+  .division-card__art img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .division-card:hover .division-card__art img { transform: scale(1.04); }
   .division-card--technology { background: linear-gradient(150deg, var(--color-milk), #f0f6ff); }
-  .division-card__top { display: flex; align-items: center; justify-content: space-between; }.division-card__icon { display: grid; width: 3.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: 1.1rem; color: var(--about-blue); background: #eaf3ff; transition: transform var(--duration-medium) var(--ease-out), background var(--duration-medium) ease; }.division-card:hover .division-card__icon { transform: rotate(-5deg) scale(1.05); background: #dcecff; }.division-card__icon svg { width: 1.9rem; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }.division-card__index { color: var(--color-text-subtle); font-size: .8125rem; font-weight: 600; letter-spacing: .16em; }
-  .division-card h3 { margin: 1.5rem 0 .65rem; color: #14243b; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.division-card__description { min-height: 5.5rem; margin: 0; color: var(--about-muted); line-height: 1.7; }.division-card__list-label { margin: 1.3rem 0 .65rem; color: #334761; font-size: .836rem; font-weight: 600; letter-spacing: .04em; }
+  .division-card h3 { margin: 0 0 .65rem; color: #14243b; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }.division-card__description { min-height: 5.5rem; margin: 0; color: var(--about-muted); line-height: 1.7; }.division-card__list-label { margin: 1.3rem 0 .65rem; color: #334761; font-size: .836rem; font-weight: 600; letter-spacing: .04em; }
   .division-tags { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: 0; }.division-tags li { padding: .43rem .67rem; border: 1px solid #d5e3f3; border-radius: 999px; color: #31506f; background: var(--color-milk); font-size: .792rem; font-weight: 500; line-height: 1.35; }
   .division-card__link { display: flex; min-height: 3.2rem; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.5rem; color: var(--about-blue); font-size: .99rem; font-weight: 600; text-decoration: none; }.division-card__link span:last-child { transition: transform var(--duration-fast) var(--ease-out); }.division-card__link:hover span:last-child { transform: translateX(4px); }
 
@@ -337,7 +344,7 @@ const approachSteps = stepKeys.map((key) => ({
   }
   @media (max-width: 720px) {
     .section-shell { padding-inline: 1rem; }
-    .about-hero { padding: 4rem 1rem 1.4rem; }.about-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1rem; }.about-hero__copy { position: relative; z-index: 2; }.about-hero__description { margin-top: 1.2rem; }.about-hero__visual { width: min(82vw, 390px); margin: .3rem auto 0; }.about-hero__footer { margin-top: 1.3rem; font-size: .75rem; letter-spacing: .08em; }
+    .about-hero { padding: 4rem 1rem 1.4rem; }.about-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1rem; }.about-hero__copy { position: relative; z-index: 2; }.about-hero__description { margin-top: 1.2rem; }.about-hero__visual { width: min(82vw, 390px); margin: .3rem auto 0; }
     .about-section { padding-block: clamp(4.5rem, 16vw, 6.5rem); }.who-layout { grid-template-columns: 1fr; gap: 2rem; }.who-art { min-height: 360px; }
     .purpose-grid, .division-grid { grid-template-columns: 1fr; }.purpose-card { min-height: 280px; }.divisions-heading { grid-template-columns: 1fr; gap: 1rem; }.divisions-heading > p { max-width: 620px; }.division-card__description { min-height: 0; }
     .why-layout { grid-template-columns: 1fr; gap: 1.5rem; }.why-heading { position: relative; top: auto; }.why-mark { display: none; }.why-grid { grid-template-columns: 1fr; }.why-feature, .why-feature:nth-child(odd), .why-feature:nth-child(even) { padding: 1.25rem 0; border-right: 0; border-left: 0; }
@@ -350,7 +357,7 @@ const approachSteps = stepKeys.map((key) => ({
     .who-art__panel--small { bottom: 34%; }.who-art__spark--two { bottom: 36%; }
   }
   @media (max-width: 420px) {
-    .about-hero__actions { align-items: stretch; flex-direction: column; }.about-button { width: 100%; }.about-hero__visual { width: min(88vw, 340px); }.about-hero__footer span:last-child { text-align: right; }.who-art { min-height: 330px; }.who-art__caption strong { max-width: 80%; font-size: .902rem; }.purpose-card__index { right: 1.5rem; }.division-card { padding: 1.3rem; }.division-tags { gap: .4rem; }.division-tags li { font-size: .8125rem; }
+    .about-hero__actions { align-items: stretch; flex-direction: column; }.about-button { width: 100%; }.about-hero__visual { width: min(88vw, 340px); }.who-art { min-height: 330px; }.who-art__caption strong { max-width: 80%; font-size: .902rem; }.division-card { --division-pad: 1.3rem; }.division-tags { gap: .4rem; }.division-tags li { font-size: .8125rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .about-page *, .about-page *::before, .about-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
