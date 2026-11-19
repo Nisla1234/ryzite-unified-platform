@@ -18,7 +18,7 @@ const challenges = [
    <br>
   </header>
   <div class="challenge-scene">
-    <div class="challenge-visual" aria-hidden="true"><img src="/images/business-challenge.webp" alt="" width="1536" height="1024" loading="lazy" /></div>
+    <div class="challenge-visual" aria-hidden="true"><img src="/images/business-challenge-network.webp" alt="" width="735" height="420" loading="lazy" /></div>
     <ul class="challenge-list">
       {challenges.map((challenge, index) => (
         <li class:list={['challenge-card', index < 3 ? 'from-left' : 'from-right']} style={`--order:${index % 3};--tilt:${[-7, 2, -4, -7, 1, 5][index]}deg`}>
@@ -113,7 +113,7 @@ const challenges = [
   .heading-swoosh { display: block; width: 130px; height: 12px; margin: 18px auto 0; border-top: 5px solid var(--color-brand); border-radius: 50%; rotate: -5deg; }
   .challenge-scene { position: relative; max-width: 1380px; margin: -60px auto 0; min-height: 500px; }
   .challenge-robot { position: absolute; top: 0; left: 0; width: clamp(64px, 6.5vw, 90px); height: auto; z-index: 3; pointer-events: none; opacity: 0; visibility: hidden; filter: drop-shadow(0 5px 5px #0b1c582b); transform-origin: 50% 90%; }
-  .challenge-visual { position: absolute; width: 60%; left: 20%; bottom: -15px; pointer-events: none; }.challenge-visual img { display: block; width: 100%; height: auto; mix-blend-mode: multiply; }
+  .challenge-visual { position: absolute; width: 36%; left: 32%; top: 50%; translate: 0 -50%; pointer-events: none; }.challenge-visual img { display: block; width: 100%; height: auto; border: 2px solid white; border-radius: 24px; box-shadow: 0 14px 32px #0b1c5833; }
   .challenge-list { position: relative; display: grid; grid-template-columns: 31% 38% 31%; grid-template-rows: repeat(3, minmax(130px, auto)); gap: 30px 0; margin: 0; padding: 0; list-style: none; }
   .challenge-card { position: relative; display: flex; align-items: center; gap: 16px; padding: 20px 22px; border: 2px solid white; border-left: 7px solid var(--color-brand); border-radius: 26px; background: linear-gradient(135deg, var(--color-milk-highlight), var(--color-milk) 55%, #f0f0eb); box-shadow: 0 9px 24px #0b1c5824; rotate: var(--tilt); transform-style: preserve-3d; transition: rotate .25s, translate .25s, box-shadow .25s, border-color .25s; }
   .from-left { grid-column: 1; grid-row: calc(var(--order) + 1); }.from-right { grid-column: 3; grid-row: calc(var(--order) + 1); border-left: 2px solid white; border-right: 7px solid var(--color-brand); }
@@ -124,8 +124,8 @@ const challenges = [
   /* Desktop: the card scene is pulled up beside the heading, so keep the heading inside the
      centre column. Longer Tamil/Sinhala lines wrap here instead of running under the cards and robots. */
   @media (min-width: 1101px) { .challenge-heading { max-width: clamp(420px, 36vw, 520px); margin-inline: auto; } }
-  @media (max-width: 1100px) { .challenge-scene { margin-top: 25px; }.challenge-list { grid-template-columns: 34% 32% 34%; grid-template-rows: repeat(3, minmax(145px, auto)); gap: 20px 0; }.challenge-card { padding: 15px 12px; gap: 10px; }.challenge-icon { width: 44px; height: 50px; }.challenge-icon svg { width: 30px; height: 30px; }h3 { font-size: 16.5px; }.challenge-card p { font-size: 13px; }.challenge-visual { width: 49%; left: 25.5%; bottom: 25px; } }
-  @media (max-width: 700px) { .business-challenge { padding: 50px 22px 12px; }.challenge-heading p { font-size: 15.5px; }.wide-break { display: none; }.challenge-scene { display: flex; flex-direction: column; min-height: 0; margin-top: 12px; }.challenge-visual { position: relative; width: 100%; left: auto; bottom: auto; max-width: 480px; margin: auto; }.challenge-list { grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 18px 14px; }.challenge-card { grid-row: auto; grid-column: auto; rotate: 0deg; flex-direction: column; text-align: center; min-height: 190px; padding: 18px 12px; border: 2px solid white; border-bottom: 4px solid var(--color-brand); border-radius: 20px; }.challenge-icon { width: 48px; height: 48px; }.challenge-cta { font-size: 15.5px; padding: 16px 22px; margin-top: 16px; } }
+  @media (max-width: 1100px) { .challenge-scene { margin-top: 25px; }.challenge-list { grid-template-columns: 34% 32% 34%; grid-template-rows: repeat(3, minmax(145px, auto)); gap: 20px 0; }.challenge-card { padding: 15px 12px; gap: 10px; }.challenge-icon { width: 44px; height: 50px; }.challenge-icon svg { width: 30px; height: 30px; }h3 { font-size: 16.5px; }.challenge-card p { font-size: 13px; }.challenge-visual { width: 30%; left: 35%; } }
+  @media (max-width: 700px) { .business-challenge { padding: 50px 22px 12px; }.challenge-heading p { font-size: 15.5px; }.wide-break { display: none; }.challenge-scene { display: flex; flex-direction: column; min-height: 0; margin-top: 12px; }.challenge-visual { position: relative; width: 100%; left: auto; top: auto; translate: none; max-width: 480px; margin: 0 auto 8px; }.challenge-list { grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 18px 14px; }.challenge-card { grid-row: auto; grid-column: auto; rotate: 0deg; flex-direction: column; text-align: center; min-height: 190px; padding: 18px 12px; border: 2px solid white; border-bottom: 4px solid var(--color-brand); border-radius: 20px; }.challenge-icon { width: 48px; height: 48px; }.challenge-cta { font-size: 15.5px; padding: 16px 22px; margin-top: 16px; } }
   @media (max-width: 700px) {
     .challenge-list { row-gap: 42px; padding-top: 25px; }
     .from-left { grid-column: 1; grid-row: calc(var(--order) + 1); }
