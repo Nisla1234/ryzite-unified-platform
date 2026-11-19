@@ -96,19 +96,22 @@ const pageTranslations = Object.fromEntries(
                   aria-label={`${copy.exploreService}: ${service.title}`}
                   data-marketing-card-link={service.slug}
                 >
+                  <span class="marketing-service-card__pin" aria-hidden="true"></span>
                   <span class="marketing-service-card__media">
                     {servicePhotos[service.slug] ? (
                       <img class="marketing-service-card__photo" src={marketingServicePhotoSrc(service.slug)} alt="" width={servicePhotos[service.slug].width} height={servicePhotos[service.slug].height} loading="lazy" decoding="async" />
                     ) : (
                       <MarketingServiceArt slug={service.slug} />
                     )}
+                  </span>
+                  <div class="marketing-service-card__panel">
                     <span class="marketing-service-card__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  </span>
-                  <h3 data-marketing-service-field="title" data-marketing-service-slug={service.slug}>{service.title}</h3>
-                  <p data-marketing-service-field="description" data-marketing-service-slug={service.slug}>{service.description}</p>
-                  <span class="marketing-service-card__more">
-                    <span data-marketing-key="exploreService">{copy.exploreService}</span><span aria-hidden="true"><ArrowUpRight /></span>
-                  </span>
+                    <h3 data-marketing-service-field="title" data-marketing-service-slug={service.slug}>{service.title}</h3>
+                    <p data-marketing-service-field="description" data-marketing-service-slug={service.slug}>{service.description}</p>
+                    <span class="marketing-service-card__more">
+                      <span data-marketing-key="exploreService">{copy.exploreService}</span><span aria-hidden="true"><ArrowUpRight /></span>
+                    </span>
+                  </div>
                 </a>
               </article>
             );
@@ -281,23 +284,30 @@ const pageTranslations = Object.fromEntries(
   .marketing-hero__glow { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #0b1c5828, transparent 68%); }
   .marketing-section-heading h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .marketing-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
-  .marketing-service-section { background: var(--color-paper); }
   .marketing-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
   .marketing-section-heading > p { max-width: 520px; margin: 0; color: var(--marketing-muted); line-height: 1.7; }
   .marketing-section-heading .marketing-eyebrow { margin-bottom: .9rem; }
-  .marketing-service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-  .marketing-service-card { min-width: 0; scroll-margin-top: 7rem; }
-  .marketing-service-card__link { position: relative; display: flex; min-height: 290px; height: 100%; flex-direction: column; align-items: flex-start; padding: 1.45rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); color: var(--marketing-ink); background: linear-gradient(145deg, var(--color-milk), #f7faff); box-shadow: 0 .8rem 1.8rem #173b7109; text-decoration: none; transition: transform 200ms var(--ease-out), border-color 200ms ease, box-shadow 200ms ease; }
-  .marketing-service-card__link:hover { transform: translateY(-5px); border-color: #9fc1eb; box-shadow: 0 1rem 2rem #163f7615; }
-  /* Illustration banner across the top of the card; negative margins cancel the card padding. */
-  .marketing-service-card__media { position: relative; display: block; align-self: stretch; aspect-ratio: 16 / 9; margin: -1.45rem -1.45rem 0; overflow: hidden; border-radius: calc(var(--radius-medium) - 1px) calc(var(--radius-medium) - 1px) 0 0; background: var(--color-brand); }
+  /* Pinned-note layout (client reference 2026-11-19): tilted notes, coloured pins, dashed links. */
+  .marketing-service-section { background: var(--color-milk); }
+  .marketing-service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3.2rem 3rem; padding-top: 1.5rem; }
+  .marketing-service-card { --note-tilt: -2.5deg; --note-tint: #fff3eb; --note-line: #fbd9c4; --note-accent: #e8662f; --pin: #f07a45; --pin-dark: #c84a17; position: relative; min-width: 0; scroll-margin-top: 7rem; }
+  .marketing-service-card:nth-child(3n+2) { --note-tilt: 2.5deg; --note-tint: #ecf2ff; --note-line: #cddcfb; --note-accent: #0655e9; --pin: #3f7cf2; --pin-dark: #0643cf; margin-top: 3rem; }
+  .marketing-service-card:nth-child(3n) { --note-tilt: -1.5deg; --note-tint: #f3edff; --note-line: #dccffb; --note-accent: #6d4bd8; --pin: #8a6cf0; --pin-dark: #5734c4; }
+  .marketing-service-card:not(:nth-child(3n)):not(:last-child)::after { content: ''; position: absolute; z-index: 0; top: 46%; right: -3.2rem; width: 3.4rem; height: 2.4rem; border-top: 2px dashed #b4c2d6; border-radius: 50% 50% 0 0; pointer-events: none; }
+  .marketing-service-card:nth-child(3n+2)::after { top: 30%; transform: scaleY(-1); }
+  .marketing-service-card__link { position: relative; z-index: 1; display: flex; height: 100%; flex-direction: column; padding: .85rem; border: 1px solid #edf1f6; border-radius: 1.6rem; color: var(--marketing-ink); background: #fff; box-shadow: 0 1.4rem 2.6rem rgb(22 41 66 / 10%), 0 .2rem .5rem rgb(22 41 66 / 5%); text-decoration: none; transform: rotate(var(--note-tilt)); transition: transform 320ms var(--ease-out), box-shadow 320ms ease; }
+  .marketing-service-card__link:hover { transform: rotate(0deg) translateY(-6px); box-shadow: 0 1.8rem 3.2rem rgb(22 41 66 / 16%); }
+  .marketing-service-card__pin { position: absolute; z-index: 2; top: -1.05rem; left: 50%; width: 1.9rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / 85%) 0 12%, var(--pin) 34%, var(--pin-dark) 100%); box-shadow: 0 .55rem .9rem rgb(22 41 66 / 28%), 0 0 1rem color-mix(in srgb, var(--pin) 45%, transparent); transform: translateX(-50%); }
+  .marketing-service-card__pin::after { content: ''; position: absolute; top: 78%; left: 50%; width: .9rem; height: .5rem; border-radius: 50%; background: var(--pin-dark); transform: translateX(-50%); }
+  .marketing-service-card__media { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 1.1rem; background: var(--color-brand); }
   .marketing-service-card__photo { display: block; width: 100%; height: 100%; object-fit: cover; }
   .marketing-service-card__media :global(.marketing-art), .marketing-service-card__photo { transition: scale 400ms var(--ease-out); }
   .marketing-service-card__link:hover .marketing-service-card__media :global(.marketing-art), .marketing-service-card__link:hover .marketing-service-card__photo { scale: 1.05; }
-  .marketing-service-card__number { position: absolute; top: .8rem; right: .8rem; padding: .3rem .6rem; border-radius: 999px; color: #fff; background: rgb(10 23 52 / 40%); backdrop-filter: blur(6px); font-family: var(--font-body); font-size: .8125rem; font-weight: var(--weight-strong); letter-spacing: .12em; }
-  .marketing-service-card h3 { max-width: 95%; margin: 1.3rem 0 .55rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .marketing-service-card p { margin: 0; color: var(--marketing-muted); font-size: 1.001rem; line-height: 1.65; }
-  .marketing-service-card__more { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .75rem; margin-top: auto; padding-top: 1.35rem; color: var(--marketing-blue); font-size: .924rem; font-weight: 600; }
+  .marketing-service-card__panel { display: flex; flex: 1; flex-direction: column; margin-top: .75rem; padding: 1.15rem 1.2rem 1.1rem; border: 1px solid var(--note-line); border-radius: 1.1rem; background: var(--note-tint); }
+  .marketing-service-card__number { color: var(--note-accent); font-family: var(--font-display); font-size: 1.6rem; font-weight: 400; font-style: italic; letter-spacing: .02em; line-height: 1; }
+  .marketing-service-card h3 { margin: .6rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h4); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .marketing-service-card p { margin: 0; color: var(--marketing-muted); font-size: .95rem; line-height: 1.6; }
+  .marketing-service-card__more { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .75rem; margin-top: auto; padding-top: 1.1rem; color: var(--note-accent); font-size: .924rem; font-weight: 600; }
   .marketing-service-card__more span:last-child { transition: transform 180ms ease; }
   .marketing-service-card__link:hover .marketing-service-card__more span:last-child { transform: translateX(4px); }
   .marketing-why-section { background: var(--color-milk); }
@@ -343,7 +353,9 @@ const pageTranslations = Object.fromEntries(
   .marketing-closing__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
   @media (max-width: 900px) {
     .marketing-hero__inner { min-height: 480px; grid-template-columns: minmax(0, 1fr) minmax(230px, .7fr); gap: 1.5rem; }
-    .marketing-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .marketing-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 2.4rem; }
+    .marketing-service-card:nth-child(n) { margin-top: 0; }.marketing-service-card:nth-child(2n) { margin-top: 2.5rem; }
+    .marketing-service-grid .marketing-service-card:nth-child(n)::after { display: none; }.marketing-service-grid .marketing-service-card:nth-child(2n+1):not(:last-child)::after { display: block; top: 46%; right: -2.6rem; width: 2.8rem; transform: none; }
     .marketing-why-layout, .marketing-faq-layout { grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
     .marketing-process { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .marketing-process::before { display: none; }
@@ -360,7 +372,9 @@ const pageTranslations = Object.fromEntries(
     .marketing-section-heading { display: block; margin-bottom: 1.8rem; }
     .marketing-section-heading > p { margin-top: .9rem; }
     .marketing-service-grid, .marketing-why-grid { grid-template-columns: 1fr; }
-    .marketing-service-card__link { min-height: 245px; }
+    .marketing-service-grid { gap: 2.6rem; }
+    .marketing-service-card:nth-child(n) { margin-top: 0; }.marketing-service-grid .marketing-service-card:nth-child(n):nth-child(n)::after { display: none; }
+    .marketing-service-card:nth-child(odd) { margin-right: 6%; }.marketing-service-card:nth-child(even) { margin-left: 6%; }
     .marketing-why-layout, .marketing-faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }
     .marketing-why-card { min-height: 180px; }
     .marketing-why-card h3 { margin-top: 1.5rem; }
@@ -370,11 +384,10 @@ const pageTranslations = Object.fromEntries(
     .marketing-closing { min-height: 350px; padding-inline: 1rem; }
   }
   @media (max-width: 360px) {
-    .marketing-service-card__link { padding: 1.2rem; }
-    .marketing-service-card__media { margin: -1.2rem -1.2rem 0; }
+    .marketing-service-card:nth-child(n) { margin-inline: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .marketing-services-page *, .marketing-services-page *::before, .marketing-services-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-    .marketing-service-card__link:hover, .marketing-button:hover { transform: none; }
+    .marketing-service-card__link:hover { transform: rotate(var(--note-tilt)); }.marketing-button:hover { transform: none; }
   }
 </style>
