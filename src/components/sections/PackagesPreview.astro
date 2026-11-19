@@ -104,7 +104,7 @@ const featureCount = 4;
   }
   .packages-heading > p:not(.hs-eyebrow) { color: #f2f7ff; }
 
-  .packages-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); perspective: 1300px; }
+  .packages-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); padding-top: 1.5rem; }
   .package-card {
     position: relative;
     isolation: isolate;
@@ -115,12 +115,11 @@ const featureCount = 4;
     overflow: hidden;
     border: 1px solid rgb(220 231 251 / 94%);
     border-radius: 1.6rem;
-    background: rgb(255 255 255 / 90%);
+    background: rgb(248 248 245 / 90%);
     box-shadow: 0 16px 38px rgb(2 16 66 / 22%), 0 3px 8px rgb(2 16 66 / 10%), inset 0 1px 0 rgb(255 255 255 / 90%);
     backdrop-filter: blur(18px) saturate(110%);
     -webkit-backdrop-filter: blur(18px) saturate(110%);
-    transform: perspective(1000px) translate3d(0, 0, 0) scale(1);
-    transform-style: preserve-3d;
+    transform: translateY(0) scale(1);
     transition: transform 420ms cubic-bezier(.2, .8, .2, 1), opacity 420ms cubic-bezier(.2, .8, .2, 1), border-color 420ms cubic-bezier(.2, .8, .2, 1), box-shadow 420ms cubic-bezier(.2, .8, .2, 1);
   }
   /* Top glow, shown on hover or keyboard focus. */
@@ -138,7 +137,7 @@ const featureCount = 4;
     z-index: 2;
     border-color: rgb(6 85 233 / 48%);
     box-shadow: 0 24px 54px rgb(2 16 66 / 30%), 0 0 0 1px rgb(6 85 233 / 14%), inset 0 1px 0 rgb(255 255 255 / 92%);
-    transform: perspective(1000px) translate3d(0, -20px, 0) scale(1.06);
+    transform: translateY(-12px) scale(1.03);
   }
   .package-card:is(:hover, :focus-within, [data-active="true"]) {
     z-index: 5;
@@ -148,11 +147,11 @@ const featureCount = 4;
   .package-card:is(:hover, :focus-within, [data-active="true"])::before { opacity: 1; }
   .package-card:focus-visible { outline: 3px solid #078be9; outline-offset: 4px; }
   .package-card:nth-child(2):is(:hover, :focus-within, [data-active="true"]) {
-    transform: perspective(1000px) translate3d(0, -30px, 46px) scale(1.095);
+    transform: translateY(-18px) scale(1.04);
   }
   @media (hover: hover) {
-    .package-card:hover { transform: perspective(1000px) translate3d(0, -28px, 36px) scale(1.055); }
-    .package-card:nth-child(2):hover { transform: perspective(1000px) translate3d(0, -30px, 46px) scale(1.095); }
+    .package-card:hover { transform: translateY(-10px) scale(1.015); }
+    .package-card:nth-child(2):hover { transform: translateY(-18px) scale(1.04); }
   }
   .packages-grid:has(.package-card:is(:hover, :focus-within, [data-active="true"])) .package-card:not(:hover, :focus-within, [data-active="true"]) { opacity: .76; }
 
@@ -196,18 +195,17 @@ const featureCount = 4;
     .packages-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; padding-inline: .5rem; }
     .package-card { min-height: 0; }
     .package-card__body { margin-top: 2rem; }
-    .package-card:nth-child(2) { transform: perspective(1000px) translate3d(0, -10px, 0) scale(1.025); }
-    .package-card:nth-child(2):is(:hover, :focus-within, [data-active="true"]) { transform: perspective(1000px) translate3d(0, -18px, 28px) scale(1.045); }
-  }
-  @media (max-width: 1000px) and (hover: hover) {
-    .package-card:nth-child(2):hover { transform: perspective(1000px) translate3d(0, -18px, 28px) scale(1.045); }
+    .packages-grid { gap: 1.5rem; padding-top: 0; }
+    .package-card, .package-card:nth-child(2), .package-card:is(:hover, :focus-within, [data-active="true"]), .package-card:nth-child(2):is(:hover, :focus-within, [data-active="true"]) { transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .package-card, .package-card::before, .package-card__cta { transition: none; }
     .package-card__cta:hover { transform: none; }
     .package-card:is(:hover, :focus-within, [data-active="true"]) { transform: none; }
-    .package-card:nth-child(2) { transform: translateY(-10px) scale(1.03); }
-    .package-card:nth-child(2):is(:hover, :focus-within, [data-active="true"]) { transform: translateY(-10px) scale(1.03); }
+    .package-card:nth-child(2):is(:hover, :focus-within, [data-active="true"]) { transform: translateY(-12px) scale(1.03); }
+  }
+  @media (prefers-reduced-motion: reduce) and (max-width: 1000px) {
+    .package-card:nth-child(2):is(:hover, :focus-within, [data-active="true"]) { transform: none; }
   }
 </style>
 

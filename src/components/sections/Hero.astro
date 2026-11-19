@@ -529,7 +529,7 @@ const sceneLayout = [
 
   .video-hero__button--ghost {
     border: 2px solid #fff;
-    background: linear-gradient(135deg, #ffffff, #edf3ff);
+    background: linear-gradient(135deg, var(--color-milk), #edf3ff);
     box-shadow: 0 9px 24px #2b6ad124;
     color: var(--hero-accent);
   }
@@ -580,14 +580,47 @@ const sceneLayout = [
       margin-top: -70px;
     }
 
+    /* The footage is 16:9. Filling a tall phone screen would upscale it ~3.5x (blurry) and crop
+       the robot to a sliver, so on phones the video keeps its own 16:9 box in the lower part of
+       the stage, below the copy. The robot is centred in the footage, so centring that box on
+       --robot-x places the robot there on every phone height (hero-video-story.ts reads the box
+       to keep the wave gap on the robot; it also moves --robot-x-mobile right → left → right with
+       the scenes and sets --robot-in-footage, since the robot walks off-centre by scene 3). Its top edge fades into the background. */
+    .video-hero {
+      --mobile-video-height: 50svh;
+      --robot-x-mobile: 74%;
+      --robot-in-footage: .5; /* robot's x inside the footage, as a fraction of its width */
+    }
+
     .video-hero__poster,
     .video-hero__video {
-      -webkit-mask-image: none;
-      mask-image: none;
+      top: auto;
+      right: auto;
+      bottom: 0;
+      /* clamp() keeps the box covering both screen edges, whichever side the robot is on. */
+      left: clamp(
+        calc(100% - var(--mobile-video-height) * 16 / 9),
+        calc(var(--robot-x-mobile) - var(--mobile-video-height) * 16 / 9 * var(--robot-in-footage)),
+        0px
+      );
+      width: calc(var(--mobile-video-height) * 16 / 9);
+      max-width: none;
+      height: var(--mobile-video-height);
+      object-position: 50% 50%;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+    }
+
+    .video-hero__media {
+      background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg) 46%, #c9dbe2 62%, #b5cdd9 100%);
+    }
+
+    .video-hero__fill {
+      display: none;
     }
 
     .video-hero__overlay {
-      background: linear-gradient(180deg, rgb(223 233 241 / 92%) 0%, rgb(223 233 241 / 70%) 34%, transparent 58%);
+      background: linear-gradient(180deg, rgb(223 233 241 / 60%) 0%, transparent 40%);
     }
 
     /* On phones the copy stacks above the robot instead of beside it. */
@@ -603,6 +636,12 @@ const sceneLayout = [
 
     .video-hero:not(.is-animated) .video-hero__panel[data-video-panel="0"] {
       transform: none;
+    }
+
+    /* While the robot is on the left (scene 2), right-align the copy so the CTA stays clear of it. */
+    .video-hero__panel--right {
+      align-items: flex-end;
+      text-align: right;
     }
 
     .video-hero__eyebrow {
