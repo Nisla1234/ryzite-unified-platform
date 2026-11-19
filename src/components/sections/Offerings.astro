@@ -70,7 +70,97 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
 })}
 
 <script>
+  import { gsap } from 'gsap';
   import { initSolutionCardStory } from '../../scripts/solution-card-story';
+
+  const initializeStandaloneSolutionIntro = () => {
+    const section = document.querySelector<HTMLElement>('.solutions[data-standalone="true"]');
+    if (!section || section.dataset.solutionIntroReady) return;
+    section.dataset.solutionIntroReady = 'true';
+
+    const heading = section.querySelector<HTMLElement>('.section-intro');
+    const cards = [...section.querySelectorAll<HTMLElement>('.roadmap-stop')];
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!heading || !cards.length || motionPreference.matches || !('IntersectionObserver' in window)) return;
+
+    const observers: IntersectionObserver[] = [];
+    const revealHeading = () => {
+      gsap.fromTo(heading, { autoAlpha: 0, y: 16 }, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity,visibility',
+      });
+    };
+
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const target = entry.target as HTMLElement;
+          currentObserver.unobserve(target);
+          gsap.fromTo(target, { autoAlpha: 0, y: 24 }, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity,visibility',
+          });
+        });
+      }, { threshold: 0.12 });
+      observers.push(observer);
+      observer.observe(heading);
+      cards.forEach((card) => observer.observe(card));
+    } else {
+      const observer = new IntersectionObserver(([entry], currentObserver) => {
+        if (!entry.isIntersecting) return;
+        currentObserver.disconnect();
+        const grid = section.querySelector<HTMLElement>('.roadmap')!;
+        const gridBounds = grid.getBoundingClientRect();
+        const centerX = gridBounds.left + gridBounds.width / 2;
+        const centerY = gridBounds.top + Math.min(gridBounds.height / 2, window.innerHeight * 0.62);
+        const timeline = gsap.timeline();
+
+        revealHeading();
+        cards.forEach((card, index) => {
+          const bounds = card.getBoundingClientRect();
+          gsap.set(card, {
+            x: centerX - (bounds.left + bounds.width / 2),
+            y: centerY - (bounds.top + bounds.height / 2),
+            rotation: index % 2 ? 8 : -8,
+            scale: 0.72,
+            autoAlpha: 0,
+            zIndex: cards.length - index,
+          });
+          timeline.to(card, {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            scale: 1,
+            autoAlpha: 1,
+            duration: 0.75,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity,visibility,zIndex',
+          }, index * 0.08);
+        });
+      }, { threshold: 0.08 });
+      observers.push(observer);
+      observer.observe(section);
+    }
+
+    const finishWithoutMotion = (event: MediaQueryListEvent) => {
+      if (!event.matches) return;
+      observers.forEach((observer) => observer.disconnect());
+      gsap.killTweensOf([heading, ...cards]);
+      gsap.set([heading, ...cards], { clearProps: 'all' });
+    };
+    motionPreference.addEventListener('change', finishWithoutMotion);
+    document.addEventListener('astro:before-swap', () => {
+      observers.forEach((observer) => observer.disconnect());
+      motionPreference.removeEventListener('change', finishWithoutMotion);
+    }, { once: true });
+  };
 
   const initializeRoadmaps = () => {
     document.querySelectorAll<HTMLElement>('.snake-roadmap').forEach((roadmap) => {
@@ -178,8 +268,9 @@ const selected = division ? divisions.filter((item) => item.id === division) : d
     });
   };
   initializeRoadmaps();
+  initializeStandaloneSolutionIntro();
   initSolutionCardStory();
-  document.addEventListener('astro:page-load', () => { initializeRoadmaps(); initSolutionCardStory(); });
+  document.addEventListener('astro:page-load', () => { initializeRoadmaps(); initializeStandaloneSolutionIntro(); initSolutionCardStory(); });
 </script>
 
 <style>
