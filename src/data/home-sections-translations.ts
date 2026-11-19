@@ -114,7 +114,7 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
         { title: 'Clear Proposals', body: 'Your project scope and next steps are set out in a proposal for you to review and approve.' },
         { title: 'Transparent Communication', body: 'Decisions, questions, and progress are kept easy to understand throughout the project.' },
         { title: 'Professional Project Delivery', body: 'Work follows an agreed process, with reviews for functionality, responsiveness, and accessibility.' },
-        { title: 'Proper Handover', body: 'When the project is complete, you receive the agreed handover and documentation.' },
+        { title: 'Ongoing Maintenance', body: 'After launch, optional care and maintenance keeps your website updated and running smoothly.' },
       ],
     },
     faq: {
@@ -212,7 +212,7 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
         { title: 'தெளிவான முன்மொழிவுகள்', body: 'உங்கள் திட்டப் பணிவரம்பும் அடுத்த படிகளும் நீங்கள் மதிப்பாய்வு செய்து ஒப்புதல் அளிக்க ஒரு முன்மொழிவில் குறிப்பிடப்படும்.' },
         { title: 'வெளிப்படையான தொடர்பு', body: 'முடிவுகள், கேள்விகள் மற்றும் முன்னேற்றம் திட்டம் முழுவதும் எளிதில் புரியும் வகையில் வைக்கப்படும்.' },
         { title: 'தொழில்முறை திட்ட வழங்கல்', body: 'செயல்பாடு, பதிலளிக்கும் தன்மை மற்றும் அணுகல்தன்மை மதிப்பாய்வுகளுடன், ஒப்புக்கொண்ட செயல்முறையின்படி பணி நடைபெறும்.' },
-        { title: 'முறையான ஒப்படைப்பு', body: 'திட்டம் நிறைவடைந்ததும், ஒப்புக்கொண்ட ஒப்படைப்பையும் ஆவணங்களையும் பெறுவீர்கள்.' },
+        { title: 'தொடர் பராமரிப்பு', body: 'வெளியீட்டுக்குப் பிறகு, விருப்பத்தேர்வான பராமரிப்புச் சேவை உங்கள் இணையதளத்தைப் புதுப்பித்து சீராக இயங்க வைக்கும்.' },
       ],
     },
     faq: {
@@ -310,7 +310,7 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
         { title: 'පැහැදිලි යෝජනා', body: 'ඔබේ ව්‍යාපෘති පරාසය සහ ඊළඟ පියවර ඔබට සමාලෝචනය කර අනුමත කිරීමට යෝජනාවක සඳහන් කෙරේ.' },
         { title: 'විනිවිද පෙනෙන සන්නිවේදනය', body: 'තීරණ, ප්‍රශ්න සහ ප්‍රගතිය ව්‍යාපෘතිය පුරා පහසුවෙන් තේරුම් ගත හැකි ලෙස තබා ගැනේ.' },
         { title: 'වෘත්තීය ව්‍යාපෘති ඉටු කිරීම', body: 'ක්‍රියාකාරීත්වය, ප්‍රතිචාරාත්මක බව සහ ප්‍රවේශ්‍යතාව සමාලෝචනය සමඟ එකඟ වූ ක්‍රියාවලියක් අනුව වැඩ සිදු කෙරේ.' },
-        { title: 'නිසි භාරදීම', body: 'ව්‍යාපෘතිය අවසන් වූ විට, එකඟ වූ භාරදීම සහ ලේඛන ඔබට ලැබේ.' },
+        { title: 'අඛණ්ඩ නඩත්තුව', body: 'දියත් කිරීමෙන් පසු, විකල්ප රැකවරණ සහ නඩත්තු සේවාව ඔබේ වෙබ් අඩවිය යාවත්කාලීනව සහ සුමටව ක්‍රියාත්මක කරයි.' },
       ],
     },
     faq: {
