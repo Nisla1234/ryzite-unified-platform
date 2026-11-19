@@ -37,7 +37,6 @@ const heroImages: Partial<Record<ResourcePage, { src: string; alt: string; width
   articles: { src: '/images/resources/articles-hero.webp', alt: 'A person working at a laptop in a modern office, with content and data panels flowing through the air.', width: 735, height: 522 },
 };
 const heroImage = heroImages[page];
-const closingCtaHref = page === 'articles' ? '/solutions/' : '/contact/';
 const packageContactHref = '/contact/?package=guidance';
 const canonicalUrl = new URL(paths[page], Astro.url).href;
 const pageTranslations = Object.fromEntries(
@@ -311,16 +310,6 @@ const pageTranslations = Object.fromEntries(
       </section>
     </>}
 
-    <section class="resource-closing" aria-labelledby="resource-closing-title">
-      <div class="resource-closing__orb" aria-hidden="true"></div>
-      <div class="resource-closing__inner" data-resource-reveal>
-        <h2 id="resource-closing-title" data-resource-key="closingTitle">{copy.closingTitle}</h2>
-        <p data-resource-key="closingDescription">{copy.closingDescription}</p>
-        <a class="resource-button resource-button--light" href={closingCtaHref}>
-          <span data-resource-key="closingCta">{copy.closingCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
-        </a>
-      </div>
-    </section>
   </div>
 </MainLayout>
 
@@ -571,14 +560,6 @@ const pageTranslations = Object.fromEntries(
   .resource-editorial-list li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem; padding: 1.1rem .2rem; border-bottom: 1px solid #d7e1ee; }
   .resource-editorial-list li > span { color: var(--resource-blue); font-size: .8125rem; font-weight: 600; }
   .resource-editorial-list p { margin: 0; color: #30435c; font-weight: 600; line-height: 1.55; }
-  .resource-closing { position: relative; isolation: isolate; display: grid; min-height: 380px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: var(--color-brand); text-align: center; }
-  .resource-closing__inner { position: relative; z-index: 1; width: min(100%, 800px); }
-  .resource-closing .resource-eyebrow { justify-content: center; color: #b9dbff; }
-  .resource-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); overflow-wrap: anywhere; }
-  .resource-closing__inner > p:not(.resource-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }
-  .resource-button--light { color: #12305a; background: var(--color-milk); box-shadow: 0 .7rem 1.7rem #000f3230; }
-  .resource-button--light:hover { background: #eaf4ff; } .resource-button.resource-button--light:focus-visible { outline-color: #fff; }
-  .resource-closing__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
   @media (max-width: 900px) {
     .resource-hero__inner { min-height: 450px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }
     .resource-package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -610,7 +591,6 @@ const pageTranslations = Object.fromEntries(
     .resource-principle-card, .resource-approach-card, .resource-topic-card { min-height: 175px; }
     .resource-principle-card h3, .resource-approach-card h3, .resource-topic-card h3 { margin-top: 1.5rem; }
     .resource-empty-state { min-height: 250px; padding: 2rem 1.2rem; }
-    .resource-closing { min-height: 350px; padding-inline: 1rem; }
   }
   @media (max-width: 360px) {
     .resource-comparison th, .resource-comparison td { padding-inline: .35rem; }
