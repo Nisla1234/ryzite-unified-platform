@@ -45,6 +45,8 @@ const initializeProcessRoad = () => {
 
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const wide = window.matchMedia('(min-width: 900px)');
+  const startLeft = section.dataset.startSide === 'left';
+  const endRight = section.dataset.endSide === 'right';
   // Path length (0–1) and y position of the start, each badge, and the end.
   let keys: { y: number; at: number }[] = [];
   let frame = 0;
@@ -68,11 +70,11 @@ const initializeProcessRoad = () => {
 
     const anchors: Anchor[] = [];
     if (wide.matches) {
-      // Start at a knob on the top-right edge, like a road unrolling from a spool.
-      anchors.push({ x: width - 14, y: 0, key: -1 });
+      // Start at a knob on the top edge (right by default, left when the first step is on the left).
+      anchors.push({ x: startLeft ? 16 : width - 14, y: 0, key: -1 });
       badges.forEach((badge, index) => anchors.push({ ...badge, key: index }));
-      // Finish by sweeping down to a knob on the bottom-left edge.
-      anchors.push({ x: 16, y: height - 14, key: -2 });
+      // Finish by sweeping down to a knob on the bottom edge (left by default).
+      anchors.push({ x: endRight ? width - 16 : 16, y: height - 14, key: -2 });
     } else {
       // Narrow screens: a gentle wave down the badge column.
       anchors.push({ x: badges[0].x, y: -10, key: -1 });
@@ -108,7 +110,7 @@ const initializeProcessRoad = () => {
     const ends = [anchors[0], anchors[anchors.length - 1]];
     knobs.forEach((knob, knobIndex) => {
       const end = ends[knobIndex];
-      const side = knobIndex === 0 ? 1 : -1;
+      const side = (knobIndex === 0 ? !startLeft : endRight) ? 1 : -1;
       [knob.querySelector('.process-road__knob-shadow'), knob.querySelector('.process-road__knob-cap')].forEach((part, index) => {
         if (!part || !end) return;
         const visible = wide.matches;

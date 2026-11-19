@@ -153,6 +153,10 @@ svg {
     background: var(--color-lime);
 }
 
+/* Two-colour main headings (src/scripts/bicolor-headings.ts): the ending switches to brand blue. */
+.bicolor__accent { color: var(--color-brand); }
+.bicolor--on-dark .bicolor__accent { color: #7cc0ff; }
+
 /* Navy ring for the light pages; dark sections override --color-focus with a light tone. */
 :focus-visible {
     outline: 3px solid var(--color-focus);
