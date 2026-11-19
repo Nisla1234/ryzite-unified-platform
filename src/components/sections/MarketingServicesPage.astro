@@ -48,10 +48,6 @@ const pageTranslations = Object.fromEntries(
       faqTitle: translation.faqTitle,
       faqEyebrow: translation.faqEyebrow,
       faqs: translation.faqs,
-      closingTitle: translation.closingTitle,
-      closingEyebrow: translation.closingEyebrow,
-      closingDescription: translation.closingDescription,
-      closingCta: translation.closingCta,
       services: Object.fromEntries(marketingServices.map(({ slug }) => {
         const service = translation.services[slug];
         return [slug, { title: service.title, description: service.description }];
@@ -246,17 +242,6 @@ const wideRoad = [
       </div>
     </section>
     <script type="application/ld+json" set:html={faqSchema} />
-
-    <section class="marketing-closing" aria-labelledby="marketing-closing-title">
-      <div class="marketing-closing__orb" aria-hidden="true"></div>
-      <div class="marketing-closing__inner" data-marketing-reveal>
-        <h2 id="marketing-closing-title" data-marketing-key="closingTitle">{copy.closingTitle}</h2>
-        <p data-marketing-key="closingDescription">{copy.closingDescription}</p>
-        <a class="marketing-button marketing-button--light" href="/contact/">
-          <span data-marketing-key="closingCta">{copy.closingCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
-        </a>
-      </div>
-    </section>
   </div>
 </MainLayout>
 
@@ -452,14 +437,6 @@ const wideRoad = [
   .marketing-faq-item[open] .marketing-faq-item__answer { grid-template-rows: 1fr; }
   .marketing-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.7; }
   .marketing-faq-item[open] .marketing-faq-item__answer p { padding-bottom: 1.1rem; }
-  .marketing-closing { position: relative; isolation: isolate; display: grid; min-height: 390px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: var(--color-brand); text-align: center; }
-  .marketing-closing__inner { position: relative; z-index: 1; width: min(100%, 800px); }
-  .marketing-closing .marketing-eyebrow { justify-content: center; color: #b9dbff; }
-  .marketing-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
-  .marketing-closing__inner > p:not(.marketing-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }
-  .marketing-button--light { color: #12305a; background: var(--color-milk); box-shadow: 0 .7rem 1.7rem #000f3230; }
-  .marketing-button--light:hover { background: #eaf4ff; } .marketing-button.marketing-button--light:focus-visible { outline-color: #fff; }
-  .marketing-closing__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
   @media (max-width: 1000px) {
     .marketing-road { --road-col: 96px; --road-w: 34px; }
     .marketing-road__svg--wide { display: none; }
@@ -495,7 +472,6 @@ const wideRoad = [
     .marketing-service-card:nth-child(n) { margin-top: 0; }.marketing-service-grid .marketing-service-card:nth-child(n):nth-child(n)::after { display: none; }
     .marketing-service-card:nth-child(odd) { margin-right: 6%; }.marketing-service-card:nth-child(even) { margin-left: 6%; }
     .marketing-faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }
-    .marketing-closing { min-height: 350px; padding-inline: 1rem; }
   }
   @media (max-width: 360px) {
     .marketing-service-card:nth-child(n) { margin-inline: 0; }
