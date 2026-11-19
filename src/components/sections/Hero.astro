@@ -630,7 +630,8 @@ const sceneLayout = [
        to keep the wave gap on the robot; it also moves --robot-x-mobile right → left → right with
        the scenes and sets --robot-in-footage, since the robot walks off-centre by scene 3). Its top edge fades into the background. */
     .video-hero {
-      --mobile-video-height: 50svh;
+      /* Short enough that the robot's head starts below the copy instead of behind it. */
+      --mobile-video-height: 42svh;
       --robot-x-mobile: 74%;
       --robot-in-footage: .5; /* robot's x inside the footage, as a fraction of its width */
     }
@@ -640,18 +641,21 @@ const sceneLayout = [
       top: auto;
       right: auto;
       bottom: 0;
-      /* clamp() keeps the box covering both screen edges, whichever side the robot is on. */
-      left: clamp(
+      /* max() keeps the box covering the right screen edge. It may start right of the left edge
+         (robot on the right of a narrow box); the left fade in the mask blends that edge in. */
+      left: max(
         calc(100% - var(--mobile-video-height) * 16 / 9),
-        calc(var(--robot-x-mobile) - var(--mobile-video-height) * 16 / 9 * var(--robot-in-footage)),
-        0px
+        calc(var(--robot-x-mobile) - var(--mobile-video-height) * 16 / 9 * var(--robot-in-footage))
       );
       width: calc(var(--mobile-video-height) * 16 / 9);
       max-width: none;
       height: var(--mobile-video-height);
       object-position: 50% 50%;
-      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
-      mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+      /* Short top fade: a longer one faded out the robot's head. */
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%), linear-gradient(90deg, transparent 0%, #000 14%);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(180deg, transparent 0%, #000 6%), linear-gradient(90deg, transparent 0%, #000 14%);
+      mask-composite: intersect;
     }
 
     .video-hero__media {
