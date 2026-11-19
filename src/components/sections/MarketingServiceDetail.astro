@@ -169,7 +169,6 @@ const detailTranslations = Object.fromEntries(
         <ul class="marketing-benefit-grid">
           {copy.benefitTemplates.map((template, index) => (
             <li class="marketing-benefit-card" data-marketing-reveal>
-              <span>0{index + 1}</span>
               <p data-marketing-template-array="benefitTemplates" data-marketing-index={index}>{template.replace('{focus}', translatedService.focus)}</p>
             </li>
           ))}
@@ -386,9 +385,8 @@ const detailTranslations = Object.fromEntries(
   .marketing-capability-card p { margin: 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.65; }
   .marketing-benefits-section { background: var(--color-milk); }
   .marketing-benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2.8rem 0 0; padding: 0; list-style: none; }
-  .marketing-benefit-card { min-height: 190px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk-highlight), var(--color-milk)); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .marketing-benefit-card > span { color: var(--marketing-blue); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }
-  .marketing-benefit-card p { margin: 2rem 0 0; color: #30435c; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); }
+  .marketing-benefit-card { padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk-highlight), var(--color-milk)); box-shadow: 0 .8rem 1.8rem #173b7109; }
+  .marketing-benefit-card p { margin: 0; color: #30435c; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); }
   .marketing-approach-section { background: #f7f9fc; }
   .marketing-related-section { background: var(--color-milk); }
   .marketing-related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; }
@@ -427,8 +425,6 @@ const detailTranslations = Object.fromEntries(
     .marketing-detail-split, .marketing-provides-layout, .marketing-detail-faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }
     .marketing-provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }
     .marketing-capability-grid, .marketing-benefit-grid, .marketing-related-grid { grid-template-columns: 1fr; }
-    .marketing-benefit-card { min-height: 145px; }
-    .marketing-benefit-card p { margin-top: 1.3rem; }
     .marketing-related-card { min-height: 145px; }
   }
   @media (prefers-reduced-motion: reduce) {
