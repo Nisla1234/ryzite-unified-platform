@@ -97,7 +97,7 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
       intro: 'A general overview of how project payments may be structured.',
       steps: [
         { title: 'Initial Payment', body: 'An initial payment to begin the project, as set out in your proposal.' },
-        { title: 'Milestone Payments', body: 'Payments linked to agreed project milestones, where your proposal includes them.' },
+        { title: 'Milestone Payments', body: 'Payments linked to agreed project milestones, with 0% interest, where your proposal includes them.' },
         { title: 'Final Payment & Handover', body: 'A final payment on completion, followed by the agreed project handover.' },
       ],
     },
@@ -195,7 +195,7 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
       intro: 'திட்டக் கட்டணங்கள் எவ்வாறு அமைக்கப்படலாம் என்பதற்கான பொதுவான கண்ணோட்டம்.',
       steps: [
         { title: 'ஆரம்பக் கட்டணம்', body: 'உங்கள் முன்மொழிவில் குறிப்பிட்டுள்ளபடி, திட்டத்தைத் தொடங்குவதற்கான ஆரம்பக் கட்டணம்.' },
-        { title: 'கட்டவாரியான கட்டணங்கள்', body: 'உங்கள் முன்மொழிவில் சேர்க்கப்பட்டிருந்தால், ஒப்புக்கொண்ட திட்டக் கட்டங்களுடன் இணைந்த கட்டணங்கள்.' },
+        { title: 'கட்டவாரியான கட்டணங்கள்', body: 'உங்கள் முன்மொழிவில் சேர்க்கப்பட்டிருந்தால், ஒப்புக்கொண்ட திட்டக் கட்டங்களுடன் இணைந்த 0% வட்டியிலான கட்டணங்கள்.' },
         { title: 'இறுதிக் கட்டணம் & ஒப்படைப்பு', body: 'திட்டம் நிறைவடைந்ததும் இறுதிக் கட்டணம், அதைத் தொடர்ந்து ஒப்புக்கொண்ட திட்ட ஒப்படைப்பு.' },
       ],
     },
@@ -293,7 +293,7 @@ export const homeSectionsTranslations: Record<'en' | 'ta' | 'si', HomeSectionsCo
       intro: 'ව්‍යාපෘති ගෙවීම් සකස් කළ හැකි ආකාරය පිළිබඳ සාමාන්‍ය දළ විශ්ලේෂණයක්.',
       steps: [
         { title: 'මූලික ගෙවීම', body: 'ඔබේ යෝජනාවේ සඳහන් පරිදි, ව්‍යාපෘතිය ආරම්භ කිරීම සඳහා මූලික ගෙවීමක්.' },
-        { title: 'අදියර ගෙවීම්', body: 'ඔබේ යෝජනාවට ඇතුළත් නම්, එකඟ වූ ව්‍යාපෘති අදියරවලට සම්බන්ධ ගෙවීම්.' },
+        { title: 'අදියර ගෙවීම්', body: 'ඔබේ යෝජනාවට ඇතුළත් නම්, එකඟ වූ ව්‍යාපෘති අදියරවලට සම්බන්ධ 0% පොලී ගෙවීම්.' },
         { title: 'අවසන් ගෙවීම සහ භාරදීම', body: 'ව්‍යාපෘතිය අවසන් වූ පසු අවසන් ගෙවීමක්, ඉන්පසු එකඟ වූ ව්‍යාපෘති භාරදීම.' },
       ],
     },
