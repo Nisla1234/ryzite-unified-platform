@@ -69,7 +69,7 @@ const pageTranslations = Object.fromEntries(
           </div>
         )}
       </div>
-      <div class="resource-hero__edge" aria-hidden="true"><span>RYZITE / RESOURCES</span><span>IDEAS INTO ACTION <b>↓</b></span></div>
+      {page !== 'packages' && <div class="resource-hero__edge" aria-hidden="true"><span>RYZITE / RESOURCES</span><span>IDEAS INTO ACTION <b>↓</b></span></div>}
     </section>
 
     {packages && <>
