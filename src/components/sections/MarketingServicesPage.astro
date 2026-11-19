@@ -212,6 +212,7 @@ const wideRoad = [
             <path class="marketing-road__asphalt" d={processRoad} vector-effect="non-scaling-stroke" />
             <path class="marketing-road__dash" d={processRoad} vector-effect="non-scaling-stroke" />
           </svg>
+          <img class="marketing-road__car" src="/images/process-road-car.webp" alt="" width="320" height="199" loading="lazy" decoding="async" />
           <ol class="marketing-process">
             {copy.processSteps.map((step, index) => (
               <li class:list={['marketing-process__step', index % 2 === 0 ? 'is-low' : 'is-high']} style={`--col: ${index + 1}; --pin-y: ${wideY(index) / wideBand}; --road-x: ${roadX(index) / 200};`} data-marketing-process-step={index} data-marketing-reveal>
@@ -329,6 +330,10 @@ const wideRoad = [
   }
 </script>
 
+<script>
+  import '../../scripts/road-car';
+</script>
+
 <style>
   .marketing-services-page { --marketing-blue: var(--color-brand); --marketing-deep: var(--color-brand); --marketing-ink: var(--color-heading); --marketing-muted: var(--color-body); color: var(--marketing-ink); background: var(--color-paper); }
   .marketing-services-page *, .marketing-services-page *::before, .marketing-services-page *::after { box-sizing: border-box; }
@@ -402,6 +407,9 @@ const wideRoad = [
   .marketing-section-heading--center .marketing-eyebrow { justify-content: center; }
   .marketing-section-heading--center h2 { max-width: var(--measure-h2-wide); }
   .marketing-section-heading--center > p:last-child { max-width: 680px; margin: .9rem 0 0; color: var(--marketing-muted); line-height: 1.7; }
+  /* Process intro reads as a clear subheading, not muted body copy, sitting close under the title. */
+  .marketing-process-section .marketing-section-heading--center { gap: 0; }
+  .marketing-process-section .marketing-section-heading--center > p:last-child { max-width: 880px; margin-top: .75rem; text-wrap: balance; color: var(--marketing-ink); font-size: clamp(1.1rem, 1.6vw, 1.3rem); font-weight: 500; line-height: 1.55; }
   /* Winding-road process (client reference 2026-11-19): asphalt road with white edges, a raised side,
      dashed centre line and map pins. Strokes don't scale, so the road keeps its width at any size.
      Desktop: road crosses the section in switchbacks with steps above/below. Phones: road runs down the left. */
@@ -415,6 +423,10 @@ const wideRoad = [
   .marketing-road__dash { stroke: #fff; stroke-width: 2.5px; stroke-dasharray: 12 11; }
   .marketing-road__svg--wide { top: 50%; left: 0; width: 100%; height: var(--band); transform: translateY(-50%); }
   .marketing-road__svg--tall { display: none; }
+  /* Decorative car driven along the road by road-car.ts; hidden until the script places it.
+     Same stacking level as the pins but earlier in the DOM, so it passes under them. */
+  .marketing-road__car { position: absolute; z-index: 1; top: 0; left: 0; display: none; width: clamp(64px, 6.5vw, 92px); height: auto; filter: drop-shadow(0 6px 6px rgb(10 23 52 / 30%)); pointer-events: none; will-change: transform; }
+  .marketing-road.has-car .marketing-road__car { display: block; }
   .marketing-process { position: relative; display: grid; grid-template-columns: repeat(var(--steps), minmax(0, 1fr)); grid-template-rows: 1fr var(--band) 1fr; column-gap: .9rem; margin: 0; padding: 0; list-style: none; }
   .marketing-process__step { position: relative; grid-column: var(--col); display: flex; flex-direction: column; }
   .marketing-process__step.is-high { grid-row: 1; justify-content: flex-end; }
@@ -453,6 +465,7 @@ const wideRoad = [
     .marketing-road__svg--wide { display: none; }
     .marketing-road__svg--tall { top: 0; bottom: 0; left: 0; display: block; width: var(--road-col); height: 100%; }
     .marketing-road__dash { stroke-width: 2px; stroke-dasharray: 9 9; }
+    .marketing-road__car { width: 54px; }
     .marketing-process { grid-template-columns: var(--road-col) minmax(0, 1fr); grid-template-rows: none; grid-auto-rows: minmax(150px, 1fr); column-gap: 0; }
     .marketing-process__step.is-high, .marketing-process__step.is-low { grid-column: 2; grid-row: auto; justify-content: center; }
     .is-high .marketing-process__pin, .is-low .marketing-process__pin { top: 50%; left: calc(var(--road-col) * (var(--road-x) - 1)); width: 2.8rem; }
