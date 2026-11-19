@@ -37,6 +37,7 @@ type HomeCopy = {
   viewDetails: string;
   footerTagline: string;
   footerExplore: string;
+  footerFollow: string;
   footerMore: string;
   footerConnect: string;
   footerLinkHome: string;
@@ -120,6 +121,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     viewDetails: 'View details',
     footerTagline: 'One Agency. All Your Business Solutions.',
     footerExplore: 'Explore',
+    footerFollow: 'Follow Us',
     footerMore: 'More',
     footerConnect: 'Let’s connect',
     footerLinkHome: 'Home',
@@ -201,6 +203,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     viewDetails: 'விவரங்களைப் பார்க்க',
     footerTagline: 'ஒரே முகமை. உங்கள் அனைத்து வணிகத் தீர்வுகளும்.',
     footerExplore: 'ஆராயுங்கள்',
+    footerFollow: 'எங்களைப் பின்தொடருங்கள்',
     footerMore: 'மேலும்',
     footerConnect: 'இணைவோம்',
     footerLinkHome: 'முகப்பு',
@@ -282,6 +285,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     viewDetails: 'විස්තර බලන්න',
     footerTagline: 'එක් ආයතනයක්. ඔබේ සියලු ව්‍යාපාර විසඳුම්.',
     footerExplore: 'ගවේෂණය කරන්න',
+    footerFollow: 'අපව අනුගමනය කරන්න',
     footerMore: 'තව',
     footerConnect: 'සම්බන්ධ වෙමු',
     footerLinkHome: 'මුල් පිටුව',

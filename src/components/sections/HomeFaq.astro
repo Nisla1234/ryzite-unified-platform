@@ -9,7 +9,21 @@ const copy = homeSectionsTranslations.en.faq;
 const titleWords = copy.title.split(/\s+/);
 const titleBase = titleWords.slice(0, 2).join(' ');
 const titleAccent = titleWords.slice(2).join(' ');
+
+// FAQPage structured data for search engines, built from the same English FAQ copy shown on the page
+// so the two never drift apart. `<` is escaped so answer text can never close the script tag.
+const faqSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: copy.items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+}).replace(/</g, '\\u003c');
 ---
+
+<script type="application/ld+json" set:html={faqSchema} />
 
 <section class="hs-section hs-section--pale home-faq" aria-labelledby="home-faq-title">
   <div class="hs-shell home-faq__layout">
