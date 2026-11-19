@@ -1,7 +1,8 @@
 ---
-// [PROPOSAL] Brand-blue footer (client brief 2026-11-18, inspired by a reference — not a copy):
-// call-to-action headline, contact and menus in a compact glass panel (glassmorphism) with soft
-// raised controls (neumorphism), faint looping lines behind. All text keeps its translation keys.
+// [PROPOSAL] Footer layout (client reference 2026-11-19): logo and social icons on top, a divider,
+// link columns with underlined headings, then a darker bottom bar with copyright and legal links.
+// The reference's newsletter box is replaced by the existing "Let's Connect" call to action, since
+// no subscription backend exists. All text keeps its translation keys (labels live in Navbar.astro).
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { company } from '../../Constants';
 
@@ -9,103 +10,70 @@ const year = new Date().getFullYear();
 const whatsappUrl = `https://wa.me/${company.whatsapp.number}`;
 const phoneHref = `tel:+${company.whatsapp.number}`;
 
-// Regular background waves: each path repeats every 1440 units across a 2880-unit canvas, so the
-// canvas can slide left by half its width and loop seamlessly.
-const wave = (base: number, amplitude: number, phase: number) => {
-  const points: string[] = [];
-  for (let x = 0; x <= 2880; x += 24) {
-    points.push(`${x},${(base + amplitude * Math.sin((2 * Math.PI * x) / 1440 + phase)).toFixed(1)}`);
-  }
-  return `M${points.join(' L')}`;
-};
-const waves = [wave(200, 55, 0), wave(500, 70, 2.1), wave(790, 55, 4.2)];
-
-// Social profiles in a fixed order. Names always show; a name becomes a link only once its real
-// profile URL exists in Constants.ts (no invented URLs).
+// Social profiles in a fixed order; an icon shows only once its real URL exists in Constants.ts.
+// Icons are simplified monochrome marks on each platform's colour.
 const socialLinks = [
-  { name: 'Facebook', url: company.social.facebook },
-  { name: 'Instagram', url: company.social.instagram },
-  { name: 'LinkedIn', url: company.social.linkedin },
-  { name: 'TikTok', url: company.social.tiktok },
-];
+  { name: 'Facebook', url: company.social.facebook, colour: '#1877f2', icon: 'M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z' },
+  { name: 'Instagram', url: company.social.instagram, colour: '#d6249f', icon: 'M8 3.5h8A4.5 4.5 0 0 1 20.5 8v8a4.5 4.5 0 0 1-4.5 4.5H8A4.5 4.5 0 0 1 3.5 16V8A4.5 4.5 0 0 1 8 3.5zm0 1.8A2.7 2.7 0 0 0 5.3 8v8A2.7 2.7 0 0 0 8 18.7h8a2.7 2.7 0 0 0 2.7-2.7V8A2.7 2.7 0 0 0 16 5.3H8zm4 3.2a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zm0 1.8a1.7 1.7 0 1 0 0 3.4 1.7 1.7 0 0 0 0-3.4zm4.6-3.1a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z' },
+  { name: 'LinkedIn', url: company.social.linkedin, colour: '#0a66c2', icon: 'M5 9h3v10H5V9zm1.5-4.8a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zM10.2 9h2.9v1.4c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.7 2 3.7 4.7V19h-3v-4.9c0-1.2 0-2.6-1.6-2.6s-1.9 1.2-1.9 2.5v5h-3V9z' },
+  { name: 'TikTok', url: company.social.tiktok, colour: '#111111', icon: 'M16.6 3c.3 2.1 1.6 3.5 3.6 3.7v2.9c-1.3.1-2.5-.3-3.6-1v5.7c0 3.3-2.6 5.7-5.6 5.7a5.5 5.5 0 0 1-1-10.9v3a2.6 2.6 0 1 0 1.8 2.5V3h4.8z' },
+].filter((link) => link.url);
 ---
 
 <footer class="footer" id="site-footer">
-  <div class="footer-waves" aria-hidden="true">
-    <svg viewBox="0 0 2880 900" preserveAspectRatio="none" focusable="false">
-      {waves.map((d) => <path d={d} />)}
-    </svg>
+  <div class="footer-shell">
+    <div class="footer-head">
+      <a class="footer-logo" href="/" aria-label="RYZITE home">
+        <img src="/assets/ryzite-footer-logo.webp" alt="" width="1061" height="731" loading="lazy" decoding="async" />
+      </a>
+      <p class="footer-tagline" data-label-key="footerTagline">One Agency. All Your Business Solutions.</p>
+      <nav class="footer-social" aria-label="Follow Us" data-aria-label-key="footerFollow">
+        {socialLinks.map((link) => (
+          <a href={link.url} target="_blank" rel="noopener noreferrer" style={`--social:${link.colour}`} aria-label={`RYZITE on ${link.name}`} title={link.name}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={link.icon} fill="currentColor" fill-rule="evenodd" /></svg>
+          </a>
+        ))}
+      </nav>
+    </div>
   </div>
 
-  <div class="footer-inner">
-    <div class="footer-top footer-glass">
-      <div class="footer-cta">
-        <p class="footer-label" data-label-key="footerConnect">Let’s Connect</p>
-        <h2 class="footer-headline" data-label-key="footerConnectBody">Have a project in mind? Let’s build something meaningful.</h2>
-        <a class="footer-cta-button" href="/contact">
-          <span data-label-key="footerConnectCta">Start a Conversation</span>
-          <span class="footer-cta-icon" aria-hidden="true"><ArrowUpRight /></span>
-        </a>
-        <div class="footer-contact-list">
-          <a href={`mailto:${company.email}`}>
-            <span class="contact-icon contact-icon--email" aria-hidden="true">
-              <svg viewBox="52 42 88 66" focusable="false">
-                <path fill="#4285f4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6" />
-                <path fill="#34a853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15" />
-                <path fill="#fbbc04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2" />
-                <path fill="#ea4335" d="M72 74V48l24 18 24-18v26L96 92" />
-                <path fill="#c5221f" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2" />
-              </svg>
-            </span>
-            {company.email}
-          </a>
-          <a href={phoneHref}>
-            <span class="contact-icon contact-icon--phone" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false"><path d="M7.6 4.2c.5-.4 1.2-.3 1.6.2l1.8 2.5c.4.5.3 1.2-.1 1.6l-1.1 1c.8 1.8 2.2 3.3 4 4.2l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.5 1.8c.5.4.6 1.1.2 1.6l-1 1.4c-.7.9-1.9 1.3-3 .9-4.4-1.5-7.8-5-9.3-9.4-.4-1.1 0-2.3.9-3l.8-.6z" fill="currentColor" /></svg>
-            </span>
-            {company.whatsapp.display}
-          </a>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <span class="contact-icon contact-icon--whatsapp" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false"><path d="M12 3a8.9 8.9 0 0 0-7.6 13.5L3.2 21l4.6-1.2A8.9 8.9 0 1 0 12 3zm0 16.2c-1.4 0-2.8-.4-4-1.1l-.3-.2-2.7.7.7-2.6-.2-.3A7.3 7.3 0 1 1 12 19.2zm4-5.5c-.2-.1-1.3-.6-1.5-.7-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6 6 0 0 1-3-2.6c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.7-1.6c-.2-.4-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.5 1.5.6 2 .7 2.8.6.4-.1 1.3-.5 1.5-1.1.2-.5.2-1 .1-1.1l-.3-.2z" fill="currentColor" /></svg>
-            </span>
-            WhatsApp <span class="contact-arrow" aria-hidden="true"><ArrowUpRight /></span>
-          </a>
-        </div>
-      </div>
+  <div class="footer-shell footer-columns">
+    <nav class="footer-column" aria-label="Explore" data-aria-label-key="footerExplore">
+      <h2 data-label-key="footerExplore">Explore</h2>
+      <a href="/" data-label-key="home">Home</a>
+      <a href="/about" data-label-key="about">About Us</a>
+      <a href="/services" data-label-key="services">Services</a>
+      <a href="/solutions" data-label-key="solutions">Solutions</a>
+      <a href="/contact" data-label-key="contact">Contact</a>
+    </nav>
 
-      <div class="footer-menus">
-        <nav class="footer-column" aria-label="Explore" data-aria-label-key="footerExplore">
-          <h2 data-label-key="footerExplore">Explore</h2>
-          <a href="/" data-label-key="home">Home</a>
-          <a href="/about" data-label-key="about">About Us</a>
-          <a href="/services" data-label-key="services">Services</a>
-          <a href="/solutions" data-label-key="solutions">Solutions</a>
-          <a href="/contact" data-label-key="contact">Contact</a>
-        </nav>
+    <nav class="footer-column" aria-label="Resources" data-aria-label-key="footerResources">
+      <h2 data-label-key="footerResources">Resources</h2>
+      <a href="/packages" data-label-key="packages">Packages</a>
+      <a href="/how-we-work" data-label-key="process">How We Work</a>
+      <a href="/our-work" data-label-key="work">Our Work</a>
+      <a href="/articles" data-label-key="articles">Articles</a>
+    </nav>
 
-        <nav class="footer-column" aria-label="Resources" data-aria-label-key="footerResources">
-          <h2 data-label-key="footerResources">Resources</h2>
-          <a href="/packages" data-label-key="packages">Packages</a>
-          <a href="/how-we-work" data-label-key="process">How We Work</a>
-          <a href="/our-work" data-label-key="work">Our Work</a>
-          <a href="/articles" data-label-key="articles">Articles</a>
-        </nav>
-
-        <nav class="footer-column" aria-label="Follow Us" data-aria-label-key="footerFollow">
-          <h2 data-label-key="footerFollow">Follow Us</h2>
-          {socialLinks.map((link) => link.url ? (
-            <a class="footer-social-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.name} <span class="footer-social-arrow" aria-hidden="true"><ArrowUpRight /></span></a>
-          ) : (
-            <span class="footer-social-pending" title={`${link.name} — coming soon`}>{link.name}</span>
-          ))}
-        </nav>
-
-        <p class="footer-tagline" data-label-key="footerTagline">One Agency. All Your Business Solutions.</p>
-      </div>
+    <div class="footer-column">
+      <h2 data-label-key="contact">Contact</h2>
+      <a href={`mailto:${company.email}`}>{company.email}</a>
+      <a href={phoneHref}>{company.whatsapp.display}</a>
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp <span class="footer-arrow" aria-hidden="true"><ArrowUpRight /></span></a>
     </div>
 
-    <div class="footer-bottom">
+    <div class="footer-column footer-connect">
+      <h2 data-label-key="footerConnect">Let’s Connect</h2>
+      <p data-label-key="footerConnectBody">Have a project in mind? Let’s build something meaningful.</p>
+      <a class="footer-cta-button" href="/contact">
+        <span data-label-key="footerConnectCta">Start a Conversation</span>
+        <span class="footer-arrow" aria-hidden="true"><ArrowUpRight /></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-shell footer-bottom__inner">
       <p>© {year} RYZITE. <span data-label-key="footerRights">All rights reserved.</span></p>
       <!-- [OPEN] Legal pages are placeholders until the client supplies reviewed policy text. -->
       <nav class="footer-legal" aria-label="Legal" data-aria-label-key="footerLegal">
@@ -113,307 +81,204 @@ const socialLinks = [
         <a href="/terms-and-conditions/" data-label-key="footerTerms">Terms &amp; Conditions</a>
       </nav>
     </div>
-
   </div>
 </footer>
 
 <style>
   .footer {
-    --footer-blue: var(--color-brand);
-    --footer-deep: var(--color-brand);
+    --footer-bg: var(--color-brand);
+    --footer-bar: #081443;
     --footer-ink: #ffffff;
-    --footer-muted: rgb(255 255 255 / 72%);
-    --glass-fill: linear-gradient(145deg, rgb(255 255 255 / 11%), rgb(255 255 255 / 4%));
-    --glass-edge: rgb(255 255 255 / 16%);
-    --neu-dark: rgb(3 9 34 / 55%);
-    --neu-light: rgb(52 78 168 / 32%);
+    --footer-muted: rgb(255 255 255 / 78%);
+    --footer-line: rgb(255 255 255 / 18%);
     --footer-gutter: max(1.5rem, calc((100vw - 1300px) / 2)); /* matches the header */
 
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    background:
-      radial-gradient(38rem 20rem at 12% 0%, rgb(66 98 210 / 30%), transparent 70%),
-      radial-gradient(30rem 18rem at 92% 100%, rgb(66 98 210 / 22%), transparent 70%),
-      var(--footer-blue);
     color: var(--footer-ink);
+    background: var(--footer-bg);
     font-family: var(--font-body);
   }
 
-  /* Faint regular waves behind everything, flowing slowly to the left. */
-  .footer-waves {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
+  .footer-shell { padding-inline: var(--footer-gutter); }
 
-  .footer-waves svg {
-    display: block;
-    width: 200%;
-    height: 100%;
-    animation: footer-wave-flow 48s linear infinite;
-  }
-
-  .footer-waves path {
-    fill: none;
-    stroke: rgb(255 255 255 / 8%);
-    stroke-linecap: round;
-    stroke-width: 30;
-    vector-effect: non-scaling-stroke;
-  }
-
-  @keyframes footer-wave-flow {
-    from { transform: translate3d(0, 0, 0); }
-    to { transform: translate3d(-50%, 0, 0); }
-  }
-
-  .footer-inner {
-    padding: clamp(1.75rem, 3vw, 2.5rem) var(--footer-gutter) clamp(1rem, 2vw, 1.4rem);
-  }
-
-  .footer-top {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    align-items: start;
-    gap: clamp(1.5rem, 4vw, 3.5rem);
-  }
-
-  /* Glassmorphism panel: frosted, translucent, with a light top edge. */
-  .footer-glass {
-    padding: clamp(1.25rem, 2.6vw, 2rem);
-    border: 1px solid var(--glass-edge);
-    border-radius: 1.75rem;
-    background: var(--glass-fill);
-    box-shadow: 0 18px 40px rgb(3 9 34 / 35%), inset 0 1px 0 rgb(255 255 255 / 18%);
-    backdrop-filter: blur(16px) saturate(130%);
-    -webkit-backdrop-filter: blur(16px) saturate(130%);
-  }
-
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .footer-glass { background: rgb(28 45 110 / 92%); }
-  }
-
-  .footer-label {
-    margin: 0 0 .6rem;
-    color: var(--footer-muted);
-    font-size: var(--size-small);
-    font-weight: 600;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-  }
-
-  .footer-headline {
-    max-width: 18ch;
-    margin: 0;
-    color: var(--footer-ink);
-    font-family: var(--font-heading);
-    font-size: clamp(1.55rem, 2.6vw, 2.4rem);
-    font-weight: 700;
-    letter-spacing: -.03em;
-    line-height: 1;
-    text-wrap: balance;
-  }
-
-  :global(html[lang='ta']) .footer-headline,
-  :global(html[lang='si']) .footer-headline {
-    max-width: 22ch;
-    font-size: clamp(1.35rem, 2.2vw, 1.9rem);
-    line-height: 1.2;
-  }
-
-  .footer-cta-button {
-    display: inline-flex;
-    align-items: center;
-    gap: .85rem;
-    margin-top: clamp(.9rem, 1.6vw, 1.25rem);
-    padding: .5rem .5rem .5rem 1.4rem;
-    border: 1px solid rgb(255 255 255 / 8%);
-    border-radius: 999px;
-    background: var(--footer-blue);
-    box-shadow: 7px 7px 16px var(--neu-dark), -5px -5px 14px var(--neu-light);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
-  }
-
-  .footer-cta-icon {
-    display: grid;
-    width: 2.4rem;
-    height: 2.4rem;
-    place-items: center;
-    border-radius: 50%;
-    background: var(--footer-blue);
-    box-shadow: inset 3px 3px 6px var(--neu-dark), inset -3px -3px 6px var(--neu-light);
-    font-size: 1.05rem;
-    transition: transform var(--duration-fast) var(--ease-out);
-  }
-
-  .footer-cta-button:hover {
-    box-shadow: 9px 9px 20px var(--neu-dark), -6px -6px 16px var(--neu-light);
-    transform: translateY(-2px);
-  }
-
-  .footer-cta-button:active {
-    box-shadow: inset 4px 4px 10px var(--neu-dark), inset -4px -4px 10px var(--neu-light);
-    transform: none;
-  }
-
-  .footer-cta-button:hover .footer-cta-icon { transform: rotate(45deg); }
-
-  .footer-contact-list {
+  /* Top row: logo and tagline on the left, social icons on the right, divider below. */
+  .footer-head {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: .6rem;
-    margin-top: clamp(1rem, 1.8vw, 1.35rem);
+    gap: 1rem 1.5rem;
+    padding-block: clamp(1.5rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--footer-line);
   }
 
-  .footer-contact-list a {
-    display: inline-flex;
-    align-items: center;
-    gap: .35rem;
-    padding: .45rem .9rem;
-    border: 1px solid rgb(255 255 255 / 7%);
-    border-radius: 999px;
-    background: var(--footer-blue);
-    box-shadow: 4px 4px 10px var(--neu-dark), -3px -3px 9px var(--neu-light);
-    color: var(--footer-ink);
-    font-size: .95rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: box-shadow var(--duration-fast) var(--ease-out);
-  }
-
-  /* Contact icons: email in brand ink, phone and WhatsApp in their familiar green circles. */
-  .contact-icon {
-    display: grid;
+  /* The official logo is blue, so it sits on a white plate to stay legible on navy. */
+  .footer-logo {
+    display: block;
     flex-shrink: 0;
-    width: 1.6rem;
-    height: 1.6rem;
-    margin-left: -.4rem;
+    padding: .35rem .75rem;
+    border-radius: .85rem;
+    background: #fff;
+  }
+
+  .footer-logo img { display: block; width: 6.5rem; height: auto; }
+
+  .footer-tagline {
+    margin: 0;
+    color: var(--footer-muted);
+    font-size: var(--size-small);
+    font-weight: 500;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: .75rem;
+    margin-left: auto;
+  }
+
+  .footer-social a {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
     place-items: center;
     border-radius: 50%;
     color: #fff;
-    background: rgb(255 255 255 / 14%);
+    background: var(--social);
+    box-shadow: 0 0 0 2px rgb(255 255 255 / 20%);
+    transition: translate var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) ease;
   }
 
-  .contact-icon svg { width: 1rem; height: 1rem; }
-  .contact-icon--phone,
-  .contact-icon--whatsapp { background: #12c72d; }
-  .contact-arrow { display: inline-flex; }
+  .footer-social a:hover { translate: 0 -3px; box-shadow: 0 0 0 2px #fff; }
+  .footer-social svg { width: 1.25rem; height: 1.25rem; }
 
-  .contact-icon--email { background: #fff; }
-  .contact-icon--email svg { width: 1.05rem; height: .8rem; }
-
-  .footer-social-pending {
-    margin: 0 0 .25rem;
-    color: var(--footer-ink);
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.45;
-  }
-
-  .footer-contact-list a:hover { box-shadow: inset 3px 3px 7px var(--neu-dark), inset -3px -3px 7px var(--neu-light); }
-
-  .footer-menus {
+  /* Link columns with short underlined headings. */
+  .footer-columns {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
-    gap: 2rem;
-    justify-self: end;
-    width: min(100%, 36rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.35fr);
+    gap: 2rem clamp(1.5rem, 3vw, 3rem);
+    padding-block: clamp(2rem, 4vw, 2.75rem);
   }
 
   .footer-column {
     display: flex;
+    min-width: 0;
     flex-direction: column;
     align-items: flex-start;
+    gap: .55rem;
   }
 
   .footer-column h2 {
-    margin: 0 0 .55rem;
-    color: var(--footer-muted);
-    font-size: var(--size-small);
+    position: relative;
+    margin: 0 0 .7rem;
+    padding-bottom: .45rem;
+    color: var(--footer-ink);
+    font-size: 1.0625rem;
     font-weight: 600;
-    letter-spacing: .16em;
     line-height: 1.3;
-    text-transform: uppercase;
+  }
+
+  .footer-column h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
   }
 
   .footer-column a {
-    margin: 0 0 .25rem;
-    color: var(--footer-ink);
-    font-size: 1rem;
-    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    color: var(--footer-muted);
+    font-size: .9375rem;
     line-height: 1.45;
     text-decoration: none;
-    transition: transform var(--duration-fast) var(--ease-out), opacity var(--duration-fast) ease;
+    overflow-wrap: anywhere;
+    transition: color var(--duration-fast) ease;
   }
 
-  .footer-column a:hover {
-    opacity: .8;
-    transform: translateX(3px);
+  .footer-column a:hover { color: var(--footer-ink); text-decoration: underline; text-underline-offset: .2em; }
+
+  .footer-arrow { display: inline-flex; font-size: .85em; }
+
+  .footer-connect p {
+    margin: 0;
+    color: var(--footer-muted);
+    font-size: .9375rem;
+    line-height: 1.55;
   }
 
-  /* External social links: small arrow that nudges up-right on hover. */
-  .footer-social-link { display: inline-flex; align-items: center; gap: .35rem; }
-  .footer-social-arrow { display: inline-flex; font-size: .85em; opacity: .8; transition: transform var(--duration-fast) var(--ease-out); }
-  .footer-social-link:hover .footer-social-arrow { transform: translate(2px, -2px); }
-
-  .footer-tagline {
-    grid-column: 1 / -1;
-    margin: .4rem 0 0;
-    color: var(--footer-ink);
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.45;
+  /* Light button, the counterpart of the reference's subscribe button. */
+  .footer-column .footer-cta-button {
+    justify-content: center;
+    gap: .5rem;
+    width: min(100%, 17rem);
+    margin-top: .5rem;
+    padding: .7rem 1.25rem;
+    border-radius: .6rem;
+    color: var(--color-brand);
+    background: #fff;
+    font-size: .9375rem;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color var(--duration-fast) ease;
   }
 
-  .footer-bottom {
+  .footer-column .footer-cta-button:hover { color: var(--color-brand); background: #e6ecfb; text-decoration: none; }
+
+  /* Darker bottom bar: copyright left, legal links right. */
+  .footer-bottom { background: var(--footer-bar); }
+
+  .footer-bottom__inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: .5rem 1.5rem;
-    text-align: center;
-    margin-top: clamp(.9rem, 2vw, 1.25rem);
-    padding-inline: .25rem;
+    padding-block: 1rem;
     color: var(--footer-muted);
     font-size: var(--size-small);
   }
 
   .footer-bottom p { margin: 0; }
 
-  .footer-legal { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.25rem; }
-  .footer-legal a { color: var(--footer-muted); text-decoration: underline; text-decoration-color: rgb(255 255 255 / 35%); text-underline-offset: .2em; transition: color var(--duration-fast) ease; }
-  .footer-legal a:hover { color: var(--footer-ink); text-decoration-color: currentColor; }
+  .footer-legal { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+
+  .footer-legal a {
+    color: var(--footer-muted);
+    text-decoration: none;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .footer-legal a:hover { color: var(--footer-ink); text-decoration: underline; text-underline-offset: .2em; }
 
   .footer a:focus-visible {
     outline: 3px solid #fff;
     outline-offset: 4px;
   }
 
-  @media (max-width: 900px) {
-    .footer-top { grid-template-columns: 1fr; }
-    .footer-menus { justify-self: start; }
+  @media (max-width: 1000px) {
+    .footer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
-  @media (max-width: 520px) {
-    .footer-glass { border-radius: 1.35rem; }
-    .footer-menus { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 560px) {
+    .footer-head { justify-content: center; text-align: center; }
+    .footer-tagline { flex-basis: 100%; order: 2; }
+    .footer-social { order: 3; margin-inline: auto; }
+    .footer-columns { grid-template-columns: 1fr 1fr; gap: 1.75rem 1.25rem; }
+    .footer-connect { grid-column: 1 / -1; }
+    .footer-bottom__inner { flex-direction: column; justify-content: center; text-align: center; }
+    .footer-legal { justify-content: center; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .footer-waves svg { animation: none; }
-
-    .footer-cta-button,
-    .footer-cta-icon,
-    .footer-contact-list a,
-    .footer-column a {
+    .footer-social a,
+    .footer-column a,
+    .footer-legal a {
       transition: none;
     }
+
+    .footer-social a:hover { translate: none; }
   }
 </style>
