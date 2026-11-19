@@ -218,16 +218,15 @@ const approachIcons = [principleIcons[1], principleIcons[2], principleIcons[3]];
           </header>
           <div class="resource-principles-grid">
             {howWeWork.principles.map((principle, index) => (
-              <article class="resource-principle-card" data-resource-reveal>
+              <article class="resource-principle-card resource-principle-card--arch" data-resource-reveal>
                 <div class="resource-principle-card__head" aria-hidden="true">
-                  <span class="resource-principle-card__number">{String(index + 1).padStart(2, '0')}</span>
-                  <span class="resource-principle-card__divider"></span>
                   <svg class="resource-principle-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" set:html={principleIcons[index % principleIcons.length]} />
                 </div>
                 <div class="resource-principle-card__body">
                   <h3 data-resource-array="principles" data-resource-index={index} data-resource-field="title">{principle.title}</h3>
                   <p data-resource-array="principles" data-resource-index={index} data-resource-field="body">{principle.body}</p>
                 </div>
+                <span class="resource-principle-card__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               </article>
             ))}
           </div>
@@ -555,6 +554,14 @@ const approachIcons = [principleIcons[1], principleIcons[2], principleIcons[3]];
   .resource-principle-card__icon { width: 2rem; height: 2rem; }
   .resource-principle-card__body { flex: 1; padding: 1.5rem 1.4rem 1.6rem; border: 1px solid rgb(255 255 255 / 85%); border-top: 0; border-radius: 0 0 1.1rem 1.1rem; text-align: center; background: linear-gradient(170deg, rgb(255 255 255 / 92%), rgb(253 255 245 / 66%)); box-shadow: 0 .9rem 1.8rem rgb(11 28 88 / 10%); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .resource-principle-card { background: var(--color-milk); }.resource-principle-card__head { background: var(--color-brand-hover); }.resource-principle-card__body { background: var(--color-milk-highlight); } }
+  .resource-principle-card--arch { width: min(100%, 390px); min-height: 380px; justify-self: center; padding: 0; border: 1px solid rgb(11 28 88 / 32%); border-radius: 50% 50% 1.4rem 1.4rem / 24% 24% 1.4rem 1.4rem; background: var(--color-milk); box-shadow: 0 1rem 2.5rem rgb(11 28 88 / 12%); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .resource-principle-card--arch::before { z-index: 0; top: auto; right: 0; bottom: 0; left: 0; height: 5.75rem; border-radius: 50% 50% 1.35rem 1.35rem / 36% 36% 1.35rem 1.35rem; background: var(--color-brand); }
+  .resource-principle-card--arch .resource-principle-card__head { position: relative; z-index: 1; display: grid; flex: none; place-items: center; padding: 2.5rem 1rem 0; border: 0; border-radius: 0; color: var(--color-brand); background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .resource-principle-card--arch .resource-principle-card__icon { width: 2.3rem; height: 2.3rem; }
+  .resource-principle-card--arch .resource-principle-card__body { position: relative; z-index: 1; flex: 1; padding: 1.2rem 1.25rem 6.5rem; border: 0; border-radius: 0; text-align: center; background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .resource-principle-card--arch .resource-principle-card__number { position: absolute; z-index: 1; bottom: 1rem; left: 50%; color: var(--color-milk-highlight); font-size: 2rem; font-weight: 700; line-height: 1; transform: translateX(-50%); }
+  .resource-principle-card--arch h3 { color: var(--color-brand); }
+  .resource-principle-card--arch p { color: var(--color-body); }
   .resource-principle-card h3 { margin: 0 0 .6rem; color: var(--color-brand); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .resource-principle-card p { margin: 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.65; }
   @media (prefers-reduced-motion: reduce) { .resource-principle-card:hover { transform: none; } }
@@ -577,6 +584,8 @@ const approachIcons = [principleIcons[1], principleIcons[2], principleIcons[3]];
   .resource-empty-state__dome::before { position: absolute; top: 0; right: 30%; left: 30%; height: 200%; border: 1px solid rgb(255 255 255 / 90%); border-radius: 50%; background: linear-gradient(180deg, rgb(255 255 255 / 75%), rgb(8 12 17 / 8%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), inset 0 -1.5rem 2.5rem rgb(8 12 17 / 6%), 0 -.5rem 1.6rem rgb(8 12 17 / 10%); -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%); content: ''; }
   .resource-empty-state__dome > span { position: relative; padding-top: 1.45rem; color: var(--color-ink); font-size: 1.6rem; line-height: 1; }
   .resource-topics-section { background: var(--color-paper); }
+  .resource-section.resource-topics-section { padding-bottom: clamp(2rem, 3vw, 3rem); }
+  .resource-section.resource-articles-section { padding-top: clamp(2rem, 3vw, 3rem); }
   .resource-topic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
   .resource-topic-card { min-height: 195px; }
   .resource-topic-card h3 { margin-top: 1.2rem; }

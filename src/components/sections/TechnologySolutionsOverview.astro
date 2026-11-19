@@ -36,7 +36,7 @@ const faqSchema = JSON.stringify({
 <div class="technology-solutions-overview">
   <section class="overview-section why-section" aria-labelledby="why-solutions-title">
     <div class="overview-shell why-layout">
-      <header class="overview-heading" data-overview-reveal>
+      <header class="overview-heading overview-heading--center" data-overview-reveal>
         <h2 id="why-solutions-title" data-technology-key="whyTitle">Technology Shaped Around Your Business.</h2>
         <p class="overview-intro" data-technology-key="whyIntro">Start with what your business and its users need, then plan a suitable way to deliver it.</p>
       </header>
@@ -179,13 +179,13 @@ const faqSchema = JSON.stringify({
   .overview-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
   .overview-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
   .why-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 52% 30%, rgb(124 192 255 / 55%), transparent 100%), radial-gradient(circle 12rem at 92% 78%, rgb(143 166 255 / 50%), transparent 100%), radial-gradient(circle 10rem at 70% 55%, rgb(11 28 88 / 22%), transparent 100%), var(--color-milk); }
-  .why-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
+  .why-layout { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: clamp(2rem, 4vw, 3rem); }
   .overview-heading { max-width: 680px; }
   .overview-heading h2 { margin: 0; color: var(--overview-ink); font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .overview-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--overview-blue); font-size: var(--size-eyebrow); font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
   .overview-eyebrow::before { width: 1.5rem; height: 2px; border-radius: 2px; background: currentColor; content: ''; }
   .overview-intro { max-width: 620px; margin: 1rem 0 0; color: var(--overview-muted); line-height: 1.7; }
-  .why-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .why-grid { display: grid; width: min(100%, 1280px); grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-inline: auto; }
   /* Why cards (client reference 2026-11-20): a deep navy band across the top, a lighter navy header bar
      with the number, a divider and a line icon, and a raised milky-white body with a navy title. All three
      layers are frosted glass over soft brand-blue light; without backdrop-filter they turn solid. */
@@ -203,7 +203,7 @@ const faqSchema = JSON.stringify({
   .delivery-overview-section { background: var(--color-paper); }
   .overview-heading--center { max-width: 800px; margin-inline: auto; text-align: center; }
   .overview-heading--center .overview-eyebrow { justify-content: center; }
-  @media (max-width: 900px) { .why-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; } }
+  @media (max-width: 1000px) { .why-layout { grid-template-columns: minmax(0, 1fr); gap: 2rem; }.why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 700px) { .overview-shell { padding-inline: 1rem; }.overview-section { padding-block: 4.5rem; }.why-layout { grid-template-columns: 1fr; gap: 1.8rem; }.why-grid { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .technology-solutions-overview *, .technology-solutions-overview *::before, .technology-solutions-overview *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }.why-card:hover { transform: none; } }
 </style>
