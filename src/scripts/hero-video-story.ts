@@ -13,14 +13,23 @@ const SCENES: [number, number, number, number][] = [
   [.78, .84, 2, 2],
 ];
 
-// Phone framing: keep the robot visible beside the cropped video (robot right, left, right).
-const MOBILE_FRAMING: [number, number][] = [
-  [0, 78],
-  [.22, 78],
-  [.36, 24],
-  [.64, 24],
-  [.78, 80],
-  [1, 80],
+// Phones: where the robot should sit on screen (% of screen width), right → left → right.
+const MOBILE_ROBOT_X: [number, number][] = [
+  [0, 74],
+  [.2, 74],
+  [.38, 26],
+  [.62, 26],
+  [.8, 72],
+  [1, 72],
+];
+
+// Phones: where the robot is inside the footage (fraction of the video width). It starts centred
+// and has walked right of centre by the last scene, so the box is shifted to compensate.
+const MOBILE_ROBOT_IN_FOOTAGE: [number, number][] = [
+  [0, .5],
+  [.64, .5],
+  [.8, .586],
+  [1, .586],
 ];
 
 // Desktop pan (1 = robot to the right, -1 = robot to the left), timed between text scenes.
@@ -117,8 +126,17 @@ const initializeHeroVideo = () => {
   const VIDEO_ASPECT = 16 / 9;
   const updateRobotGap = (pan: number, framing: number) => {
     if (!waves) return;
+    if (mobileLayout.matches) {
+      // Phones: the video keeps its own uncropped 16:9 box (see Hero.astro).
+      const boxWidth = video.offsetWidth;
+      const inFootage = parseFloat(hero.style.getPropertyValue('--robot-in-footage')) || .5;
+      waves.style.setProperty('--robot-x', `${(video.offsetLeft + boxWidth * inFootage).toFixed(1)}px`);
+      waves.style.setProperty('--robot-hole', `${(boxWidth * .13).toFixed(1)}px`);
+      waves.style.setProperty('--robot-feather', `${(boxWidth * .06).toFixed(1)}px`);
+      return;
+    }
     const width = stage.clientWidth;
-    const height = stage.clientHeight;
+    const height = video.clientHeight || stage.clientHeight;
     const videoWidth = Math.max(width, height * VIDEO_ASPECT);
     const cropOffset = (videoWidth - width) * (framing / 100);
     const panDistance = parseFloat(getComputedStyle(hero).getPropertyValue('--pan-distance')) || 0;
@@ -149,8 +167,13 @@ const initializeHeroVideo = () => {
     });
     dots.forEach((dot, index) => dot.classList.toggle('is-active', index === activeScene));
 
-    const framing = mobileLayout.matches ? interpolateKeyframes(MOBILE_FRAMING, progress) : 50;
+    const framing = 50;
     const pan = interpolateKeyframes(DESKTOP_PAN, progress);
+    // Phones: the robot follows the same right → left → right path as desktop, below the copy.
+    if (mobileLayout.matches) {
+      hero.style.setProperty('--robot-x-mobile', `${interpolateKeyframes(MOBILE_ROBOT_X, progress).toFixed(2)}%`);
+      hero.style.setProperty('--robot-in-footage', interpolateKeyframes(MOBILE_ROBOT_IN_FOOTAGE, progress).toFixed(4));
+    }
     hero.style.setProperty('--video-x', `${framing.toFixed(1)}%`);
     hero.style.setProperty('--video-pan', pan.toFixed(3));
     updateRobotGap(pan, framing);
