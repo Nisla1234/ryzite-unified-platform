@@ -131,10 +131,22 @@ const approachSteps = stepKeys.map((key) => ({
           <p data-about-key="valuesIntro">Our work is guided by values that help us deliver thoughtful, practical, and meaningful digital solutions.</p>
         </header>
         <div class="values-grid">
-          <article class="value-card" data-reveal><span class="value-card__number">01</span><span class="value-card__icon" aria-hidden="true">✳</span><h3 data-about-key="valueOneTitle">Creativity</h3><p data-about-key="valueOneBody">We explore fresh ideas and thoughtful design approaches to create meaningful digital experiences.</p></article>
-          <article class="value-card" data-reveal><span class="value-card__number">02</span><span class="value-card__icon" aria-hidden="true">⌁</span><h3 data-about-key="valueTwoTitle">Innovation</h3><p data-about-key="valueTwoBody">We embrace modern technologies and practical solutions to help businesses adapt and grow.</p></article>
-          <article class="value-card" data-reveal><span class="value-card__number">03</span><span class="value-card__icon" aria-hidden="true">◉</span><h3 data-about-key="valueThreeTitle">Reliability</h3><p data-about-key="valueThreeBody">We focus on clear communication, consistent quality, and dependable solutions.</p></article>
-          <article class="value-card" data-reveal><span class="value-card__number">04</span><span class="value-card__icon" aria-hidden="true"><ArrowUpRight /></span><h3 data-about-key="valueFourTitle">Collaboration</h3><p data-about-key="valueFourBody">We believe strong results come from understanding our clients and working together toward shared goals.</p></article>
+          <article class="value-card value-card--one" data-reveal>
+            <div class="value-card__media" aria-hidden="true"><img src="/images/about/value-creativity.webp" alt="" width="736" height="736" loading="lazy" decoding="async" /></div>
+            <div class="value-card__content"><h3 data-about-key="valueOneTitle">Creativity</h3><p data-about-key="valueOneBody">We explore fresh ideas and thoughtful design approaches to create meaningful digital experiences.</p></div>
+          </article>
+          <article class="value-card value-card--two" data-reveal>
+            <div class="value-card__media" aria-hidden="true"><img src="/images/about/value-innovation.webp" alt="" width="736" height="736" loading="lazy" decoding="async" /></div>
+            <div class="value-card__content"><h3 data-about-key="valueTwoTitle">Innovation</h3><p data-about-key="valueTwoBody">We embrace modern technologies and practical solutions to help businesses adapt and grow.</p></div>
+          </article>
+          <article class="value-card value-card--three" data-reveal>
+            <div class="value-card__media" aria-hidden="true"><img src="/images/about/value-reliability.webp" alt="" width="736" height="736" loading="lazy" decoding="async" /></div>
+            <div class="value-card__content"><h3 data-about-key="valueThreeTitle">Reliability</h3><p data-about-key="valueThreeBody">We focus on clear communication, consistent quality, and dependable solutions.</p></div>
+          </article>
+          <article class="value-card value-card--four" data-reveal>
+            <div class="value-card__media" aria-hidden="true"><img src="/images/about/value-collaboration.webp" alt="" width="736" height="736" loading="lazy" decoding="async" /></div>
+            <div class="value-card__content"><h3 data-about-key="valueFourTitle">Collaboration</h3><p data-about-key="valueFourBody">We believe strong results come from understanding our clients and working together toward shared goals.</p></div>
+          </article>
         </div>
       </div>
     </section>
@@ -320,8 +332,14 @@ const approachSteps = stepKeys.map((key) => ({
 
   .values-section { background: #f7f9fc; }
   .values-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: clamp(2.5rem, 5vw, 4rem); }
-  .value-card { position: relative; min-height: 300px; padding: 1.6rem; border: 1px solid #e0e7ef; border-radius: 1.1rem; background: var(--color-milk); transition: transform var(--duration-medium) var(--ease-out), border-color var(--duration-medium) ease, box-shadow var(--duration-medium) ease; }.value-card:hover { transform: translateY(-5px); border-color: #b9d2f0; box-shadow: 0 1rem 2rem rgb(20 51 91 / 7%); }
-  .value-card__number { color: var(--color-text-subtle); font-size: .8125rem; font-weight: 600; letter-spacing: .14em; }.value-card__icon { display: grid; width: 3rem; aspect-ratio: 1; place-items: center; margin-top: 2rem; border-radius: .9rem; color: var(--about-blue); background: #eaf3ff; font-size: 1.485rem; }.value-card h3 { margin: 1rem 0 .55rem; font-size: var(--size-h4); font-weight: 700; line-height: var(--leading-h3); }.value-card p { margin: 0; color: var(--about-muted); font-size: .968rem; line-height: 1.65; }
+  .value-card { --value-tint: 6 67 207; position: relative; isolation: isolate; display: flex; min-height: 380px; flex-direction: column; justify-content: flex-end; overflow: hidden; padding: .9rem; border-radius: 1.4rem; color: #fff; background: rgb(var(--value-tint)); box-shadow: 0 1.4rem 2.6rem rgb(var(--value-tint) / 22%); transition: transform var(--duration-medium) var(--ease-out), box-shadow var(--duration-medium) ease; }
+  .value-card:hover { transform: translateY(-10px); box-shadow: 0 2rem 3.4rem rgb(var(--value-tint) / 32%); }
+  .value-card__media { position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle at 30% 20%, rgb(255 255 255 / 28%), transparent 55%), linear-gradient(160deg, rgb(255 255 255 / 12%), transparent 60%); }
+  .value-card__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }.value-card:hover .value-card__media img { transform: scale(1.05); }
+  .value-card::after { content: ''; position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgb(16 29 50 / 8%) 0%, transparent 28%, rgb(var(--value-tint) / 60%) 58%, rgb(16 29 50 / 94%) 100%); pointer-events: none; }
+  .value-card__content { padding: .6rem .5rem 0; }
+  .value-card h3 { margin: 0 0 .7rem; padding-inline: .5rem; color: #fff; font-family: var(--font-display); font-size: var(--size-h4); font-weight: 700; line-height: var(--leading-h3); }
+  .value-card p { margin: 0; padding: .9rem 1rem; border: 1px solid rgb(255 255 255 / 18%); border-radius: .9rem; color: rgb(255 255 255 / 88%); background: rgb(255 255 255 / 12%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: .9rem; line-height: 1.55; }
 
   .why-section { color: #fff; background: #101d32; }
   .why-layout { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(3rem, 8vw, 8rem); }.why-heading { position: sticky; top: 120px; }.why-heading .about-eyebrow { color: #75bdff; }.why-heading h2 { color: #fff; }.why-mark { display: block; margin-top: 2rem; color: #ffffff14; font-family: var(--font-display); font-size: clamp(7.7rem, 18.7vw, 15.4rem); font-weight: 700; letter-spacing: -.09em; line-height: .75; }.why-mark span { color: #168bff; }
@@ -339,7 +357,7 @@ const approachSteps = stepKeys.map((key) => ({
   @media (max-width: 1020px) {
     .about-hero { min-height: auto; }.about-hero__inner { min-height: 520px; grid-template-columns: minmax(0, 1fr) minmax(260px, .72fr); gap: 2rem; }
     .who-layout { grid-template-columns: minmax(0, 1fr) minmax(300px, .85fr); gap: 3rem; }.who-art { min-height: 390px; }
-    .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.value-card { min-height: 250px; }
+    .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }.value-card { min-height: 360px; }
     .why-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 3rem; }
   }
   @media (max-width: 720px) {
@@ -352,7 +370,7 @@ const approachSteps = stepKeys.map((key) => ({
   }
   @media (max-width: 560px) {
     /* Two value cards per row left ~150px of text per line; stack them on phones. */
-    .values-grid { grid-template-columns: 1fr; }.value-card { min-height: 0; }
+    .values-grid { grid-template-columns: 1fr; }.value-card { min-height: 320px; }
     /* Keep the small "Connected solutions" panel and spark clear of the caption at the bottom. */
     .who-art__panel--small { bottom: 34%; }.who-art__spark--two { bottom: 36%; }
   }
