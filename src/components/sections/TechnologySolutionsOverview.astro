@@ -178,7 +178,7 @@ const faqSchema = JSON.stringify({
   .technology-solutions-overview *, .technology-solutions-overview *::before, .technology-solutions-overview *::after { box-sizing: border-box; }
   .overview-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
   .overview-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
-  .why-section { background: var(--color-milk); }
+  .why-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 52% 30%, rgb(124 192 255 / 55%), transparent 100%), radial-gradient(circle 12rem at 92% 78%, rgb(143 166 255 / 50%), transparent 100%), radial-gradient(circle 10rem at 70% 55%, rgb(11 28 88 / 22%), transparent 100%), var(--color-milk); }
   .why-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .overview-heading { max-width: 680px; }
   .overview-heading h2 { margin: 0; color: var(--overview-ink); font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
@@ -187,15 +187,17 @@ const faqSchema = JSON.stringify({
   .overview-intro { max-width: 620px; margin: 1rem 0 0; color: var(--overview-muted); line-height: 1.7; }
   .why-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   /* Why cards (client reference 2026-11-20): a deep navy band across the top, a lighter navy header bar
-     with the number, a divider and a line icon, and a raised milky-white body with a navy title. */
-  .why-card { position: relative; isolation: isolate; display: flex; flex-direction: column; padding: 1.1rem 1.1rem 1.25rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 90%); border-radius: 1.6rem; background: linear-gradient(180deg, #f3f4ec, var(--color-milk)); box-shadow: 0 1.2rem 2.6rem rgb(11 28 88 / 12%); transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
-  .why-card::before { position: absolute; z-index: -1; top: 0; right: 0; left: 0; height: 6.25rem; background: linear-gradient(160deg, var(--color-brand), #08134a); content: ''; }
+     with the number, a divider and a line icon, and a raised milky-white body with a navy title. All three
+     layers are frosted glass over soft brand-blue light; without backdrop-filter they turn solid. */
+  .why-card { position: relative; isolation: isolate; display: flex; flex-direction: column; padding: 1.1rem 1.1rem 1.25rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 80%); border-radius: 1.6rem; background: linear-gradient(180deg, rgb(255 255 255 / 45%), rgb(253 255 245 / 25%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1.2rem 2.6rem rgb(11 28 88 / 12%); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
+  .why-card::before { position: absolute; z-index: -1; top: 0; right: 0; left: 0; height: 6.25rem; background: linear-gradient(160deg, rgb(11 28 88 / 88%), rgb(8 19 74 / 78%)); content: ''; }
   .why-card:hover { transform: translateY(-5px); box-shadow: 0 1.6rem 3.2rem rgb(11 28 88 / 18%); }
-  .why-card__head { display: flex; align-items: center; gap: 1rem; padding: .85rem 1.4rem; border-radius: 1.1rem 1.1rem 0 0; color: var(--color-milk); background: linear-gradient(120deg, #2a3f8f, var(--color-brand-hover)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 18%); }
+  .why-card__head { display: flex; align-items: center; gap: 1rem; padding: .85rem 1.4rem; border-radius: 1.1rem 1.1rem 0 0; border: 1px solid rgb(255 255 255 / 22%); border-bottom: 0; color: var(--color-milk); background: linear-gradient(120deg, rgb(52 78 170 / 62%), rgb(22 41 111 / 55%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%); -webkit-backdrop-filter: blur(12px) saturate(150%); backdrop-filter: blur(12px) saturate(150%); }
   .why-card__index { font-family: var(--font-display); font-size: 2rem; font-weight: 500; line-height: 1; letter-spacing: .02em; }
   .why-card__divider { width: 1px; height: 1.9rem; background: rgb(253 255 245 / 45%); }
   .why-card__icon { width: 2rem; height: 2rem; }
-  .why-card__body { flex: 1; padding: 1.5rem 1.4rem 1.6rem; border-radius: 0 0 1.1rem 1.1rem; text-align: center; background: var(--color-milk-highlight); box-shadow: 0 .9rem 1.8rem rgb(11 28 88 / 10%); }
+  .why-card__body { flex: 1; padding: 1.5rem 1.4rem 1.6rem; border-radius: 0 0 1.1rem 1.1rem; border: 1px solid rgb(255 255 255 / 85%); border-top: 0; text-align: center; background: linear-gradient(170deg, rgb(255 255 255 / 92%), rgb(253 255 245 / 66%)); box-shadow: 0 .9rem 1.8rem rgb(11 28 88 / 10%); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .why-card { background: var(--color-milk); }.why-card__head { background: var(--color-brand-hover); }.why-card__body { background: var(--color-milk-highlight); } }
   .why-card h3 { margin: 0 0 .6rem; color: var(--color-brand); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .why-card p { margin: 0; color: var(--overview-muted); font-size: .99rem; line-height: 1.65; }
   .delivery-overview-section { background: var(--color-paper); }

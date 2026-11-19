@@ -3,11 +3,18 @@
 // [PROPOSAL] Layout from the client brief 2026-11-18: a thick blue line draws through the steps as the
 // visitor scrolls; big step names with icon badges and pill captions sit along it.
 // Each step passes its own translation attributes (data-home-key / data-about-key).
+type Attrs = Record<string, string | number | boolean | undefined>;
 interface Step {
   name: string;
   description: string;
-  nameAttrs?: Record<string, string>;
-  descriptionAttrs?: Record<string, string>;
+  nameAttrs?: Attrs;
+  descriptionAttrs?: Attrs;
+  /** Optional: attributes on the step's <li> (e.g. a translation index). */
+  itemAttrs?: Attrs;
+  /** Optional headline and activity list; when present the caption becomes a card instead of a pill. */
+  title?: string;
+  titleAttrs?: Attrs;
+  activities?: { text: string; attrs?: Attrs }[];
 }
 interface Props {
   steps: Step[];
@@ -56,7 +63,7 @@ const offsets = steps.map((_, index) => ((index % 2 === 0) === (startSide === 'r
 
     <ol class="process-road__steps">
       {steps.map((step, index) => (
-        <li class="road-step" style={`--x: ${offsets[index]}; --tilt: ${index % 2 ? 2.5 : -3.5}deg; --spin: ${index % 2 ? 8 : -10}deg;`} data-road-step>
+        <li {...step.itemAttrs} class="road-step" style={`--x: ${offsets[index]}; --tilt: ${index % 2 ? 2.5 : -3.5}deg; --spin: ${index % 2 ? 8 : -10}deg;`} data-road-step>
           <div class="road-step__title">
             <span class="road-step__lead" aria-hidden="true">0{index + 1}</span>
             <span class="road-step__badge" data-road-badge aria-hidden="true">
@@ -64,7 +71,19 @@ const offsets = steps.map((_, index) => ((index % 2 === 0) === (startSide === 'r
             </span>
             <h3 {...step.nameAttrs}>{step.name}</h3>
           </div>
-          <p class="road-step__pill" {...step.descriptionAttrs}>{step.description}</p>
+          {step.title || step.activities?.length ? (
+            <div class="road-step__pill road-step__pill--card">
+              {step.title && <p class="road-step__card-title" {...step.titleAttrs}>{step.title}</p>}
+              <p class="road-step__card-body" {...step.descriptionAttrs}>{step.description}</p>
+              {step.activities?.length ? (
+                <ul class="road-step__activities">
+                  {step.activities.map((activity) => <li {...activity.attrs}>{activity.text}</li>)}
+                </ul>
+              ) : null}
+            </div>
+          ) : (
+            <p class="road-step__pill" {...step.descriptionAttrs}>{step.description}</p>
+          )}
         </li>
       ))}
     </ol>
@@ -210,6 +229,42 @@ const offsets = steps.map((_, index) => ((index % 2 === 0) === (startSide === 'r
     line-height: 1.4;
     rotate: var(--tilt);
     transition: opacity 500ms var(--road-ease), translate 500ms var(--road-ease);
+  }
+
+  /* Card variant: headline, description and activity chips need more room than a pill. */
+  .road-step__pill--card {
+    max-width: min(27rem, 86vw);
+    padding: 1.1rem 1.5rem 1.25rem;
+    border-radius: 1.75rem;
+  }
+
+  .road-step__card-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .road-step__card-body { margin: .4rem 0 0; }
+
+  .road-step__activities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin: .8rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .road-step__activities li {
+    padding: .3rem .65rem;
+    border: 1px solid #cddcfb;
+    border-radius: 999px;
+    background: #fff;
+    font-size: .8125rem;
+    font-weight: 500;
+    line-height: 1.3;
   }
 
   /* Scroll states — only applied once the script runs, so content shows without JavaScript. */

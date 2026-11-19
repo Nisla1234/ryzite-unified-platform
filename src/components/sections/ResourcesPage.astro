@@ -1,6 +1,7 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import TabbedCards from '../ui/TabbedCards.astro';
+import ProcessRoad from './ProcessRoad.astro';
 import { scopeIcons } from '../../data/detail-icons';
 import ChatFaq from '../ui/ChatFaq.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
@@ -174,23 +175,16 @@ const pageTranslations = Object.fromEntries(
             <h2 id="process-title" data-resource-key="processTitle">{howWeWork.processTitle}</h2>
             <p data-resource-key="processIntro">{howWeWork.processIntro}</p>
           </header>
-          <ol class="resource-process-list">
-            {howWeWork.processSteps.map((step, index) => (
-              <li class="resource-process-step" data-resource-reveal data-resource-step-index={index}>
-                <span class="resource-process-step__number">0{index + 1}</span>
-                <div class="resource-process-step__content">
-                  <p class="resource-process-step__name" data-resource-step-field="name">{step.name}</p>
-                  <h3 data-resource-step-field="title">{step.title}</h3>
-                  <p class="resource-process-step__description" data-resource-step-field="description">{step.description}</p>
-                  <ul class="resource-activity-list">
-                    {step.activities.map((activity, activityIndex) => (
-                      <li data-resource-activity-index={activityIndex}>{activity}</li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <ProcessRoad steps={howWeWork.processSteps.map((step, index) => ({
+            name: step.name,
+            title: step.title,
+            description: step.description,
+            itemAttrs: { 'data-resource-step-index': index },
+            nameAttrs: { 'data-resource-step-field': 'name' },
+            titleAttrs: { 'data-resource-step-field': 'title' },
+            descriptionAttrs: { 'data-resource-step-field': 'description' },
+            activities: step.activities.map((activity, activityIndex) => ({ text: activity, attrs: { 'data-resource-activity-index': activityIndex } })),
+          }))} />
         </div>
       </section>
 
@@ -507,15 +501,6 @@ const pageTranslations = Object.fromEntries(
   .resource-comparison-section, .resource-principles-section, .resource-work-section, .resource-articles-section, .resource-approach-section { background: var(--color-milk); }
   .resource-editorial-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .resource-process-section { background: var(--color-paper); }
-  .resource-process-list { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin: 3.2rem 0 0; padding: 0; list-style: none; }
-  .resource-process-step { position: relative; display: grid; min-width: 0; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 2rem; }
-  .resource-process-step__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--resource-blue); background: var(--color-milk); box-shadow: 0 0 0 .35rem #edf5ff; font-size: .8125rem; font-weight: 600; }
-  .resource-process-step__content { min-width: 0; }
-  .resource-process-step__name { margin: .1rem 0 .5rem; color: var(--resource-blue); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-  .resource-process-step h3 { margin: 0; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .resource-process-step__description { margin: .7rem 0 0; color: var(--resource-muted); font-size: .968rem; line-height: 1.65; }
-  .resource-activity-list { display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 0; padding: 0; list-style: none; }
-  .resource-activity-list li { padding: .35rem .55rem; border: 1px solid #d9e6f4; border-radius: 999px; color: #40546d; background: var(--color-milk); font-size: .8125rem; line-height: 1.3; }
   .resource-principles-section { background: var(--color-milk); }
   .resource-principles-grid, .resource-approach-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
   .resource-principle-card, .resource-approach-card, .resource-topic-card { position: relative; min-width: 0; min-height: 205px; padding: 1.4rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk-highlight), var(--color-milk)); box-shadow: 0 .8rem 1.8rem #173b7109; }
@@ -547,7 +532,6 @@ const pageTranslations = Object.fromEntries(
   @media (max-width: 900px) {
     .resource-hero__inner { min-height: 450px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }
     .resource-package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .resource-process-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .resource-editorial-layout { grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
@@ -567,8 +551,6 @@ const pageTranslations = Object.fromEntries(
     .resource-package-grid, .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: 1fr; }
     .resource-package-card { padding: 1.25rem; }
     .resource-editorial-layout { grid-template-columns: 1fr; gap: 1.8rem; }
-    .resource-process-list { grid-template-columns: 1fr; gap: 0; margin-top: 2.4rem; }
-    .resource-process-step { padding-bottom: 1.7rem; }
     .resource-principle-card, .resource-approach-card, .resource-topic-card { min-height: 175px; }
     .resource-principle-card h3, .resource-approach-card h3, .resource-topic-card h3 { margin-top: 1.5rem; }
     .resource-empty-state { min-height: 250px; padding: 2rem 1.2rem; }
