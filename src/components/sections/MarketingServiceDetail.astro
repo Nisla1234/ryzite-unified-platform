@@ -2,7 +2,7 @@
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import WindingRoad from './WindingRoad.astro';
 import RelatedArrowCards from '../ui/RelatedArrowCards.astro';
-import { serviceIcons } from '../../data/detail-icons';
+import { serviceIcons, benefitIcons } from '../../data/detail-icons';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
 import { marketingServicePhotos, marketingServicePhotoSrc } from '../../data/marketing-service-photos';
@@ -30,12 +30,6 @@ const heroPhoto = marketingServicePhotos[service.slug];
 const pageTitle = `${translatedService.title} | Marketing Services | RYZITE`;
 const pageDescription = `${translatedService.description} Explore possible ${translatedService.focus} approaches with RYZITE.`;
 const canonicalUrl = new URL(`/services/${service.slug}/`, Astro.url).href;
-// Benefit card icons (24x24 strokes): clearer view, audience in context, review together.
-const benefitIcons = [
-  '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" /><circle cx="12" cy="12" r="3" />',
-  '<circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" />',
-  '<rect x="5" y="4" width="14" height="17" rx="2" /><path d="M9 4V3h6v1 M8.5 12.5l2.3 2.3 4.7-4.8" />',
-];
 const contactUrl = `/contact/?service=${encodeURIComponent(service.slug)}`;
 const detailTranslations = Object.fromEntries(
   Object.entries(marketingServiceTranslations).map(([locale, translation]) => [

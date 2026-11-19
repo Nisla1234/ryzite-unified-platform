@@ -4,7 +4,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import WindingRoad from '../../components/sections/WindingRoad.astro';
 import RelatedArrowCards from '../../components/ui/RelatedArrowCards.astro';
 import { solutionCoverImages } from '../../data/solution-cover-images';
-import { solutionIcons } from '../../data/detail-icons';
+import { solutionIcons, benefitIcons } from '../../data/detail-icons';
 import { technologySolutions, technologySolutionBySlug } from '../../data/technology-solutions';
 import { technologySolutionTranslations } from '../../data/technology-solution-translations';
 
@@ -46,15 +46,24 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
             <span data-technology-key="contactCta">Start a Project</span><span aria-hidden="true"><ArrowUpRight /></span>
           </a>
         </div>
-        <div class="solution-detail-hero__visual" aria-hidden="true">
-          <div class="solution-detail-hero__grid"></div>
-          <div class="solution-detail-hero__symbol">{solution.icon}</div>
-          <span class="solution-detail-hero__orbit solution-detail-hero__orbit--one"></span>
-          <span class="solution-detail-hero__orbit solution-detail-hero__orbit--two"></span>
-          <span class="solution-detail-hero__spark solution-detail-hero__spark--one">✳</span>
-          <span class="solution-detail-hero__spark solution-detail-hero__spark--two">✦</span>
-          <span class="solution-detail-hero__index">{String(technologySolutions.findIndex(({ slug }) => slug === solution.slug) + 1).padStart(2, '0')} / 09</span>
-        </div>
+        {coverImage ? (
+          <div class="solution-detail-hero__frame">
+            <span class="solution-detail-hero__blob solution-detail-hero__blob--one" aria-hidden="true"></span>
+            <span class="solution-detail-hero__blob solution-detail-hero__blob--two" aria-hidden="true"></span>
+            <figure class="solution-detail-hero__photo">
+              <img src={coverImage.src} alt="" width={coverImage.width} height={coverImage.height} fetchpriority="high" decoding="async" />
+            </figure>
+          </div>
+        ) : (
+          <div class="solution-detail-hero__visual" aria-hidden="true">
+            <div class="solution-detail-hero__grid"></div>
+            <div class="solution-detail-hero__symbol">{solution.icon}</div>
+            <span class="solution-detail-hero__orbit solution-detail-hero__orbit--one"></span>
+            <span class="solution-detail-hero__orbit solution-detail-hero__orbit--two"></span>
+            <span class="solution-detail-hero__spark solution-detail-hero__spark--one">✳</span>
+            <span class="solution-detail-hero__spark solution-detail-hero__spark--two">✦</span>
+          </div>
+        )}
       </div>
     </section>
 
@@ -91,15 +100,15 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
     </section>
 
     <section class="solution-detail-section capabilities-section" aria-labelledby="capabilities-title">
-      <div class="solution-shell capabilities-layout">
-        <header class="solution-section-heading" data-solution-reveal>
+      <div class="solution-shell">
+        <header class="solution-section-heading solution-section-heading--center" data-solution-reveal>
           <h2 id="capabilities-title" data-technology-key="capabilitiesTitle">Capabilities to Scope Together.</h2>
         </header>
-        <ul class="capability-list">
+        <div class="capability-grid">
           {solution.capabilities.map((capability, index) => (
-            <li data-solution-reveal><span class="capability-index">0{index + 1}</span><p data-solution-list="capabilities" data-solution-index={index}>{capability}</p><span class="capability-mark" aria-hidden="true"><ArrowUpRight /></span></li>
+            <article class="capability-card" data-solution-reveal><p data-solution-list="capabilities" data-solution-index={index}>{capability}</p></article>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
 
@@ -108,11 +117,15 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
         <header class="solution-section-heading solution-section-heading--center" data-solution-reveal>
           <h2 id="benefits-title" data-technology-key="benefitsTitle">What This Can Help You Work Toward.</h2>
         </header>
-        <div class="benefit-grid">
+        <ul class="benefit-grid">
           {solution.benefits.map((benefit, index) => (
-            <article class="benefit-card" data-solution-reveal><span aria-hidden="true">0{index + 1}</span><p data-solution-list="benefits" data-solution-index={index}>{benefit}</p></article>
+            <li class="benefit-card" data-solution-reveal>
+              <svg class="benefit-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={benefitIcons[index % benefitIcons.length]} />
+              <p data-solution-list="benefits" data-solution-index={index}>{benefit}</p>
+              <span class="benefit-card__dome" aria-hidden="true"><span>{String(index + 1).padStart(2, '0')}</span></span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
 
@@ -246,6 +259,13 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
   .solution-detail-hero h1 { max-width: var(--measure-h1); margin: 0; color: #101827; font-family: var(--font-display); font-size: var(--size-h1); font-weight: 700; letter-spacing: var(--tracking-h1); line-height: var(--leading-h1); }.solution-detail-hero__description { max-width: 650px; margin: 1.3rem 0 0; color: var(--solution-muted); font-size: var(--size-lead); line-height: 1.75; }
   .solution-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .968rem; font-weight: 600; text-decoration: none; transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease; }.solution-button:hover { transform: translateY(-3px); }.solution-button span:last-child { transition: transform 180ms ease; }.solution-button:hover span:last-child { transform: translateX(3px); }.solution-button--primary { color: #fff; background: var(--color-brand); box-shadow: 0 .7rem 1.5rem #0b1c5830; }.solution-button--primary:hover { background: var(--color-brand-hover); }
   .solution-detail-hero__visual { position: relative; width: min(100%, 400px); aspect-ratio: 1; justify-self: center; overflow: hidden; border: 1px solid #d5e5f8; border-radius: 2.2rem; background: radial-gradient(circle at center, var(--color-milk) 0 22%, #eef6ff 23% 66%, #e1efff 67%); box-shadow: inset 0 0 0 1rem #ffffff50, 0 1.5rem 3.5rem #173b7110; animation: solution-art-in 700ms var(--ease-out) both; }.solution-detail-hero__grid { position: absolute; inset: 12%; border: 1px solid #8cb9ee80; border-radius: 50%; background-image: linear-gradient(#0b1c5814 1px, transparent 1px), linear-gradient(90deg, #0b1c5814 1px, transparent 1px); background-size: 16% 16%; mask-image: radial-gradient(circle, #000 0 68%, transparent 69%); }.solution-detail-hero__symbol { position: absolute; top: 50%; left: 50%; display: grid; width: 34%; aspect-ratio: 1; place-items: center; transform: translate(-50%, -50%); border: 1px solid #ffffffa0; border-radius: 1.5rem; color: #fff; background: var(--color-brand); box-shadow: 0 1.2rem 2.7rem #0b1c583b; font-family: var(--font-display); font-size: clamp(2.2rem, 4.4vw, 3.3rem); font-weight: 700; }.solution-detail-hero__orbit { position: absolute; inset: 7%; border: 1px solid #0b1c582e; border-radius: 50%; }.solution-detail-hero__orbit--two { inset: 22%; border-style: dashed; border-color: #0b1c5855; }.solution-detail-hero__spark { position: absolute; color: var(--solution-blue); }.solution-detail-hero__spark--one { top: 15%; right: 22%; }.solution-detail-hero__spark--two { bottom: 16%; left: 19%; }.solution-detail-hero__index { position: absolute; right: 1.2rem; bottom: 1rem; color: #617794; font-size: .8125rem; font-weight: 600; letter-spacing: .13em; }.solution-detail-hero__orb { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #0b1c5828, transparent 68%); }
+  /* Hero photo: the solution's cover image in a frosted-glass frame with two soft blobs, as on the service pages. */
+  .solution-detail-hero__frame { position: relative; isolation: isolate; width: min(100%, 460px); justify-self: center; }
+  .solution-detail-hero__blob { position: absolute; z-index: -1; border-radius: 50%; filter: blur(8px); pointer-events: none; }
+  .solution-detail-hero__blob--one { top: -8%; right: -6%; width: 46%; aspect-ratio: 1; background: radial-gradient(circle at 35% 35%, #078be9, #0655e9 70%); opacity: .75; }
+  .solution-detail-hero__blob--two { bottom: -10%; left: -8%; width: 38%; aspect-ratio: 1; background: radial-gradient(circle at 60% 40%, #8cc8ff, #0643cf 75%); opacity: .6; }
+  .solution-detail-hero__photo { position: relative; margin: 0; padding: .85rem; border: 1px solid rgb(255 255 255 / 65%); border-radius: 2rem; background: linear-gradient(145deg, rgb(255 255 255 / 55%), rgb(255 255 255 / 18%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%), 0 1.6rem 3.6rem rgb(23 59 113 / 18%); backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%); }
+  .solution-detail-hero__photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1.4rem; }
   .solution-detail-section { padding-block: clamp(4.5rem, 8vw, 7rem); }.solution-section-heading h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }.solution-section-heading--center { display: flex; flex-direction: column; align-items: center; text-align: center; }.solution-section-heading--center .solution-eyebrow { justify-content: center; }.solution-section-intro { max-width: 700px; margin: 1rem 0 0; color: var(--solution-muted); line-height: 1.7; }
   .challenge-section { background: var(--color-milk); }.challenge-layout { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 7vw, 7rem); }.challenge-list { display: grid; grid-template-columns: 1fr; list-style: none; margin: 0; padding: 0; border-top: 1px solid #dce5f0; }.challenge-list li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); align-items: start; gap: 1rem; padding: 1.3rem .3rem; border-bottom: 1px solid #dce5f0; }.challenge-number { color: var(--solution-blue); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }.challenge-list p { margin: 0; color: #30435c; line-height: 1.6; }
   /* Glassmorphism over the solution's cover image: the image sits behind a navy tint, and the copy and
@@ -258,15 +278,31 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
   .provides-mark .provides-icon { width: 48%; height: auto; filter: drop-shadow(0 .4rem .9rem rgb(133 198 255 / 35%)); }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .provides-glass, .provides-mark { background: rgb(16 29 50 / 88%); } }
  .provides-layout { display: grid; grid-template-columns: minmax(180px, .5fr) minmax(0, 1.5fr); align-items: center; gap: clamp(2rem, 7vw, 7rem); }.provides-layout .solution-eyebrow { color: #85c6ff; }.provides-layout h2 { max-width: var(--measure-h2); margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }.provides-copy { max-width: 850px; margin: 1.2rem 0 0; color: #cad6e4; font-size: var(--size-lead); line-height: 1.75; }.provides-mark { display: grid; width: min(100%, 220px); aspect-ratio: 1; place-items: center; justify-self: center; border: 1px solid #8ac8ff60; border-radius: 2rem; color: #9dd7ff; background: linear-gradient(145deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 5%)); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); box-shadow: 0 0 0 1.1rem #ffffff05, 0 0 0 2.2rem #ffffff03; font-family: var(--font-display); font-size: 5.5rem; font-weight: 700; }
-  .capabilities-section { background: #f0f6fd; }.capabilities-layout { display: grid; grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr); align-items: start; gap: clamp(2rem, 7vw, 7rem); }.capability-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid #d3e0ef; }.capability-list li { display: grid; grid-template-columns: 2.3rem minmax(0, 1fr) 2rem; align-items: center; gap: 1rem; padding: 1.15rem .2rem; border-bottom: 1px solid #d3e0ef; }.capability-index { color: var(--solution-blue); font-size: .8125rem; font-weight: 600; }.capability-list p { margin: 0; color: #223b5a; line-height: 1.5; }.capability-mark { color: var(--color-brand); font-size: 1.21rem; }
-  .benefits-section { background: var(--color-milk); }.benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2.8rem; }.benefit-card { min-height: 190px; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk-highlight), var(--color-milk)); box-shadow: 0 .8rem 1.8rem #173b7109; }.benefit-card > span { color: var(--solution-blue); font-size: .8125rem; font-weight: 600; letter-spacing: .12em; }.benefit-card p { margin: 2rem 0 0; color: #30435c; font-family: var(--font-display); font-size: 1.595rem; font-weight: 700; line-height: 1.2; }
-  .delivery-section { background: #f7f9fc; }
+  /* Same styles as the service pages (MarketingServiceDetail.astro): plain capability cards and numbered
+     milky-white glass benefit cards with a small glass dome. */
+  .capabilities-section { background: var(--color-milk); }
+  .capability-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+  .capability-card { padding: 1.4rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk), #f7faff); box-shadow: 0 .8rem 1.8rem #173b7109; }
+  .capability-card p { margin: 0; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .benefits-section { position: relative; isolation: isolate; overflow: hidden; background: var(--color-milk); }
+  .benefits-section::before, .benefits-section::after { position: absolute; z-index: -1; border-radius: 50%; content: ''; pointer-events: none; }
+  .benefits-section::before { top: -22rem; left: -22rem; width: 50rem; aspect-ratio: 1; background: radial-gradient(closest-side, rgb(8 12 17 / 16%), rgb(8 12 17 / 6%) 55%, rgb(8 12 17 / 0%)); }
+  .benefits-section::after { right: -22rem; bottom: -26rem; width: 52rem; aspect-ratio: 1; background: radial-gradient(closest-side, rgb(8 12 17 / 15%), rgb(8 12 17 / 5%) 55%, rgb(8 12 17 / 0%)); }
+  .benefit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.4vw, 2rem); margin: 3rem 0 0; padding: 0; list-style: none; }
+  .benefit-card { position: relative; display: flex; min-height: 280px; flex-direction: column; overflow: hidden; padding: 2rem 1.75rem 0; border: 1px solid rgb(255 255 255 / 85%); border-radius: 1.75rem; color: var(--color-ink); background: linear-gradient(160deg, rgb(255 255 255 / 70%), rgb(253 255 245 / 35%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), 0 1.5rem 3rem rgb(8 12 17 / 14%); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .benefit-card { background: rgb(253 255 245 / 94%); } }
+  .benefit-card__icon { width: 2.4rem; height: 2.4rem; flex: none; color: var(--color-ink); }
+  .benefit-card p { margin: 1.2rem 0 1.5rem; color: var(--color-ink); font-family: var(--font-display); font-size: clamp(1.05rem, 1.4vw, 1.2rem); font-weight: 600; line-height: 1.5; }
+  .benefit-card__dome { position: relative; display: grid; height: 5.5rem; margin: auto -1.75rem 0; place-items: start center; }
+  .benefit-card__dome::before { position: absolute; top: 0; right: 18%; left: 18%; height: 200%; border: 1px solid rgb(255 255 255 / 90%); border-radius: 50%; background: linear-gradient(180deg, rgb(255 255 255 / 75%), rgb(8 12 17 / 8%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), inset 0 -1.5rem 2.5rem rgb(8 12 17 / 6%), 0 -.5rem 1.6rem rgb(8 12 17 / 10%); -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%); content: ''; }
+  .benefit-card__dome > span { position: relative; padding-top: 1.5rem; color: var(--color-ink); font-family: var(--font-display); font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+  .delivery-section { background: var(--color-milk); }
   /* Soft brand-blue light behind the navy glass related cards (RelatedArrowCards), so the glass has something to blur. */
   .related-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 11rem at 20% 72%, rgb(124 192 255 / 55%), transparent 100%), radial-gradient(circle 10rem at 55% 62%, rgb(143 166 255 / 50%), transparent 100%), radial-gradient(circle 11rem at 86% 74%, rgb(124 192 255 / 50%), transparent 100%), var(--color-milk); }
  
-  .detail-faq-section { background: #f1f6fc; }.faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }.solution-faq-list { border-top: 1px solid #d7e1ee; }.solution-faq-item { border-bottom: 1px solid #d7e1ee; }.solution-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }.solution-faq-item summary::-webkit-details-marker { display: none; }.solution-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--solution-blue); border-bottom: 2px solid var(--solution-blue); content: ''; transition: transform 180ms ease; }.solution-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }.solution-faq-item summary:focus-visible { outline: 3px solid var(--solution-blue); outline-offset: 3px; border-radius: 4px; }.solution-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }.solution-faq-item[open] .solution-faq-item__answer { grid-template-rows: 1fr; }.solution-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--solution-muted); font-size: .99rem; line-height: 1.7; }.solution-faq-item[open] .solution-faq-item__answer p { padding-bottom: 1.1rem; }
+  .detail-faq-section { background: var(--color-milk); }.faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }.solution-faq-list { border-top: 1px solid #d7e1ee; }.solution-faq-item { border-bottom: 1px solid #d7e1ee; }.solution-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }.solution-faq-item summary::-webkit-details-marker { display: none; }.solution-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--solution-blue); border-bottom: 2px solid var(--solution-blue); content: ''; transition: transform 180ms ease; }.solution-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }.solution-faq-item summary:focus-visible { outline: 3px solid var(--solution-blue); outline-offset: 3px; border-radius: 4px; }.solution-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }.solution-faq-item[open] .solution-faq-item__answer { grid-template-rows: 1fr; }.solution-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--solution-muted); font-size: .99rem; line-height: 1.7; }.solution-faq-item[open] .solution-faq-item__answer p { padding-bottom: 1.1rem; }
   @keyframes solution-art-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
   @media (max-width: 900px) { .solution-detail-hero__inner { min-height: 440px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }.challenge-layout, .capabilities-layout, .faq-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; } }
-  @media (max-width: 700px) { .solution-shell { padding-inline: 1rem; }.solution-detail-hero { padding: 3.5rem 1rem 4rem; }.solution-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }.solution-detail-hero__visual { width: min(75vw, 320px); }.solution-detail-section { padding-block: 4.5rem; }.challenge-layout, .capabilities-layout, .provides-layout, .faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }.provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }.benefit-grid, .benefit-card { min-height: 145px; }.benefit-card p { margin-top: 1.3rem; } }
+  @media (max-width: 700px) { .solution-shell { padding-inline: 1rem; }.solution-detail-hero { padding: 3.5rem 1rem 4rem; }.solution-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }.solution-detail-hero__visual { width: min(75vw, 320px); }.solution-detail-section { padding-block: 4.5rem; }.challenge-layout, .capabilities-layout, .provides-layout, .faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }.provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }.benefit-grid, .capability-grid { grid-template-columns: 1fr; }.solution-detail-hero__frame { width: 100%; max-width: 480px; }.solution-detail-hero__photo { padding: .6rem; border-radius: 1.5rem; }.solution-detail-hero__photo img { border-radius: 1.05rem; } }
   @media (prefers-reduced-motion: reduce) { .solution-detail-page *, .solution-detail-page *::before, .solution-detail-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 </style>

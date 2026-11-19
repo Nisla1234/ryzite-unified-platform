@@ -47,3 +47,10 @@ export const solutionIcons: Record<string, string> = {
   // shield with a check
   'website-care-and-maintenance': '<path d="m12 3 7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6z" /><path d="m8.8 12.2 2.2 2.2 4.4-4.6" />',
 };
+
+// Benefit card icons (24x24 strokes): clearer view, audience in context, review together.
+export const benefitIcons = [
+  '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" /><circle cx="12" cy="12" r="3" />',
+  '<circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" />',
+  '<rect x="5" y="4" width="14" height="17" rx="2" /><path d="M9 4V3h6v1 M8.5 12.5l2.3 2.3 4.7-4.8" />',
+];
