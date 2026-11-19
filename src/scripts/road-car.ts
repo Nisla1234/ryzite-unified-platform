@@ -1,4 +1,4 @@
-// Services page process road: a cartoon car drives along the road on a loop.
+// Winding-road process (WindingRoad.astro): a cartoon car drives along each road on a loop.
 // The road SVGs stretch (preserveAspectRatio="none"), so the car is an HTML image placed over them:
 // each frame reads a point on the visible road path and maps it to the road box in pixels.
 // Decorative only. With reduced motion the car stays parked near the start; it pauses off-screen.
@@ -7,10 +7,9 @@ const LAP_MS = 16000; // one trip along the road
 const FADE = 0.035; // share of the lap spent fading in at the start and out at the end
 const TILT = 0.7; // soften the slope rotation so the 3/4-view car doesn't look upended
 
-const initializeRoadCar = () => {
-  const road = document.querySelector<HTMLElement>('.marketing-road');
-  const car = road?.querySelector<HTMLImageElement>('.marketing-road__car');
-  if (!road || !car || road.dataset.carInitialized) return;
+const initializeRoadCar = (road: HTMLElement) => {
+  const car = road.querySelector<HTMLImageElement>('.winding-road__car');
+  if (!car || road.dataset.carInitialized) return;
   road.dataset.carInitialized = 'true';
 
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -20,8 +19,8 @@ const initializeRoadCar = () => {
 
   // The road that is currently displayed (wide on desktop, tall on narrow screens).
   const activePath = () => {
-    const svg = [...road.querySelectorAll<SVGSVGElement>('.marketing-road__svg')].find((element) => element.getClientRects().length);
-    const path = svg?.querySelector<SVGPathElement>('.marketing-road__asphalt');
+    const svg = [...road.querySelectorAll<SVGSVGElement>('.winding-road__svg')].find((element) => element.getClientRects().length);
+    const path = svg?.querySelector<SVGPathElement>('.winding-road__asphalt');
     return svg && path ? { svg, path } : null;
   };
 
@@ -86,5 +85,7 @@ const initializeRoadCar = () => {
   }, { once: true });
 };
 
-initializeRoadCar();
-document.addEventListener('astro:page-load', initializeRoadCar);
+const initializeRoadCars = () => document.querySelectorAll<HTMLElement>('[data-winding-road]').forEach(initializeRoadCar);
+
+initializeRoadCars();
+document.addEventListener('astro:page-load', initializeRoadCars);

@@ -1,5 +1,6 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
+import WindingRoad from './WindingRoad.astro';
 import { technologySolutions } from '../../data/technology-solutions';
 import { technologySolutionTranslations } from '../../data/technology-solution-translations';
 
@@ -39,14 +40,13 @@ const pageTranslations = {
         <h2 id="delivery-overview-title" data-technology-key="deliveryTitle">From Requirements to a Ready-to-Review Solution.</h2>
         <p class="overview-intro" data-technology-key="deliveryIntro">A clear process helps define the work, keep decisions visible, and review the solution before handover.</p>
       </header>
-      <ol class="delivery-steps">
-        {technologySolutionTranslations.en.deliverySteps.map((step, index) => (
-          <li data-overview-reveal data-overview-step={index}>
-            <span class="delivery-steps__number">0{index + 1}</span>
-            <div><h3 data-overview-step-title>{step.title}</h3><p data-overview-step-body>{step.body}</p></div>
-          </li>
-        ))}
-      </ol>
+      <WindingRoad steps={technologySolutionTranslations.en.deliverySteps.map((step, index) => ({
+        title: step.title,
+        body: step.body,
+        itemAttrs: { 'data-overview-reveal': true, 'data-overview-step': index },
+        titleAttrs: { 'data-overview-step-title': true },
+        bodyAttrs: { 'data-overview-step-body': true },
+      }))} />
     </div>
   </section>
 
@@ -148,7 +148,9 @@ const pageTranslations = {
           y: 0,
           duration: 0.65,
           ease: 'power2.out',
-          clearProps: 'all',
+          // Clear only what GSAP set: 'all' would wipe the inline style, including the
+          // winding-road steps' --col / --pin-y placement variables.
+          clearProps: 'opacity,visibility,transform',
         });
         currentObserver.unobserve(entry.target);
       });
@@ -180,12 +182,6 @@ const pageTranslations = {
   .delivery-overview-section { background: var(--color-paper); }
   .overview-heading--center { max-width: 800px; margin-inline: auto; text-align: center; }
   .overview-heading--center .overview-eyebrow { justify-content: center; }
-  .delivery-steps { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; list-style: none; margin: 3.2rem 0 0; padding: 0; }
-  .delivery-steps::before { position: absolute; top: 1.25rem; right: 8%; left: 8%; height: 1px; background: linear-gradient(90deg, #b9d4f4, var(--color-brand), #b9d4f4); content: ''; }
-  .delivery-steps li { position: relative; display: grid; min-height: 165px; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 1.4rem; }
-  .delivery-steps__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--overview-blue); background: var(--color-milk); box-shadow: 0 0 0 .35rem #edf5ff; font-size: .8125rem; font-weight: 600; }
-  .delivery-steps h3 { margin: .1rem 0 .45rem; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .delivery-steps p { margin: 0; color: var(--overview-muted); font-size: .968rem; line-height: 1.65; }
   .faq-overview-section { background: var(--color-milk); }
   .faq-overview-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .overview-faq-list { border-top: 1px solid #d7e1ee; }
@@ -208,7 +204,7 @@ const pageTranslations = {
   .solutions-closing-cta__button:hover { transform: translateY(-3px); background: #eaf4ff; }
   .solutions-closing-cta__button:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
   .solutions-closing-cta__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
-  @media (max-width: 900px) { .why-layout, .faq-overview-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }.delivery-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }.delivery-steps::before { display: none; } }
-  @media (max-width: 700px) { .overview-shell { padding-inline: 1rem; }.overview-section { padding-block: 4.5rem; }.why-layout, .faq-overview-layout { grid-template-columns: 1fr; gap: 1.8rem; }.why-grid { grid-template-columns: 1fr; }.why-card { min-height: 180px; }.why-card h3 { margin-top: 1.5rem; }.delivery-steps { grid-template-columns: 1fr; gap: 0; margin-top: 2.4rem; }.delivery-steps li { min-height: auto; padding-bottom: 1.4rem; }.delivery-steps::before { position: absolute; top: 1.2rem; bottom: 2rem; left: 1.2rem; display: block; width: 1px; height: auto; background: linear-gradient(#b9d4f4, var(--color-brand), #b9d4f4); }.solutions-closing-cta { min-height: 350px; padding-inline: 1rem; } }
+  @media (max-width: 900px) { .why-layout, .faq-overview-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; } }
+  @media (max-width: 700px) { .overview-shell { padding-inline: 1rem; }.overview-section { padding-block: 4.5rem; }.why-layout, .faq-overview-layout { grid-template-columns: 1fr; gap: 1.8rem; }.why-grid { grid-template-columns: 1fr; }.why-card { min-height: 180px; }.why-card h3 { margin-top: 1.5rem; }.solutions-closing-cta { min-height: 350px; padding-inline: 1rem; } }
   @media (prefers-reduced-motion: reduce) { .technology-solutions-overview *, .technology-solutions-overview *::before, .technology-solutions-overview *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }.why-card:hover, .solutions-closing-cta__button:hover { transform: none; } }
 </style>
