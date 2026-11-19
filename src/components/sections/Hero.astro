@@ -190,7 +190,9 @@ const sceneLayout = [
   .video-hero {
     /* Same palette as the homepage sections (home-sections.css, BusinessChallenge). */
     --hero-ink: #0a1734;
-    --hero-body: #465771;
+    --hero-body: #24334f;
+    /* Soft milky glow behind the copy so it stays readable over the moving blue waves. */
+    --hero-copy-glow: rgb(253 255 245 / 62%);
     --hero-accent: var(--color-brand);
     --hero-cta: var(--color-brand);
     --hero-cta-shadow: 0 8px 18px #0b1c5835;
@@ -421,7 +423,19 @@ const sceneLayout = [
     opacity: 0;
     transform: translate3d(0, calc(-50% + var(--panel-shift, 24px)), 0);
     visibility: hidden;
+    isolation: isolate;
     will-change: opacity, transform;
+  }
+
+  /* Feathered milky-white glow behind the copy. A radial gradient sized to the box's closest
+     side fades fully to transparent before every edge, so there is no visible box. */
+  .video-hero__panel::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -22% -18%;
+    background: radial-gradient(closest-side, var(--hero-copy-glow) 0%, rgb(253 255 245 / 40%) 55%, rgb(253 255 245 / 0%) 100%);
+    pointer-events: none;
   }
 
   .video-hero__panel--left {
