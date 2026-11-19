@@ -2,6 +2,7 @@
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
+import { marketingServicePhotos, marketingServicePhotoSrc } from '../../data/marketing-service-photos';
 import { marketingServiceTranslations } from '../../data/marketing-service-translations';
 
 interface Props {
@@ -22,6 +23,7 @@ const relatedServices = service.related.map((relatedSlug) => {
   if (!related) throw new Error(`Related Marketing Service "${relatedSlug}" could not be found.`);
   return related;
 });
+const heroPhoto = marketingServicePhotos[service.slug];
 const pageTitle = `${translatedService.title} | Marketing Services | RYZITE`;
 const pageDescription = `${translatedService.description} Explore possible ${translatedService.focus} approaches with RYZITE.`;
 const canonicalUrl = new URL(`/services/${service.slug}/`, Astro.url).href;
@@ -83,14 +85,25 @@ const detailTranslations = Object.fromEntries(
             <span data-marketing-key="contactCta">{copy.contactCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
           </a>
         </div>
-        <div class="marketing-detail-hero__visual" aria-hidden="true">
+        {heroPhoto ? (
+          <div class="marketing-detail-hero__frame">
+            <span class="marketing-detail-hero__blob marketing-detail-hero__blob--one" aria-hidden="true"></span>
+            <span class="marketing-detail-hero__blob marketing-detail-hero__blob--two" aria-hidden="true"></span>
+            <figure class="marketing-detail-hero__photo">
+              <img src={marketingServicePhotoSrc(service.slug)} alt="" width={heroPhoto.width} height={heroPhoto.height} fetchpriority="high" decoding="async" />
+              <span class="marketing-detail-hero__photo-index" aria-hidden="true">{String(marketingServices.findIndex(({ slug: itemSlug }) => itemSlug === service.slug) + 1).padStart(2, '0')} / {String(marketingServices.length).padStart(2, '0')}</span>
+            </figure>
+          </div>
+        ) : (
+          <div class="marketing-detail-hero__visual" aria-hidden="true">
           <div class="marketing-detail-hero__orbit marketing-detail-hero__orbit--one"></div>
           <div class="marketing-detail-hero__orbit marketing-detail-hero__orbit--two"></div>
           <div class="marketing-detail-hero__symbol">{service.icon === "\u2197" ? <ArrowUpRight /> : service.icon}</div>
           <span class="marketing-detail-hero__spark marketing-detail-hero__spark--one">✳</span>
           <span class="marketing-detail-hero__spark marketing-detail-hero__spark--two">✦</span>
           <span class="marketing-detail-hero__index">{String(marketingServices.findIndex(({ slug: itemSlug }) => itemSlug === service.slug) + 1).padStart(2, '0')} / {String(marketingServices.length).padStart(2, '0')}</span>
-        </div>
+          </div>
+        )}
       </div>
     </section>
 
@@ -328,6 +341,13 @@ const detailTranslations = Object.fromEntries(
   .marketing-detail .marketing-button:focus-visible { outline: 3px solid var(--marketing-blue); outline-offset: 4px; }
   .marketing-button--primary { color: #fff; background: var(--color-brand); box-shadow: 0 .7rem 1.5rem #0b1c5830; }
   .marketing-button--primary:hover { background: var(--color-brand-hover); }
+  .marketing-detail-hero__frame { position: relative; isolation: isolate; width: min(100%, 460px); justify-self: center; }
+  .marketing-detail-hero__blob { position: absolute; z-index: -1; border-radius: 50%; filter: blur(8px); pointer-events: none; }
+  .marketing-detail-hero__blob--one { top: -8%; right: -6%; width: 46%; aspect-ratio: 1; background: radial-gradient(circle at 35% 35%, #078be9, #0655e9 70%); opacity: .75; }
+  .marketing-detail-hero__blob--two { bottom: -10%; left: -8%; width: 38%; aspect-ratio: 1; background: radial-gradient(circle at 60% 40%, #8cc8ff, #0643cf 75%); opacity: .6; }
+  .marketing-detail-hero__photo { position: relative; margin: 0; padding: .85rem; border: 1px solid rgb(255 255 255 / 65%); border-radius: 2rem; background: linear-gradient(145deg, rgb(255 255 255 / 55%), rgb(255 255 255 / 18%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%), 0 1.6rem 3.6rem rgb(23 59 113 / 18%); backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%); }
+  .marketing-detail-hero__photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1.4rem; }
+  .marketing-detail-hero__photo-index { position: absolute; top: 1.6rem; right: 1.6rem; padding: .3rem .65rem; border-radius: 999px; color: #fff; background: rgb(10 23 52 / 45%); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font-size: .8125rem; font-weight: 600; letter-spacing: .08em; }
   .marketing-detail-hero__visual { position: relative; display: grid; width: min(100%, 400px); aspect-ratio: 1; place-items: center; justify-self: center; overflow: hidden; border: 1px solid #d5e5f8; border-radius: 2.2rem; background: radial-gradient(circle at center, var(--color-milk) 0 22%, #eef6ff 23% 66%, #e1efff 67%); box-shadow: inset 0 0 0 1rem #ffffff50, 0 1.5rem 3.5rem #173b7110; }
   .marketing-detail-hero__visual::before { position: absolute; inset: 12%; border: 1px solid #8cb9ee80; border-radius: 50%; background-image: linear-gradient(#0b1c5814 1px, transparent 1px), linear-gradient(90deg, #0b1c5814 1px, transparent 1px); background-size: 16% 16%; content: ''; mask-image: radial-gradient(circle, #000 0 68%, transparent 69%); }
   .marketing-detail-hero__symbol { position: relative; z-index: 1; display: grid; width: 34%; aspect-ratio: 1; place-items: center; border: 1px solid #ffffffa0; border-radius: 1.5rem; color: #fff; background: var(--color-brand); box-shadow: 0 1.2rem 2.7rem #0b1c583b; font-family: var(--font-display); font-size: clamp(2.2rem, 4.4vw, 3.3rem); font-weight: 700; }
@@ -416,6 +436,7 @@ const detailTranslations = Object.fromEntries(
     .marketing-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }
     
     .marketing-detail-hero__visual { width: min(75vw, 320px); }
+    .marketing-detail-hero__frame { width: 100%; max-width: 480px; }.marketing-detail-hero__photo { padding: .6rem; border-radius: 1.5rem; }.marketing-detail-hero__photo img { border-radius: 1.05rem; }.marketing-detail-hero__photo-index { top: 1.2rem; right: 1.2rem; }
     .marketing-detail-section { padding-block: 4.5rem; }
     
     .marketing-detail-split, .marketing-provides-layout, .marketing-detail-faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }
