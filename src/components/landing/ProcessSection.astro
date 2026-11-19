@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import ButtonLink from '../ui/ButtonLink.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 
@@ -27,7 +28,7 @@ const { content } = Astro.props;
             <li class="process-step" data-process-step>
                 <span class="process-number">{step.mark}</span>
                 <span class="process-symbol" aria-hidden="true">
-                    {['*', '•••', '↗', '□', '↑', '+'][index]}
+                    {['*', '•••', <ArrowUpRight />, '□', '↑', '+'][index]}
                 </span>
                 <div>
                     <h3 data-i18n={`process.steps.${index}.title`}>{step.title}</h3>

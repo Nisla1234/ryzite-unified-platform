@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-labelledby="t">
+  <title id="t">Two linked rings representing marketing and technology working together</title>
+  <defs>
+    <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="230" y1="350" x2="530" y2="650">
+      <stop offset="0" stop-color="#0655E9"/>
+      <stop offset="1" stop-color="#0643CF"/>
+    </linearGradient>
+    <linearGradient id="b" gradientUnits="userSpaceOnUse" x1="470" y1="350" x2="770" y2="650">
+      <stop offset="0" stop-color="#4FB4F5"/>
+      <stop offset="1" stop-color="#078BE9"/>
+    </linearGradient>
+    <mask id="c" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000">
+      <circle cx="395" cy="500" r="150" fill="none" stroke="#fff" stroke-width="70"/>
+    </mask>
+    <mask id="d" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000">
+      <circle cx="605" cy="500" r="150" fill="none" stroke="#fff" stroke-width="70"/>
+    </mask>
+    <clipPath id="e"><path d="M0 0h1000v500H0z"/></clipPath>
+    <clipPath id="f"><path d="M0 500h1000v500H0z"/></clipPath>
+  </defs>
+  <circle cx="500" cy="500" r="290" fill="#EAF3FF"/>
+  <circle cx="500" cy="500" r="400" fill="none" stroke="#9BC1F0" stroke-width="3" stroke-dasharray="4 16" stroke-linecap="round"/>
+  <circle cx="783" cy="217" r="16" fill="#078BE9"/>
+  <circle cx="154" cy="700" r="11" fill="#0655E9"/>
+  <circle cx="700" cy="846" r="7" fill="#9BC1F0"/>
+  <g fill="none">
+    <circle cx="395" cy="500" r="150" stroke="url(#a)" stroke-width="70"/>
+    <g clip-path="url(#e)"><circle cx="605" cy="500" r="150" stroke="#EAF3FF" stroke-width="90" mask="url(#c)"/></g>
+    <circle cx="605" cy="500" r="150" stroke="url(#b)" stroke-width="70"/>
+    <g clip-path="url(#f)">
+      <circle cx="395" cy="500" r="150" stroke="#EAF3FF" stroke-width="90" mask="url(#d)"/>
+      <circle cx="395" cy="500" r="150" stroke="url(#a)" stroke-width="70"/>
+    </g>
+  </g>
+</svg>

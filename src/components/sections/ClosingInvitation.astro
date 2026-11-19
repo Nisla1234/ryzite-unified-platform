@@ -1,0 +1,36 @@
+---
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
+
+const copy = homeSectionsTranslations.en.closing;
+---
+
+<section class="hs-section closing" aria-labelledby="closing-title">
+  <svg class="closing__decor" viewBox="0 0 1200 400" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <circle cx="80" cy="60" r="180" stroke="#ffffff22" stroke-width="2" />
+    <circle cx="80" cy="60" r="120" stroke="#ffffff18" stroke-width="2" />
+    <circle cx="1120" cy="360" r="220" stroke="#ffffff22" stroke-width="2" />
+    <circle cx="1120" cy="360" r="150" stroke="#ffffff14" stroke-width="2" />
+    <path d="M0 300C260 220 420 380 640 300s420-160 560-60" stroke="#ffffff1c" stroke-width="2" />
+  </svg>
+  <div class="hs-shell closing__inner" data-hs-reveal>
+    <h2 id="closing-title" data-home-key="sections.closing.title">{copy.title}</h2>
+    <p class="closing__body" data-home-key="sections.closing.body">{copy.body}</p>
+    <div class="hs-actions">
+      <a class="hs-button closing__primary" href="/contact/"><span data-home-key="sections.closing.primary">{copy.primary}</span> <span aria-hidden="true">→</span></a>
+      <a class="hs-button closing__secondary" href="/services"><span data-home-key="sections.closing.secondary">{copy.secondary}</span></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing { color: #fff; background: radial-gradient(circle at 20% 0%, #078be9 0%, transparent 45%), linear-gradient(135deg, #0655e9, #0643cf); text-align: center; }
+  .closing__decor { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .closing__inner { max-width: 46rem; }
+  .closing__eyebrow { color: #cfe2ff; }
+  .closing h2 { margin: 0 0 1rem; color: #fff; font-size: var(--size-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }
+  .closing__body { margin: 0; color: #e3eeff; font-size: var(--size-lead); line-height: 1.6; }
+  .closing__primary { color: var(--hs-blue-deep); background: #fff; box-shadow: 0 10px 24px #00143d40; }
+  .closing__secondary { border-color: #ffffffaa; background: transparent; box-shadow: none; }
+  .closing__secondary:hover { background: #ffffff1a; }
+  .closing .hs-button:focus-visible { outline-color: #fff; }
+</style>

@@ -1,4 +1,22 @@
-# Hero robot assets
+# Homepage hero media
+
+## Video hero
+
+The homepage uses the supplied robot footage at `public/images/hero/Novu_London_fashion_landing_page_b5275c3a.mp4`.
+Its scroll story scrubs the video with scroll (eased toward the scroll position) and fades three
+text scenes over the footage, opposite the robot: left, right, left. There is no pan; the footage
+itself moves the robot. On phones the copy stacks at the top and `object-position` follows the robot.
+`ryzite-robot-poster.jpg` provides the static image for reduced-motion preferences and
+video-loading failures.
+
+Scene copy lives in `homeTranslations.<locale>.heroStory` and is `[PROPOSAL]`; Tamil and
+Sinhala need native-speaker review. For smooth scrubbing, re-encode the video with frequent
+keyframes (e.g. `ffmpeg -i in.mp4 -g 1 -an -crf 24 out.mp4`).
+
+## Legacy robot assets
+
+The layered cutouts below belong to the previous illustration-based hero and are not used by the
+homepage video hero.
 
 ## Front-facing end poses
 
@@ -14,7 +32,7 @@ Use case: identity-preserve. Edit target: attached ZITE robot cutout. Make a mat
 
 Generated with the built-in image generation tool, using the supplied robot image as the character reference. Transparent PNGs are stored in `public/images/hero/ry.png` and `public/images/hero/zite.png`.
 
-The hero uses JavaScript and GSAP to move the separate cutouts. The glowing rope is an SVG path updated during movement. This is a layered 2D animation; the robots are not rigged 3D models.
+The previous hero used JavaScript and GSAP to move the separate cutouts. The glowing rope is an SVG path updated during movement. This was a layered 2D animation; the robots are not rigged 3D models.
 
 ## RY prompt
 
@@ -23,3 +41,15 @@ Use case: stylized-concept. Reference image role: character reference. Create a 
 ## ZITE prompt
 
 Use case: stylized-concept. Reference image role: character reference. Create a single full-body transparent PNG cutout of ONLY the RIGHT robot in reference: cute premium 3D white robot with simple black oval eyes and smile, blue headphones, white cap with exact text ZITE, charcoal hoodie and dark cargo trousers, blue-white sneakers. Facing toward LEFT three-quarter view, legs braced apart, both hands extended toward left at waist height gripping an invisible horizontal rope, pulling pose. NO rope rendered, NO other character, NO background, NO floor or shadow. Entire character centered with small padding, fully visible including shoes and cap. Preserve reference identity and polished 3D materials. True alpha transparency.
+
+## Animated wave layers
+
+The footage's waves are baked into the same frames as the robot, so they cannot be deformed
+independently. The hero adds three SVG wave layers (back, middle, front) blended over the
+footage's waves. They loop with CSS transforms (no extra libraries) at different speeds and
+rise-and-fall amounts. A masked gap follows the robot's on-screen position (`--robot-x`, set by
+`hero-video-story.ts`), so waves never cross its body. Layers are hidden for reduced motion and
+the static poster fallback, and pause once the hero scrolls off screen.
+
+True independent 3D waves behind the robot need a robot-only render with transparency
+(WebM VP9 alpha + HEVC alpha for Safari) layered over an SVG/WebGL wave scene.

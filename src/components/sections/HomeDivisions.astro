@@ -1,0 +1,65 @@
+---
+import { homeSectionsTranslations } from '../../data/home-sections-translations';
+
+const copy = homeSectionsTranslations.en.divisions;
+const cards = [
+  {
+    key: 'marketing', href: '/services', ...copy.marketing,
+    image: '/images/divisions/marketing-division.webp', width: 736, height: 411,
+    imageAlt: 'A strategist talking through business questions and growth data with two clients',
+  },
+  {
+    key: 'technology', href: '/solutions', ...copy.technology,
+    image: '/images/divisions/technology-division.webp', width: 735, height: 490,
+    imageAlt: 'Connected devices, buildings and systems linked to a central digital network',
+  },
+] as const;
+---
+
+<section class="hs-section divisions" aria-labelledby="divisions-title">
+  <div class="hs-shell">
+    <header class="hs-heading" data-hs-reveal>
+      <h2 id="divisions-title" class="hs-bicolor" data-home-key="sections.divisions.title">{copy.title}</h2>
+      <p data-home-key="sections.divisions.intro">{copy.intro}</p>
+    </header>
+
+    <div class="divisions-grid">
+      {cards.map((card, index) => (
+        <article class:list={['hs-card', 'hs-card--hover', 'division-card', `division-card--${card.key}`]} data-hs-reveal data-hs-delay={index * 0.12}>
+          <figure class="division-card__art">
+            <img src={card.image} alt={card.imageAlt} width={card.width} height={card.height} loading="lazy" decoding="async" />
+          </figure>
+          <div class="division-card__body">
+            <p class="division-card__kicker" data-home-key={`sections.divisions.${card.key}.kicker`}>{card.kicker}</p>
+            <h3 data-home-key={`sections.divisions.${card.key}.title`}>{card.title}</h3>
+            <p data-home-key={`sections.divisions.${card.key}.body`}>{card.body}</p>
+            <a class="hs-link division-card__link" href={card.href}>
+              <span data-home-key={`sections.divisions.${card.key}.cta`}>{card.cta}</span> <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .divisions::before { content: ''; position: absolute; z-index: -1; inset: auto -20% -40% -20%; height: 70%; background: radial-gradient(ellipse at center, #e6efff 0%, transparent 65%); pointer-events: none; }
+  .divisions-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-grid); }
+  .division-card { display: flex; flex-direction: column; overflow: hidden; }
+  .division-card__art { margin: 0; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(160deg, #f3f7ff, #e3eeff); }
+  .division-card__art img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+  .division-card:hover .division-card__art img, .division-card:focus-within .division-card__art img { transform: scale(1.04); }
+  @media (prefers-reduced-motion: reduce) { .division-card__art img { transition: none; } .division-card:hover .division-card__art img, .division-card:focus-within .division-card__art img { transform: none; } }
+  .division-card__body { display: flex; flex: 1; flex-direction: column; gap: .35rem; padding: clamp(1.4rem, 3vw, 2rem); border-top: 4px solid var(--hs-blue); }
+  .division-card--technology .division-card__body { border-top-color: var(--hs-blue-light); }
+  .division-card__kicker { margin: 0; color: var(--hs-blue); font-size: var(--size-small); font-weight: 600; letter-spacing: .04em; }
+  .division-card h3 { font-size: var(--size-h3); }
+  .division-card__link { margin-top: auto; padding-top: 1rem; }
+  .division-card__link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+  @media (min-width: 761px) {
+    .divisions .hs-heading { max-width: none; }
+    .divisions .hs-heading > p { width: max-content; max-width: 100%; margin-inline: auto; }
+  }
+  @media (max-width: 760px) { .divisions-grid { grid-template-columns: 1fr; } }
+</style>

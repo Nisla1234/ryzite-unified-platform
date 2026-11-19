@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../ui/ArrowUpRight.astro';
 interface Props {
     content: any;
     companyEmail: string;
@@ -43,7 +44,7 @@ const { content, companyEmail } = Astro.props;
         </label>
         <button type="submit" class="form-submit">
             <span data-i18n="contact.button">{content.contact.button}</span>
-            <span aria-hidden="true">↗</span>
+            <span aria-hidden="true"><ArrowUpRight /></span>
         </button>
         <p class="form-privacy" data-i18n="contact.privacy">{content.contact.privacy}</p>
     </form>
