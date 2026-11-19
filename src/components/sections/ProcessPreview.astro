@@ -2,7 +2,7 @@
 // Steps are read from the /how-we-work content (resources-translations.ts) so both stay identical.
 // [PROPOSAL] "Winding road" layout (client brief 2026-11-18): a thick blue line draws through the six
 // steps as the visitor scrolls; big step names with icon badges and pill captions sit along it.
-// Colours: #0655E9 royal, #0643CF deep, #078BE9 light (client-instructed for this section).
+// Colours: #0b1c58 royal, #0b1c58 deep, #0b1c58 light (client-instructed for this section).
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 import { resourcesTranslations } from '../../data/resources-translations';
 
@@ -73,9 +73,9 @@ const offsets = ['46%', '4%', '46%', '4%', '46%', '4%'];
 
 <style>
   .process-preview {
-    --road-blue: #0655e9;
-    --road-deep: #0643cf;
-    --road-light: #078be9;
+    --road-blue: var(--color-brand);
+    --road-deep: var(--color-brand);
+    --road-light: var(--color-brand);
     --road-track: #cddcfb;
     --road-halo: #dce8ff;
     --road-width: 16px;
@@ -171,7 +171,7 @@ const offsets = ['46%', '4%', '46%', '4%', '46%', '4%'];
     border: 3px solid #fff;
     border-radius: 46% 54% 42% 58% / 55% 44% 56% 45%;
     background: radial-gradient(circle at 40% 35%, var(--color-milk) 0 18%, var(--road-halo) 62%);
-    box-shadow: 0 10px 22px #0655e926;
+    box-shadow: 0 10px 22px #0b1c5826;
     color: var(--road-blue);
     rotate: var(--spin);
     transition: transform 420ms var(--road-ease), box-shadow 420ms var(--road-ease), background-color 420ms ease;
@@ -193,7 +193,7 @@ const offsets = ['46%', '4%', '46%', '4%', '46%', '4%'];
     border: 1.5px solid var(--road-blue);
     border-radius: 999px;
     background: var(--color-milk);
-    box-shadow: 0 10px 24px #0655e914;
+    box-shadow: 0 10px 24px #0b1c5814;
     color: var(--road-blue);
     font-size: .975rem;
     font-weight: 500;
@@ -216,7 +216,7 @@ const offsets = ['46%', '4%', '46%', '4%', '46%', '4%'];
   .process-preview.is-road-ready .road-step__badge { transform: scale(.8); }
 
   .process-preview.is-road-ready .road-step.is-reached .road-step__badge {
-    box-shadow: 0 0 0 8px #0655e91a, 0 12px 26px #0655e940;
+    box-shadow: 0 0 0 8px #0b1c581a, 0 12px 26px #0b1c5840;
     transform: scale(1);
   }
 

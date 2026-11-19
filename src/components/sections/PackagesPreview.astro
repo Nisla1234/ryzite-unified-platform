@@ -1,7 +1,7 @@
 ---
 // [PROPOSAL] Package names, descriptions, and features come from resources-translations.ts and
 // are labelled as proposed options there. No prices are shown because none are approved.
-// [PROPOSAL] Dark "light beam" presentation in the RYZITE logo blues (navy #0a1080, royal #2840c8, azure #2078f0). The centre card is highlighted visually
+// [PROPOSAL] Dark "light beam" presentation, now in the approved brand navy #0b1c58 [CLIENT 2026-11-19]. The centre card is highlighted visually
 // as requested; package options remain proposals and the styling does not label one as recommended.
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 import { resourcesTranslations } from '../../data/resources-translations';
@@ -51,8 +51,8 @@ const featureCount = 4;
     <svg class="package-defs" width="0" height="0" aria-hidden="true" focusable="false">
       <defs>
         <linearGradient id="package-check" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#2078f0" />
-          <stop offset="1" stop-color="#2840c8" />
+          <stop offset="0" stop-color="#0b1c58" />
+          <stop offset="1" stop-color="#0b1c58" />
         </linearGradient>
       </defs>
     </svg>
@@ -64,17 +64,17 @@ const featureCount = 4;
 </section>
 
 <style>
-  /* Colours sampled from the RYZITE logo: deep navy #0a1080, royal blue #2840c8, bright azure #2078f0. */
+  /* Brand colour: approved navy #0b1c58 (--color-brand) [CLIENT 2026-11-19]. The logo-* names are kept for existing references. */
   .packages-preview {
-    --logo-navy: #0a1080;
-    --logo-royal: #0643cf;
-    --logo-azure: #078be9;
+    --logo-navy: var(--color-brand);
+    --logo-royal: var(--color-brand);
+    --logo-azure: var(--color-brand);
     --pk-night: #0a1734;
     --pk-card: #ffffff;
     --pk-card-edge: #dce6f3;
     --pk-text: #0a1734;
     --pk-muted: #465771;
-    --pk-cyan: #5b9bff;
+    --pk-cyan: var(--color-brand);
     --pk-glow: linear-gradient(100deg, var(--logo-azure), var(--logo-royal) 55%, var(--logo-navy));
     padding-bottom: clamp(3rem, 6vw, 4.5rem);
     color: var(--pk-text);
@@ -93,7 +93,7 @@ const featureCount = 4;
     transform: scale(1.025);
   }
   .packages-preview::after {
-    background: linear-gradient(112deg, rgb(5 26 82 / 58%), rgb(6 67 207 / 16%) 50%, rgb(5 26 82 / 58%));
+    background: linear-gradient(112deg, rgb(5 26 82 / 58%), rgb(11 28 88 / 16%) 50%, rgb(5 26 82 / 58%));
   }
   .packages-preview > .hs-shell {
     position: relative;
@@ -129,23 +129,23 @@ const featureCount = 4;
     z-index: -1;
     inset: 0 0 auto;
     height: 9rem;
-    background: radial-gradient(ellipse 70% 100% at 50% 0%, rgb(6 85 233 / 32%) 0%, rgb(7 139 233 / 14%) 45%, transparent 75%);
+    background: radial-gradient(ellipse 70% 100% at 50% 0%, rgb(11 28 88 / 32%) 0%, rgb(11 28 88 / 14%) 45%, transparent 75%);
     opacity: 0;
     transition: opacity 420ms cubic-bezier(.2, .8, .2, 1);
   }
   .package-card:nth-child(2) {
     z-index: 2;
-    border-color: rgb(6 85 233 / 48%);
-    box-shadow: 0 24px 54px rgb(2 16 66 / 30%), 0 0 0 1px rgb(6 85 233 / 14%), inset 0 1px 0 rgb(255 255 255 / 92%);
+    border-color: rgb(11 28 88 / 48%);
+    box-shadow: 0 24px 54px rgb(2 16 66 / 30%), 0 0 0 1px rgb(11 28 88 / 14%), inset 0 1px 0 rgb(255 255 255 / 92%);
     transform: translateY(-12px) scale(1.03);
   }
   .package-card:is(:hover, :focus-within, [data-active="true"]) {
     z-index: 5;
-    border-color: rgb(6 85 233 / 76%);
-    box-shadow: 0 30px 64px rgb(2 16 66 / 34%), 0 0 24px rgb(6 85 233 / 22%), inset 0 1px 0 rgb(255 255 255 / 95%);
+    border-color: rgb(11 28 88 / 76%);
+    box-shadow: 0 30px 64px rgb(2 16 66 / 34%), 0 0 24px rgb(11 28 88 / 22%), inset 0 1px 0 rgb(255 255 255 / 95%);
   }
   .package-card:is(:hover, :focus-within, [data-active="true"])::before { opacity: 1; }
-  .package-card:focus-visible { outline: 3px solid #078be9; outline-offset: 4px; }
+  .package-card:focus-visible { outline: 3px solid #b9c8ff; outline-offset: 4px; }
   .package-card:nth-child(2):is(:hover, :focus-within, [data-active="true"]) {
     transform: translateY(-18px) scale(1.04);
   }
@@ -161,7 +161,7 @@ const featureCount = 4;
   .package-card__description { color: var(--pk-muted); font-size: 1.0312rem; line-height: 1.6; }
   .package-card__suitable { margin: 1.25rem 0; padding: .9rem 1rem; border: 1px solid #d5e4ff; border-radius: var(--radius-small); background: #f4f8ff; }
   .package-card__suitable p:last-child { color: var(--pk-text); font-size: 1.0312rem; font-weight: 600; line-height: 1.5; }
-  .package-card__subhead { margin-bottom: .35rem; color: #0643cf; font-size: var(--size-small); font-weight: 600; }
+  .package-card__subhead { margin-bottom: .35rem; color: var(--color-brand); font-size: var(--size-small); font-weight: 600; }
   .package-card ul { display: grid; gap: .65rem; margin: .5rem 0 1.75rem; padding: 0; list-style: none; }
   .package-card li { display: flex; align-items: flex-start; gap: .65rem; color: #465771; font-size: 1.0312rem; line-height: 1.45; overflow-wrap: anywhere; }
   .package-card li svg { flex-shrink: 0; width: 1.15rem; height: 1.15rem; margin-top: .12rem; }
@@ -177,18 +177,18 @@ const featureCount = 4;
     border: 0;
     border-radius: .85rem;
     color: #fff;
-    background: #0655e9;
-    box-shadow: 0 9px 20px rgb(6 75 237 / 22%);
+    background: var(--color-brand);
+    box-shadow: 0 9px 20px rgb(11 28 88 / 22%);
     font-size: 1.0312rem;
     font-weight: 600;
     text-decoration: none;
     transition: background 180ms var(--ease-out), transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
   }
-  .package-card__cta:hover { background: #0643cf; transform: translateY(-2px); box-shadow: 0 14px 30px rgb(6 75 237 / 32%); }
+  .package-card__cta:hover { background: var(--color-brand-hover); transform: translateY(-2px); box-shadow: 0 14px 30px rgb(11 28 88 / 32%); }
   .package-card__cta:focus-visible { outline: 3px solid #b9c8ff; outline-offset: 3px; }
 
   .package-defs { position: absolute; }
-  .packages-preview .hs-button { background: var(--pk-glow); box-shadow: 0 8px 18px #2840c847; }
+  .packages-preview .hs-button { background: var(--pk-glow); box-shadow: 0 8px 18px #0b1c5847; }
   .packages-preview .hs-button:focus-visible { outline-color: var(--logo-royal); }
 
   @media (max-width: 1000px) {

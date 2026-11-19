@@ -191,9 +191,9 @@ const sceneLayout = [
     /* Same palette as the homepage sections (home-sections.css, BusinessChallenge). */
     --hero-ink: #0a1734;
     --hero-body: #465771;
-    --hero-accent: #064bed;
-    --hero-cta: linear-gradient(110deg, #008aff, #063df3);
-    --hero-cta-shadow: 0 8px 18px #085be735;
+    --hero-accent: var(--color-brand);
+    --hero-cta: var(--color-brand);
+    --hero-cta-shadow: 0 8px 18px #0b1c5835;
     --hero-bg: #dfe9f1;
     --hero-gutter: max(28px, calc((100vw - 1300px) / 2)); /* aligns with the header logo */
     --hero-ease: var(--ease-out);
@@ -465,7 +465,7 @@ const sceneLayout = [
   }
 
   .video-hero__title :global(.hs-bicolor__base) { color: var(--hero-ink); }
-  .video-hero__title :global(.hs-bicolor__accent) { color: #0655e9; }
+  .video-hero__title :global(.hs-bicolor__accent) { color: var(--color-brand); }
 
   .video-hero__title {
     margin: 0;
@@ -517,8 +517,12 @@ const sceneLayout = [
   }
 
   .video-hero__button:hover {
-    box-shadow: 0 12px 24px #085be74d;
+    box-shadow: 0 12px 24px #0b1c584d;
     transform: translateY(-3px);
+  }
+
+  .video-hero__button:not(.video-hero__button--ghost):hover {
+    background: var(--color-brand-hover);
   }
 
   .video-hero__button:focus-visible {
@@ -538,7 +542,7 @@ const sceneLayout = [
   .video-hero__button--ghost {
     border: 2px solid #fff;
     background: linear-gradient(135deg, var(--color-milk), #edf3ff);
-    box-shadow: 0 9px 24px #2b6ad124;
+    box-shadow: 0 9px 24px #0b1c5824;
     color: var(--hero-accent);
   }
 

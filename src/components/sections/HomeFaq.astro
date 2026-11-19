@@ -38,8 +38,8 @@ const titleAccent = titleWords.slice(2).join(' ');
 
 <style>
   .home-faq {
-    --faq-blue: #0655e9;
-    --faq-deep: #0643cf;
+    --faq-blue: var(--color-brand);
+    --faq-deep: var(--color-brand);
     --faq-pill: #e4ecfb;
     --faq-pill-hover: #d8e4fa;
   }
@@ -95,7 +95,7 @@ const titleAccent = titleWords.slice(2).join(' ');
     width: min(62%, 260px);
     height: auto;
     margin-top: clamp(2rem, 5vw, 4rem);
-    filter: drop-shadow(0 18px 24px #0655e926);
+    filter: drop-shadow(0 18px 24px #0b1c5826);
   }
 
   /* Right: questions as pills. */
@@ -155,7 +155,7 @@ const titleAccent = titleWords.slice(2).join(' ');
     border: 1px solid #d3def5;
     border-radius: 1.6rem 1.6rem .4rem 1.6rem;
     background: var(--color-milk);
-    box-shadow: 0 12px 28px #0655e912;
+    box-shadow: 0 12px 28px #0b1c5812;
     color: var(--hs-muted);
     font-size: 1.0312rem;
     line-height: 1.65;
@@ -178,7 +178,7 @@ const titleAccent = titleWords.slice(2).join(' ');
     border: 3px solid #fff;
     border-radius: 50%;
     background: radial-gradient(circle at 50% 35%, var(--color-milk) 0 30%, #dce8ff 75%);
-    box-shadow: 0 8px 18px #0655e933;
+    box-shadow: 0 8px 18px #0b1c5833;
   }
 
   .home-faq__avatar img {

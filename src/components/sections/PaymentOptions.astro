@@ -42,11 +42,11 @@ const images = [
     background: var(--color-milk);
   }
   @media (hover: hover) {
-    .payment-step.hs-card:hover { border-color: #a9c8fb; box-shadow: 0 18px 38px #0655e922; }
+    .payment-step.hs-card:hover { border-color: #a9c8fb; box-shadow: 0 18px 38px #0b1c5822; }
   }
-  .payment-step__media { position: relative; overflow: hidden; aspect-ratio: 16 / 9; margin-bottom: 1.2rem; border-radius: var(--radius-small); background: var(--hs-pale); box-shadow: 0 8px 20px #0655e91a; }
+  .payment-step__media { position: relative; overflow: hidden; aspect-ratio: 16 / 9; margin-bottom: 1.2rem; border-radius: var(--radius-small); background: var(--hs-pale); box-shadow: 0 8px 20px #0b1c581a; }
   .payment-step__media img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale var(--duration-medium) var(--ease-out); }
-  .payment-step__number { position: absolute; top: .7rem; left: .7rem; display: grid; place-items: center; min-width: 2.6rem; height: 2.6rem; padding: 0 .55rem; border-radius: 999px; background: linear-gradient(110deg, #008aff, #063df3); box-shadow: 0 6px 14px #085be740; color: #fff; font-family: var(--font-display); font-size: 1rem; font-weight: 700; line-height: 1; }
+  .payment-step__number { position: absolute; top: .7rem; left: .7rem; display: grid; place-items: center; min-width: 2.6rem; height: 2.6rem; padding: 0 .55rem; border-radius: 999px; background: var(--color-brand); box-shadow: 0 6px 14px #0b1c5840; color: #fff; font-family: var(--font-display); font-size: 1rem; font-weight: 700; line-height: 1; }
   @media (hover: hover) { .payment-step:hover .payment-step__media img { scale: 1.05; } }
   @media (prefers-reduced-motion: reduce) { .payment-step__media img { transition: none; } }
   @media (max-width: 800px) {

@@ -8,6 +8,9 @@
     --color-milk: #f8f8f5;
     --color-milk-highlight: #ffffff;
     --color-milk-shadow: #e5e5e5;
+    /* [CLIENT] Approved primary brand colour (2026-11-19); replaces the bright-blue sets. */
+    --color-brand: #0b1c58;
+    --color-brand-hover: #16296f;
     --color-muted-dark: #9ca6b2;
     --color-muted-light: #4e555d;
     --color-lime: #c9ff57;

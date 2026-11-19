@@ -50,10 +50,10 @@ const needs: Need[] = [
 
 <style>
   .visitor-needs { position: relative; isolation: isolate; overflow: hidden; color: #18345b; background: var(--color-paper); }
-  .visitor-needs::before { content: ''; position: absolute; z-index: -1; width: 140%; height: 65%; left: -20%; top: 10%; border: 2px solid #59bbef20; border-radius: 50%; rotate: -18deg; box-shadow: 0 -5px 22px #8adfff20; pointer-events: none; }
+  .visitor-needs::before { content: ''; position: absolute; z-index: -1; width: 140%; height: 65%; left: -20%; top: 10%; border: 2px solid #0b1c5820; border-radius: 50%; rotate: -18deg; box-shadow: 0 -5px 22px #8adfff20; pointer-events: none; }
   header { max-width: 800px; margin: 0 auto; padding: 28px 24px 44px; text-align: center; }
   h2 { margin: 14px 0; color: #0a1734; font-size: var(--size-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }
-  h2 strong { color: #064bed; }
+  h2 strong { color: var(--color-brand); }
   .needs-subtitle { margin: 0; color: #63758c; font-size: var(--size-body); line-height: var(--leading-body); }
 
   .needs-grid { display: grid; grid-template-columns: 1fr; }
@@ -82,8 +82,8 @@ const needs: Need[] = [
   .need-overlay {
     position: absolute; inset: 0; z-index: -1;
     background:
-      linear-gradient(180deg, rgb(6 67 207 / .3) 0%, rgb(7 139 233 / .08) 38%, rgb(6 67 207 / .5) 68%, rgb(10 23 52 / .92) 100%),
-      rgb(6 85 233 / .2);
+      linear-gradient(180deg, rgb(11 28 88 / .3) 0%, rgb(11 28 88 / .08) 38%, rgb(11 28 88 / .5) 68%, rgb(10 23 52 / .92) 100%),
+      rgb(11 28 88 / .2);
     transition: background-color .5s ease;
   }
 
@@ -107,7 +107,7 @@ const needs: Need[] = [
   .need-copy p { max-width: 30ch; margin: 0; font-size: 14.5px; line-height: 1.55; color: rgb(255 255 255 / .85); }
 
   .need-card:hover .need-media, .need-card:focus-visible .need-media { transform: scale(1.05); }
-  .need-card:hover .need-overlay, .need-card:focus-visible .need-overlay { background-color: rgb(6 85 233 / .3); }
+  .need-card:hover .need-overlay, .need-card:focus-visible .need-overlay { background-color: rgb(11 28 88 / .3); }
   .need-card:hover .need-vertical, .need-card:focus-visible .need-vertical { translate: 0 -8px; }
   .need-card:focus-visible { outline: 3px solid #6df6ee; outline-offset: -6px; }
 

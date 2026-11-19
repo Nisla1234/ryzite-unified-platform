@@ -81,8 +81,8 @@ const waves = [wave(200, 55, 0), wave(500, 70, 2.1), wave(790, 55, 4.2)];
 
 <style>
   .footer {
-    --footer-blue: #0655e9;
-    --footer-deep: #0643cf;
+    --footer-blue: var(--color-brand);
+    --footer-deep: var(--color-brand);
     --footer-ink: #ffffff;
     --footer-muted: rgb(255 255 255 / 72%);
     --footer-word: #eef3ff;
@@ -186,7 +186,8 @@ const waves = [wave(200, 55, 0), wave(500, 70, 2.1), wave(790, 55, 4.2)];
     height: 2.4rem;
     place-items: center;
     border-radius: 50%;
-    background: linear-gradient(140deg, #078be9, var(--footer-blue));
+    background: var(--color-brand-hover);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 22%);
     font-size: 1.05rem;
     transition: transform var(--duration-fast) var(--ease-out);
   }

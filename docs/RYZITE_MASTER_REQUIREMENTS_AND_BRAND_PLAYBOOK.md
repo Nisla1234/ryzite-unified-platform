@@ -69,7 +69,14 @@ The project currently contains **three different blue sets** and a legacy palett
 - `[CLIENT]` **Approved 2026-11-18 for the Trust Principles section only:** Royal Blue `#0655E9`,
   Deep Blue `#0643CF`, Light Blue `#078BE9`. This does not change the Hero, Header, Packages,
   buttons, or global colour tokens.
-- `[OPEN]` Confirm one official site-wide palette and retire the others (§14).
+- `[CLIENT]` **Approved 2026-11-19: site-wide primary brand colour `#0B1C58` (deep navy)**, token
+  `--color-brand` in `tokens.css` (hover `--color-brand-hover` `#16296F` is `[PROPOSAL]`). It replaces the
+  bright-blue sets above on buttons, headings, labels, borders, icons, gradients and highlights,
+  including Trust Principles and How We Work. Not changed: logo artwork, robot, images/video and
+  the hero waves matched to the footage, third-party marks, and light accents on dark backgrounds
+  kept for contrast.
+- `[CLIENT]` **Approved 2026-11-19: Milky White `#F8F8F5`** (`--color-milk`) replaces pure-white surfaces.
+- ~~`[OPEN]` Confirm one official site-wide palette and retire the others (§14).~~ Resolved 2026-11-19 (navy above).
 
 ### 3.4 Tone and messaging
 
@@ -187,8 +194,7 @@ The project currently contains **three different blue sets** and a legacy palett
 
 ## 14. Open decisions needing approval
 
-1. **Official site-wide colour palette** — choose between the sets in §3.3 (Trust Principles
-   colours already approved; scope limited to that section).
+1. ~~**Official site-wide colour palette**~~ — resolved 2026-11-19: primary `#0B1C58` (§3.3).
 2. **Primary CTA** — Get a Quote vs. Start a Project vs. hero CTAs (§4).
 3. **Logo usage rules** (§3.1).
 4. **Business facts** — markets served, company details, contact details to publish (§2).
@@ -207,4 +213,6 @@ The project currently contains **three different blue sets** and a legacy palett
 | --- | --- | --- | --- |
 | 2026-11-18 | Trust Principles colours `#0655E9`, `#0643CF`, `#078BE9` | Approved for Trust Principles section only | Client |
 | 2026-11-18 | How We Work "winding road" layout in `#0655E9`, `#0643CF`, `#078BE9` | Client instructed to build (section scope only; layout `[PROPOSAL]`) | Client |
+| 2026-11-19 | Primary brand colour `#0B1C58` site-wide; replaces bright blues (incl. Trust Principles, How We Work) | Approved | Client |
+| 2026-11-19 | Milky White `#F8F8F5` for pure-white surfaces | Approved | Client |
 | — | This playbook (draft) | Pending | — |
