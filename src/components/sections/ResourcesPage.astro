@@ -1,5 +1,6 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
+import ChatFaq from '../ui/ChatFaq.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { resourcesTranslations } from '../../data/resources-translations';
 
@@ -28,6 +29,14 @@ const heroCtaHref = page === 'packages'
     : page === 'ourWork'
       ? '#our-approach'
       : '#topic-list';
+// Hero photos per resource page (client-supplied 2026-11-20), shown in a frosted-glass frame.
+const heroImages: Partial<Record<ResourcePage, { src: string; alt: string; width: number; height: number }>> = {
+  packages: { src: '/images/packages/packages-hero-website.webp', alt: 'A laptop and smartphone showing a business website, surrounded by floating code and growth chart panels.', width: 736, height: 736 },
+  howWeWork: { src: '/images/resources/how-we-work-hero.webp', alt: 'A business team around a meeting table celebrating together, with two people shaking hands.', width: 736, height: 736 },
+  ourWork: { src: '/images/resources/our-work-hero.webp', alt: 'A team gathered around a glowing digital table display, reviewing information together.', width: 736, height: 736 },
+  articles: { src: '/images/resources/articles-hero.webp', alt: 'A person working at a laptop in a modern office, with content and data panels flowing through the air.', width: 735, height: 522 },
+};
+const heroImage = heroImages[page];
 const closingCtaHref = page === 'articles' ? '/solutions/' : '/contact/';
 const packageContactHref = '/contact/?package=guidance';
 const canonicalUrl = new URL(paths[page], Astro.url).href;
@@ -50,12 +59,12 @@ const pageTranslations = Object.fromEntries(
             <span data-resource-key="heroCta">{copy.heroCta}</span><span aria-hidden="true">{page === 'howWeWork' ? <ArrowUpRight /> : '↓'}</span>
           </a>
         </div>
-        {page === 'packages' ? (
+        {heroImage ? (
           <div class="resource-hero__frame">
             <span class="resource-hero__blob resource-hero__blob--one" aria-hidden="true"></span>
             <span class="resource-hero__blob resource-hero__blob--two" aria-hidden="true"></span>
             <figure class="resource-hero__photo">
-              <img src="/images/packages/packages-hero-website.webp" alt="A laptop and smartphone showing a business website, surrounded by floating code and growth chart panels." width="736" height="736" fetchpriority="high" decoding="async" />
+              <img src={heroImage.src} alt={heroImage.alt} width={heroImage.width} height={heroImage.height} style={`aspect-ratio: ${heroImage.width} / ${heroImage.height}`} fetchpriority="high" decoding="async" />
             </figure>
           </div>
         ) : (
@@ -153,23 +162,18 @@ const pageTranslations = Object.fromEntries(
         </div>
       </section>
 
-      <section class="resource-section resource-faq-section" aria-labelledby="packages-faq-title">
-        <div class="resource-shell resource-faq-layout">
-          <header class="resource-section-heading resource-section-heading--stacked" data-resource-reveal>
-            <h2 id="packages-faq-title" data-resource-key="faqTitle">{packages.faqTitle}</h2>
-          </header>
-          <div class="resource-faq-list" data-resource-reveal>
-            {packages.faqs.map((faq, index) => (
-              <details class="resource-faq-item">
-                <summary data-resource-array="faqs" data-resource-index={index} data-resource-field="question">{faq.question}</summary>
-                <div class="resource-faq-item__answer">
-                  <p data-resource-array="faqs" data-resource-index={index} data-resource-field="answer">{faq.answer}</p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ChatFaq
+        titleId="packages-faq-title"
+        title={packages.faqTitle}
+        titleAttrs={{ 'data-resource-key': 'faqTitle' }}
+        revealAttr="data-resource-reveal"
+        items={packages.faqs.map((faq, index) => ({
+          question: faq.question,
+          answer: faq.answer,
+          questionAttrs: { 'data-resource-array': 'faqs', 'data-resource-index': index, 'data-resource-field': 'question' },
+          answerAttrs: { 'data-resource-array': 'faqs', 'data-resource-index': index, 'data-resource-field': 'answer' },
+        }))}
+      />
     </>}
 
     {howWeWork && <>
@@ -418,7 +422,7 @@ const pageTranslations = Object.fromEntries(
   .resource-hero__body--secondary { margin-top: .8rem; font-size: 1.1rem; }
   .resource-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .99rem; font-weight: 600; text-align: center; text-decoration: none; transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 180ms ease; }
   .resource-button:hover { transform: translateY(-3px); }
-  .resource-button:focus-visible, .resource-text-link:focus-visible, .resource-faq-item summary:focus-visible { outline: 3px solid var(--resource-blue); outline-offset: 4px; }
+  .resource-button:focus-visible, .resource-text-link:focus-visible { outline: 3px solid var(--resource-blue); outline-offset: 4px; }
   .resource-button--primary { color: #fff; background: var(--color-brand); box-shadow: 0 .7rem 1.5rem #0b1c5830; }
   .resource-button--primary:hover { background: var(--color-brand-hover); }
   .resource-hero__visual { position: relative; display: grid; width: min(100%, 400px); aspect-ratio: 1; place-items: center; justify-self: center; overflow: hidden; border: 1px solid #d5e5f8; border-radius: 2.2rem; background: radial-gradient(circle at center, var(--color-milk) 0 22%, #eef6ff 23% 66%, #e1efff 67%); box-shadow: inset 0 0 0 1rem #ffffff50, 0 1.5rem 3.5rem #173b7110; }
@@ -442,7 +446,7 @@ const pageTranslations = Object.fromEntries(
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .resource-intro__card { background: rgb(253 255 245 / 94%); } }
   .resource-intro__badge { display: grid; width: clamp(4rem, 6vw, 5rem); aspect-ratio: 1; place-items: center; border-radius: 1.3rem; color: #fff; background: radial-gradient(circle at 30% 25%, var(--color-brand-hover), var(--color-brand) 70%); box-shadow: 0 1rem 2rem rgb(11 28 88 / 28%), inset 0 1px 0 rgb(255 255 255 / 25%); }
   .resource-intro__badge svg { width: 52%; height: auto; }
-  .resource-intro .resource-intro__copy h2 { max-width: none; font-size: clamp(1.75rem, 2.7vw, 2.5rem); text-wrap: balance; }
+  .resource-intro .resource-intro__copy h2 { max-width: none; font-size: clamp(1.5rem, 2.1vw, 1.95rem); text-wrap: balance; }
   .resource-intro__copy p { max-width: 900px; margin: .6rem 0 0; color: var(--resource-muted); font-size: 1.1rem; line-height: 1.6; }
   .resource-intro h2, .resource-section-heading h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
   .resource-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
@@ -453,7 +457,7 @@ const pageTranslations = Object.fromEntries(
   .resource-section-heading--center > p:last-child { max-width: 700px; margin: .9rem 0 0; color: var(--resource-muted); line-height: 1.7; }
   .resource-section-heading--stacked { display: block; margin: 0; }
   .resource-section-heading--stacked .resource-eyebrow { margin-bottom: 1rem; }
-  /* Packages hero photo: a frosted-glass frame with two soft blobs, as on the service and solution pages. */
+  /* Resource hero photo: a frosted-glass frame with two soft blobs, as on the service and solution pages. */
   .resource-hero__frame { position: relative; isolation: isolate; width: min(100%, 440px); justify-self: center; }
   .resource-hero__blob { position: absolute; z-index: -1; border-radius: 50%; filter: blur(8px); pointer-events: none; }
   .resource-hero__blob--one { top: -8%; right: -6%; width: 46%; aspect-ratio: 1; background: radial-gradient(circle at 35% 35%, #078be9, #0655e9 70%); opacity: .75; }
@@ -519,7 +523,7 @@ const pageTranslations = Object.fromEntries(
   .resource-text-link { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: .8rem; margin-top: auto; padding-top: 1.3rem; color: var(--resource-blue); font-size: .946rem; font-weight: 600; text-decoration: none; }
   .resource-text-link span:last-child { transition: transform 180ms ease; }
   .resource-text-link:hover span:last-child { transform: translateX(4px); }
-  .resource-comparison-section, .resource-faq-section, .resource-principles-section, .resource-work-section, .resource-articles-section, .resource-approach-section { background: var(--color-milk); }
+  .resource-comparison-section, .resource-principles-section, .resource-work-section, .resource-articles-section, .resource-approach-section { background: var(--color-milk); }
   .resource-comparison-wrap { overflow-x: auto; border: 1px solid #dce5f0; border-radius: 1.2rem; background: var(--color-milk); box-shadow: 0 .8rem 1.8rem #173b7109; }
   .resource-comparison { width: 100%; border-collapse: collapse; table-layout: fixed; }
   .resource-comparison th, .resource-comparison td { padding: .9rem 1rem; border-bottom: 1px solid #e1e9f2; color: #40546d; font-size: .913rem; line-height: 1.45; text-align: left; vertical-align: middle; overflow-wrap: anywhere; }
@@ -528,17 +532,7 @@ const pageTranslations = Object.fromEntries(
   .resource-comparison tbody th { color: #233a56; font-weight: 600; }
   .resource-comparison tbody td { color: var(--color-text-subtle); font-size: .814rem; }
   .resource-comparison tr:last-child > * { border-bottom: 0; }
-  .resource-faq-layout, .resource-editorial-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
-  .resource-faq-list { border-top: 1px solid #d7e1ee; }
-  .resource-faq-item { border-bottom: 1px solid #d7e1ee; }
-  .resource-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }
-  .resource-faq-item summary::-webkit-details-marker { display: none; }
-  .resource-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--resource-blue); border-bottom: 2px solid var(--resource-blue); content: ''; transition: transform 180ms ease; }
-  .resource-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }
-  .resource-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }
-  .resource-faq-item[open] .resource-faq-item__answer { grid-template-rows: 1fr; }
-  .resource-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.7; }
-  .resource-faq-item[open] .resource-faq-item__answer p { padding-bottom: 1.1rem; }
+  .resource-editorial-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
   .resource-process-section { background: var(--color-paper); }
   .resource-process-list { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin: 3.2rem 0 0; padding: 0; list-style: none; }
   .resource-process-step { position: relative; display: grid; min-width: 0; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 2rem; }
@@ -590,13 +584,12 @@ const pageTranslations = Object.fromEntries(
     .resource-package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .resource-process-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .resource-faq-layout, .resource-editorial-layout { grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
+    .resource-editorial-layout { grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
   @media (max-width: 700px) {
     .resource-shell { padding-inline: 1rem; }
     .resource-hero { padding: 3.5rem 1rem 1.5rem; }
     .resource-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }
-    
     .resource-hero__body { margin-top: 1rem; }
     .resource-hero__visual { width: min(72vw, 310px); }
     .resource-hero__frame { width: 100%; max-width: 420px; margin-inline: auto; }.resource-hero__photo { padding: .6rem; border-radius: 1.5rem; }.resource-hero__photo img { border-radius: 1.05rem; }
@@ -604,7 +597,6 @@ const pageTranslations = Object.fromEntries(
     .resource-section { padding-block: 4.5rem; }
     .resource-intro__card { grid-template-columns: 1fr; gap: 1.25rem; border-radius: 1.5rem; }
     .resource-intro__badge { width: 4.25rem; border-radius: 1.2rem; }
-    
     .resource-section-heading { display: block; margin-bottom: 1.8rem; }
     .resource-section-heading > p { margin-top: .9rem; }
     .resource-package-grid, .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: 1fr; }
@@ -612,7 +604,7 @@ const pageTranslations = Object.fromEntries(
     .resource-comparison th, .resource-comparison td { padding: .7rem .45rem; font-size: .792rem; }
     .resource-comparison th:first-child { width: 34%; }
     .resource-comparison tbody td { font-size: .75rem; }
-    .resource-faq-layout, .resource-editorial-layout { grid-template-columns: 1fr; gap: 1.8rem; }
+    .resource-editorial-layout { grid-template-columns: 1fr; gap: 1.8rem; }
     .resource-process-list { grid-template-columns: 1fr; gap: 0; margin-top: 2.4rem; }
     .resource-process-step { padding-bottom: 1.7rem; }
     .resource-principle-card, .resource-approach-card, .resource-topic-card { min-height: 175px; }

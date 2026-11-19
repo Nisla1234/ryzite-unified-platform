@@ -2,6 +2,7 @@
 import ArrowUpRight from '../../components/ui/ArrowUpRight.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import WindingRoad from '../../components/sections/WindingRoad.astro';
+import ChatFaq from '../../components/ui/ChatFaq.astro';
 import RelatedArrowCards from '../../components/ui/RelatedArrowCards.astro';
 import { solutionCoverImages } from '../../data/solution-cover-images';
 import { solutionIcons, benefitIcons } from '../../data/detail-icons';
@@ -169,21 +170,18 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
       </div>
     </section>
 
-    <section class="solution-detail-section detail-faq-section" aria-labelledby="detail-faq-title">
-      <div class="solution-shell faq-layout">
-        <header class="solution-section-heading" data-solution-reveal>
-          <h2 id="detail-faq-title" data-technology-key="detailFaqTitle">Questions About This Solution?</h2>
-        </header>
-        <div class="solution-faq-list" data-solution-reveal>
-          {detailFaqs.map((faq, index) => (
-            <details class="solution-faq-item">
-              <summary data-detail-faq-index={index} data-detail-faq-field="question">{faq.question}</summary>
-              <div class="solution-faq-item__answer"><p data-detail-faq-index={index} data-detail-faq-field="answer">{faq.answer}</p></div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
+    <ChatFaq
+      titleId="detail-faq-title"
+      title="Questions About This Solution?"
+      titleAttrs={{ 'data-technology-key': 'detailFaqTitle' }}
+      revealAttr="data-solution-reveal"
+      items={detailFaqs.map((faq, index) => ({
+        question: faq.question,
+        answer: faq.answer,
+        questionAttrs: { 'data-detail-faq-index': index, 'data-detail-faq-field': 'question' },
+        answerAttrs: { 'data-detail-faq-index': index, 'data-detail-faq-field': 'answer' },
+      }))}
+    />
   </div>
 </MainLayout>
 
@@ -320,10 +318,8 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
   .delivery-section { background: var(--color-milk); }
   /* Soft brand-blue light behind the navy glass related cards (RelatedArrowCards), so the glass has something to blur. */
   .related-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 11rem at 20% 72%, rgb(124 192 255 / 55%), transparent 100%), radial-gradient(circle 10rem at 55% 62%, rgb(143 166 255 / 50%), transparent 100%), radial-gradient(circle 11rem at 86% 74%, rgb(124 192 255 / 50%), transparent 100%), var(--color-milk); }
- 
-  .detail-faq-section { background: var(--color-milk); }.faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }.solution-faq-list { border-top: 1px solid #d7e1ee; }.solution-faq-item { border-bottom: 1px solid #d7e1ee; }.solution-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }.solution-faq-item summary::-webkit-details-marker { display: none; }.solution-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--solution-blue); border-bottom: 2px solid var(--solution-blue); content: ''; transition: transform 180ms ease; }.solution-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }.solution-faq-item summary:focus-visible { outline: 3px solid var(--solution-blue); outline-offset: 3px; border-radius: 4px; }.solution-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }.solution-faq-item[open] .solution-faq-item__answer { grid-template-rows: 1fr; }.solution-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--solution-muted); font-size: .99rem; line-height: 1.7; }.solution-faq-item[open] .solution-faq-item__answer p { padding-bottom: 1.1rem; }
   @keyframes solution-art-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-  @media (max-width: 900px) { .solution-detail-hero__inner { min-height: 440px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }.challenge-layout, .capabilities-layout, .faq-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; } }
-  @media (max-width: 700px) { .solution-shell { padding-inline: 1rem; }.solution-detail-hero { padding: 3.5rem 1rem 4rem; }.solution-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }.solution-detail-hero__visual { width: min(75vw, 320px); }.solution-detail-section { padding-block: 4.5rem; }.challenge-layout, .capabilities-layout, .provides-layout, .faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }.provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }.benefit-grid { grid-template-columns: 1fr; }.capability-card { --tab: 4.25rem; grid-template-columns: var(--tab) minmax(0, 1fr) 3.25rem; }.capability-card__tab { padding-left: .85rem; font-size: 1.35rem; }.capability-card__tab::after { left: calc(var(--tab) - .6rem); width: .9rem; height: .9rem; }.capability-card__panel { margin-left: -.6rem; padding: 1rem 1rem 1rem 1.3rem; }.capability-card__icon { width: 1.9rem; height: 1.9rem; }.solution-detail-hero__frame { width: 100%; max-width: 480px; }.solution-detail-hero__photo { padding: .6rem; border-radius: 1.5rem; }.solution-detail-hero__photo img { border-radius: 1.05rem; } }
+  @media (max-width: 900px) { .solution-detail-hero__inner { min-height: 440px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }.challenge-layout, .capabilities-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; } }
+  @media (max-width: 700px) { .solution-shell { padding-inline: 1rem; }.solution-detail-hero { padding: 3.5rem 1rem 4rem; }.solution-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }.solution-detail-hero__visual { width: min(75vw, 320px); }.solution-detail-section { padding-block: 4.5rem; }.challenge-layout, .capabilities-layout, .provides-layout { grid-template-columns: 1fr; gap: 1.8rem; }.provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }.benefit-grid { grid-template-columns: 1fr; }.capability-card { --tab: 4.25rem; grid-template-columns: var(--tab) minmax(0, 1fr) 3.25rem; }.capability-card__tab { padding-left: .85rem; font-size: 1.35rem; }.capability-card__tab::after { left: calc(var(--tab) - .6rem); width: .9rem; height: .9rem; }.capability-card__panel { margin-left: -.6rem; padding: 1rem 1rem 1rem 1.3rem; }.capability-card__icon { width: 1.9rem; height: 1.9rem; }.solution-detail-hero__frame { width: 100%; max-width: 480px; }.solution-detail-hero__photo { padding: .6rem; border-radius: 1.5rem; }.solution-detail-hero__photo img { border-radius: 1.05rem; } }
   @media (prefers-reduced-motion: reduce) { .capability-card:hover { transform: none; }.solution-detail-page *, .solution-detail-page *::before, .solution-detail-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 </style>

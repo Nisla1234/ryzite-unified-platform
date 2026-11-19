@@ -2,6 +2,7 @@
 import MarketingServiceArt from '../ui/MarketingServiceArt.astro';
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import WindingRoad from './WindingRoad.astro';
+import ChatFaq from '../ui/ChatFaq.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { marketingServices } from '../../data/marketing-service-content';
 import { marketingServicePhotos as servicePhotos, marketingServicePhotoSrc } from '../../data/marketing-service-photos';
@@ -181,23 +182,18 @@ const whyIcons = [
       </div>
     </section>
 
-    <section class="marketing-section marketing-faq-section" aria-labelledby="marketing-faq-title">
-      <div class="marketing-shell marketing-faq-layout">
-        <header class="marketing-section-heading marketing-section-heading--stacked" data-marketing-reveal>
-          <h2 id="marketing-faq-title" data-marketing-key="faqTitle">{copy.faqTitle}</h2>
-        </header>
-        <div class="marketing-faq-list" data-marketing-reveal>
-          {copy.faqs.map((faq, index) => (
-            <details class="marketing-faq-item">
-              <summary data-marketing-array="faqs" data-marketing-index={index} data-marketing-field="question">{faq.question}</summary>
-              <div class="marketing-faq-item__answer">
-                <p data-marketing-array="faqs" data-marketing-index={index} data-marketing-field="answer">{faq.answer}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
+    <ChatFaq
+      titleId="marketing-faq-title"
+      title={copy.faqTitle}
+      titleAttrs={{ 'data-marketing-key': 'faqTitle' }}
+      revealAttr="data-marketing-reveal"
+      items={copy.faqs.map((faq, index) => ({
+        question: faq.question,
+        answer: faq.answer,
+        questionAttrs: { 'data-marketing-array': 'faqs', 'data-marketing-index': index, 'data-marketing-field': 'question' },
+        answerAttrs: { 'data-marketing-array': 'faqs', 'data-marketing-index': index, 'data-marketing-field': 'answer' },
+      }))}
+    />
     <script type="application/ld+json" set:html={faqSchema} />
   </div>
 </MainLayout>
@@ -286,7 +282,7 @@ const whyIcons = [
   .marketing-hero__body--secondary { margin-top: .8rem; }
   .marketing-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .99rem; font-weight: 600; text-align: center; text-decoration: none; transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 180ms ease; }
   .marketing-button:hover { transform: translateY(-3px); }
-  .marketing-button:focus-visible, .marketing-service-card__link:focus-visible, .marketing-faq-item summary:focus-visible { outline: 3px solid var(--marketing-blue); outline-offset: 4px; }
+  .marketing-button:focus-visible, .marketing-service-card__link:focus-visible { outline: 3px solid var(--marketing-blue); outline-offset: 4px; }
   .marketing-button--primary { color: #fff; background: var(--color-brand); box-shadow: 0 .7rem 1.5rem #0b1c5830; }
   .marketing-button--primary:hover { background: var(--color-brand-hover); }
   .marketing-hero__frame { position: relative; isolation: isolate; width: min(100%, 560px); justify-self: center; }
@@ -348,34 +344,19 @@ const whyIcons = [
   /* Process intro reads as a clear subheading, not muted body copy, sitting close under the title. */
   .marketing-process-section .marketing-section-heading--center { gap: 0; }
   .marketing-process-section .marketing-section-heading--center > p:last-child { max-width: 880px; margin-top: .75rem; text-wrap: balance; color: var(--marketing-ink); font-size: clamp(1.1rem, 1.6vw, 1.3rem); font-weight: 500; line-height: 1.55; }
-  .marketing-faq-section { background: var(--color-milk); }
-  .marketing-faq-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
-  .marketing-faq-list { border-top: 1px solid #d7e1ee; }
-  .marketing-faq-item { border-bottom: 1px solid #d7e1ee; }
-  .marketing-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }
-  .marketing-faq-item summary::-webkit-details-marker { display: none; }
-  .marketing-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--marketing-blue); border-bottom: 2px solid var(--marketing-blue); content: ''; transition: transform 180ms ease; }
-  .marketing-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }
-  .marketing-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }
-  .marketing-faq-item[open] .marketing-faq-item__answer { grid-template-rows: 1fr; }
-  .marketing-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.7; }
-  .marketing-faq-item[open] .marketing-faq-item__answer p { padding-bottom: 1.1rem; }
   @media (max-width: 900px) {
     .marketing-hero__inner { min-height: 480px; grid-template-columns: minmax(0, 1fr) minmax(230px, .7fr); gap: 1.5rem; }
     .marketing-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 2.4rem; }
     .marketing-why-card { flex-basis: calc((100% - 1.25rem) / 2); }
     .marketing-service-card:nth-child(n) { margin-top: 0; }.marketing-service-card:nth-child(2n) { margin-top: 2.5rem; }
     .marketing-service-grid .marketing-service-card:nth-child(n)::after { display: none; }.marketing-service-grid .marketing-service-card:nth-child(2n+1):not(:last-child)::after { display: block; top: 46%; right: -2.6rem; width: 2.8rem; transform: none; }
-    .marketing-faq-layout { grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
   @media (max-width: 700px) {
     .marketing-shell { padding-inline: 1rem; }
     .marketing-hero { padding: 3.5rem 1rem 1.5rem; }
     .marketing-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }
-    
     .marketing-hero__body { margin-top: 1rem; }
     .marketing-hero__frame { width: 100%; max-width: 480px; }.marketing-hero__visual { padding: .6rem; border-radius: 1.5rem; }.marketing-hero__visual img, .marketing-hero__visual::after { border-radius: 1.05rem; }.marketing-hero__visual::after { inset: .6rem; }
-    
     .marketing-section { padding-block: 4.5rem; }
     .marketing-section-heading { display: block; margin-bottom: 1.8rem; }
     .marketing-section-heading > p { margin-top: .9rem; }
@@ -383,7 +364,6 @@ const whyIcons = [
     .marketing-why-card { flex-basis: 100%; }
     .marketing-service-card:nth-child(n) { margin-top: 0; }.marketing-service-grid .marketing-service-card:nth-child(n):nth-child(n)::after { display: none; }
     .marketing-service-card:nth-child(odd) { margin-right: 6%; }.marketing-service-card:nth-child(even) { margin-left: 6%; }
-    .marketing-faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }
   }
   @media (max-width: 360px) {
     .marketing-service-card:nth-child(n) { margin-inline: 0; }

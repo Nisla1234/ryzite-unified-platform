@@ -1,6 +1,7 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import WindingRoad from './WindingRoad.astro';
+import ChatFaq from '../ui/ChatFaq.astro';
 import RelatedArrowCards from '../ui/RelatedArrowCards.astro';
 import { serviceIcons, benefitIcons } from '../../data/detail-icons';
 import MainLayout from '../../layouts/MainLayout.astro';
@@ -209,23 +210,18 @@ const detailTranslations = Object.fromEntries(
       </div>
     </section>
 
-    <section class="marketing-detail-section marketing-detail-faq-section" aria-labelledby="marketing-detail-faq-title">
-      <div class="marketing-shell marketing-detail-faq-layout">
-        <header class="marketing-detail-heading" data-marketing-reveal>
-          <h2 id="marketing-detail-faq-title" data-marketing-key="detailFaqTitle">{copy.detailFaqTitle}</h2>
-        </header>
-        <div class="marketing-detail-faq-list" data-marketing-reveal>
-          {copy.detailFaqs.map((faq, index) => (
-            <details class="marketing-detail-faq-item">
-              <summary data-marketing-detail-faq-field="question" data-marketing-index={index}>{faq.question.replaceAll('{title}', translatedService.title)}</summary>
-              <div class="marketing-detail-faq-item__answer">
-                <p data-marketing-detail-faq-field="answer" data-marketing-index={index}>{faq.answer.replaceAll('{title}', translatedService.title)}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
+    <ChatFaq
+      titleId="marketing-detail-faq-title"
+      title={copy.detailFaqTitle}
+      titleAttrs={{ 'data-marketing-key': 'detailFaqTitle' }}
+      revealAttr="data-marketing-reveal"
+      items={copy.detailFaqs.map((faq, index) => ({
+        question: faq.question.replaceAll('{title}', translatedService.title),
+        answer: faq.answer.replaceAll('{title}', translatedService.title),
+        questionAttrs: { 'data-marketing-detail-faq-field': 'question', 'data-marketing-index': index },
+        answerAttrs: { 'data-marketing-detail-faq-field': 'answer', 'data-marketing-index': index },
+      }))}
+    />
   </div>
 </MainLayout>
 
@@ -400,33 +396,18 @@ const detailTranslations = Object.fromEntries(
   .marketing-benefit-card__dome > span { position: relative; padding-top: 1.5rem; color: var(--color-ink); font-family: var(--font-display); font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700; line-height: 1; letter-spacing: -.02em; }
   .marketing-approach-section { background: var(--color-milk); }
   .marketing-related-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 11rem at 20% 72%, rgb(124 192 255 / 55%), transparent 100%), radial-gradient(circle 10rem at 55% 62%, rgb(143 166 255 / 50%), transparent 100%), radial-gradient(circle 11rem at 86% 74%, rgb(124 192 255 / 50%), transparent 100%), var(--color-milk); }
-  .marketing-detail-faq-section { background: var(--color-milk); }
-  .marketing-detail-faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
-  .marketing-detail-faq-list { border-top: 1px solid #d7e1ee; }
-  .marketing-detail-faq-item { border-bottom: 1px solid #d7e1ee; }
-  .marketing-detail-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }
-  .marketing-detail-faq-item summary::-webkit-details-marker { display: none; }
-  .marketing-detail-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--marketing-blue); border-bottom: 2px solid var(--marketing-blue); content: ''; transition: transform 180ms ease; }
-  .marketing-detail-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }
-  .marketing-detail-faq-item summary:focus-visible { outline: 3px solid var(--marketing-blue); outline-offset: 3px; border-radius: 4px; }
-  .marketing-detail-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }
-  .marketing-detail-faq-item[open] .marketing-detail-faq-item__answer { grid-template-rows: 1fr; }
-  .marketing-detail-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--marketing-muted); font-size: .99rem; line-height: 1.7; }
-  .marketing-detail-faq-item[open] .marketing-detail-faq-item__answer p { padding-bottom: 1.1rem; }
   @media (max-width: 900px) {
     .marketing-detail-hero__inner { min-height: 440px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }
-    .marketing-detail-split, .marketing-detail-faq-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
+    .marketing-detail-split { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
   @media (max-width: 700px) {
     .marketing-shell { padding-inline: 1rem; }
     .marketing-detail-hero { padding: 3.5rem 1rem 4rem; }
     .marketing-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }
-    
     .marketing-detail-hero__visual { width: min(75vw, 320px); }
     .marketing-detail-hero__frame { width: 100%; max-width: 480px; }.marketing-detail-hero__photo { padding: .6rem; border-radius: 1.5rem; }.marketing-detail-hero__photo img { border-radius: 1.05rem; }
     .marketing-detail-section { padding-block: 4.5rem; }
-    
-    .marketing-detail-split, .marketing-provides-layout, .marketing-detail-faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }
+    .marketing-detail-split, .marketing-provides-layout { grid-template-columns: 1fr; gap: 1.8rem; }
     .marketing-provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }
     .marketing-capability-grid, .marketing-benefit-grid { grid-template-columns: 1fr; }
     }
