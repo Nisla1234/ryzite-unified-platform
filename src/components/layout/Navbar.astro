@@ -154,9 +154,14 @@ const labels = {
                 </ul>
               </details>
             ) : label === 'Solutions' ? (
-              <a href="/solutions/" aria-current={isActive(href) ? 'page' : undefined}>
-                <span data-label-key={key}>{label}</span><span aria-hidden="true"><ArrowUpRight /></span>
-              </a>
+              <details class="mobile-services mobile-solutions">
+                <summary><span data-label-key={key}>Solutions</span></summary>
+                <ul>
+                  {solutions.map(([title]) => (
+                    <li><a href={`/solutions/${offeringSlug(title)}/`} data-home-offering="solutions" data-home-slug={offeringSlug(title)} data-home-field="title">{title}</a></li>
+                  ))}
+                </ul>
+              </details>
             ) : label === 'Resources' ? (
               <details class="mobile-services mobile-resources">
                 <summary><span data-label-key={key}>Resources</span></summary>
