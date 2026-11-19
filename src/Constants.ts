@@ -12,10 +12,10 @@ export const company = {
     },
     // Footer shows a social link only when its URL is filled in (order: Facebook, Instagram, LinkedIn, TikTok).
     social: {
-        facebook: "",
-        instagram: "https://www.instagram.com/ryzitetm",
-        linkedin: "",
-        tiktok: "",
+        facebook: "https://web.facebook.com/ryzite.lk",
+        instagram: "https://www.instagram.com/ryzitetm/",
+        linkedin: "https://www.linkedin.com/company/ryzite/",
+        tiktok: "https://www.tiktok.com/@ryzite",
         youtube: "",
     },
 } as const;

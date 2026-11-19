@@ -95,7 +95,7 @@ const socialLinks = [
         <nav class="footer-column" aria-label="Follow Us" data-aria-label-key="footerFollow">
           <h2 data-label-key="footerFollow">Follow Us</h2>
           {socialLinks.map((link) => link.url ? (
-            <a href={link.url} target="_blank" rel="noopener noreferrer">{link.name}</a>
+            <a class="footer-social-link" href={link.url} target="_blank" rel="noopener noreferrer">{link.name} <span class="footer-social-arrow" aria-hidden="true"><ArrowUpRight /></span></a>
           ) : (
             <span class="footer-social-pending" title={`${link.name} — coming soon`}>{link.name}</span>
           ))}
@@ -107,6 +107,11 @@ const socialLinks = [
 
     <div class="footer-bottom">
       <p>© {year} RYZITE. <span data-label-key="footerRights">All rights reserved.</span></p>
+      <!-- [OPEN] Legal pages are placeholders until the client supplies reviewed policy text. -->
+      <nav class="footer-legal" aria-label="Legal" data-aria-label-key="footerLegal">
+        <a href="/privacy-policy/" data-label-key="footerPrivacy">Privacy Policy</a>
+        <a href="/terms-and-conditions/" data-label-key="footerTerms">Terms &amp; Conditions</a>
+      </nav>
     </div>
 
   </div>
@@ -353,6 +358,11 @@ const socialLinks = [
     transform: translateX(3px);
   }
 
+  /* External social links: small arrow that nudges up-right on hover. */
+  .footer-social-link { display: inline-flex; align-items: center; gap: .35rem; }
+  .footer-social-arrow { display: inline-flex; font-size: .85em; opacity: .8; transition: transform var(--duration-fast) var(--ease-out); }
+  .footer-social-link:hover .footer-social-arrow { transform: translate(2px, -2px); }
+
   .footer-tagline {
     grid-column: 1 / -1;
     margin: .4rem 0 0;
@@ -376,6 +386,10 @@ const socialLinks = [
   }
 
   .footer-bottom p { margin: 0; }
+
+  .footer-legal { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.25rem; }
+  .footer-legal a { color: var(--footer-muted); text-decoration: underline; text-decoration-color: rgb(255 255 255 / 35%); text-underline-offset: .2em; transition: color var(--duration-fast) ease; }
+  .footer-legal a:hover { color: var(--footer-ink); text-decoration-color: currentColor; }
 
   .footer a:focus-visible {
     outline: 3px solid #fff;
