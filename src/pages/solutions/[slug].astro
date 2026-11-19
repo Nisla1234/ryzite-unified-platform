@@ -30,6 +30,12 @@ const pageTranslations = {
 };
 const approachSteps = technologySolutionTranslations.en.deliverySteps;
 const coverImage = solutionCoverImages[solution.title];
+// Capability card icons (24x24 strokes), by position: idea, explore, launch.
+const capabilityIcons = [
+  '<path d="M9 18h6 M10 21h4 M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z" /><path d="M12 7.5a2.5 2.5 0 0 0-2.5 2.5" />',
+  '<circle cx="10.5" cy="10.5" r="6" /><path d="m15 15 5.5 5.5" /><path d="M8 9a3 3 0 0 1 2.5-1.5" />',
+  '<path d="M12 2.5c3 2 4.5 5.5 4.5 9.5l-2 3.5h-5l-2-3.5c0-4 1.5-7.5 4.5-9.5z" /><circle cx="12" cy="9.5" r="1.8" /><path d="M7.5 12 5 14.5V17l3-1 M16.5 12l2.5 2.5V17l-3-1 M10.5 18.5 12 21l1.5-2.5" />',
+];
 const detailFaqs = technologySolutionTranslations.en.detailFaqs;
 ---
 
@@ -106,7 +112,11 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
         </header>
         <div class="capability-grid">
           {solution.capabilities.map((capability, index) => (
-            <article class="capability-card" data-solution-reveal><span class="capability-card__badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m6 12.5 4 4 8-9" /></svg></span><p data-solution-list="capabilities" data-solution-index={index}>{capability}</p></article>
+            <article class="capability-card" data-solution-reveal>
+              <span class="capability-card__tab" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <div class="capability-card__panel"><p data-solution-list="capabilities" data-solution-index={index}>{capability}</p></div>
+              <svg class="capability-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={capabilityIcons[index % capabilityIcons.length]} />
+            </article>
           ))}
         </div>
       </div>
@@ -280,16 +290,21 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
  .provides-layout { display: grid; grid-template-columns: minmax(180px, .5fr) minmax(0, 1.5fr); align-items: center; gap: clamp(2rem, 7vw, 7rem); }.provides-layout .solution-eyebrow { color: #85c6ff; }.provides-layout h2 { max-width: var(--measure-h2); margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); line-height: var(--leading-h2); letter-spacing: var(--tracking-h2); }.provides-copy { max-width: 850px; margin: 1.2rem 0 0; color: #cad6e4; font-size: var(--size-lead); line-height: 1.75; }.provides-mark { display: grid; width: min(100%, 220px); aspect-ratio: 1; place-items: center; justify-self: center; border: 1px solid #8ac8ff60; border-radius: 2rem; color: #9dd7ff; background: linear-gradient(145deg, rgb(255 255 255 / 16%), rgb(255 255 255 / 5%)); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); box-shadow: 0 0 0 1.1rem #ffffff05, 0 0 0 2.2rem #ffffff03; font-family: var(--font-display); font-size: 5.5rem; font-weight: 700; }
   /* Same styles as the service pages (MarketingServiceDetail.astro): plain capability cards and numbered
      milky-white glass benefit cards with a small glass dome. */
-  /* Capabilities (always three per solution): one row of frosted milky-glass cards with a navy check badge;
-     soft brand-blue light behind them for the glass to blur. */
-  .capabilities-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 10rem at 18% 70%, rgb(124 192 255 / 38%), transparent 100%), radial-gradient(circle 9rem at 52% 40%, rgb(143 166 255 / 32%), transparent 100%), radial-gradient(circle 10rem at 85% 72%, rgb(124 192 255 / 36%), transparent 100%), var(--color-milk); }
-  .capability-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.4vw, 1.75rem); margin-top: 2.75rem; }
-  .capability-card { position: relative; display: flex; min-height: 200px; flex-direction: column; align-items: flex-start; gap: 1.25rem; padding: 1.75rem 1.6rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 85%); border-radius: 1.5rem; background: linear-gradient(160deg, rgb(255 255 255 / 75%), rgb(253 255 245 / 40%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), 0 1.2rem 2.6rem rgb(11 28 88 / 12%); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
-  .capability-card:hover { transform: translateY(-5px); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), 0 1.6rem 3.2rem rgb(11 28 88 / 18%); }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .capability-card { background: rgb(253 255 245 / 94%); } }
-  .capability-card__badge { display: grid; width: 2.75rem; height: 2.75rem; flex: none; place-items: center; border-radius: 50%; color: #fff; background: radial-gradient(circle at 30% 30%, var(--color-brand-hover), var(--color-brand) 70%); box-shadow: 0 .6rem 1.2rem rgb(11 28 88 / 28%); }
-  .capability-card__badge svg { width: 1.35rem; height: 1.35rem; }
-  .capability-card p { margin: 0; color: var(--color-heading); font-family: var(--font-display); font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 700; line-height: 1.35; letter-spacing: var(--tracking-h3); }
+  /* Capabilities (client reference 2026-11-20): wide milky-glass cards stacked in one column. A navy tab
+     holds the number and points into a frosted panel that overlaps it, so the navy shows through the
+     glass; a line icon sits at the right. */
+  .capabilities-section { background: var(--color-milk); }
+  .capability-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 1.8vw, 1.5rem); margin-top: 2.75rem; }
+  @media (max-width: 1100px) { .capability-grid { width: min(100%, 860px); grid-template-columns: 1fr; margin-inline: auto; } }
+  .capability-card { --tab: 5.25rem; position: relative; display: grid; min-height: 132px; grid-template-columns: var(--tab) minmax(0, 1fr) 3.75rem; align-items: stretch; border: 1px solid rgb(255 255 255 / 90%); border-radius: 1.5rem; background: linear-gradient(160deg, rgb(255 255 255 / 92%), rgb(253 255 245 / 70%)); box-shadow: 0 1rem 2.4rem rgb(11 28 88 / 10%); transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
+  .capability-card:hover { transform: translateY(-4px); box-shadow: 0 1.4rem 3rem rgb(11 28 88 / 16%); }
+  .capability-card__tab { position: relative; display: grid; width: calc(var(--tab) + 2.5rem); place-items: center start; padding-left: 1.3rem; border-radius: 1.5rem 0 0 1.5rem; color: var(--color-milk); background: linear-gradient(160deg, var(--color-brand-hover), var(--color-brand)); font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+  /* Arrow notch on the tab, pointing into the panel. */
+  .capability-card__tab::after { position: absolute; z-index: 2; top: 50%; left: calc(var(--tab) - 1.2rem); width: 1.1rem; height: 1.1rem; border-radius: 0 .2rem 0 0; background: var(--color-brand); content: ''; transform: translate(-50%, -50%) rotate(45deg); }
+  .capability-card__panel { position: relative; z-index: 1; display: flex; align-items: center; margin: .6rem 0 .6rem -1.2rem; padding: 1rem 1rem 1rem 1.6rem; border: 1px solid rgb(255 255 255 / 75%); border-radius: 1.2rem; background: linear-gradient(160deg, rgb(234 240 255 / 72%), rgb(253 255 245 / 55%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 90%); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .capability-card__panel { background: #e6ecfa; } }
+  .capability-card__panel p { margin: 0; color: var(--color-heading); font-family: var(--font-display); font-size: clamp(1.02rem, 1.3vw, 1.15rem); font-weight: 700; line-height: 1.35; letter-spacing: var(--tracking-h3); }
+  .capability-card__icon { width: 2.1rem; height: 2.1rem; align-self: center; justify-self: center; color: var(--color-ink); }
   .benefits-section { position: relative; isolation: isolate; overflow: hidden; background: var(--color-milk); }
   .benefits-section::before, .benefits-section::after { position: absolute; z-index: -1; border-radius: 50%; content: ''; pointer-events: none; }
   .benefits-section::before { top: -22rem; left: -22rem; width: 50rem; aspect-ratio: 1; background: radial-gradient(closest-side, rgb(8 12 17 / 16%), rgb(8 12 17 / 6%) 55%, rgb(8 12 17 / 0%)); }
@@ -309,6 +324,6 @@ const detailFaqs = technologySolutionTranslations.en.detailFaqs;
   .detail-faq-section { background: var(--color-milk); }.faq-layout { display: grid; grid-template-columns: minmax(250px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }.solution-faq-list { border-top: 1px solid #d7e1ee; }.solution-faq-item { border-bottom: 1px solid #d7e1ee; }.solution-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }.solution-faq-item summary::-webkit-details-marker { display: none; }.solution-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--solution-blue); border-bottom: 2px solid var(--solution-blue); content: ''; transition: transform 180ms ease; }.solution-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }.solution-faq-item summary:focus-visible { outline: 3px solid var(--solution-blue); outline-offset: 3px; border-radius: 4px; }.solution-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }.solution-faq-item[open] .solution-faq-item__answer { grid-template-rows: 1fr; }.solution-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--solution-muted); font-size: .99rem; line-height: 1.7; }.solution-faq-item[open] .solution-faq-item__answer p { padding-bottom: 1.1rem; }
   @keyframes solution-art-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
   @media (max-width: 900px) { .solution-detail-hero__inner { min-height: 440px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }.challenge-layout, .capabilities-layout, .faq-layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; } }
-  @media (max-width: 700px) { .solution-shell { padding-inline: 1rem; }.solution-detail-hero { padding: 3.5rem 1rem 4rem; }.solution-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }.solution-detail-hero__visual { width: min(75vw, 320px); }.solution-detail-section { padding-block: 4.5rem; }.challenge-layout, .capabilities-layout, .provides-layout, .faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }.provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }.benefit-grid, .capability-grid { grid-template-columns: 1fr; }.solution-detail-hero__frame { width: 100%; max-width: 480px; }.solution-detail-hero__photo { padding: .6rem; border-radius: 1.5rem; }.solution-detail-hero__photo img { border-radius: 1.05rem; } }
+  @media (max-width: 700px) { .solution-shell { padding-inline: 1rem; }.solution-detail-hero { padding: 3.5rem 1rem 4rem; }.solution-detail-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }.solution-detail-hero__visual { width: min(75vw, 320px); }.solution-detail-section { padding-block: 4.5rem; }.challenge-layout, .capabilities-layout, .provides-layout, .faq-layout { grid-template-columns: 1fr; gap: 1.8rem; }.provides-mark { width: 130px; border-radius: 1.5rem; font-size: 3.85rem; }.benefit-grid { grid-template-columns: 1fr; }.capability-card { --tab: 4.25rem; grid-template-columns: var(--tab) minmax(0, 1fr) 3.25rem; }.capability-card__tab { padding-left: .85rem; font-size: 1.35rem; }.capability-card__tab::after { left: calc(var(--tab) - .6rem); width: .9rem; height: .9rem; }.capability-card__panel { margin-left: -.6rem; padding: 1rem 1rem 1rem 1.3rem; }.capability-card__icon { width: 1.9rem; height: 1.9rem; }.solution-detail-hero__frame { width: 100%; max-width: 480px; }.solution-detail-hero__photo { padding: .6rem; border-radius: 1.5rem; }.solution-detail-hero__photo img { border-radius: 1.05rem; } }
   @media (prefers-reduced-motion: reduce) { .capability-card:hover { transform: none; }.solution-detail-page *, .solution-detail-page *::before, .solution-detail-page *::after { animation: none !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
 </style>
