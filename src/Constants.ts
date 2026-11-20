@@ -10,9 +10,12 @@ export const company = {
         display: "+94 72 650 8419",
         number: "94726508419",
     },
+    // Footer shows a social link only when its URL is filled in (order: Facebook, Instagram, LinkedIn, TikTok).
     social: {
-        linkedin: "",
-        instagram: "https://www.instagram.com/ryzitetm",
+        facebook: "https://web.facebook.com/ryzite.lk",
+        instagram: "https://www.instagram.com/ryzitetm/",
+        linkedin: "https://www.linkedin.com/company/ryzite/",
+        tiktok: "https://www.tiktok.com/@ryzite",
         youtube: "",
     },
 } as const;

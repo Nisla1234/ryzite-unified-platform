@@ -2,11 +2,11 @@
 
 ## Video hero
 
-The homepage uses the supplied robot footage at `public/images/hero/Novu_London_fashion_landing_page_b5275c3a.mp4`.
+The homepage uses the supplied robot footage at `public/images/hero/ryzite-robot-navy.mp4`.
 Its scroll story scrubs the video with scroll (eased toward the scroll position) and fades three
 text scenes over the footage, opposite the robot: left, right, left. There is no pan; the footage
 itself moves the robot. On phones the copy stacks at the top and `object-position` follows the robot.
-`ryzite-robot-poster.jpg` provides the static image for reduced-motion preferences and
+`ryzite-robot-navy-poster.jpg` provides the static image for reduced-motion preferences and
 video-loading failures.
 
 Scene copy lives in `homeTranslations.<locale>.heroStory` and is `[PROPOSAL]`; Tamil and

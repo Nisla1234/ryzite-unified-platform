@@ -1,0 +1,97 @@
+---
+// Chat-style FAQ in the Contact page design (src/pages/contact.astro): condensed two-tone title with the
+// RYZITE robot on the left; questions as pills, the open answer as a reply bubble from RYZITE. Native
+// <details> keeps it keyboard-friendly and working without JavaScript. Used on the services, solutions,
+// packages, and each service and solution page. Each page passes its own attributes so its translation
+// and reveal scripts keep working; the title is split into two colours by bicolor-headings.ts.
+type Attrs = Record<string, string | number | boolean | undefined>;
+interface Item {
+  question: string;
+  answer: string;
+  questionAttrs?: Attrs;
+  answerAttrs?: Attrs;
+}
+interface Props {
+  /** id for the heading; the section is labelled by it. */
+  titleId: string;
+  title: string;
+  titleAttrs?: Attrs;
+  items: Item[];
+  /** Reveal attribute used by the host page's scroll animation, e.g. 'data-marketing-reveal'. */
+  revealAttr?: string;
+  /** Extra class on the section, for the host page's own spacing. */
+  class?: string;
+}
+const { titleId, title, titleAttrs, items, revealAttr, class: className } = Astro.props;
+const reveal = revealAttr ? { [revealAttr]: true } : {};
+const group = `${titleId}-items`;
+---
+
+<section class:list={['chat-faq', className]} aria-labelledby={titleId}>
+  <div class="chat-faq__layout">
+    <header class="chat-faq__intro" {...reveal}>
+      <h2 {...titleAttrs} id={titleId} class="chat-faq__title">{title}</h2>
+      <img class="chat-faq__robot" src="/images/hero/ry-front-plain.webp" alt="" width="1180" height="1333" loading="lazy" decoding="async" />
+    </header>
+    <div class="chat-faq__list" {...reveal}>
+      {items.map((item, index) => (
+        <details class="chat-faq__item" name={group} open={index === 0}>
+          <summary><span {...item.questionAttrs}>{item.question}</span></summary>
+          <div class="chat-faq__reply">
+            <p {...item.answerAttrs} class="chat-faq__bubble">{item.answer}</p>
+            <span class="chat-faq__sender" aria-hidden="true">
+              <span class="chat-faq__avatar"><img src="/images/hero/ry-head.png" alt="" width="240" height="224" loading="lazy" decoding="async" /></span>
+              <span class="chat-faq__name">RYZITE</span>
+            </span>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .chat-faq { --faq-blue: var(--color-brand); --faq-deep: var(--color-brand); --faq-pill: #e4ecfb; --faq-pill-hover: #d8e4fa; padding: clamp(4.5rem, 8vw, 7rem) var(--space-frame); background: var(--color-milk); }
+  .chat-faq__layout { display: grid; width: min(100%, var(--content-max)); margin-inline: auto; grid-template-columns: minmax(240px, .85fr) minmax(0, 1.15fr); align-items: start; gap: clamp(2rem, 6vw, 5.5rem); }
+  .chat-faq__intro { position: sticky; top: 110px; display: flex; flex-direction: column; }
+  .chat-faq__title { margin: 0; color: #0a1734; font-family: 'Fira Sans Extra Condensed', var(--font-heading); font-size: clamp(3rem, 6.2vw, 5.6rem); font-weight: 700; letter-spacing: -.01em; line-height: .92; text-transform: uppercase; text-wrap: balance; }
+  :global(html[lang='ta']) .chat-faq__title, :global(html[lang='si']) .chat-faq__title { font-family: var(--font-heading); font-size: clamp(2rem, 3.6vw, 3rem); line-height: 1.2; text-transform: none; }
+  .chat-faq__robot { display: block; width: min(62%, 260px); height: auto; margin-top: clamp(2rem, 5vw, 4rem); filter: drop-shadow(0 18px 24px #0b1c5826); animation: chat-faq-bob 4.5s ease-in-out infinite; }
+  .chat-faq__list { display: grid; gap: .85rem; }
+  .chat-faq__item summary { display: flex; align-items: center; min-height: 3.6rem; padding: .9rem 1.6rem; border: 1.5px solid transparent; border-radius: 999px; background: var(--faq-pill); color: #0a1734; cursor: pointer; font-size: var(--size-body); font-weight: 500; line-height: 1.4; list-style: none; transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease, translate var(--duration-fast) var(--ease-out); }
+  .chat-faq__item summary::-webkit-details-marker { display: none; }
+  .chat-faq__item summary:hover { translate: 4px 0; background: var(--faq-pill-hover); }
+  .chat-faq__item summary:focus-visible { outline: 3px solid var(--faq-blue); outline-offset: 3px; }
+  .chat-faq__item[open] summary { width: fit-content; max-width: 100%; border-color: var(--faq-blue); background: #eef3fe; color: var(--faq-deep); translate: none; animation: chat-faq-sent 320ms var(--ease-out) both; }
+  .chat-faq__reply { display: flex; align-items: flex-end; justify-content: flex-end; gap: .75rem; margin: .75rem 0 .35rem; padding-left: clamp(1rem, 12%, 6rem); }
+  .chat-faq__bubble { margin: 0; padding: 1.2rem 1.5rem; border: 1px solid #d3def5; border-radius: 1.6rem 1.6rem .4rem 1.6rem; background: var(--color-milk-highlight); box-shadow: 0 12px 28px #0b1c5812; color: var(--color-body); font-size: 1.0312rem; line-height: 1.65; }
+  .chat-faq__sender { display: flex; flex-shrink: 0; flex-direction: column; align-items: center; gap: .3rem; }
+  .chat-faq__avatar { display: block; width: 4.8rem; height: 4.8rem; overflow: hidden; border: 3px solid #fff; border-radius: 50%; background: radial-gradient(circle at 50% 35%, var(--color-milk) 0 30%, #dce8ff 75%); box-shadow: 0 8px 18px #0b1c5833; }
+  .chat-faq__avatar img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; transform: scale(1.18) translateY(6%); }
+  .chat-faq__name { color: var(--faq-blue); font-family: 'Fira Sans Extra Condensed', var(--font-heading); font-size: .85rem; font-weight: 700; letter-spacing: .08em; }
+  .chat-faq__item[open] .chat-faq__bubble { transform-origin: 100% 100%; animation: chat-faq-bubble 420ms var(--ease-out) both; }
+  .chat-faq__item[open] .chat-faq__sender { animation: chat-faq-avatar 420ms var(--ease-out) 120ms both; }
+  @keyframes chat-faq-bubble { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes chat-faq-avatar { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  @keyframes chat-faq-sent { from { opacity: .6; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  @keyframes chat-faq-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+  @media (max-width: 900px) {
+    .chat-faq__layout { grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
+  }
+  @media (max-width: 700px) {
+    .chat-faq { padding: 4.5rem 1rem; }
+    .chat-faq__layout { grid-template-columns: 1fr; gap: 2rem; }
+    .chat-faq__intro { position: static; }
+    .chat-faq__robot { display: none; }
+    .chat-faq__item summary { padding: .85rem 1.2rem; border-radius: 1.4rem; font-size: 1rem; }
+    .chat-faq__reply { padding-left: 0; }
+    .chat-faq__bubble { padding: 1rem 1.15rem; font-size: .975rem; }
+    .chat-faq__avatar { width: 3rem; height: 3rem; }
+    .chat-faq__name { font-size: .75rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .chat-faq__robot, .chat-faq__item[open] summary, .chat-faq__item[open] .chat-faq__bubble, .chat-faq__item[open] .chat-faq__sender { animation: none; }
+    .chat-faq__item summary { transition: none; }
+    .chat-faq__item summary:hover { translate: none; }
+  }
+</style>

@@ -2,12 +2,24 @@
     --color-ink: #080c11;
     --color-ink-soft: #11171f;
     --color-panel: #171d25;
-    --color-paper: #faf8f4;
+    /* [CLIENT] 2026-11-20: every page uses milky white, so paper now matches milk (was #f9f8f0). */
+    --color-paper: #fdfff5;
     --color-paper-soft: #eee8dc;
     --color-white: #ffffff;
-    --color-milk: #f8f8f5;
+    /* [CLIENT] Milky White scheme (2026-11-19): paper #F9F8F0, milk #FDFFF5, highlight #FFFFFF. */
+    --color-milk: #fdfff5;
     --color-milk-highlight: #ffffff;
     --color-milk-shadow: #e5e5e5;
+    /* [CLIENT] Approved primary brand colour (2026-11-19); replaces the bright-blue sets. */
+    --color-brand: #0b1c58;
+    --color-brand-hover: #16296f;
+    /* Text colours for light surfaces (readability pass, 2026-11-19): headings, body, and a
+       secondary tone for small labels such as card numbers. All meet WCAG AA on paper/milk
+       (on paper: heading 16.6:1, body 11.9:1, subtle 5.6:1). Dark surfaces keep their own light text. */
+    --color-heading: #0a1734;
+    --color-body: #24334f;
+    --color-text-subtle: #56647a;
+    --color-focus: var(--color-brand);
     --color-muted-dark: #9ca6b2;
     --color-muted-light: #4e555d;
     --color-lime: #c9ff57;

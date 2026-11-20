@@ -1,5 +1,9 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
+import TabbedCards from '../ui/TabbedCards.astro';
+import ProcessRoad from './ProcessRoad.astro';
+import { scopeIcons } from '../../data/detail-icons';
+import ChatFaq from '../ui/ChatFaq.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { resourcesTranslations } from '../../data/resources-translations';
 
@@ -28,12 +32,43 @@ const heroCtaHref = page === 'packages'
     : page === 'ourWork'
       ? '#our-approach'
       : '#topic-list';
-const closingCtaHref = page === 'articles' ? '/solutions/' : '/contact/';
+// Hero photos per resource page (client-supplied 2026-11-20), shown in a frosted-glass frame.
+const heroImages: Partial<Record<ResourcePage, { src: string; alt: string; width: number; height: number }>> = {
+  packages: { src: '/images/packages/packages-hero-website.webp', alt: 'A laptop and smartphone showing a business website, surrounded by floating code and growth chart panels.', width: 736, height: 736 },
+  howWeWork: { src: '/images/resources/how-we-work-hero.webp', alt: 'A business team around a meeting table celebrating together, with two people shaking hands.', width: 736, height: 736 },
+  ourWork: { src: '/images/resources/our-work-hero.webp', alt: 'A team gathered around a glowing digital table display, reviewing information together.', width: 736, height: 736 },
+  articles: { src: '/images/resources/articles-hero.webp', alt: 'A person working at a laptop in a modern office, with content and data panels flowing through the air.', width: 735, height: 522 },
+};
+const heroImage = heroImages[page];
+const topicImages = [
+  '/images/solutions/website-development-cover.webp',
+  '/images/services/google-seo-and-search-visibility.webp',
+  '/images/solutions/ui-ux-design-cover.webp',
+  '/images/solutions/business-workflow-automation-cover.webp',
+  '/images/solutions/software-api-integrations-cover.webp',
+];
 const packageContactHref = '/contact/?package=guidance';
 const canonicalUrl = new URL(paths[page], Astro.url).href;
 const pageTranslations = Object.fromEntries(
   Object.entries(resourcesTranslations).map(([locale, translations]) => [locale, translations[page]]),
 );
+// Line icons (24x24) for the empty Our Work and Blog cards: a folder and an article.
+const emptyStateIcons = {
+  projects: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><path d="M3 10h18" />',
+  articles: '<rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8 M8 12h8 M8 16h5" />',
+};
+// Line icons (24x24) for the How We Work principle cards: communication, planning, design,
+// development, scope, feedback.
+const principleIcons = [
+  '<path d="M4 5h16v11H9l-5 4z" /><path d="M8 9.5h8 M8 12.5h5" />',
+  '<circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" />',
+  '<path d="M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />',
+  '<path d="m8 7-5 5 5 5 M16 7l5 5-5 5 M14 4l-4 16" />',
+  '<rect x="5" y="3" width="14" height="18" rx="2" /><path d="M9 8h6 M9 12h6 M9 16h3" />',
+  '<path d="M20 12a8 8 0 0 1-13.7 5.6 M4 12a8 8 0 0 1 13.7-5.6 M18 3v4h-4 M6 21v-4h4" />',
+];
+// Our Work approach cards reuse the principle card: understand (target), design (pen), develop (code).
+const approachIcons = [principleIcons[1], principleIcons[2], principleIcons[3]];
 ---
 
 <MainLayout title={copy.pageTitle} description={copy.metaDescription} openGraph={true} canonicalUrl={canonicalUrl}>
@@ -50,23 +85,39 @@ const pageTranslations = Object.fromEntries(
             <span data-resource-key="heroCta">{copy.heroCta}</span><span aria-hidden="true">{page === 'howWeWork' ? <ArrowUpRight /> : '↓'}</span>
           </a>
         </div>
-        <div class="resource-hero__visual" aria-hidden="true">
-          <div class="resource-hero__orbit resource-hero__orbit--outer"></div>
-          <div class="resource-hero__orbit resource-hero__orbit--inner"></div>
-          <div class="resource-hero__symbol">{page === 'packages' ? 'P' : page === 'howWeWork' ? <ArrowUpRight /> : page === 'ourWork' ? 'W' : 'I'}</div>
-          <span class="resource-hero__spark resource-hero__spark--one">✦</span>
-          <span class="resource-hero__spark resource-hero__spark--two">✳</span>
-          <span class="resource-hero__visual-caption" aria-hidden="true">RYZITE / DIGITAL SOLUTIONS</span>
-        </div>
+        {heroImage ? (
+          <div class="resource-hero__frame">
+            <span class="resource-hero__blob resource-hero__blob--one" aria-hidden="true"></span>
+            <span class="resource-hero__blob resource-hero__blob--two" aria-hidden="true"></span>
+            <figure class="resource-hero__photo">
+              <img src={heroImage.src} alt={heroImage.alt} width={heroImage.width} height={heroImage.height} style={`aspect-ratio: ${heroImage.width} / ${heroImage.height}`} fetchpriority="high" decoding="async" />
+            </figure>
+          </div>
+        ) : (
+          <div class="resource-hero__visual" aria-hidden="true">
+            <div class="resource-hero__orbit resource-hero__orbit--outer"></div>
+            <div class="resource-hero__orbit resource-hero__orbit--inner"></div>
+            <div class="resource-hero__symbol">{page === 'packages' ? 'P' : page === 'howWeWork' ? <ArrowUpRight /> : page === 'ourWork' ? 'W' : 'I'}</div>
+            <span class="resource-hero__spark resource-hero__spark--one">✦</span>
+            <span class="resource-hero__spark resource-hero__spark--two">✳</span>
+            <span class="resource-hero__visual-caption" aria-hidden="true">RYZITE / DIGITAL SOLUTIONS</span>
+          </div>
+        )}
       </div>
-      <div class="resource-hero__edge" aria-hidden="true"><span>RYZITE / RESOURCES</span><span>IDEAS INTO ACTION <b>↓</b></span></div>
     </section>
 
     {packages && <>
       <section class="resource-section resource-intro" aria-labelledby="package-intro-title">
-        <div class="resource-shell resource-intro__inner" data-resource-reveal>
-          <h2 id="package-intro-title">{packages.introTitle}</h2>
-          <p>{packages.introBody}</p>
+        <div class="resource-shell">
+          <div class="resource-intro__card" data-resource-reveal>
+            <span class="resource-intro__badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5z" /><path d="M12 3v1.5 M12 19.5V21 M3 12h1.5 M19.5 12H21" /></svg>
+            </span>
+            <div class="resource-intro__copy">
+              <h2 id="package-intro-title">{packages.introTitle}</h2>
+              <p>{packages.introBody}</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -90,7 +141,7 @@ const pageTranslations = Object.fromEntries(
                   <ul>
                     {packageOption.features.map((feature, featureIndex) => (
                       <li data-resource-package-feature-index={featureIndex}>
-                        <span aria-hidden="true"><ArrowUpRight /></span>
+                        <svg class="resource-package-card__check" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="10" /><path d="m6 10.5 2.5 2.5L14 7.5" /></svg>
                         <span data-resource-package-feature>{feature}</span>
                       </li>
                     ))}
@@ -111,48 +162,33 @@ const pageTranslations = Object.fromEntries(
             <h2 id="package-comparison-title" data-resource-key="compareTitle">{packages.compareTitle}</h2>
             <p data-resource-key="compareDescription">{packages.compareDescription}</p>
           </header>
-          <div class="resource-comparison-wrap" data-resource-reveal>
-            <table class="resource-comparison">
-              <thead>
-                <tr>
-                  <th scope="col"></th>
-                  {packages.packageCards.map((packageOption, index) => (
-                    <th scope="col" data-resource-package-name-index={index}>{packageOption.name}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {packages.comparisonFeatures.map((feature, index) => (
-                  <tr>
-                    <th scope="row" data-resource-array="comparisonFeatures" data-resource-index={index}>{feature}</th>
-                    {packages.packageCards.map(() => (
-                      <td data-resource-key="comparisonStatus">{packages.comparisonStatus}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <TabbedCards layout="stack" items={packages.comparisonFeatures.map((feature, index) => ({
+            text: feature,
+            textAttrs: { 'data-resource-array': 'comparisonFeatures', 'data-resource-index': index },
+            icon: scopeIcons[index],
+            attrs: { 'data-resource-reveal': true },
+            tags: packages.packageCards.map((packageOption, packageIndex) => ({
+              label: packageOption.name,
+              labelAttrs: { 'data-resource-package-name-index': packageIndex },
+              value: packages.comparisonStatus,
+              valueAttrs: { 'data-resource-key': 'comparisonStatus' },
+            })),
+          }))} />
         </div>
       </section>
 
-      <section class="resource-section resource-faq-section" aria-labelledby="packages-faq-title">
-        <div class="resource-shell resource-faq-layout">
-          <header class="resource-section-heading resource-section-heading--stacked" data-resource-reveal>
-            <h2 id="packages-faq-title" data-resource-key="faqTitle">{packages.faqTitle}</h2>
-          </header>
-          <div class="resource-faq-list" data-resource-reveal>
-            {packages.faqs.map((faq, index) => (
-              <details class="resource-faq-item">
-                <summary data-resource-array="faqs" data-resource-index={index} data-resource-field="question">{faq.question}</summary>
-                <div class="resource-faq-item__answer">
-                  <p data-resource-array="faqs" data-resource-index={index} data-resource-field="answer">{faq.answer}</p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ChatFaq
+        titleId="packages-faq-title"
+        title={packages.faqTitle}
+        titleAttrs={{ 'data-resource-key': 'faqTitle' }}
+        revealAttr="data-resource-reveal"
+        items={packages.faqs.map((faq, index) => ({
+          question: faq.question,
+          answer: faq.answer,
+          questionAttrs: { 'data-resource-array': 'faqs', 'data-resource-index': index, 'data-resource-field': 'question' },
+          answerAttrs: { 'data-resource-array': 'faqs', 'data-resource-index': index, 'data-resource-field': 'answer' },
+        }))}
+      />
     </>}
 
     {howWeWork && <>
@@ -162,23 +198,16 @@ const pageTranslations = Object.fromEntries(
             <h2 id="process-title" data-resource-key="processTitle">{howWeWork.processTitle}</h2>
             <p data-resource-key="processIntro">{howWeWork.processIntro}</p>
           </header>
-          <ol class="resource-process-list">
-            {howWeWork.processSteps.map((step, index) => (
-              <li class="resource-process-step" data-resource-reveal data-resource-step-index={index}>
-                <span class="resource-process-step__number">0{index + 1}</span>
-                <div class="resource-process-step__content">
-                  <p class="resource-process-step__name" data-resource-step-field="name">{step.name}</p>
-                  <h3 data-resource-step-field="title">{step.title}</h3>
-                  <p class="resource-process-step__description" data-resource-step-field="description">{step.description}</p>
-                  <ul class="resource-activity-list">
-                    {step.activities.map((activity, activityIndex) => (
-                      <li data-resource-activity-index={activityIndex}>{activity}</li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <ProcessRoad steps={howWeWork.processSteps.map((step, index) => ({
+            name: step.name,
+            title: step.title,
+            description: step.description,
+            itemAttrs: { 'data-resource-step-index': index },
+            nameAttrs: { 'data-resource-step-field': 'name' },
+            titleAttrs: { 'data-resource-step-field': 'title' },
+            descriptionAttrs: { 'data-resource-step-field': 'description' },
+            activities: step.activities.map((activity, activityIndex) => ({ text: activity, attrs: { 'data-resource-activity-index': activityIndex } })),
+          }))} />
         </div>
       </section>
 
@@ -189,11 +218,15 @@ const pageTranslations = Object.fromEntries(
           </header>
           <div class="resource-principles-grid">
             {howWeWork.principles.map((principle, index) => (
-              <article class="resource-principle-card" data-resource-reveal>
-                <span class="resource-principle-card__number">0{index + 1}</span>
-                <span class="resource-principle-card__icon" aria-hidden="true">{['◎', '⌁', '✦', '✓', <ArrowUpRight />, '◇'][index]}</span>
-                <h3 data-resource-array="principles" data-resource-index={index} data-resource-field="title">{principle.title}</h3>
-                <p data-resource-array="principles" data-resource-index={index} data-resource-field="body">{principle.body}</p>
+              <article class="resource-principle-card resource-principle-card--arch" data-resource-reveal>
+                <div class="resource-principle-card__head" aria-hidden="true">
+                  <svg class="resource-principle-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" set:html={principleIcons[index % principleIcons.length]} />
+                </div>
+                <div class="resource-principle-card__body">
+                  <h3 data-resource-array="principles" data-resource-index={index} data-resource-field="title">{principle.title}</h3>
+                  <p data-resource-array="principles" data-resource-index={index} data-resource-field="body">{principle.body}</p>
+                </div>
+                <span class="resource-principle-card__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
               </article>
             ))}
           </div>
@@ -210,9 +243,10 @@ const pageTranslations = Object.fromEntries(
             </div>
           </header>
           <div class="resource-empty-state" data-resource-reveal>
-            <span class="resource-empty-state__icon" aria-hidden="true">✦</span>
+            <svg class="resource-empty-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={emptyStateIcons.projects} />
             <h3 data-resource-key="emptyTitle">{ourWork.emptyTitle}</h3>
             <p data-resource-key="emptyDescription">{ourWork.emptyDescription}</p>
+            <span class="resource-empty-state__dome" aria-hidden="true"><span>✦</span></span>
           </div>
         </div>
       </section>
@@ -225,11 +259,16 @@ const pageTranslations = Object.fromEntries(
           </header>
           <div class="resource-approach-grid">
             {ourWork.approachCards.map((card, index) => (
-              <article class="resource-approach-card" data-resource-reveal>
-                <span class="resource-approach-card__number">0{index + 1}</span>
-                <span class="resource-approach-card__icon" aria-hidden="true">{['◎', '✦', <ArrowUpRight />][index]}</span>
-                <h3 data-resource-array="approachCards" data-resource-index={index} data-resource-field="title">{card.title}</h3>
-                <p data-resource-array="approachCards" data-resource-index={index} data-resource-field="body">{card.body}</p>
+              <article class="resource-principle-card" data-resource-reveal>
+                <div class="resource-principle-card__head" aria-hidden="true">
+                  <span class="resource-principle-card__number">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="resource-principle-card__divider"></span>
+                  <svg class="resource-principle-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" set:html={approachIcons[index % approachIcons.length]} />
+                </div>
+                <div class="resource-principle-card__body">
+                  <h3 data-resource-array="approachCards" data-resource-index={index} data-resource-field="title">{card.title}</h3>
+                  <p data-resource-array="approachCards" data-resource-index={index} data-resource-field="body">{card.body}</p>
+                </div>
               </article>
             ))}
           </div>
@@ -248,9 +287,13 @@ const pageTranslations = Object.fromEntries(
           <div class="resource-topic-grid">
             {articles.topicCategories.map((category, index) => (
               <article class="resource-topic-card" data-resource-reveal>
-                <span class="resource-topic-card__number">0{index + 1}</span>
-                <h3 data-resource-array="topicCategories" data-resource-index={index} data-resource-field="title">{category.title}</h3>
-                <p data-resource-array="topicCategories" data-resource-index={index} data-resource-field="description">{category.description}</p>
+                <img class="resource-topic-card__image" src={topicImages[index]} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <div class="resource-topic-card__content">
+                  <div>
+                    <h3 data-resource-array="topicCategories" data-resource-index={index} data-resource-field="title">{category.title}</h3>
+                    <p data-resource-array="topicCategories" data-resource-index={index} data-resource-field="description">{category.description}</p>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
@@ -265,9 +308,10 @@ const pageTranslations = Object.fromEntries(
             </div>
           </header>
           <div class="resource-empty-state resource-empty-state--articles" data-resource-reveal>
-            <span class="resource-empty-state__icon" aria-hidden="true">≡</span>
+            <svg class="resource-empty-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={emptyStateIcons.articles} />
             <h3 data-resource-key="articleEmptyTitle">{articles.articleEmptyTitle}</h3>
             <p data-resource-key="articleEmptyDescription">{articles.articleEmptyDescription}</p>
+            <span class="resource-empty-state__dome" aria-hidden="true"><span>✦</span></span>
           </div>
         </div>
       </section>
@@ -290,16 +334,6 @@ const pageTranslations = Object.fromEntries(
       </section>
     </>}
 
-    <section class="resource-closing" aria-labelledby="resource-closing-title">
-      <div class="resource-closing__orb" aria-hidden="true"></div>
-      <div class="resource-closing__inner" data-resource-reveal>
-        <h2 id="resource-closing-title" data-resource-key="closingTitle">{copy.closingTitle}</h2>
-        <p data-resource-key="closingDescription">{copy.closingDescription}</p>
-        <a class="resource-button resource-button--light" href={closingCtaHref}>
-          <span data-resource-key="closingCta">{copy.closingCta}</span><span aria-hidden="true"><ArrowUpRight /></span>
-        </a>
-      </div>
-    </section>
   </div>
 </MainLayout>
 
@@ -388,10 +422,10 @@ const pageTranslations = Object.fromEntries(
 </script>
 
 <style>
-  .resource-page { --resource-blue: #0756df; --resource-deep: #073db7; --resource-ink: #14243a; --resource-muted: #58677c; color: var(--resource-ink); background: var(--color-paper); }
+  .resource-page { --resource-blue: var(--color-brand); --resource-deep: var(--color-brand); --resource-ink: var(--color-heading); --resource-muted: var(--color-body); color: var(--resource-ink); background: var(--color-paper); }
   .resource-page *, .resource-page *::before, .resource-page *::after { box-sizing: border-box; }
   .resource-shell { width: min(100%, var(--content-max)); margin-inline: auto; padding-inline: var(--space-frame); }
-  .resource-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame) 2rem; background: linear-gradient(118deg, #faf8f4, #f3f8ff 64%, #eaf4ff); }
+  .resource-hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(4rem, 7vw, 6.5rem) var(--space-frame) 2rem; background: var(--color-milk); }
   .resource-hero__inner { display: grid; min-height: 530px; grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr); align-items: center; gap: clamp(2rem, 6vw, 6rem); }
   .resource-hero__copy { position: relative; z-index: 1; max-width: 800px; }
   .resource-eyebrow { display: flex; align-items: center; gap: .65rem; margin: 0 0 1rem; color: var(--resource-blue); font-size: var(--size-eyebrow); font-weight: 600; letter-spacing: .15em; line-height: 1.5; text-transform: uppercase; }
@@ -401,28 +435,31 @@ const pageTranslations = Object.fromEntries(
   .resource-hero__body--secondary { margin-top: .8rem; font-size: 1.1rem; }
   .resource-button { display: inline-flex; min-height: 3.1rem; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; padding: .78rem 1.2rem; border: 1px solid transparent; border-radius: 999px; font-size: .99rem; font-weight: 600; text-align: center; text-decoration: none; transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 180ms ease; }
   .resource-button:hover { transform: translateY(-3px); }
-  .resource-button:focus-visible, .resource-text-link:focus-visible, .resource-faq-item summary:focus-visible { outline: 3px solid var(--resource-blue); outline-offset: 4px; }
-  .resource-button--primary { color: #fff; background: linear-gradient(110deg, #078be9, #064bed); box-shadow: 0 .7rem 1.5rem #064bed30; }
-  .resource-button--primary:hover { background: linear-gradient(110deg, #087bd2, #043ec9); }
+  .resource-button:focus-visible, .resource-text-link:focus-visible { outline: 3px solid var(--resource-blue); outline-offset: 4px; }
+  .resource-button--primary { color: #fff; background: var(--color-brand); box-shadow: 0 .7rem 1.5rem #0b1c5830; }
+  .resource-button--primary:hover { background: var(--color-brand-hover); }
   .resource-hero__visual { position: relative; display: grid; width: min(100%, 400px); aspect-ratio: 1; place-items: center; justify-self: center; overflow: hidden; border: 1px solid #d5e5f8; border-radius: 2.2rem; background: radial-gradient(circle at center, var(--color-milk) 0 22%, #eef6ff 23% 66%, #e1efff 67%); box-shadow: inset 0 0 0 1rem #ffffff50, 0 1.5rem 3.5rem #173b7110; }
-  .resource-hero__visual::before { position: absolute; inset: 12%; border: 1px solid #8cb9ee80; border-radius: 50%; background-image: linear-gradient(#0655e914 1px, transparent 1px), linear-gradient(90deg, #0655e914 1px, transparent 1px); background-size: 16% 16%; content: ''; mask-image: radial-gradient(circle, #000 0 68%, transparent 69%); }
-  .resource-hero__symbol { position: relative; z-index: 1; display: grid; width: 35%; aspect-ratio: 1; place-items: center; border: 1px solid #ffffffa0; border-radius: 1.5rem; color: #fff; background: linear-gradient(145deg, #078be9, #0643cf); box-shadow: 0 1.2rem 2.7rem #0655e93b; font-family: var(--font-display); font-size: clamp(3.3rem, 6.6vw, 5.5rem); font-weight: 700; }
-  .resource-hero__orbit { position: absolute; inset: 7%; border: 1px solid #0655e92e; border-radius: 50%; }
-  .resource-hero__orbit--inner { inset: 22%; border-style: dashed; border-color: #00a6fa55; }
+  .resource-hero__visual::before { position: absolute; inset: 12%; border: 1px solid #8cb9ee80; border-radius: 50%; background-image: linear-gradient(#0b1c5814 1px, transparent 1px), linear-gradient(90deg, #0b1c5814 1px, transparent 1px); background-size: 16% 16%; content: ''; mask-image: radial-gradient(circle, #000 0 68%, transparent 69%); }
+  .resource-hero__symbol { position: relative; z-index: 1; display: grid; width: 35%; aspect-ratio: 1; place-items: center; border: 1px solid #ffffffa0; border-radius: 1.5rem; color: #fff; background: var(--color-brand); box-shadow: 0 1.2rem 2.7rem #0b1c583b; font-family: var(--font-display); font-size: clamp(3.3rem, 6.6vw, 5.5rem); font-weight: 700; }
+  .resource-hero__orbit { position: absolute; inset: 7%; border: 1px solid #0b1c582e; border-radius: 50%; }
+  .resource-hero__orbit--inner { inset: 22%; border-style: dashed; border-color: #0b1c5855; }
   .resource-hero__spark { position: absolute; color: var(--resource-blue); }
   .resource-hero__spark--one { top: 15%; right: 22%; }
   .resource-hero__spark--two { bottom: 17%; left: 19%; }
-  .resource-hero__visual-caption { position: absolute; right: 1rem; bottom: 1.1rem; left: 1rem; color: #617794; font-size: .638rem; font-weight: 600; letter-spacing: .12em; text-align: center; }
-  .resource-hero__glow { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #459eff28, transparent 68%); }
-  .resource-hero__edge { display: flex; width: min(100%, var(--content-max)); justify-content: space-between; gap: 1rem; margin: 2rem auto 0; padding-top: 1rem; border-top: 1px solid #cdd9e7; color: #52647b; font-size: .682rem; font-weight: 600; letter-spacing: .12em; }
-  .resource-hero__edge b { margin-left: .4rem; color: var(--resource-blue); }
+  .resource-hero__visual-caption { position: absolute; right: 1rem; bottom: 1.1rem; left: 1rem; color: #617794; font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-align: center; }
+  .resource-hero__glow { position: absolute; z-index: -1; top: -38%; right: 5%; width: min(40vw, 560px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #0b1c5828, transparent 68%); }
   .resource-section { padding-block: clamp(4.5rem, 8vw, 7rem); }
   .resource-section:nth-of-type(even) { background: var(--color-milk); }
-  .resource-intro { background: var(--color-milk); }
-  .resource-intro__inner { display: grid; grid-template-columns: minmax(160px, .45fr) minmax(0, 1fr); align-items: start; gap: .7rem 3rem; }
-  .resource-intro__inner .resource-eyebrow { grid-row: span 2; margin-top: .8rem; }
+  /* Packages intro: one frosted milky-glass panel over soft brand-blue light, with a navy compass badge
+     ("find your starting point") beside the heading and paragraph. */
+  .resource-intro { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 12rem at 14% 58%, rgb(124 192 255 / 45%), transparent 100%), radial-gradient(circle 11rem at 86% 42%, rgb(143 166 255 / 40%), transparent 100%), var(--color-milk); }
+  .resource-intro__card { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(1.25rem, 3vw, 2.25rem); padding: clamp(1.25rem, 2.4vw, 1.75rem) clamp(1.5rem, 3.5vw, 2.75rem); border: 1px solid rgb(255 255 255 / 85%); border-radius: 1.75rem; background: linear-gradient(150deg, rgb(255 255 255 / 75%), rgb(253 255 245 / 42%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), 0 1.6rem 3.6rem rgb(11 28 88 / 12%); -webkit-backdrop-filter: blur(20px) saturate(140%); backdrop-filter: blur(20px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .resource-intro__card { background: rgb(253 255 245 / 94%); } }
+  .resource-intro__badge { display: grid; width: clamp(4rem, 6vw, 5rem); aspect-ratio: 1; place-items: center; border-radius: 1.3rem; color: #fff; background: radial-gradient(circle at 30% 25%, var(--color-brand-hover), var(--color-brand) 70%); box-shadow: 0 1rem 2rem rgb(11 28 88 / 28%), inset 0 1px 0 rgb(255 255 255 / 25%); }
+  .resource-intro__badge svg { width: 52%; height: auto; }
+  .resource-intro .resource-intro__copy h2 { max-width: none; font-size: clamp(1.5rem, 2.1vw, 1.95rem); text-wrap: balance; }
+  .resource-intro__copy p { max-width: 900px; margin: .6rem 0 0; color: var(--resource-muted); font-size: 1.1rem; line-height: 1.6; }
   .resource-intro h2, .resource-section-heading h2 { max-width: var(--measure-h2); margin: 0; color: #111d30; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); }
-  .resource-intro__inner > p:last-child { max-width: 740px; margin: .4rem 0 0; color: var(--resource-muted); font-size: 1.155rem; line-height: 1.75; }
   .resource-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.5rem; }
   .resource-section-heading > p { max-width: 560px; margin: 0; color: var(--resource-muted); line-height: 1.7; }
   .resource-section-heading .resource-eyebrow { margin-bottom: .9rem; }
@@ -431,11 +468,18 @@ const pageTranslations = Object.fromEntries(
   .resource-section-heading--center > p:last-child { max-width: 700px; margin: .9rem 0 0; color: var(--resource-muted); line-height: 1.7; }
   .resource-section-heading--stacked { display: block; margin: 0; }
   .resource-section-heading--stacked .resource-eyebrow { margin-bottom: 1rem; }
-  .resource-package-section, .resource-process-section, .resource-topics-section { background: #f2f7fd; }
+  /* Resource hero photo: a frosted-glass frame with two soft blobs, as on the service and solution pages. */
+  .resource-hero__frame { position: relative; isolation: isolate; width: min(100%, 440px); justify-self: center; }
+  .resource-hero__blob { position: absolute; z-index: -1; border-radius: 50%; filter: blur(8px); pointer-events: none; }
+  .resource-hero__blob--one { top: -8%; right: -6%; width: 46%; aspect-ratio: 1; background: radial-gradient(circle at 35% 35%, #078be9, #0655e9 70%); opacity: .75; }
+  .resource-hero__blob--two { bottom: -10%; left: -8%; width: 38%; aspect-ratio: 1; background: radial-gradient(circle at 60% 40%, #8cc8ff, #0643cf 75%); opacity: .6; }
+  .resource-hero__photo { position: relative; margin: 0; padding: .85rem; border: 1px solid rgb(255 255 255 / 65%); border-radius: 2rem; background: linear-gradient(145deg, rgb(255 255 255 / 55%), rgb(255 255 255 / 18%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%), 0 1.6rem 3.6rem rgb(23 59 113 / 18%); -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%); }
+  .resource-hero__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 1.4rem; }
+  .resource-package-section, .resource-process-section, .resource-topics-section { background: var(--color-paper); }
   .resource-notice { max-width: 590px; padding: 1rem 1.15rem; border: 1px solid #d5e5f8; border-radius: 1rem; color: #40546d; background: var(--color-milk); font-size: .968rem; line-height: 1.65; }
   .resource-package-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: stretch; }
   .resource-package-card { display: flex; min-width: 0; flex-direction: column; padding: 1.5rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk), #f7faff); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .resource-package-card__label { align-self: flex-start; margin: 0; padding: .35rem .65rem; border: 1px solid #cfe0f5; border-radius: 999px; color: var(--resource-blue); background: #eaf3ff; font-size: .682rem; font-weight: 600; letter-spacing: .1em; }
+  .resource-package-card__label { align-self: flex-start; margin: 0; padding: .35rem .65rem; border: 1px solid #cfe0f5; border-radius: 999px; color: var(--resource-blue); background: #eaf3ff; font-size: .75rem; font-weight: 600; letter-spacing: .1em; }
   .resource-package-card__name { margin: 1.35rem 0 .55rem; color: var(--resource-blue); font-size: .836rem; font-weight: 600; letter-spacing: .11em; text-transform: uppercase; }
   .resource-package-card h3 { margin: 0; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
   .resource-package-card__description { margin: .85rem 0 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.65; }
@@ -444,115 +488,137 @@ const pageTranslations = Object.fromEntries(
   .resource-package-card__features ul { display: grid; gap: .55rem; margin: 0; padding: 0; list-style: none; }
   .resource-package-card__features li { display: grid; grid-template-columns: 1rem minmax(0, 1fr); gap: .55rem; color: #475b73; font-size: .902rem; line-height: 1.5; }
   .resource-package-card__features li > span:first-child { color: var(--resource-blue); font-weight: 600; }
+  /* Package options in the homepage packages style (PackagesPreview.astro): a dark technology photo under a
+     navy tint, milky-white glass cards with the centre card raised, navy check marks and full-width navy
+     buttons; the hovered or focused card lifts with a top glow while the others dim. Styling only: the
+     centre card is not labelled as recommended, and options remain proposals. */
+  .resource-package-section { position: relative; isolation: isolate; overflow: hidden; background: #07184f; }
+  .resource-package-section::before, .resource-package-section::after { position: absolute; z-index: -1; inset: 0; content: ''; pointer-events: none; }
+  .resource-package-section::before { background: url('/images/packages/technology-blue-background.webp') center / cover no-repeat; filter: brightness(.58) saturate(.62); transform: scale(1.025); }
+  .resource-package-section::after { background: linear-gradient(112deg, rgb(5 26 82 / 58%), rgb(11 28 88 / 16%) 50%, rgb(5 26 82 / 58%)); }
+  .resource-package-section .resource-section-heading h2 { color: #fff; }
+  .resource-package-section .resource-notice { border-color: rgb(255 255 255 / 28%); color: #f2f7ff; background: rgb(255 255 255 / 10%); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .resource-package-section .resource-package-grid { gap: clamp(1rem, 2vw, 1.5rem); padding-top: 1.5rem; }
+  .resource-package-section .resource-package-card { position: relative; isolation: isolate; padding: clamp(1.4rem, 2.4vw, 1.9rem); overflow: hidden; border: 1px solid rgb(220 231 251 / 94%); border-radius: 1.6rem; background: rgb(253 255 245 / 90%); box-shadow: 0 16px 38px rgb(2 16 66 / 22%), 0 3px 8px rgb(2 16 66 / 10%), inset 0 1px 0 rgb(255 255 255 / 90%); -webkit-backdrop-filter: blur(18px) saturate(110%); backdrop-filter: blur(18px) saturate(110%); transition: transform 420ms cubic-bezier(.2, .8, .2, 1), opacity 420ms cubic-bezier(.2, .8, .2, 1), border-color 420ms cubic-bezier(.2, .8, .2, 1), box-shadow 420ms cubic-bezier(.2, .8, .2, 1); }
+  .resource-package-section .resource-package-card::before { position: absolute; z-index: -1; inset: 0 0 auto; height: 9rem; background: radial-gradient(ellipse 70% 100% at 50% 0%, rgb(11 28 88 / 32%) 0%, rgb(11 28 88 / 14%) 45%, transparent 75%); content: ''; opacity: 0; transition: opacity 420ms cubic-bezier(.2, .8, .2, 1); }
+  .resource-package-section .resource-package-card:nth-child(2) { z-index: 2; border-color: rgb(11 28 88 / 48%); box-shadow: 0 24px 54px rgb(2 16 66 / 30%), 0 0 0 1px rgb(11 28 88 / 14%), inset 0 1px 0 rgb(255 255 255 / 92%); transform: translateY(-12px) scale(1.03); }
+  .resource-package-section .resource-package-card:is(:hover, :focus-within) { z-index: 5; border-color: rgb(11 28 88 / 76%); box-shadow: 0 30px 64px rgb(2 16 66 / 34%), 0 0 24px rgb(11 28 88 / 22%), inset 0 1px 0 rgb(255 255 255 / 95%); }
+  .resource-package-section .resource-package-card:is(:hover, :focus-within)::before { opacity: 1; }
+  @media (hover: hover) {
+    .resource-package-section .resource-package-card:hover { transform: translateY(-10px) scale(1.015); }
+    .resource-package-section .resource-package-card:nth-child(2):hover { transform: translateY(-18px) scale(1.04); }
+  }
+  .resource-package-section .resource-package-grid:has(.resource-package-card:is(:hover, :focus-within)) .resource-package-card:not(:hover, :focus-within) { opacity: .76; }
+  .resource-package-section .resource-package-card__label { border-color: rgb(11 28 88 / 18%); color: var(--color-brand); background: rgb(11 28 88 / 7%); }
+  .resource-package-section .resource-package-card__name { color: var(--color-brand); }
+  .resource-package-section .resource-package-card h3 { color: var(--color-heading); }
+  .resource-package-section .resource-package-card__description, .resource-package-section .resource-package-card__features li { color: var(--color-body); }
+  .resource-package-section .resource-package-card__features h4 { color: var(--color-brand); }
+  .resource-package-card__features li { grid-template-columns: 1.15rem minmax(0, 1fr); align-items: start; }
+  .resource-package-card__check { width: 1.15rem; height: 1.15rem; margin-top: .15rem; }
+  .resource-package-card__check circle { fill: var(--color-brand); }
+  .resource-package-card__check path { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .resource-package-section .resource-package-card .resource-text-link { justify-content: center; min-height: 3rem; margin-top: auto; padding: .75rem 1.25rem; border-radius: .85rem; color: #fff; background: var(--color-brand); box-shadow: 0 9px 20px rgb(11 28 88 / 22%); text-decoration: none; transition: background 180ms var(--ease-out), transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out); }
+  .resource-package-section .resource-package-card .resource-text-link:hover { background: var(--color-brand-hover); transform: translateY(-2px); box-shadow: 0 14px 30px rgb(11 28 88 / 32%); }
+  .resource-package-section .resource-package-card .resource-text-link:focus-visible { outline: 3px solid #b9c8ff; outline-offset: 3px; }
+  .resource-package-section .resource-package-card__features { margin-bottom: 1.6rem; }
+  @media (max-width: 1000px) {
+    .resource-package-section .resource-package-grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; padding-top: 0; }
+    .resource-package-section .resource-package-card, .resource-package-section .resource-package-card:nth-child(2), .resource-package-section .resource-package-card:is(:hover, :focus-within), .resource-package-section .resource-package-card:nth-child(2):hover { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .resource-package-section .resource-package-card, .resource-package-section .resource-package-card::before, .resource-package-section .resource-package-card .resource-text-link { transition: none; }
+    .resource-package-section .resource-package-card:hover, .resource-package-section .resource-package-card .resource-text-link:hover { transform: none; }
+    .resource-package-section .resource-package-card:nth-child(2):hover { transform: translateY(-12px) scale(1.03); }
+  }
   .resource-text-link { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: .8rem; margin-top: auto; padding-top: 1.3rem; color: var(--resource-blue); font-size: .946rem; font-weight: 600; text-decoration: none; }
   .resource-text-link span:last-child { transition: transform 180ms ease; }
   .resource-text-link:hover span:last-child { transform: translateX(4px); }
-  .resource-comparison-section, .resource-faq-section, .resource-principles-section, .resource-work-section, .resource-articles-section, .resource-approach-section { background: var(--color-milk); }
-  .resource-comparison-wrap { overflow-x: auto; border: 1px solid #dce5f0; border-radius: 1.2rem; background: var(--color-milk); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .resource-comparison { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .resource-comparison th, .resource-comparison td { padding: .9rem 1rem; border-bottom: 1px solid #e1e9f2; color: #40546d; font-size: .913rem; line-height: 1.45; text-align: left; vertical-align: middle; overflow-wrap: anywhere; }
-  .resource-comparison thead th { color: #162942; background: #f1f6fc; font-weight: 600; }
-  .resource-comparison th:first-child { width: 31%; }
-  .resource-comparison tbody th { color: #233a56; font-weight: 600; }
-  .resource-comparison tbody td { color: #63758a; font-size: .814rem; }
-  .resource-comparison tr:last-child > * { border-bottom: 0; }
-  .resource-faq-layout, .resource-editorial-layout { display: grid; grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); align-items: start; gap: clamp(2rem, 6vw, 6rem); }
-  .resource-faq-list { border-top: 1px solid #d7e1ee; }
-  .resource-faq-item { border-bottom: 1px solid #d7e1ee; }
-  .resource-faq-item summary { position: relative; display: flex; min-height: 4rem; align-items: center; padding: 1rem 2.5rem 1rem 0; color: #15263d; cursor: pointer; font-size: 1.045rem; font-weight: 600; line-height: 1.45; list-style: none; }
-  .resource-faq-item summary::-webkit-details-marker { display: none; }
-  .resource-faq-item summary::after { position: absolute; top: 50%; right: .4rem; width: .65rem; height: .65rem; transform: translateY(-65%) rotate(45deg); border-right: 2px solid var(--resource-blue); border-bottom: 2px solid var(--resource-blue); content: ''; transition: transform 180ms ease; }
-  .resource-faq-item[open] summary::after { transform: translateY(-30%) rotate(225deg); }
-  .resource-faq-item__answer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms ease; }
-  .resource-faq-item[open] .resource-faq-item__answer { grid-template-rows: 1fr; }
-  .resource-faq-item__answer p { min-height: 0; overflow: hidden; margin: 0; padding: 0 2rem 0 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.7; }
-  .resource-faq-item[open] .resource-faq-item__answer p { padding-bottom: 1.1rem; }
-  .resource-process-section { background: #f2f7fd; }
-  .resource-process-list { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 1.5rem; margin: 3.2rem 0 0; padding: 0; list-style: none; }
-  .resource-process-step { position: relative; display: grid; min-width: 0; grid-template-columns: 2.5rem minmax(0, 1fr); gap: .9rem; padding-bottom: 2rem; }
-  .resource-process-step__number { position: relative; z-index: 1; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #9fc1eb; border-radius: 50%; color: var(--resource-blue); background: var(--color-milk); box-shadow: 0 0 0 .35rem #edf5ff; font-size: .748rem; font-weight: 600; }
-  .resource-process-step__content { min-width: 0; }
-  .resource-process-step__name { margin: .1rem 0 .5rem; color: var(--resource-blue); font-size: .748rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-  .resource-process-step h3 { margin: 0; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .resource-process-step__description { margin: .7rem 0 0; color: var(--resource-muted); font-size: .968rem; line-height: 1.65; }
-  .resource-activity-list { display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 0; padding: 0; list-style: none; }
-  .resource-activity-list li { padding: .35rem .55rem; border: 1px solid #d9e6f4; border-radius: 999px; color: #40546d; background: var(--color-milk); font-size: .748rem; line-height: 1.3; }
-  .resource-principles-section { background: var(--color-milk); }
+  .resource-comparison-section, .resource-principles-section, .resource-work-section, .resource-articles-section, .resource-approach-section { background: var(--color-milk); }
+  .resource-editorial-layout { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 2rem; }
+  .resource-process-section { background: var(--color-paper); }
+  /* Principle cards: same navy-header glass card as the Solutions overview "why" cards
+     (TechnologySolutionsOverview.astro): deep navy band, lighter navy header with number, divider and
+     line icon, and a raised milky-white body. Without backdrop-filter the layers turn solid. */
+  .resource-principles-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 30% 35%, rgb(124 192 255 / 50%), transparent 100%), radial-gradient(circle 12rem at 88% 80%, rgb(143 166 255 / 48%), transparent 100%), radial-gradient(circle 10rem at 62% 58%, rgb(11 28 88 / 20%), transparent 100%), var(--color-milk); }
+  .resource-principles-section .resource-principles-grid { gap: 1.25rem; }
+  /* Our Work approach cards use the same glass cards and glow. */
+  .resource-approach-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 25% 60%, rgb(124 192 255 / 50%), transparent 100%), radial-gradient(circle 12rem at 85% 72%, rgb(143 166 255 / 48%), transparent 100%), radial-gradient(circle 10rem at 55% 70%, rgb(11 28 88 / 20%), transparent 100%), var(--color-milk); }
+  .resource-approach-section .resource-approach-grid { gap: 1.25rem; }
+  .resource-principle-card { position: relative; isolation: isolate; display: flex; min-width: 0; flex-direction: column; padding: 1.1rem 1.1rem 1.25rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 80%); border-radius: 1.6rem; background: linear-gradient(180deg, rgb(255 255 255 / 45%), rgb(253 255 245 / 25%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 1.2rem 2.6rem rgb(11 28 88 / 12%); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); transition: transform 220ms var(--ease-out), box-shadow 220ms ease; }
+  .resource-principle-card::before { position: absolute; z-index: -1; top: 0; right: 0; left: 0; height: 6.25rem; background: linear-gradient(160deg, rgb(11 28 88 / 88%), rgb(8 19 74 / 78%)); content: ''; }
+  .resource-principle-card:hover { transform: translateY(-5px); box-shadow: 0 1.6rem 3.2rem rgb(11 28 88 / 18%); }
+  .resource-principle-card__head { display: flex; align-items: center; gap: 1rem; padding: .85rem 1.4rem; border: 1px solid rgb(255 255 255 / 22%); border-bottom: 0; border-radius: 1.1rem 1.1rem 0 0; color: var(--color-milk); background: linear-gradient(120deg, rgb(52 78 170 / 62%), rgb(22 41 111 / 55%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 30%); -webkit-backdrop-filter: blur(12px) saturate(150%); backdrop-filter: blur(12px) saturate(150%); }
+  .resource-principle-card__number { font-family: var(--font-display); font-size: 2rem; font-weight: 500; line-height: 1; letter-spacing: .02em; }
+  .resource-principle-card__divider { width: 1px; height: 1.9rem; background: rgb(253 255 245 / 45%); }
+  .resource-principle-card__icon { width: 2rem; height: 2rem; }
+  .resource-principle-card__body { flex: 1; padding: 1.5rem 1.4rem 1.6rem; border: 1px solid rgb(255 255 255 / 85%); border-top: 0; border-radius: 0 0 1.1rem 1.1rem; text-align: center; background: linear-gradient(170deg, rgb(255 255 255 / 92%), rgb(253 255 245 / 66%)); box-shadow: 0 .9rem 1.8rem rgb(11 28 88 / 10%); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .resource-principle-card { background: var(--color-milk); }.resource-principle-card__head { background: var(--color-brand-hover); }.resource-principle-card__body { background: var(--color-milk-highlight); } }
+  .resource-principle-card--arch { width: min(100%, 390px); min-height: 380px; justify-self: center; padding: 0; border: 1px solid rgb(11 28 88 / 32%); border-radius: 50% 50% 1.4rem 1.4rem / 24% 24% 1.4rem 1.4rem; background: var(--color-milk); box-shadow: 0 1rem 2.5rem rgb(11 28 88 / 12%); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .resource-principle-card--arch::before { z-index: 0; top: auto; right: 0; bottom: 0; left: 0; height: 5.75rem; border-radius: 50% 50% 1.35rem 1.35rem / 36% 36% 1.35rem 1.35rem; background: var(--color-brand); }
+  .resource-principle-card--arch .resource-principle-card__head { position: relative; z-index: 1; display: grid; flex: none; place-items: center; padding: 2.5rem 1rem 0; border: 0; border-radius: 0; color: var(--color-brand); background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .resource-principle-card--arch .resource-principle-card__icon { width: 2.3rem; height: 2.3rem; }
+  .resource-principle-card--arch .resource-principle-card__body { position: relative; z-index: 1; flex: 1; padding: 1.2rem 1.25rem 6.5rem; border: 0; border-radius: 0; text-align: center; background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .resource-principle-card--arch .resource-principle-card__number { position: absolute; z-index: 1; bottom: 1rem; left: 50%; color: var(--color-milk-highlight); font-size: 2rem; font-weight: 700; line-height: 1; transform: translateX(-50%); }
+  .resource-principle-card--arch h3 { color: var(--color-brand); }
+  .resource-principle-card--arch p { color: var(--color-body); }
+  .resource-principle-card h3 { margin: 0 0 .6rem; color: var(--color-brand); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .resource-principle-card p { margin: 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.65; }
+  @media (prefers-reduced-motion: reduce) { .resource-principle-card:hover { transform: none; } }
   .resource-principles-grid, .resource-approach-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
-  .resource-principle-card, .resource-approach-card, .resource-topic-card { position: relative; min-width: 0; min-height: 205px; padding: 1.4rem; border: 1px solid #dce5f0; border-radius: var(--radius-medium); background: linear-gradient(145deg, var(--color-milk), #f3f8ff); box-shadow: 0 .8rem 1.8rem #173b7109; }
-  .resource-principle-card__number, .resource-approach-card__number { color: #8795a8; font-size: .726rem; font-weight: 600; letter-spacing: .13em; }
-  .resource-principle-card__icon, .resource-approach-card__icon { position: absolute; top: 1.2rem; right: 1.2rem; display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: .8rem; color: var(--resource-blue); background: #eaf3ff; font-size: 1.21rem; }
-  .resource-principle-card h3, .resource-approach-card h3, .resource-topic-card h3 { margin: 2rem 0 .55rem; color: #172940; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .resource-principle-card p, .resource-approach-card p, .resource-topic-card p { margin: 0; color: var(--resource-muted); font-size: .99rem; line-height: 1.65; }
-  .resource-work-section { background: #f2f7fd; }
-  .resource-empty-state { display: flex; min-height: 280px; flex-direction: column; align-items: center; justify-content: center; padding: clamp(2rem, 5vw, 4rem); border: 1px dashed #b6cbe2; border-radius: 1.6rem; background: linear-gradient(145deg, var(--color-milk), #f7faff); text-align: center; }
-  .resource-empty-state__icon { display: grid; width: 3.5rem; aspect-ratio: 1; place-items: center; border: 1px solid #cfe0f5; border-radius: 1rem; color: var(--resource-blue); background: #eaf3ff; font-size: 1.54rem; }
-  .resource-empty-state h3 { margin: 1.2rem 0 0; color: #162942; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
-  .resource-empty-state p { max-width: 620px; margin: .75rem 0 0; color: var(--resource-muted); line-height: 1.7; }
-  .resource-approach-section { background: var(--color-milk); }
-  .resource-approach-card { min-height: 220px; }
-  .resource-topics-section { background: #f2f7fd; }
+  .resource-topic-card { position: relative; isolation: isolate; display: flex; min-width: 0; min-height: 320px; overflow: hidden; border: 1px solid rgb(255 255 255 / 45%); border-radius: 1.4rem; color: #fff; background: var(--color-brand); box-shadow: 0 1rem 2.5rem rgb(11 28 88 / 18%); }
+  .resource-topic-card::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgb(5 26 82 / 22%), rgb(5 26 82 / 74%) 44%, rgb(5 26 82 / 96%)); content: ''; pointer-events: none; }
+  .resource-topic-card__image { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 360ms var(--ease-out); }
+  .resource-topic-card:hover .resource-topic-card__image { transform: scale(1.04); }
+  .resource-topic-card__content { display: flex; flex: 1; flex-direction: column; justify-content: space-between; gap: 2rem; padding: 1.4rem; }
+  .resource-topic-card h3 { margin: 0 0 .55rem; color: #fff; font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); text-wrap: balance; }
+  .resource-topic-card p { margin: 0; color: rgb(255 255 255 / 88%); font-size: .99rem; line-height: 1.65; }
+  /* Empty Our Work / Blog card: milky-white glass card with a small glass dome, like the solution benefit cards ([slug].astro). */
+  .resource-work-section, .resource-articles-section { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle 13rem at 28% 60%, rgb(124 192 255 / 45%), transparent 100%), radial-gradient(circle 12rem at 78% 40%, rgb(143 166 255 / 42%), transparent 100%), var(--color-milk); }
+  .resource-empty-state { position: relative; display: flex; max-width: 760px; flex-direction: column; align-items: center; margin-inline: auto; overflow: hidden; padding: 2.25rem clamp(1.25rem, 4vw, 2.5rem) 0; border: 1px solid rgb(255 255 255 / 85%); border-radius: 1.75rem; color: var(--color-ink); text-align: center; background: linear-gradient(160deg, rgb(255 255 255 / 70%), rgb(253 255 245 / 35%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), 0 1.5rem 3rem rgb(8 12 17 / 14%); -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .resource-empty-state { background: rgb(253 255 245 / 94%); } }
+  .resource-empty-state__icon { width: 2.6rem; height: 2.6rem; flex: none; color: var(--color-ink); }
+  .resource-empty-state h3 { margin: 1.1rem 0 0; color: var(--color-ink); font-family: var(--font-display); font-size: var(--size-h3); font-weight: 700; line-height: var(--leading-h3); letter-spacing: var(--tracking-h3); }
+  .resource-empty-state p { max-width: 560px; margin: .75rem auto 1.75rem; color: var(--resource-muted); line-height: 1.7; }
+  .resource-empty-state__dome { position: relative; display: grid; width: 100%; height: 5rem; place-items: start center; }
+  .resource-empty-state__dome::before { position: absolute; top: 0; right: 30%; left: 30%; height: 200%; border: 1px solid rgb(255 255 255 / 90%); border-radius: 50%; background: linear-gradient(180deg, rgb(255 255 255 / 75%), rgb(8 12 17 / 8%)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 95%), inset 0 -1.5rem 2.5rem rgb(8 12 17 / 6%), 0 -.5rem 1.6rem rgb(8 12 17 / 10%); -webkit-backdrop-filter: blur(12px) saturate(140%); backdrop-filter: blur(12px) saturate(140%); content: ''; }
+  .resource-empty-state__dome > span { position: relative; padding-top: 1.45rem; color: var(--color-ink); font-size: 1.6rem; line-height: 1; }
+  .resource-topics-section { background: var(--color-paper); }
+  .resource-section.resource-topics-section { padding-bottom: clamp(2rem, 3vw, 3rem); }
+  .resource-section.resource-articles-section { padding-top: clamp(2rem, 3vw, 3rem); }
   .resource-topic-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
   .resource-topic-card { min-height: 195px; }
-  .resource-topic-card__number { color: var(--resource-blue); font-size: .737rem; font-weight: 600; letter-spacing: .12em; }
   .resource-topic-card h3 { margin-top: 1.2rem; }
-  .resource-articles-section { background: var(--color-milk); }
-  .resource-empty-state--articles { min-height: 240px; }
-  .resource-editorial-section { background: #f2f7fd; }
-  .resource-editorial-layout { grid-template-columns: minmax(230px, .7fr) minmax(0, 1.3fr); }
-  .resource-editorial-note { margin: 1rem 0 0; color: var(--resource-muted); line-height: 1.65; }
+  .resource-editorial-section { background: var(--color-paper); }
+  .resource-section-heading--stacked .resource-editorial-note { max-width: none; margin: 1rem 0 0; color: var(--resource-muted); line-height: 1.65; }
   .resource-editorial-list { display: grid; margin: 0; padding: 0; border-top: 1px solid #d7e1ee; list-style: none; }
   .resource-editorial-list li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 1rem; padding: 1.1rem .2rem; border-bottom: 1px solid #d7e1ee; }
-  .resource-editorial-list li > span { color: var(--resource-blue); font-size: .748rem; font-weight: 600; }
+  .resource-editorial-list li > span { color: var(--resource-blue); font-size: .8125rem; font-weight: 600; }
   .resource-editorial-list p { margin: 0; color: #30435c; font-weight: 600; line-height: 1.55; }
-  .resource-closing { position: relative; isolation: isolate; display: grid; min-height: 380px; place-items: center; padding: clamp(4rem, 7vw, 6rem) var(--space-frame); overflow: hidden; color: #fff; background: linear-gradient(115deg, #0755d9, #0643bc 54%, #07358f); text-align: center; }
-  .resource-closing__inner { position: relative; z-index: 1; width: min(100%, 800px); }
-  .resource-closing .resource-eyebrow { justify-content: center; color: #b9dbff; }
-  .resource-closing h2 { margin: 0; color: #fff; font-family: var(--font-display); font-size: var(--size-h2); font-weight: 700; letter-spacing: var(--tracking-h2); line-height: var(--leading-h2); overflow-wrap: anywhere; }
-  .resource-closing__inner > p:not(.resource-eyebrow) { max-width: 620px; margin: 1rem auto 0; color: #e0edff; line-height: 1.7; }
-  .resource-button--light { color: #12305a; background: var(--color-milk); box-shadow: 0 .7rem 1.7rem #000f3230; }
-  .resource-button--light:hover { background: #eaf4ff; }
-  .resource-closing__orb { position: absolute; z-index: -1; right: -7rem; bottom: -18rem; width: 27rem; aspect-ratio: 1; border: 1px solid #ffffff20; border-radius: 50%; box-shadow: 0 0 0 35px #ffffff0b, 0 0 0 70px #ffffff08; }
   @media (max-width: 900px) {
     .resource-hero__inner { min-height: 450px; grid-template-columns: minmax(0, 1fr) minmax(230px, .65fr); gap: 1.5rem; }
     .resource-package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .resource-process-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .resource-faq-layout, .resource-editorial-layout { grid-template-columns: minmax(210px, .65fr) minmax(0, 1.35fr); gap: 2rem; }
   }
   @media (max-width: 700px) {
     .resource-shell { padding-inline: 1rem; }
     .resource-hero { padding: 3.5rem 1rem 1.5rem; }
     .resource-hero__inner { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 1.5rem; }
-    
     .resource-hero__body { margin-top: 1rem; }
     .resource-hero__visual { width: min(72vw, 310px); }
-    .resource-hero__edge { margin-top: 1.5rem; font-size: .605rem; letter-spacing: .07em; }
+    .resource-hero__frame { width: 100%; max-width: 420px; margin-inline: auto; }.resource-hero__photo { padding: .6rem; border-radius: 1.5rem; }.resource-hero__photo img { border-radius: 1.05rem; }
     .resource-section { padding-block: 4.5rem; }
-    .resource-intro__inner { grid-template-columns: 1fr; gap: .6rem; }
-    .resource-intro__inner .resource-eyebrow { grid-row: auto; margin: 0 0 .2rem; }
-    
+    .resource-intro__card { grid-template-columns: 1fr; gap: 1.25rem; border-radius: 1.5rem; }
+    .resource-intro__badge { width: 4.25rem; border-radius: 1.2rem; }
     .resource-section-heading { display: block; margin-bottom: 1.8rem; }
     .resource-section-heading > p { margin-top: .9rem; }
     .resource-package-grid, .resource-principles-grid, .resource-approach-grid, .resource-topic-grid { grid-template-columns: 1fr; }
     .resource-package-card { padding: 1.25rem; }
-    .resource-comparison th, .resource-comparison td { padding: .7rem .45rem; font-size: .792rem; }
-    .resource-comparison th:first-child { width: 34%; }
-    .resource-comparison tbody td { font-size: .682rem; }
-    .resource-faq-layout, .resource-editorial-layout { grid-template-columns: 1fr; gap: 1.8rem; }
-    .resource-process-list { grid-template-columns: 1fr; gap: 0; margin-top: 2.4rem; }
-    .resource-process-step { padding-bottom: 1.7rem; }
-    .resource-principle-card, .resource-approach-card, .resource-topic-card { min-height: 175px; }
-    .resource-principle-card h3, .resource-approach-card h3, .resource-topic-card h3 { margin-top: 1.5rem; }
-    .resource-empty-state { min-height: 250px; padding: 2rem 1.2rem; }
-    .resource-closing { min-height: 350px; padding-inline: 1rem; }
-  }
-  @media (max-width: 360px) {
-    .resource-comparison th, .resource-comparison td { padding-inline: .35rem; }
-    .resource-comparison tbody td { font-size: .638rem; }
+    .resource-editorial-layout { grid-template-columns: 1fr; gap: 1.8rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .resource-page *, .resource-page *::before, .resource-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
     .resource-button:hover { transform: none; }
+    .resource-topic-card:hover .resource-topic-card__image { transform: none; }
   }
 </style>

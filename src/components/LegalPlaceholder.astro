@@ -1,0 +1,75 @@
+---
+// [OPEN] Placeholder for a legal page. No policy wording is published here until the client
+// supplies reviewed text (playbook §9: no legal text without review). Kept out of search with noindex.
+import MainLayout from '../layouts/MainLayout.astro';
+import { company } from '../Constants';
+
+interface Props {
+  title: string;
+  labelKey: 'footerPrivacy' | 'footerTerms';
+}
+
+const { title, labelKey } = Astro.props;
+---
+
+<MainLayout title={`${title} | RYZITE`} description={`${title} for the RYZITE website.`}>
+  <meta slot="head" name="robots" content="noindex" />
+  <section class="legal-page" aria-labelledby="legal-title">
+    <div class="legal-page__card">
+      <p class="legal-page__eyebrow">RYZITE</p>
+      <h1 id="legal-title" data-label-key={labelKey}>{title}</h1>
+      <p>This page is being prepared and will be published here once it has been reviewed.</p>
+      <p>If you have a question in the meantime, email us at <a href={`mailto:${company.email}`}>{company.email}</a>.</p>
+      <a class="legal-page__back" href="/">Back to home</a>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .legal-page {
+    display: grid;
+    place-items: center;
+    min-height: 60vh;
+    padding: clamp(4rem, 9vw, 7rem) var(--space-frame);
+    background: var(--color-paper);
+  }
+
+  .legal-page__card {
+    width: min(100%, 44rem);
+    padding: clamp(1.75rem, 5vw, 3rem);
+    border: 1px solid #dce5f0;
+    border-radius: var(--radius-medium);
+    background: var(--color-milk);
+    box-shadow: 0 12px 30px #0b1c5812;
+  }
+
+  .legal-page__eyebrow {
+    margin: 0 0 .75rem;
+    color: var(--color-brand);
+    font-size: var(--size-eyebrow);
+    font-weight: 600;
+    letter-spacing: .16em;
+  }
+
+  .legal-page h1 {
+    margin: 0 0 1.25rem;
+    color: var(--color-heading);
+    font-size: var(--size-h2);
+    line-height: var(--leading-h2);
+  }
+
+  .legal-page p:not(.legal-page__eyebrow) {
+    margin: 0 0 1rem;
+    color: var(--color-body);
+  }
+
+  .legal-page a { color: var(--color-brand); font-weight: 600; }
+
+  .legal-page__back {
+    display: inline-flex;
+    margin-top: .5rem;
+    text-underline-offset: .2em;
+  }
+
+  .legal-page__back:hover { color: var(--color-brand-hover); }
+</style>

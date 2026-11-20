@@ -1,0 +1,17 @@
+---
+interface Props {
+    href: string;
+    label: string;
+    translationKey?: string;
+    variant?: 'lime' | 'dark' | 'outline';
+}
+
+const { href, label, translationKey, variant = 'dark' } = Astro.props;
+---
+
+<a class:list={['button-link', `button-link--${variant}`]} href={href}>
+    <span data-i18n={translationKey}>{label}</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 12h13M14 7l5 5-5 5"></path>
+    </svg>
+</a>
