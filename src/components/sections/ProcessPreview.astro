@@ -1,255 +1,31 @@
 ---
 // Steps are read from the /how-we-work content (resources-translations.ts) so both stay identical.
-// [PROPOSAL] "Winding road" layout (client brief 2026-11-18): a thick blue line draws through the six
-// steps as the visitor scrolls; big step names with icon badges and pill captions sit along it.
-// Colours: #0655E9 royal, #0643CF deep, #078BE9 light (client-instructed for this section).
+// [PROPOSAL] The winding-road steps live in ProcessRoad.astro (shared with the About page).
 import { homeSectionsTranslations } from '../../data/home-sections-translations';
 import { resourcesTranslations } from '../../data/resources-translations';
+import ProcessRoad from './ProcessRoad.astro';
 
 const copy = homeSectionsTranslations.en.process;
 const howWeWork = resourcesTranslations.en.howWeWork;
-// Inner SVG markup per step (24x24 grid, white on the blue node).
-// Steps 01 and 02 are redrawn from client-supplied artwork: a magnifying glass and a ring-bound calendar.
-const icons = [
-  '<circle cx="9" cy="9" r="6.3" stroke-width="1.9" /><path d="M5.7 7.3a3.7 3.7 0 0 1 2.3-2.3" stroke-width="1.4" /><path d="m13.7 13.7 1.4 1.4" stroke-width="2.6" /><path d="m16.4 16.4 4.4 4.4" stroke-width="3.2" />',
-  '<path fill="currentColor" stroke="none" fill-rule="evenodd" d="M5.8 4.3h12a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-12a3 3 0 0 1-3-3v-11a3 3 0 0 1 3-3z M3.9 9.3h15.8v8.9a2 2 0 0 1-2 2H5.9a2 2 0 0 1-2-2z M8.45 6.1a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 1 0 2.5 0z M17.45 6.1a1.25 1.25 0 1 0-2.5 0 1.25 1.25 0 1 0 2.5 0z" /><path fill="currentColor" stroke="none" d="M6.65 2.85a.55.55 0 0 1 1.1 0V6.6h-1.1z M15.65 2.85a.55.55 0 0 1 1.1 0V6.6h-1.1z M6 10.6h2v2H6z M9.25 10.6h2v2h-2z M12.5 10.6h2v2h-2z M15.75 10.6h2v2h-2z M6 13.85h2v2H6z M9.25 13.85h2v2h-2z M12.5 13.85h2v2h-2z M15.75 13.85h2v2h-2z M6 17.1h2v2H6z M9.25 17.1h2v2h-2z M12.5 17.1h2v2h-2z" />',
-  '<path d="M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />',
-  '<path d="m8 7-5 5 5 5 M16 7l5 5-5 5 M14 4l-4 16" />',
-  '<path d="M9 11l3 3 8-8 M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11" />',
-  '<path d="M5 15c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z M12 15l-3-3a22 22 0 0 1 2-4A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0 M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5" />',
-];
-// Horizontal start of each step on desktop (share of the row), so the road winds left and right.
-// Even left/right alternation so the road forms a regular wave.
-const offsets = ['46%', '4%', '46%', '4%', '46%', '4%'];
+const steps = howWeWork.processSteps.map((step, index) => ({
+  name: step.name,
+  description: step.description,
+  nameAttrs: { 'data-home-key': `processData.steps.${index}.name` },
+  descriptionAttrs: { 'data-home-key': `processData.steps.${index}.description` },
+}));
 ---
 
-<section class="hs-section hs-section--pale process-preview" aria-labelledby="process-preview-title" data-process-road>
+<section class="hs-section hs-section--pale process-preview" aria-labelledby="process-preview-title">
   <div class="hs-shell">
     <header class="hs-heading" data-hs-reveal>
       <h2 id="process-preview-title" class="hs-bicolor" data-home-key="sections.process.title">{copy.title}</h2>
       <p data-home-key="processData.intro">{howWeWork.processIntro}</p>
     </header>
 
-    <div class="process-road">
-      <svg class="process-road__line" aria-hidden="true" focusable="false">
-        <path class="process-road__track" d="" />
-        <path class="process-road__drawn" d="" pathLength="1" />
-        <path class="process-road__measure" d="" />
-        <g class="process-road__knob">
-          <ellipse class="process-road__knob-shadow" cx="0" cy="0" rx="0" ry="0" />
-          <ellipse class="process-road__knob-cap" cx="0" cy="0" rx="0" ry="0" />
-        </g>
-        <g class="process-road__knob process-road__knob--end">
-          <ellipse class="process-road__knob-shadow" cx="0" cy="0" rx="0" ry="0" />
-          <ellipse class="process-road__knob-cap" cx="0" cy="0" rx="0" ry="0" />
-        </g>
-      </svg>
-
-      <ol class="process-road__steps">
-        {howWeWork.processSteps.map((step, index) => (
-          <li class="road-step" style={`--x: ${offsets[index]}; --tilt: ${index % 2 ? 2.5 : -3.5}deg; --spin: ${index % 2 ? 8 : -10}deg;`} data-road-step>
-            <div class="road-step__title">
-              <span class="road-step__lead" aria-hidden="true">0{index + 1}</span>
-              <span class="road-step__badge" data-road-badge aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[index]} />
-              </span>
-              <h3 data-home-key={`processData.steps.${index}.name`}>{step.name}</h3>
-            </div>
-            <p class="road-step__pill" data-home-key={`processData.steps.${index}.description`}>{step.description}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
+    <ProcessRoad steps={steps} />
 
     <div class="hs-actions" data-hs-reveal>
       <a class="hs-button" href="/how-we-work"><span data-home-key="sections.process.cta">{copy.cta}</span> <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
-
-<script>
-  import '../../scripts/process-road';
-</script>
-
-<style>
-  .process-preview {
-    --road-blue: #0655e9;
-    --road-deep: #0643cf;
-    --road-light: #078be9;
-    --road-track: #cddcfb;
-    --road-halo: #dce8ff;
-    --road-width: 16px;
-    --road-ease: var(--ease-out);
-    /* Tall condensed capitals like the reference; Fira Sans Extra Condensed is loaded in MainLayout. */
-    --road-display: 'Fira Sans Extra Condensed', var(--font-heading);
-  }
-
-  .process-road {
-    position: relative;
-    margin-top: clamp(1rem, 3vw, 2.5rem);
-  }
-
-  /* The line sits behind the steps; the script sizes it and builds its path. */
-  .process-road__line {
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    pointer-events: none;
-  }
-
-  .process-road__line path {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: var(--road-width);
-  }
-
-  .process-road__track { stroke: var(--road-track); }
-  .process-road__drawn { stroke: var(--road-blue); stroke-dasharray: 1 1; stroke-dashoffset: var(--road-offset, 0); }
-  .process-road__measure { visibility: hidden; }
-
-  /* Round knobs where the road starts and ends at the page edges. */
-  .process-road__knob-shadow { fill: #0a1734; }
-  .process-road__knob-cap { fill: var(--road-blue); stroke: var(--road-deep); stroke-width: 2; }
-
-  .process-road__steps {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    gap: clamp(3.5rem, 7vw, 6rem);
-    margin: 0;
-    padding: clamp(3rem, 6vw, 5.5rem) 0 clamp(5rem, 10vw, 8.5rem); /* room for the road's final sweep */
-    list-style: none;
-  }
-
-  .road-step {
-    --badge: clamp(3.2rem, 4.4vw, 4.4rem);
-    width: fit-content;
-    max-width: 100%;
-    margin-left: var(--x);
-  }
-
-  /* "01 [icon] DISCOVERY": number and name either side of the badge, the road running through it. */
-  .road-step__title {
-    display: flex;
-    align-items: center;
-    gap: clamp(.6rem, 1.4vw, 1.4rem);
-  }
-
-  .road-step__lead,
-  .road-step h3 {
-    margin: 0;
-    color: var(--road-blue);
-    font-family: var(--road-display);
-    font-size: clamp(2.4rem, 5.4vw, 5rem);
-    font-weight: 700;
-    letter-spacing: -.01em;
-    line-height: .9;
-    text-transform: uppercase;
-  }
-
-  .road-step h3 { overflow-wrap: anywhere; }
-
-  :global(html[lang='ta']) .road-step h3,
-  :global(html[lang='si']) .road-step h3 {
-    font-family: var(--font-heading);
-    font-size: clamp(1.6rem, 3.2vw, 2.8rem);
-    line-height: 1.15;
-    text-transform: none;
-  }
-
-  /* Sticker-style badge: pale halo blob, white edge, blue icon. */
-  .road-step__badge {
-    display: grid;
-    flex-shrink: 0;
-    width: var(--badge);
-    height: var(--badge);
-    place-items: center;
-    border: 3px solid #fff;
-    border-radius: 46% 54% 42% 58% / 55% 44% 56% 45%;
-    background: radial-gradient(circle at 40% 35%, var(--color-milk) 0 18%, var(--road-halo) 62%);
-    box-shadow: 0 10px 22px #0655e926;
-    color: var(--road-blue);
-    rotate: var(--spin);
-    transition: transform 420ms var(--road-ease), box-shadow 420ms var(--road-ease), background-color 420ms ease;
-  }
-
-  .road-step__badge svg {
-    width: 52%;
-    height: 52%;
-    filter: drop-shadow(1.5px 1.5px 0 #0a1734);
-  }
-
-  /* Caption pill tucked under the step name like a sticker. */
-  .road-step__pill {
-    position: relative;
-    width: max-content;
-    max-width: min(24rem, 86vw);
-    margin: -.5rem 0 0 var(--pill-x, calc(var(--badge) * 2.4)); /* --pill-x: set by process-road.ts to sit under the name */
-    padding: .8rem 1.35rem;
-    border: 1.5px solid var(--road-blue);
-    border-radius: 999px;
-    background: var(--color-milk);
-    box-shadow: 0 10px 24px #0655e914;
-    color: var(--road-blue);
-    font-size: .975rem;
-    font-weight: 500;
-    line-height: 1.4;
-    rotate: var(--tilt);
-    transition: opacity 500ms var(--road-ease), translate 500ms var(--road-ease);
-  }
-
-  /* Scroll states — only applied once the script runs, so content shows without JavaScript. */
-  .process-preview.is-road-ready .road-step__pill {
-    opacity: 0;
-    translate: 0 14px;
-  }
-
-  .process-preview.is-road-ready .road-step.is-reached .road-step__pill {
-    opacity: 1;
-    translate: 0 0;
-  }
-
-  .process-preview.is-road-ready .road-step__badge { transform: scale(.8); }
-
-  .process-preview.is-road-ready .road-step.is-reached .road-step__badge {
-    box-shadow: 0 0 0 8px #0655e91a, 0 12px 26px #0655e940;
-    transform: scale(1);
-  }
-
-  @media (max-width: 900px) {
-    .road-step { margin-left: calc(var(--x) * .5); }
-  }
-
-  /* Phones: steps stack on the left and the road becomes a gentle wave through the badges. */
-  @media (max-width: 640px) {
-    .process-preview { --road-width: 9px; }
-
-    .process-road__steps { gap: 3.5rem; padding-block: 2.5rem 1rem; }
-
-    .road-step { --badge: 2.9rem; width: auto; margin-left: 0; }
-
-    .road-step__title { gap: .6rem; }
-
-    .road-step__lead { display: none; }
-
-    .road-step h3 { font-size: clamp(2rem, 9.5vw, 2.6rem); }
-
-    .road-step__pill {
-      width: auto;
-      max-width: none;
-      margin: .7rem 0 0 calc(var(--badge) + .6rem);
-      padding: .8rem 1.1rem;
-      border-radius: 1.4rem;
-      font-size: .95rem;
-      rotate: 0deg;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .road-step__badge, .road-step__pill { transition: none; }
-  }
-</style>

@@ -37,6 +37,7 @@ type HomeCopy = {
   viewDetails: string;
   footerTagline: string;
   footerExplore: string;
+  footerFollow: string;
   footerMore: string;
   footerConnect: string;
   footerLinkHome: string;
@@ -57,7 +58,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     heroStory: [
       {
         eyebrow: 'RYZITE',
-        title: 'Grow Beyond Digital.',
+        title: 'One Agency. All Your Business Solutions.',
         body: 'We turn your business ideas into powerful digital experiences that drive growth and create new opportunities.',
         cta: 'Explore Solutions',
       },
@@ -120,6 +121,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     viewDetails: 'View details',
     footerTagline: 'One Agency. All Your Business Solutions.',
     footerExplore: 'Explore',
+    footerFollow: 'Follow Us',
     footerMore: 'More',
     footerConnect: 'Let’s connect',
     footerLinkHome: 'Home',
@@ -138,7 +140,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     heroStory: [
       {
         eyebrow: 'RYZITE',
-        title: 'டிஜிட்டலுக்கு அப்பால் வளருங்கள்.',
+        title: 'ஒரே நிறுவனம். உங்கள் அனைத்து வணிகத் தீர்வுகளும்.',
         body: 'உங்கள் வணிக யோசனைகளை வளர்ச்சியைத் தூண்டும், புதிய வாய்ப்புகளை உருவாக்கும் சக்திவாய்ந்த டிஜிட்டல் அனுபவங்களாக மாற்றுகிறோம்.',
         cta: 'தீர்வுகளை ஆராயுங்கள்',
       },
@@ -201,6 +203,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     viewDetails: 'விவரங்களைப் பார்க்க',
     footerTagline: 'ஒரே முகமை. உங்கள் அனைத்து வணிகத் தீர்வுகளும்.',
     footerExplore: 'ஆராயுங்கள்',
+    footerFollow: 'எங்களைப் பின்தொடருங்கள்',
     footerMore: 'மேலும்',
     footerConnect: 'இணைவோம்',
     footerLinkHome: 'முகப்பு',
@@ -219,7 +222,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     heroStory: [
       {
         eyebrow: 'RYZITE',
-        title: 'ඩිජිටල් ඉක්මවා වර්ධනය වන්න.',
+        title: 'එක් ආයතනයක්. ඔබේ සියලු ව්‍යාපාරික විසඳුම්.',
         body: 'ඔබේ ව්‍යාපාරික අදහස් වර්ධනය ඇති කරන සහ නව අවස්ථා නිර්මාණය කරන ප්‍රබල ඩිජිටල් අත්දැකීම් බවට අපි පත් කරමු.',
         cta: 'විසඳුම් ගවේෂණය කරන්න',
       },
@@ -282,6 +285,7 @@ export const homeTranslations: Record<'en' | 'ta' | 'si', HomeCopy> = {
     viewDetails: 'විස්තර බලන්න',
     footerTagline: 'එක් ආයතනයක්. ඔබේ සියලු ව්‍යාපාර විසඳුම්.',
     footerExplore: 'ගවේෂණය කරන්න',
+    footerFollow: 'අපව අනුගමනය කරන්න',
     footerMore: 'තව',
     footerConnect: 'සම්බන්ධ වෙමු',
     footerLinkHome: 'මුල් පිටුව',

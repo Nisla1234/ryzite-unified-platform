@@ -1,67 +1,10 @@
 ---
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { divisions, offeringSlug } from '../../data/offerings';
+import { solutionCoverImages } from '../../data/solution-cover-images';
 interface Props { division?: 'services' | 'solutions'; standalone?: boolean; }
 const { division, standalone = false } = Astro.props;
 const selected = division ? divisions.filter((item) => item.id === division) : divisions;
-const solutionCardImages: Record<string, { src: string; alt: string; width: number; height: number }> = {
-  // [OPEN] The first three covers were supplied by the client; confirm usage rights before launch.
-  'Business Website Design & Development': {
-    src: '/images/solutions/website-development-cover.webp',
-    alt: 'A person working at a desk in front of glowing screens of charts and a rising growth arrow.',
-    width: 736,
-    height: 736,
-  },
-  'Online Store Development': {
-    src: '/images/solutions/online-store-development-cover.webp',
-    alt: 'A laptop showing an online store with product cards, beside a shopping cart and shopping bags.',
-    width: 735,
-    height: 490,
-  },
-  'Custom Software for Businesses': {
-    src: '/images/solutions/custom-software-cover.webp',
-    alt: 'A team working at laptops around a table, with a glowing digital brain and business icons above them.',
-    width: 736,
-    height: 414,
-  },
-  'Mobile App Development': {
-    src: '/images/solutions/mobile-app-development-cover.webp',
-    alt: 'A smartphone showing an app with shopping, media, and map screens, surrounded by code, cloud, and security icons.',
-    width: 736,
-    height: 414,
-  },
-  'Customer Chatbots & Assistants': {
-    src: '/images/solutions/customer-chatbots-cover.webp',
-    alt: 'A glowing AI sphere at the centre of a network of connected screens and devices.',
-    width: 735,
-    height: 441,
-  },
-  // [OPEN] Client supplied the same image as Custom Software; a distinct automation image may be wanted.
-  'Business Workflow Automation': {
-    src: '/images/solutions/business-workflow-automation-cover.webp',
-    alt: 'A team working at laptops around a table, with a glowing digital brain and business icons above them.',
-    width: 736,
-    height: 414,
-  },
-  'UI/UX Design for Websites & Apps': {
-    src: '/images/solutions/ui-ux-design-cover.webp',
-    alt: 'A laptop and smartphone showing a website design, with floating code and chart panels.',
-    width: 736,
-    height: 736,
-  },
-  'Software & API Integrations': {
-    src: '/images/solutions/software-api-integrations-cover.webp',
-    alt: 'A hand touching a central gear connected to cloud, email, network, and chart icons.',
-    width: 735,
-    height: 451,
-  },
-  'Website Care & Maintenance': {
-    src: '/images/solutions/website-care-maintenance-cover.webp',
-    alt: 'Two engineers with a tablet monitoring equipment, with live status panels linked to a cloud platform.',
-    width: 735,
-    height: 490,
-  },
-};
 ---
 
 {selected.map((group) => {
@@ -91,7 +34,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
         {group.id === 'services' && <svg class="snake-track" fill="none" aria-hidden="true"></svg>}
         <ol class="roadmap">
           {group.items.map(([title, description, icon], index) => {
-            const solutionImage = group.id === 'solutions' ? solutionCardImages[title] : undefined;
+            const solutionImage = group.id === 'solutions' ? solutionCoverImages[title] : undefined;
             return (
             <li id={offeringSlug(title)} class:list={['roadmap-stop', solutionImage && 'roadmap-stop--featured']} style={`--fruit-x:${[18,50,82,15,50,85,20,50,80][index]};--fruit-y:${[2,1,3,35,34,36,68,67,69][index]};--solution-col:${index < 5 ? index * 2 + 1 : (index - 5) * 2 + 2};--solution-row:${index < 5 ? 1 : 2};--step-row-4:${Math.floor(index / 4) * 7 + index % 4 + 1};--step-row-2:${Math.floor(index / 2) * 4 + index % 2 + 1};--col-4:${Math.floor(index / 4) % 2 ? 4 - index % 4 : index % 4 + 1};--row-4:${Math.floor(index / 4) + 1};--col-3:${Math.floor(index / 3) % 2 ? 3 - index % 3 : index % 3 + 1};--row-3:${Math.floor(index / 3) + 1};--col-2:${Math.floor(index / 2) % 2 ? 2 - index % 2 : index % 2 + 1};--row-2:${Math.floor(index / 2) + 1}`}>
               {group.id === 'services' && <img class="service-robot" src={`/images/hero/${index % 2 === 0 ? 'ry' : 'zite'}-front-plain.webp`} alt="" aria-hidden="true" width="1180" height="1333" loading="lazy" />}
@@ -127,7 +70,97 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
 })}
 
 <script>
+  import { gsap } from 'gsap';
   import { initSolutionCardStory } from '../../scripts/solution-card-story';
+
+  const initializeStandaloneSolutionIntro = () => {
+    const section = document.querySelector<HTMLElement>('.solutions[data-standalone="true"]');
+    if (!section || section.dataset.solutionIntroReady) return;
+    section.dataset.solutionIntroReady = 'true';
+
+    const heading = section.querySelector<HTMLElement>('.section-intro');
+    const cards = [...section.querySelectorAll<HTMLElement>('.roadmap-stop')];
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!heading || !cards.length || motionPreference.matches || !('IntersectionObserver' in window)) return;
+
+    const observers: IntersectionObserver[] = [];
+    const revealHeading = () => {
+      gsap.fromTo(heading, { autoAlpha: 0, y: 16 }, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity,visibility',
+      });
+    };
+
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const target = entry.target as HTMLElement;
+          currentObserver.unobserve(target);
+          gsap.fromTo(target, { autoAlpha: 0, y: 24 }, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity,visibility',
+          });
+        });
+      }, { threshold: 0.12 });
+      observers.push(observer);
+      observer.observe(heading);
+      cards.forEach((card) => observer.observe(card));
+    } else {
+      const observer = new IntersectionObserver(([entry], currentObserver) => {
+        if (!entry.isIntersecting) return;
+        currentObserver.disconnect();
+        const grid = section.querySelector<HTMLElement>('.roadmap')!;
+        const gridBounds = grid.getBoundingClientRect();
+        const centerX = gridBounds.left + gridBounds.width / 2;
+        const centerY = gridBounds.top + Math.min(gridBounds.height / 2, window.innerHeight * 0.62);
+        const timeline = gsap.timeline();
+
+        revealHeading();
+        cards.forEach((card, index) => {
+          const bounds = card.getBoundingClientRect();
+          gsap.set(card, {
+            x: centerX - (bounds.left + bounds.width / 2),
+            y: centerY - (bounds.top + bounds.height / 2),
+            rotation: index % 2 ? 8 : -8,
+            scale: 0.72,
+            autoAlpha: 0,
+            zIndex: cards.length - index,
+          });
+          timeline.to(card, {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            scale: 1,
+            autoAlpha: 1,
+            duration: 0.75,
+            ease: 'power3.out',
+            clearProps: 'transform,opacity,visibility,zIndex',
+          }, index * 0.08);
+        });
+      }, { threshold: 0.08 });
+      observers.push(observer);
+      observer.observe(section);
+    }
+
+    const finishWithoutMotion = (event: MediaQueryListEvent) => {
+      if (!event.matches) return;
+      observers.forEach((observer) => observer.disconnect());
+      gsap.killTweensOf([heading, ...cards]);
+      gsap.set([heading, ...cards], { clearProps: 'all' });
+    };
+    motionPreference.addEventListener('change', finishWithoutMotion);
+    document.addEventListener('astro:before-swap', () => {
+      observers.forEach((observer) => observer.disconnect());
+      motionPreference.removeEventListener('change', finishWithoutMotion);
+    }, { once: true });
+  };
 
   const initializeRoadmaps = () => {
     document.querySelectorAll<HTMLElement>('.snake-roadmap').forEach((roadmap) => {
@@ -235,13 +268,14 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
     });
   };
   initializeRoadmaps();
+  initializeStandaloneSolutionIntro();
   initSolutionCardStory();
-  document.addEventListener('astro:page-load', () => { initializeRoadmaps(); initSolutionCardStory(); });
+  document.addEventListener('astro:page-load', () => { initializeRoadmaps(); initializeStandaloneSolutionIntro(); initSolutionCardStory(); });
 </script>
 
 <style>
-  .offerings { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 100px; padding: 76px max(28px, calc((100vw - 1240px) / 2)) 56px; background: var(--color-paper); color: #101d56; font-family: var(--font-body); }
-  .solutions { --accent: #00a6fa; --dark: #0655e9; --tint: #d8efff; }
+  .offerings { --accent: var(--color-brand); --dark: var(--color-brand); --tint: #d8efff; position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 100px; padding: 76px max(28px, calc((100vw - 1240px) / 2)) 56px; background: var(--color-paper); color: #101d56; font-family: var(--font-body); }
+  .solutions { --accent: var(--color-brand); --dark: var(--color-brand); --tint: #d8efff; }
   .services { padding-inline: max(28px, calc((100vw - 1380px) / 2)); }
   .services[data-standalone="false"] + .solutions[data-standalone="false"] { padding-top: 32px; }
   .solutions .title-plaque { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
@@ -254,7 +288,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .solutions .title-plaque { max-width: 100%; }
   .solutions .title-plaque h1 { min-width: 0; font-size: var(--size-h1); line-height: var(--leading-h1); letter-spacing: var(--tracking-h1); }
   .services-title { color: #0a1734; }
-  .services-title strong { color: #064bed; }
+  .services-title strong { color: var(--color-brand); }
   .section-intro > .section-description { color: #596580; font-size: 16.5px; line-height: 1.7; margin: 26px auto 0; max-width: 570px; }
   .services .section-intro > .section-description { color: #000; font-size: var(--size-lead); line-height: 1.5; margin: 0 auto; }
   .solutions .section-intro > .section-description { color: #000; font-size: var(--size-lead); line-height: 1.5; margin: 0 auto; }
@@ -262,7 +296,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .item-count { color: var(--dark); font-size: 13px; font-weight: 600; }
   .snake-roadmap { position: relative; max-width: 1240px; margin: auto; }
   .services .snake-roadmap { max-width: 1380px; }
-  .service-robot { position: absolute; top: 0; left: 0; width: clamp(46px, 5.2vw, 68px); height: auto; z-index: 4; opacity: 0; visibility: hidden; pointer-events: none; transform-origin: 50% 90%; filter: drop-shadow(0 4px 4px #1264c42b); }
+  .service-robot { position: absolute; top: 0; left: 0; width: clamp(46px, 5.2vw, 68px); height: auto; z-index: 4; opacity: 0; visibility: hidden; pointer-events: none; transform-origin: 50% 90%; filter: drop-shadow(0 4px 4px #0b1c582b); }
   .snake-track { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
   .snake-track :global(path) { stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   .snake-track :global(.track-shadow) { stroke: var(--dark); stroke-width: 15px; opacity: .12; transform: translateY(3px); filter: blur(3px); }
@@ -272,7 +306,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .snake-track :global(.track-shine) { stroke: #b4f4ff; stroke-width: 1.5px; }
 
   .roadmap { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 140px; gap: 60px 24px; list-style: none; margin: 0; padding: 30px 0; }
-  .roadmap-stop { position: relative; grid-column: var(--col-4); grid-row: var(--row-4); display: flex; align-items: center; gap: 12px; padding: 18px 15px; border: 2px solid #fff; border-radius: 24px; background: linear-gradient(135deg, var(--color-milk), color-mix(in srgb, var(--tint) 75%, white)); box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 30%, #eaf4ff), 0 14px 22px #284d9420; }
+  .roadmap-stop { position: relative; grid-column: var(--col-4); grid-row: var(--row-4); display: flex; align-items: center; gap: 12px; padding: 18px 15px; border: 2px solid #fff; border-radius: 24px; background: linear-gradient(135deg, var(--color-milk), color-mix(in srgb, var(--tint) 75%, white)); box-shadow: 0 6px 0 color-mix(in srgb, var(--accent) 30%, #eaf4ff), 0 14px 22px #0b1c5820; }
   .roadmap-stop { translate: 0 var(--stagger, 0px); rotate: var(--tilt, 0deg); transition: border-color .4s, box-shadow .4s; }
   .roadmap-stop:nth-child(4n + 1) { --stagger: -12px; --tilt: -2deg; }
   .roadmap-stop:nth-child(4n + 2) { --stagger: 22px; --tilt: 1.5deg; }
@@ -286,17 +320,17 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .service-copy h3 { margin: 0 0 7px; font-family: var(--font-display); font-size: 15.5px; line-height: 1.3; font-weight: 700; letter-spacing: -.025em; }
   .services .service-copy { min-width: 0; flex: 1; }
   .services .service-copy h3 { margin-bottom: 10px; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
-  .service-copy p { margin: 0; color: #63718a; font-size: 12px; line-height: 1.45; }
+  .service-copy p { margin: 0; color: var(--color-body); font-size: 12px; line-height: 1.45; }
   .services .service-copy p { font-size: 18px; line-height: 1.5; }
-  .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .55; font-size: 10px; font-weight: 600; }
+  .service-number { position: absolute; top: 8px; right: 12px; color: var(--dark); opacity: .75; font-size: 12px; font-weight: 600; }
   /* Same pill as the Business Challenge "Solve These Challenges" button. */
-  .division-link { display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 18px 30px; border-radius: 999px; color: white; background: linear-gradient(110deg, #008aff, #063df3); box-shadow: 0 8px 18px #085be735; font-size: 17.5px; font-weight: 600; text-align: center; text-decoration: none; transition: translate .2s; }
+  .division-link { display: flex; align-items: center; justify-content: center; gap: 20px; width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 18px 30px; border-radius: 999px; color: white; background: var(--color-brand); box-shadow: 0 8px 18px #0b1c5835; font-size: 17.5px; font-weight: 600; text-align: center; text-decoration: none; transition: translate .2s; }
   .division-link span[aria-hidden="true"] { flex-shrink: 0; font-size: 25.5px; line-height: 1; }
-  .division-link:hover { translate: 0 -3px; }.division-link:focus-visible { outline: 3px solid #064bed; outline-offset: 5px; }
+  .division-link:hover { translate: 0 -3px; background: var(--color-brand-hover); }.division-link:focus-visible { outline: 3px solid var(--color-brand); outline-offset: 5px; }
   @media (max-width: 700px) { .division-link { gap: 14px; padding: 16px 22px; font-size: 15.5px; } .division-link span[aria-hidden="true"] { font-size: 22px; } }
   .orb { position: absolute; z-index: -1; width: 600px; height: 600px; border-radius: 50%; filter: blur(70px); opacity: .25; pointer-events: none; }.orb-blue { left: -430px; top: 150px; background: var(--accent); }.orb-accent { right: -430px; bottom: 50px; background: var(--accent); }
   @media (min-width: 701px) and (max-width: 1050px) { .roadmap { grid-template-columns: repeat(3, minmax(0, 1fr)); }.roadmap-stop { grid-column: var(--col-3); grid-row: var(--row-3); } }
-  @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 23px; }.item-count { display: none; }.section-intro > .section-description { font-size: 14.5px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 26.5px; }.service-copy h3 { font-size: 13px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 10px; } }
+  @media (max-width: 700px) { .offerings { padding: 55px 22px 40px; }.title-plaque { padding: 18px; gap: 12px; }.division-symbol { width: 42px; height: 46px; font-size: 23px; }.item-count { display: none; }.section-intro > .section-description { font-size: 14.5px; }.roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; gap: 50px 20px; padding: 25px 0; }.roadmap-stop { grid-column: var(--col-2); grid-row: var(--row-2); flex-direction: column; justify-content: center; gap: 7px; padding: 12px 9px; text-align: center; border-radius: 18px; }.service-icon { width: 34px; height: 34px; font-size: 26.5px; }.service-copy h3 { font-size: 13px; margin: 0; }.service-copy p { display: none; }.eyebrow { font-size: 12px; } }
   /* Three stair flights: 1?4 right, 5?8 left, then 9?11 right. */
   .services .roadmap { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(44px, auto); row-gap: 0; padding: 30px 0 45px; }
   .services .roadmap-stop { grid-column: var(--col-4); grid-row: var(--step-row-4) / span 3; min-height: 168px; padding: 28px 26px 26px; border-radius: 26px; translate: none; rotate: none; }
@@ -348,7 +382,7 @@ const solutionCardImages: Record<string, { src: string; alt: string; width: numb
   .solutions .service-icon { width: 42px; height: 42px; margin-bottom: 0; }
   .solutions .service-copy { width: 100%; min-width: 0; }
   .solutions .service-copy h3 { font-size: 23px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; overflow-wrap: anywhere; }
-  .solutions .service-copy p { color: #63718a; font-size: 17.5px; overflow-wrap: anywhere; }
+  .solutions .service-copy p { color: var(--color-body); font-size: 17.5px; overflow-wrap: anywhere; }
   /* Tablet: two-column in-flow grid. */
   @media (min-width: 768px) and (max-width: 1023px) {
     .solutions .roadmap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 28px 20px; padding: 16px 0 36px; }

@@ -1,0 +1,18 @@
+---
+interface Props {
+    eyebrow: string;
+    eyebrowKey: string;
+    lines: Array<{ text: string; key: string; accent?: boolean }>;
+    theme?: 'dark' | 'light';
+}
+
+const { eyebrow, eyebrowKey, lines, theme = 'dark' } = Astro.props;
+---
+
+<div class:list={['section-heading', `section-heading--${theme}`]} data-reveal>
+    <h2>
+        {lines.map((line) => (
+            <span class:list={{ accent: line.accent }} data-i18n={line.key}>{line.text}</span>
+        ))}
+    </h2>
+</div>

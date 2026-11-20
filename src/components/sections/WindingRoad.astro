@@ -1,0 +1,115 @@
+---
+// Shared winding-road process (client reference 2026-11-19), used on the Services and Solutions pages.
+// Asphalt road with white edges, a raised side, dashed centre line and numbered map pins; a cartoon
+// car drives along it (road-car.ts). Desktop: the road crosses the section in switchbacks from
+// bottom-left to top-right, with each step's text above or below its bend. Narrow screens: the road
+// runs down the left and the steps stack beside it.
+// Each step passes its own attributes so the host page keeps its translation and reveal hooks.
+type Attrs = Record<string, string | number | boolean | undefined>;
+interface Step {
+  title: string;
+  body: string;
+  itemAttrs?: Attrs;
+  titleAttrs?: Attrs;
+  bodyAttrs?: Attrs;
+}
+interface Props {
+  steps: Step[];
+}
+const { steps } = Astro.props;
+const count = steps.length;
+
+// Narrow screens: one S-bend per step in a 200-unit-wide box, 100 units per step.
+const roadX = (index: number) => (index % 2 === 0 ? 60 : 140);
+const tallRoad = `M100,0 ${Array.from({ length: count }, (_, index) => {
+  const y = 50 + index * 100;
+  const prevX = index === 0 ? 100 : roadX(index - 1);
+  const prevY = index === 0 ? 0 : y - 100;
+  return `C${prevX},${prevY + 50} ${roadX(index)},${y - 50} ${roadX(index)},${y}`;
+}).join(' ')} C${roadX(count - 1)},${count * 100 - 25} 100,${count * 100 - 25} 100,${count * 100}`;
+
+// Desktop: 200 units per step wide and 240 tall; pins sit on the flat top/bottom of each bend,
+// at the centre of each step's column. Steps on high bends get their text above the road.
+const band = 240;
+const wideX = (index: number) => 100 + index * 200;
+const wideY = (index: number) => (index % 2 === 0 ? 190 : 62) - index * 6;
+const wideRoad = [
+  `M-20,${band - 12} C40,${band - 12} 30,${wideY(0)} ${wideX(0)},${wideY(0)}`,
+  ...Array.from({ length: count - 1 }, (_, index) =>
+    `C${wideX(index) + 150},${wideY(index)} ${wideX(index + 1) - 150},${wideY(index + 1)} ${wideX(index + 1)},${wideY(index + 1)}`),
+  `C${wideX(count - 1) + 90},${wideY(count - 1)} ${count * 200 - 40},14 ${count * 200 + 20},14`,
+].join(' ');
+
+const layers = ['shadow', 'side', 'edge', 'asphalt', 'dash'];
+---
+
+<div class="winding-road" style={`--steps: ${count}; --band: ${band}px;`} data-winding-road>
+  <svg class="winding-road__svg winding-road__svg--wide" viewBox={`0 0 ${count * 200} ${band}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    {layers.map((layer) => <path class={`winding-road__${layer}`} d={wideRoad} vector-effect="non-scaling-stroke" />)}
+  </svg>
+  <svg class="winding-road__svg winding-road__svg--tall" viewBox={`0 0 200 ${count * 100}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    {layers.map((layer) => <path class={`winding-road__${layer}`} d={tallRoad} vector-effect="non-scaling-stroke" />)}
+  </svg>
+  <img class="winding-road__car" src="/images/process-road-car.webp" alt="" width="320" height="199" loading="lazy" decoding="async" />
+  <ol class="winding-road__steps">
+    {steps.map((step, index) => (
+      <li
+        {...step.itemAttrs}
+        class:list={['winding-road__step', index % 2 === 0 ? 'is-low' : 'is-high']}
+        style={`--col: ${index + 1}; --pin-y: ${wideY(index) / band}; --road-x: ${roadX(index) / 200};`}
+      >
+        <span class="winding-road__pin" aria-hidden="true"><span>{String(index + 1).padStart(2, '0')}</span></span>
+        <div class="winding-road__text">
+          <h3 {...step.titleAttrs}>{step.title}</h3>
+          <p {...step.bodyAttrs}>{step.body}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<script>
+  import '../../scripts/road-car';
+</script>
+
+<style>
+  /* Strokes don't scale, so the road keeps its width at any size. */
+  .winding-road { --road-w: 46px; position: relative; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+  .winding-road__svg { position: absolute; overflow: visible; pointer-events: none; }
+  .winding-road__svg path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .winding-road__shadow { stroke: rgb(10 23 52 / 14%); stroke-width: calc(var(--road-w) + 10px); transform: translate(0, 16px); filter: blur(6px); }
+  .winding-road__side { stroke: #c9ced8; stroke-width: var(--road-w); transform: translate(0, 7px); }
+  .winding-road__edge { stroke: #fff; stroke-width: var(--road-w); }
+  .winding-road__asphalt { stroke: #3a3f48; stroke-width: calc(var(--road-w) - 6px); }
+  .winding-road__dash { stroke: #fff; stroke-width: 2.5px; stroke-dasharray: 12 11; }
+  .winding-road__svg--wide { top: 50%; left: 0; width: 100%; height: var(--band); transform: translateY(-50%); }
+  .winding-road__svg--tall { display: none; }
+  /* Decorative car driven along the road by road-car.ts; hidden until the script places it.
+     Same stacking level as the pins but earlier in the DOM, so it passes under them. */
+  .winding-road__car { position: absolute; z-index: 1; top: 0; left: 0; display: none; width: clamp(64px, 6.5vw, 92px); height: auto; filter: drop-shadow(0 6px 6px rgb(10 23 52 / 30%)); pointer-events: none; will-change: transform; }
+  .winding-road.has-car .winding-road__car { display: block; }
+  .winding-road__steps { position: relative; display: grid; grid-template-columns: repeat(var(--steps), minmax(0, 1fr)); grid-template-rows: 1fr var(--band) 1fr; column-gap: .9rem; margin: 0; padding: 0; list-style: none; }
+  .winding-road__step { position: relative; grid-column: var(--col); display: flex; flex-direction: column; }
+  .winding-road__step.is-high { grid-row: 1; justify-content: flex-end; }
+  .winding-road__step.is-low { grid-row: 3; justify-content: flex-start; }
+  .winding-road__pin { position: absolute; left: 50%; z-index: 1; display: grid; width: 3.2rem; aspect-ratio: 1; place-items: center; border-radius: 50% 50% 50% 0; background: radial-gradient(circle at 30% 30%, #4f8bff, var(--color-brand) 70%); box-shadow: 0 .8rem 1.4rem rgb(11 28 88 / 35%); transform: translate(-50%, -120%) rotate(-45deg); }
+  .is-high .winding-road__pin { top: calc(100% + var(--band) * var(--pin-y)); }
+  .is-low .winding-road__pin { top: calc(var(--band) * (var(--pin-y) - 1)); }
+  .winding-road__pin > span { display: grid; width: 62%; aspect-ratio: 1; place-items: center; border-radius: 50%; color: var(--color-brand); background: #fff; font-size: .8rem; font-weight: 700; transform: rotate(45deg); }
+  .winding-road__text { padding-block: 1rem; text-align: center; }
+  .is-high .winding-road__text { padding-bottom: 4.6rem; }
+  .is-low .winding-road__text { padding-top: 1.6rem; }
+  .winding-road h3 { margin: 0 0 .45rem; color: #162942; font-family: 'Fira Sans Extra Condensed', var(--font-display); font-size: clamp(1.45rem, 2vw, 2rem); font-weight: 700; line-height: 1; letter-spacing: -.005em; text-transform: uppercase; }
+  .winding-road p { margin: 0; color: var(--color-body); font-size: .9rem; line-height: 1.55; }
+  @media (max-width: 1000px) {
+    .winding-road { --road-col: 96px; --road-w: 34px; }
+    .winding-road__svg--wide { display: none; }
+    .winding-road__svg--tall { top: 0; bottom: 0; left: 0; display: block; width: var(--road-col); height: 100%; }
+    .winding-road__dash { stroke-width: 2px; stroke-dasharray: 9 9; }
+    .winding-road__car { width: 54px; }
+    .winding-road__steps { grid-template-columns: var(--road-col) minmax(0, 1fr); grid-template-rows: none; grid-auto-rows: minmax(150px, 1fr); column-gap: 0; }
+    .winding-road__step.is-high, .winding-road__step.is-low { grid-column: 2; grid-row: auto; justify-content: center; }
+    .is-high .winding-road__pin, .is-low .winding-road__pin { top: 50%; left: calc(var(--road-col) * (var(--road-x) - 1)); width: 2.8rem; }
+    .is-high .winding-road__text, .is-low .winding-road__text { padding: .8rem 0 .8rem 1.1rem; text-align: left; }
+  }
+</style>

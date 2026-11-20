@@ -57,7 +57,7 @@ import ArrowUpRight from '../ui/ArrowUpRight.astro';
     align-items: center;
     gap: .65rem;
     margin: 0 0 1rem;
-    color: #0655e9;
+    color: var(--color-brand);
     font-size: var(--size-eyebrow);
     font-weight: 600;
     letter-spacing: .16em;
@@ -100,7 +100,7 @@ import ArrowUpRight from '../ui/ArrowUpRight.astro';
     padding: .75rem 1.1rem;
     border: 1px solid #d2e0f2;
     border-radius: 999px;
-    color: #064bd3;
+    color: var(--color-brand);
     background: #f5f9ff;
     font-size: .99rem;
     font-weight: 600;
@@ -109,9 +109,9 @@ import ArrowUpRight from '../ui/ArrowUpRight.astro';
   }
 
   .about-preview__link span { font-size: 1.155rem; transition: transform 180ms ease; }
-  .about-preview__link:hover { transform: translateY(-2px); border-color: #a9c7ef; color: #fff; background: #0655e9; }
+  .about-preview__link:hover { transform: translateY(-2px); border-color: #a9c7ef; color: #fff; background: var(--color-brand-hover); }
   .about-preview__link:hover span { transform: translateX(3px); }
-  .about-preview__link:focus-visible { outline: 3px solid #0655e9; outline-offset: 4px; }
+  .about-preview__link:focus-visible { outline: 3px solid var(--color-brand); outline-offset: 4px; }
 
   .about-preview__visual {
     position: relative;

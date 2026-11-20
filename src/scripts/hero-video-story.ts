@@ -15,12 +15,12 @@ const SCENES: [number, number, number, number][] = [
 
 // Phones: where the robot should sit on screen (% of screen width), right → left → right.
 const MOBILE_ROBOT_X: [number, number][] = [
-  [0, 74],
-  [.2, 74],
+  [0, 78],
+  [.2, 78],
   [.38, 26],
   [.62, 26],
-  [.8, 72],
-  [1, 72],
+  [.8, 76],
+  [1, 76],
 ];
 
 // Phones: where the robot is inside the footage (fraction of the video width). It starts centred
@@ -31,6 +31,26 @@ const MOBILE_ROBOT_IN_FOOTAGE: [number, number][] = [
   [.8, .586],
   [1, .586],
 ];
+
+// Scroll → timeline warp: the walks between text scenes (timeline .22–.36 and .64–.78) take
+// less scrolling, so the robot moves faster there; text scenes get the extra scroll.
+const SCROLL_TO_TIMELINE: [number, number][] = [
+  [0, 0],
+  [.24, .22],
+  [.34, .36],
+  [.66, .64],
+  [.76, .78],
+  [1, 1],
+];
+
+const warpScroll = (scroll: number) => {
+  for (let index = 1; index < SCROLL_TO_TIMELINE.length; index += 1) {
+    const [toScroll, toTime] = SCROLL_TO_TIMELINE[index];
+    const [fromScroll, fromTime] = SCROLL_TO_TIMELINE[index - 1];
+    if (scroll <= toScroll) return lerp(fromTime, toTime, (scroll - fromScroll) / (toScroll - fromScroll));
+  }
+  return 1;
+};
 
 // Desktop pan (1 = robot to the right, -1 = robot to the left), timed between text scenes.
 const DESKTOP_PAN: [number, number][] = [
@@ -151,7 +171,7 @@ const initializeHeroVideo = () => {
   const getProgress = () => {
     const scrollRange = hero.offsetHeight - stage.offsetHeight;
     const heroStart = hero.getBoundingClientRect().top + window.scrollY;
-    return scrollRange > 0 ? clamp01((window.scrollY - heroStart) / scrollRange) : 0;
+    return scrollRange > 0 ? warpScroll(clamp01((window.scrollY - heroStart) / scrollRange)) : 0;
   };
 
   const render = () => {

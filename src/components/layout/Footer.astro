@@ -1,7 +1,8 @@
 ---
-// [PROPOSAL] Brand-blue footer (client brief 2026-11-18, inspired by a reference — not a copy):
-// big call-to-action headline, contact and menus on top, faint looping lines behind, and a giant
-// RYZITE wordmark along the bottom. All text keeps its translation keys (data-label-key).
+// [PROPOSAL] Footer layout (client reference 2026-11-19): logo and social icons on top, a divider,
+// link columns with underlined headings, then a darker bottom bar with copyright and legal links.
+// The reference's newsletter box is replaced by the existing "Let's Connect" call to action, since
+// no subscription backend exists. All text keeps its translation keys (labels live in Navbar.astro).
 import ArrowUpRight from '../ui/ArrowUpRight.astro';
 import { company } from '../../Constants';
 
@@ -9,337 +10,305 @@ const year = new Date().getFullYear();
 const whatsappUrl = `https://wa.me/${company.whatsapp.number}`;
 const phoneHref = `tel:+${company.whatsapp.number}`;
 
-// Regular background waves: each path repeats every 1440 units across a 2880-unit canvas, so the
-// canvas can slide left by half its width and loop seamlessly.
-const wave = (base: number, amplitude: number, phase: number) => {
-  const points: string[] = [];
-  for (let x = 0; x <= 2880; x += 24) {
-    points.push(`${x},${(base + amplitude * Math.sin((2 * Math.PI * x) / 1440 + phase)).toFixed(1)}`);
-  }
-  return `M${points.join(' L')}`;
-};
-const waves = [wave(200, 55, 0), wave(500, 70, 2.1), wave(790, 55, 4.2)];
+// Social profiles in a fixed order; an icon shows only once its real URL exists in Constants.ts.
+// Icons are full-colour rounded-square app icons (client-supplied references, 2026-11-19),
+// redrawn as inline SVG so they stay sharp and have no white background on the navy footer.
+const tiktokNote = 'M15.4 4.6c.3 1.9 1.5 3.2 3.4 3.4v2.6a6 6 0 0 1-3.4-1.1v5.1a4.8 4.8 0 1 1-4.8-4.8l.7.1v2.7a2.2 2.2 0 1 0 1.4 2V4.6h2.7z';
+const socialLinks = [
+  {
+    name: 'Facebook',
+    url: company.social.facebook,
+    svg: `<rect width="24" height="24" rx="5.5" fill="#0866ff"/>
+      <path fill="#fff" d="M8.9 24v-9.6H6.5v-3h2.4V9.2c0-3.3 1.9-5 5-5h2.9v3h-2.1c-1.4 0-2 .6-2 1.9v2.3h4.1l-.4 3h-3.7V24z"/>`,
+  },
+  {
+    name: 'Instagram',
+    url: company.social.instagram,
+    svg: `<defs><radialGradient id="footer-ig-gradient" cx="7" cy="25" r="27" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#fdf497"/><stop offset=".1" stop-color="#fdc35a"/>
+        <stop offset=".45" stop-color="#fd5949"/><stop offset=".62" stop-color="#d6249f"/>
+        <stop offset=".95" stop-color="#285aeb"/></radialGradient></defs>
+      <rect width="24" height="24" rx="5.5" fill="url(#footer-ig-gradient)"/>
+      <g fill="none" stroke="#fff" stroke-width="1.9">
+        <rect x="5" y="5" width="14" height="14" rx="4.2"/><circle cx="12" cy="12" r="3.4"/>
+      </g>
+      <circle cx="16.3" cy="7.7" r="1.1" fill="#fff"/>`,
+  },
+  {
+    name: 'LinkedIn',
+    url: company.social.linkedin,
+    svg: `<rect width="24" height="24" rx="5.5" fill="#0a66c2"/>
+      <g fill="#fff"><circle cx="7" cy="6.9" r="1.6"/><path d="M5.7 9.6h2.6v8H5.7z"/>
+        <path d="M9.8 9.6h2.5v1.1c.6-.9 1.6-1.4 2.9-1.4 2.2 0 3.1 1.4 3.1 3.7v4.6h-2.6v-4.2c0-1.1-.4-1.8-1.4-1.8-1.1 0-1.6.8-1.6 1.9v4.1H9.8z"/></g>`,
+  },
+  {
+    name: 'TikTok',
+    url: company.social.tiktok,
+    svg: `<rect width="24" height="24" rx="5.5" fill="#000"/>
+      <path fill="#25f4ee" transform="translate(-.5 -.5)" d="${tiktokNote}"/>
+      <path fill="#fe2c55" transform="translate(.5 .5)" d="${tiktokNote}"/>
+      <path fill="#fff" d="${tiktokNote}"/>`,
+  },
+].filter((link) => link.url);
 ---
 
 <footer class="footer" id="site-footer">
-  <div class="footer-waves" aria-hidden="true">
-    <svg viewBox="0 0 2880 900" preserveAspectRatio="none" focusable="false">
-      {waves.map((d) => <path d={d} />)}
-    </svg>
+  <div class="footer-shell">
+    <div class="footer-head">
+      <a class="footer-logo" href="/" aria-label="RYZITE home">
+        <img src="/assets/ryzite-footer-logo.webp" alt="" width="1061" height="731" loading="lazy" decoding="async" />
+      </a>
+      <p class="footer-tagline" data-label-key="footerTagline">One Agency. All Your Business Solutions.</p>
+      <nav class="footer-social" aria-label="Follow Us" data-aria-label-key="footerFollow">
+        {socialLinks.map((link) => (
+          <a href={link.url} target="_blank" rel="noopener noreferrer" aria-label={`RYZITE on ${link.name}`} title={link.name}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" set:html={link.svg} />
+          </a>
+        ))}
+      </nav>
+    </div>
   </div>
 
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-cta">
-        <p class="footer-label" data-label-key="footerConnect">Let’s Connect</p>
-        <h2 class="footer-headline" data-label-key="footerConnectBody">Have a project in mind? Let’s build something meaningful.</h2>
-        <a class="footer-cta-button" href="/contact">
-          <span data-label-key="footerConnectCta">Start a Conversation</span>
-          <span class="footer-cta-icon" aria-hidden="true"><ArrowUpRight /></span>
-        </a>
-        <div class="footer-contact-list">
-          <a href={`mailto:${company.email}`}>{company.email}</a>
-          <a href={phoneHref}>{company.whatsapp.display}</a>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden="true"><ArrowUpRight /></span></a>
-        </div>
-      </div>
+  <div class="footer-shell footer-columns">
+    <nav class="footer-column" aria-label="Explore" data-aria-label-key="footerExplore">
+      <h2 data-label-key="footerExplore">Explore</h2>
+      <a href="/" data-label-key="home">Home</a>
+      <a href="/about" data-label-key="about">About Us</a>
+      <a href="/services" data-label-key="services">Services</a>
+      <a href="/solutions" data-label-key="solutions">Solutions</a>
+      <a href="/contact" data-label-key="contact">Contact</a>
+    </nav>
 
-      <div class="footer-menus">
-        <nav class="footer-column" aria-label="Explore" data-aria-label-key="footerExplore">
-          <h2 data-label-key="footerExplore">Explore</h2>
-          <a href="/" data-label-key="home">Home</a>
-          <a href="/about" data-label-key="about">About Us</a>
-          <a href="/services" data-label-key="services">Services</a>
-          <a href="/solutions" data-label-key="solutions">Solutions</a>
-          <a href="/contact" data-label-key="contact">Contact</a>
-        </nav>
+    <nav class="footer-column" aria-label="Resources" data-aria-label-key="footerResources">
+      <h2 data-label-key="footerResources">Resources</h2>
+      <a href="/packages" data-label-key="packages">Packages</a>
+      <a href="/how-we-work" data-label-key="process">How We Work</a>
+      <a href="/our-work" data-label-key="work">Our Work</a>
+      <a href="/articles" data-label-key="articles">Articles</a>
+    </nav>
 
-        <nav class="footer-column" aria-label="Resources" data-aria-label-key="footerResources">
-          <h2 data-label-key="footerResources">Resources</h2>
-          <a href="/packages" data-label-key="packages">Packages</a>
-          <a href="/how-we-work" data-label-key="process">How We Work</a>
-          <a href="/our-work" data-label-key="work">Our Work</a>
-          <a href="/articles" data-label-key="articles">Articles</a>
-        </nav>
-
-        <p class="footer-tagline" data-label-key="footerTagline">One Agency. All Your Business Solutions.</p>
-      </div>
+    <div class="footer-column">
+      <h2 data-label-key="contact">Contact</h2>
+      <a href={`mailto:${company.email}`}>{company.email}</a>
+      <a href={phoneHref}>{company.whatsapp.display}</a>
+      <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp <span class="footer-arrow" aria-hidden="true"><ArrowUpRight /></span></a>
     </div>
 
-    <div class="footer-bottom">
+    <div class="footer-column footer-connect">
+      <h2 data-label-key="footerConnect">Let’s Connect</h2>
+      <p data-label-key="footerConnectBody">Have a project in mind? Let’s build something meaningful.</p>
+      <a class="footer-cta-button" href="/contact">
+        <span data-label-key="footerConnectCta">Start a Conversation</span>
+        <span class="footer-arrow" aria-hidden="true"><ArrowUpRight /></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-shell footer-bottom__inner">
       <p>© {year} RYZITE. <span data-label-key="footerRights">All rights reserved.</span></p>
-      <span data-label-key="footerBottom">Designed to move forward.</span>
+      <!-- [OPEN] Legal pages are placeholders until the client supplies reviewed policy text. -->
+      <nav class="footer-legal" aria-label="Legal" data-aria-label-key="footerLegal">
+        <a href="/privacy-policy/" data-label-key="footerPrivacy">Privacy Policy</a>
+        <a href="/terms-and-conditions/" data-label-key="footerTerms">Terms &amp; Conditions</a>
+      </nav>
     </div>
-
-    <a class="footer-wordmark" href="/" aria-label="RYZITE home">
-      <svg viewBox="0 0 1000 268" aria-hidden="true" focusable="false">
-        <text x="0" y="262" textLength="1000" lengthAdjust="spacingAndGlyphs">RYZITE</text>
-      </svg>
-    </a>
   </div>
 </footer>
 
 <style>
   .footer {
-    --footer-blue: #0655e9;
-    --footer-deep: #0643cf;
+    --footer-bg: var(--color-brand);
+    --footer-bar: #081443;
     --footer-ink: #ffffff;
-    --footer-muted: rgb(255 255 255 / 72%);
-    --footer-word: #eef3ff;
+    --footer-muted: rgb(255 255 255 / 78%);
+    --footer-line: rgb(255 255 255 / 18%);
     --footer-gutter: max(1.5rem, calc((100vw - 1300px) / 2)); /* matches the header */
 
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    background: linear-gradient(165deg, var(--footer-blue) 0%, var(--footer-deep) 100%);
     color: var(--footer-ink);
+    background: var(--footer-bg);
     font-family: var(--font-body);
   }
 
-  /* Faint regular waves behind everything, flowing slowly to the left. */
-  .footer-waves {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
+  .footer-shell { padding-inline: var(--footer-gutter); }
+
+  /* Top row: logo and tagline on the left, social icons on the right, divider below. */
+  .footer-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    padding-block: clamp(1.5rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--footer-line);
   }
 
-  .footer-waves svg {
+  /* The official logo is blue, so it sits on a white plate to stay legible on navy. */
+  .footer-logo {
     display: block;
-    width: 200%;
-    height: 100%;
-    animation: footer-wave-flow 48s linear infinite;
+    flex-shrink: 0;
+    padding: .35rem .75rem;
+    border-radius: .85rem;
+    background: #fff;
   }
 
-  .footer-waves path {
-    fill: none;
-    stroke: rgb(255 255 255 / 8%);
-    stroke-linecap: round;
-    stroke-width: 30;
-    vector-effect: non-scaling-stroke;
-  }
+  .footer-logo img { display: block; width: 6.5rem; height: auto; }
 
-  @keyframes footer-wave-flow {
-    from { transform: translate3d(0, 0, 0); }
-    to { transform: translate3d(-50%, 0, 0); }
-  }
-
-  .footer-inner {
-    padding: clamp(2.5rem, 4.5vw, 4rem) var(--footer-gutter) 0;
-  }
-
-  .footer-top {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    align-items: start;
-    gap: clamp(2rem, 5vw, 4.5rem);
-  }
-
-  .footer-label {
-    margin: 0 0 1rem;
+  .footer-tagline {
+    margin: 0;
     color: var(--footer-muted);
     font-size: var(--size-small);
-    font-weight: 600;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-  }
-
-  .footer-headline {
-    max-width: 16ch;
-    margin: 0;
-    color: var(--footer-ink);
-    font-family: var(--font-heading);
-    font-size: clamp(1.9rem, 3.4vw, 3.2rem);
-    font-weight: 700;
-    letter-spacing: -.03em;
-    line-height: 1;
-    text-wrap: balance;
-  }
-
-  :global(html[lang='ta']) .footer-headline,
-  :global(html[lang='si']) .footer-headline {
-    max-width: 22ch;
-    font-size: clamp(1.5rem, 2.6vw, 2.3rem);
-    line-height: 1.2;
-  }
-
-  .footer-cta-button {
-    display: inline-flex;
-    align-items: center;
-    gap: .85rem;
-    margin-top: clamp(1.1rem, 2vw, 1.6rem);
-    padding: .55rem .55rem .55rem 1.4rem;
-    border-radius: 999px;
-    background: #0a1734;
-    box-shadow: 0 12px 26px rgb(10 23 52 / 30%);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
-  }
-
-  .footer-cta-icon {
-    display: grid;
-    width: 2.4rem;
-    height: 2.4rem;
-    place-items: center;
-    border-radius: 50%;
-    background: linear-gradient(140deg, #078be9, var(--footer-blue));
-    font-size: 1.05rem;
-    transition: transform var(--duration-fast) var(--ease-out);
-  }
-
-  .footer-cta-button:hover {
-    box-shadow: 0 16px 32px rgb(10 23 52 / 38%);
-    transform: translateY(-3px);
-  }
-
-  .footer-cta-button:hover .footer-cta-icon { transform: rotate(45deg); }
-
-  .footer-contact-list {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: .35rem;
-    margin-top: clamp(1.2rem, 2vw, 1.75rem);
-  }
-
-  .footer-contact-list a {
-    display: inline-flex;
-    align-items: center;
-    gap: .35rem;
-    color: var(--footer-ink);
-    font-size: 1.05rem;
     font-weight: 500;
-    text-decoration: none;
-    text-underline-offset: .25em;
   }
 
-  .footer-contact-list a:hover { text-decoration: underline; }
+  .footer-social {
+    display: flex;
+    gap: .75rem;
+    margin-left: auto;
+  }
 
-  .footer-menus {
+  .footer-social a {
+    display: block;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: .65rem;
+    box-shadow: 0 0 0 2px rgb(255 255 255 / 20%);
+    transition: translate var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) ease;
+  }
+
+  .footer-social a:hover { translate: 0 -3px; box-shadow: 0 0 0 2px #fff; }
+  .footer-social svg { display: block; width: 100%; height: 100%; }
+
+  /* Link columns with short underlined headings. */
+  .footer-columns {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem;
-    justify-self: end;
-    width: min(100%, 30rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.35fr);
+    gap: 2rem clamp(1.5rem, 3vw, 3rem);
+    padding-block: clamp(2rem, 4vw, 2.75rem);
   }
 
   .footer-column {
     display: flex;
+    min-width: 0;
     flex-direction: column;
     align-items: flex-start;
+    gap: .55rem;
   }
 
   .footer-column h2 {
-    margin: 0 0 .75rem;
-    color: var(--footer-muted);
-    font-size: var(--size-small);
+    position: relative;
+    margin: 0 0 .7rem;
+    padding-bottom: .45rem;
+    color: var(--footer-ink);
+    font-size: 1.0625rem;
     font-weight: 600;
-    letter-spacing: .16em;
     line-height: 1.3;
-    text-transform: uppercase;
+  }
+
+  .footer-column h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
   }
 
   .footer-column a {
-    margin: 0 0 .4rem;
-    color: var(--footer-ink);
-    font-size: 1rem;
-    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    color: var(--footer-muted);
+    font-size: .9375rem;
     line-height: 1.45;
     text-decoration: none;
-    transition: transform var(--duration-fast) var(--ease-out), opacity var(--duration-fast) ease;
+    overflow-wrap: anywhere;
+    transition: color var(--duration-fast) ease;
   }
 
-  .footer-column a:hover {
-    opacity: .8;
-    transform: translateX(3px);
+  .footer-column a:hover { color: var(--footer-ink); text-decoration: underline; text-underline-offset: .2em; }
+
+  .footer-arrow { display: inline-flex; font-size: .85em; }
+
+  .footer-connect p {
+    margin: 0;
+    color: var(--footer-muted);
+    font-size: .9375rem;
+    line-height: 1.55;
   }
 
-  .footer-tagline {
-    grid-column: 1 / -1;
-    margin: 1rem 0 0;
-    color: var(--footer-ink);
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.45;
+  /* Light button, the counterpart of the reference's subscribe button. */
+  .footer-column .footer-cta-button {
+    justify-content: center;
+    gap: .5rem;
+    width: min(100%, 17rem);
+    margin-top: .5rem;
+    padding: .7rem 1.25rem;
+    border-radius: .6rem;
+    color: var(--color-brand);
+    background: #fff;
+    font-size: .9375rem;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color var(--duration-fast) ease;
   }
 
-  .footer-bottom {
+  .footer-column .footer-cta-button:hover { color: var(--color-brand); background: #e6ecfb; text-decoration: none; }
+
+  /* Darker bottom bar: copyright and legal links centred together. */
+  .footer-bottom { background: var(--footer-bar); }
+
+  .footer-bottom__inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    text-align: center;
     gap: .5rem 1.5rem;
-    margin-top: clamp(1.75rem, 4vw, 3rem);
+    padding-block: 1rem;
     color: var(--footer-muted);
     font-size: var(--size-small);
   }
 
   .footer-bottom p { margin: 0; }
 
-  /* Giant wordmark: SVG text stretched to exactly the content width. */
-  .footer-wordmark {
-    display: block;
-    margin-top: clamp(.5rem, 1vw, .9rem);
-    line-height: 0;
+  .footer-legal { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem 1.25rem; }
+
+  .footer-legal a {
+    color: var(--footer-muted);
     text-decoration: none;
+    transition: color var(--duration-fast) ease;
   }
 
-  .footer-wordmark svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  .footer-wordmark text {
-    fill: var(--footer-word);
-    font-family: 'Fira Sans Extra Condensed', var(--font-heading);
-    font-size: 352px;
-    font-weight: 700;
-  }
+  .footer-legal a:hover { color: var(--footer-ink); text-decoration: underline; text-underline-offset: .2em; }
 
   .footer a:focus-visible {
     outline: 3px solid #fff;
     outline-offset: 4px;
   }
 
-  /* Scroll-linked motion where supported: the wordmark rises into place. */
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .footer-wordmark svg {
-        animation: footer-rise linear both;
-        animation-timeline: view();
-        animation-range: entry 0% entry 100%;
-      }
-    }
+  @media (max-width: 1000px) {
+    .footer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
-  @keyframes footer-rise {
-    from { opacity: .2; transform: translateY(35%); }
-    to { opacity: 1; transform: none; }
-  }
-
-  @media (max-width: 900px) {
-    .footer-top { grid-template-columns: 1fr; }
-    .footer-menus { justify-self: start; }
-  }
-
-  @media (max-width: 520px) {
-    .footer-menus { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  @media (max-width: 560px) {
+    .footer-head { justify-content: center; text-align: center; }
+    .footer-tagline { flex-basis: 100%; order: 2; }
+    .footer-social { order: 3; margin-inline: auto; }
+    .footer-columns { grid-template-columns: 1fr 1fr; gap: 1.75rem 1.25rem; }
+    .footer-connect { grid-column: 1 / -1; }
+    .footer-bottom__inner { flex-direction: column; justify-content: center; text-align: center; }
+    .footer-legal { justify-content: center; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .footer-waves svg { animation: none; }
-
-    .footer-cta-button,
-    .footer-cta-icon,
-    .footer-column a {
+    .footer-social a,
+    .footer-column a,
+    .footer-legal a {
       transition: none;
     }
+
+    .footer-social a:hover { translate: none; }
   }
 </style>

@@ -32,14 +32,21 @@ const waveLayers = [
 // the same pan, so they only show in the strip the sliding video uncovers and blend through its fade.
 // Colours are sampled from the footage's own waves.
 const fillLayers = [
-  { name: 'back', d: wavePath(330, 70, 1440, 1.1), gradient: ['#8bbdd6', .95, '#b6cfdc', .2] },
-  { name: 'middle', d: wavePath(430, 62, 1440, 3.1), gradient: ['#3d7cc4', .85, '#6ea9d3', .25] },
-  { name: 'front', d: wavePath(520, 54, 1440, 5.2), gradient: ['#6ea9d3', .8, '#c3d4de', 0] },
+  { name: 'back', d: wavePath(330, 70, 1440, 1.1), gradient: ['#2a4b72', .95, '#1b3658', .2] },
+  { name: 'middle', d: wavePath(430, 62, 1440, 3.1), gradient: ['#0a192e', .7, '#1f3653', .25] },
+  { name: 'front', d: wavePath(520, 54, 1440, 5.2), gradient: ['#305075', .8, '#2b4d76', 0] },
 ] as const;
 
-// Two-tone scene titles: scene index → number of leading words in ink; the rest is blue.
-// Keep in sync with splitRules in index.astro, which re-applies the split on language change.
-const titleSplits: Record<number, number> = { 2: 2 };
+// Two-tone, two-line scene titles: first line in ink, second in brand blue. A title with two
+// sentences splits after the first sentence (works in every language); otherwise after the
+// number of words given here. Keep in sync with splitHeroTitle in index.astro.
+const titleSplits: Record<number, number> = { 0: 2, 1: 2, 2: 2 };
+const splitHeroTitle = (title: string, fallback: number) => {
+  const words = title.split(/\s+/).filter(Boolean);
+  const sentenceEnd = words.findIndex((word, i) => i < words.length - 1 && /[.!?]$/.test(word));
+  const at = sentenceEnd >= 0 ? sentenceEnd + 1 : fallback;
+  return [words.slice(0, at).join(' '), words.slice(at).join(' ')];
+};
 
 // Each scene sits opposite the robot in the footage: robot right → text left, and so on.
 const sceneLayout = [
@@ -69,7 +76,7 @@ const sceneLayout = [
       </div>
       <img
         class="video-hero__poster"
-        src="/images/hero/ryzite-robot-poster.jpg"
+        src="/images/hero/ryzite-robot-navy-poster.jpg"
         alt=""
         width="1000"
         height="562"
@@ -77,8 +84,8 @@ const sceneLayout = [
       />
       <video
         class="video-hero__video"
-        src="/images/hero/Novu_London_fashion_landing_page_b5275c3a.mp4"
-        poster="/images/hero/ryzite-robot-poster.jpg"
+        src="/images/hero/ryzite-robot-navy.mp4"
+        poster="/images/hero/ryzite-robot-navy-poster.jpg"
         muted
         playsinline
         preload="auto"
@@ -128,11 +135,11 @@ const sceneLayout = [
           ) : (
             <p class="video-hero__eyebrow" data-home-key={`heroStory.${index}.eyebrow`}>{scene.eyebrow}</p>
           )}
-          <Heading class:list={['video-hero__title', { 'hs-bicolor': index in titleSplits }]} id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
+          <Heading class:list={['video-hero__title', { 'hs-bicolor': index in titleSplits, 'video-hero__title--stacked': index in titleSplits }]} id={isFirst ? 'hero-title' : undefined} data-home-key={`heroStory.${index}.title`}>
             {index in titleSplits ? (
               <>
-                <span class="hs-bicolor__base">{scene.title.split(/\s+/).slice(0, titleSplits[index]).join(' ')}</span>
-                <span class="hs-bicolor__accent"> {scene.title.split(/\s+/).slice(titleSplits[index]).join(' ')}</span>
+                <span class="hs-bicolor__base">{splitHeroTitle(scene.title, titleSplits[index])[0]}</span>
+                <span class="hs-bicolor__accent"> {splitHeroTitle(scene.title, titleSplits[index])[1]}</span>
               </>
             ) : scene.title}
           </Heading>
@@ -188,13 +195,19 @@ const sceneLayout = [
 
 <style>
   .video-hero {
-    /* Same palette as the homepage sections (home-sections.css, BusinessChallenge). */
-    --hero-ink: #0a1734;
-    --hero-body: #465771;
-    --hero-accent: #064bed;
-    --hero-cta: linear-gradient(110deg, #008aff, #063df3);
-    --hero-cta-shadow: 0 8px 18px #085be735;
-    --hero-bg: #dfe9f1;
+    /* Light copy on the navy footage. */
+    --hero-ink: #f5f8ff;
+    --hero-body: #d5e0f2;
+    --hero-title-accent: #9ec2ff;
+    /* Soft dark glow behind the copy so it stays readable over the moving waves. */
+    --hero-copy-glow: rgb(8 22 46 / 42%);
+    --hero-accent: #9ec2ff;
+    --hero-cta: #fff;
+    --hero-cta-hover: #e4edff;
+    --hero-cta-text: var(--color-brand);
+    --hero-cta-shadow: 0 8px 18px rgb(3 10 24 / 35%);
+    /* Sampled from the navy footage's edges. */
+    --hero-bg: #193456;
     --hero-gutter: max(28px, calc((100vw - 1300px) / 2)); /* aligns with the header logo */
     --hero-ease: var(--ease-out);
     /* Footage has the robot centred; slide it sideways so it sits opposite the copy. */
@@ -234,8 +247,8 @@ const sceneLayout = [
   /* Matches the footage's edge colours, so the gap the slide opens blends in. */
   .video-hero__media {
     background:
-      linear-gradient(180deg, #c8dbe2 0%, #c9dbe2 28%, #8fcbe0 44%, #6cbfdc 52%, #bdd4de 64%, #b5cdd9 100%) left / 50% 100% no-repeat,
-      linear-gradient(180deg, #c4d6da 0%, #bdcfd9 28%, #7fa6cf 46%, #8fb9d1 54%, #b6c8d2 64%, #b0c4cf 100%) right / 50% 100% no-repeat;
+      linear-gradient(180deg, #193456 0%, #193455 42%, #2d4a6f 55%, #2a4b72 66%, #2c4f78 85%, #2b4d76 100%) left / 50% 100% no-repeat,
+      linear-gradient(180deg, #132844 0%, #152946 25%, #0d1e36 42%, #0a192e 55%, #233d62 65%, #1f3653 82%, #305075 100%) right / 50% 100% no-repeat;
   }
 
   .video-hero__fill {
@@ -298,9 +311,9 @@ const sceneLayout = [
     z-index: 1;
     pointer-events: none;
     background:
-      linear-gradient(180deg, rgb(223 233 241 / 35%), transparent 18%),
+      linear-gradient(180deg, rgb(18 39 67 / 35%), transparent 18%),
       /* Soft hand-off into the paper background of the next section. */
-      linear-gradient(0deg, var(--color-paper) 0%, rgb(250 248 244 / 0%) 9%);
+      linear-gradient(0deg, var(--color-paper) 0%, rgb(253 255 245 / 0%) 9%);
   }
 
   /* Wave layers: blended over the footage's waves, behind the copy. A soft gap follows the robot
@@ -421,7 +434,19 @@ const sceneLayout = [
     opacity: 0;
     transform: translate3d(0, calc(-50% + var(--panel-shift, 24px)), 0);
     visibility: hidden;
+    isolation: isolate;
     will-change: opacity, transform;
+  }
+
+  /* Feathered milky-white glow behind the copy. A radial gradient sized to the box's closest
+     side fades fully to transparent before every edge, so there is no visible box. */
+  .video-hero__panel::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -22% -18%;
+    background: radial-gradient(closest-side, var(--hero-copy-glow) 0%, rgb(8 22 46 / 26%) 55%, rgb(8 22 46 / 0%) 100%);
+    pointer-events: none;
   }
 
   .video-hero__panel--left {
@@ -462,10 +487,27 @@ const sceneLayout = [
     display: block;
     width: auto;
     height: clamp(48px, 5.4vw, 92px);
+    /* Lifts the blue lettering off the navy footage. */
+    filter: brightness(1.35) drop-shadow(0 0 18px rgb(158 194 255 / 35%));
   }
 
   .video-hero__title :global(.hs-bicolor__base) { color: var(--hero-ink); }
-  .video-hero__title :global(.hs-bicolor__accent) { color: #0655e9; }
+  .video-hero__title :global(.hs-bicolor__accent) { color: var(--hero-title-accent); }
+  /* Every scene: ink phrase on its own line above the blue phrase. */
+  .video-hero__title--stacked :global(.hs-bicolor__base) { display: block; }
+
+  /* Every scene: headline and eyebrow in milky white over the dark navy footage. */
+  .video-hero__title :global(.hs-bicolor__base),
+  .video-hero__title :global(.hs-bicolor__accent),
+  .video-hero__eyebrow {
+    color: var(--color-milk);
+    text-shadow: 0 2px 18px rgb(6 16 48 / 45%);
+  }
+
+  /* The milky glow behind the copy would wash out white text, so every scene gets a navy glow. */
+  .video-hero__panel::before {
+    background: radial-gradient(closest-side, rgb(11 28 88 / 45%) 0%, rgb(11 28 88 / 22%) 55%, rgb(11 28 88 / 0%) 100%);
+  }
 
   .video-hero__title {
     margin: 0;
@@ -507,7 +549,7 @@ const sceneLayout = [
     border-radius: 999px;
     background: var(--hero-cta);
     box-shadow: var(--hero-cta-shadow);
-    color: #fff;
+    color: var(--hero-cta-text);
     font-size: 17.5px;
     font-weight: var(--weight-strong);
     line-height: 1.2;
@@ -517,8 +559,12 @@ const sceneLayout = [
   }
 
   .video-hero__button:hover {
-    box-shadow: 0 12px 24px #085be74d;
+    box-shadow: 0 12px 24px rgb(3 10 24 / 45%);
     transform: translateY(-3px);
+  }
+
+  .video-hero__button:not(.video-hero__button--ghost):hover {
+    background: var(--hero-cta-hover);
   }
 
   .video-hero__button:focus-visible {
@@ -538,8 +584,8 @@ const sceneLayout = [
   .video-hero__button--ghost {
     border: 2px solid #fff;
     background: linear-gradient(135deg, var(--color-milk), #edf3ff);
-    box-shadow: 0 9px 24px #2b6ad124;
-    color: var(--hero-accent);
+    box-shadow: 0 9px 24px rgb(3 10 24 / 30%);
+    color: var(--color-brand);
   }
 
   .video-hero__fallback-pathways {
@@ -580,7 +626,7 @@ const sceneLayout = [
     width: 6px;
     height: 6px;
     border-radius: 999px;
-    background: rgb(19 40 92 / 25%);
+    background: rgb(255 255 255 / 30%);
     transition: width 300ms var(--hero-ease), background-color 300ms ease;
   }
 
@@ -603,7 +649,8 @@ const sceneLayout = [
        to keep the wave gap on the robot; it also moves --robot-x-mobile right → left → right with
        the scenes and sets --robot-in-footage, since the robot walks off-centre by scene 3). Its top edge fades into the background. */
     .video-hero {
-      --mobile-video-height: 50svh;
+      /* Short enough that the robot's head starts below the copy instead of behind it. */
+      --mobile-video-height: 42svh;
       --robot-x-mobile: 74%;
       --robot-in-footage: .5; /* robot's x inside the footage, as a fraction of its width */
     }
@@ -613,22 +660,25 @@ const sceneLayout = [
       top: auto;
       right: auto;
       bottom: 0;
-      /* clamp() keeps the box covering both screen edges, whichever side the robot is on. */
-      left: clamp(
+      /* max() keeps the box covering the right screen edge. It may start right of the left edge
+         (robot on the right of a narrow box); the left fade in the mask blends that edge in. */
+      left: max(
         calc(100% - var(--mobile-video-height) * 16 / 9),
-        calc(var(--robot-x-mobile) - var(--mobile-video-height) * 16 / 9 * var(--robot-in-footage)),
-        0px
+        calc(var(--robot-x-mobile) - var(--mobile-video-height) * 16 / 9 * var(--robot-in-footage))
       );
       width: calc(var(--mobile-video-height) * 16 / 9);
       max-width: none;
       height: var(--mobile-video-height);
       object-position: 50% 50%;
-      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
-      mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+      /* Short top fade: a longer one faded out the robot's head. */
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 6%), linear-gradient(90deg, transparent 0%, #000 14%);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(180deg, transparent 0%, #000 6%), linear-gradient(90deg, transparent 0%, #000 14%);
+      mask-composite: intersect;
     }
 
     .video-hero__media {
-      background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg) 46%, #c9dbe2 62%, #b5cdd9 100%);
+      background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg) 46%, #2a4b72 66%, #2b4d76 100%);
     }
 
     .video-hero__fill {
@@ -636,7 +686,7 @@ const sceneLayout = [
     }
 
     .video-hero__overlay {
-      background: linear-gradient(180deg, rgb(223 233 241 / 60%) 0%, transparent 40%);
+      background: linear-gradient(180deg, rgb(18 39 67 / 60%) 0%, transparent 40%);
     }
 
     /* On phones the copy stacks above the robot instead of beside it. */
@@ -681,6 +731,31 @@ const sceneLayout = [
     .video-hero__body {
       margin: 12px 0 20px;
       font-size: 1rem;
+    }
+
+    /* Tamil/Sinhala copy wraps to roughly twice as many lines as English, which pushed the CTA
+       down into the robot. Start the copy higher, tighten it, and shorten the footage box. */
+    :global(html[lang='ta']) .video-hero,
+    :global(html[lang='si']) .video-hero {
+      --mobile-video-height: 34svh;
+    }
+
+    :global(html[lang='ta']) .video-hero__panel,
+    :global(html[lang='si']) .video-hero__panel {
+      top: calc(64px + 2svh);
+    }
+
+    :global(html[lang='ta']) .video-hero__title,
+    :global(html[lang='si']) .video-hero__title {
+      font-size: clamp(1.45rem, 6.4vw, 2rem);
+      line-height: 1.25;
+    }
+
+    :global(html[lang='ta']) .video-hero__body,
+    :global(html[lang='si']) .video-hero__body {
+      margin: 10px 0 16px;
+      font-size: .9375rem;
+      line-height: 1.5;
     }
   }
 
